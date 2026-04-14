@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TokyubeVoxelVerse</title>
+  <style>
+    @font-face {
+      font-family: 'ArcadeClassic';
+      src: url('fonts/ARCADECLASSIC.TTF') format('truetype');
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    /* ── Animated dark-rainbow grid background (loading screen style) ── */
+    @keyframes rainbow-bg {
+      0%   { background-position: 0% 0%, 0% 0%, 0% 50%; }
+      50%  { background-position: 0% 0%, 0% 0%, 100% 50%; }
+      100% { background-position: 0% 0%, 0% 0%, 0% 50%; }
+    }
+
+    body {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      overflow-x: hidden;
+      font-family: 'ArcadeClassic', monospace;
+      background:
+        repeating-linear-gradient(
+          0deg,
+          transparent, transparent 3px,
+          rgba(0,0,0,0.25) 3px, rgba(0,0,0,0.25) 4px
+        ),
+        repeating-linear-gradient(
+          90deg,
+          transparent, transparent 3px,
+          rgba(0,0,0,0.20) 3px, rgba(0,0,0,0.20) 4px
+        ),
+        linear-gradient(
+          135deg,
+          #2d0010, #0a0a2e, #002d1a, #1a0a2d,
+          #2d1a00, #002020, #1a002d, #2d0a0a,
+          #002d10, #0a1a2d, #2d0018, #0a0a2e
+        );
+      background-size: 4px 4px, 4px 4px, 600% 600%;
+      background-attachment: fixed;
+      animation: rainbow-bg 12s ease infinite;
+    }
+
+    /* ── Main content column ── */
+    .content {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 36px;
+      padding: 60px 20px;
+      width: 100%;
+      max-width: 620px;
+    }
+
+    /* ── Rainbow title ── */
+    @keyframes rainbow-color {
+      0%   { color: #ff4444; }
+      14%  { color: #ff9900; }
+      28%  { color: #ffe066; }
+      42%  { color: #69db7c; }
+      57%  { color: #4dabf7; }
+      71%  { color: #9775fa; }
+      85%  { color: #f783ac; }
+      100% { color: #ff4444; }
+    }
+
+    .site-title {
+      font-family: 'ArcadeClassic', monospace;
+      font-size: clamp(26px, 5.5vw, 52px);
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      text-align: center;
+      line-height: 1.25;
+      animation: rainbow-color 3s linear infinite;
+      text-shadow:
+        1px 1px 0 #000,
+        2px 2px 0 #000,
+        3px 3px 0 #000,
+        4px 4px 0 #000,
+        5px 5px 0 #111,
+        6px 6px 0 #111;
+    }
+
+    /* ── Platform buttons ── */
+    .buttons {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 14px;
+      width: 100%;
+    }
+
+    .platform-btn {
+      width: 400px;
+      max-width: 92vw;
+      padding: 15px 26px;
+      font-family: 'ArcadeClassic', monospace;
+      font-size: clamp(15px, 3vw, 21px);
+      border: 3px solid;
+      cursor: default;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+      box-shadow:
+        inset 2px 2px 0 rgba(255,255,255,0.35),
+        inset -2px -2px 0 rgba(0,0,0,0.45),
+        0 5px 18px rgba(0,0,0,0.55);
+      transition: transform 0.15s ease, filter 0.15s ease, box-shadow 0.15s ease;
+      user-select: none;
+      letter-spacing: 2px;
+    }
+
+    .platform-btn:hover {
+      transform: scale(1.04);
+      filter: brightness(1.15);
+    }
+
+    .platform-btn img {
+      width: 36px;
+      height: 36px;
+      object-fit: contain;
+      flex-shrink: 0;
+      image-rendering: -webkit-optimize-contrast;
+    }
+
+    /* Steam — light blue → dark blue */
+    .btn-steam {
+      background: linear-gradient(135deg, #87ceeb 0%, #4a90d9 40%, #1565c0 100%);
+      border-color: #0d3b6e;
+      color: #fff;
+      text-shadow: 1px 1px 0 #000, 2px 2px 0 #0d3b6e;
+    }
+    .btn-steam:hover {
+      box-shadow:
+        0 0 24px rgba(21,101,192,0.75),
+        inset 2px 2px 0 rgba(255,255,255,0.35),
+        inset -2px -2px 0 rgba(0,0,0,0.45);
+    }
+
+    /* SteamVR — indigo → dark purple */
+    .btn-steamvr {
+      background: linear-gradient(135deg, #4b0082 0%, #2d0066 45%, #0d001a 100%);
+      border-color: #7a20cc;
+      color: #d4b8ff;
+      text-shadow: 1px 1px 0 #000, 2px 2px 0 #2d0066;
+    }
+    .btn-steamvr:hover {
+      box-shadow:
+        0 0 24px rgba(75,0,130,0.85),
+        inset 2px 2px 0 rgba(255,255,255,0.15),
+        inset -2px -2px 0 rgba(0,0,0,0.45);
+    }
+
+    /* Xbox — silver (small) → lime green → forest green */
+    .btn-xbox {
+      background: linear-gradient(135deg, #d8d8d8 0%, #c0c0c0 7%, #52c41a 42%, #228b22 100%);
+      border-color: #145214;
+      color: #002200;
+      text-shadow: 1px 1px 0 rgba(255,255,255,0.6), 2px 2px 0 rgba(0,60,0,0.5);
+    }
+    .btn-xbox:hover {
+      box-shadow:
+        0 0 24px rgba(50,205,50,0.65),
+        inset 2px 2px 0 rgba(255,255,255,0.35),
+        inset -2px -2px 0 rgba(0,0,0,0.45);
+    }
+
+    /* Switch 2 — pastel red → dark red */
+    .btn-switch {
+      background: linear-gradient(135deg, #ffb3ba 0%, #e53935 45%, #7b0000 100%);
+      border-color: #5c0000;
+      color: #fff;
+      text-shadow: 1px 1px 0 #000, 2px 2px 0 #5c0000;
+    }
+    .btn-switch:hover {
+      box-shadow:
+        0 0 24px rgba(229,57,53,0.75),
+        inset 2px 2px 0 rgba(255,255,255,0.35),
+        inset -2px -2px 0 rgba(0,0,0,0.45);
+    }
+
+    /* ── Tagline row ── */
+    .tagline {
+      display: flex;
+      align-items: baseline;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 0;
+      font-family: 'ArcadeClassic', monospace;
+      font-size: clamp(22px, 4.5vw, 38px);
+      letter-spacing: 2px;
+    }
+
+    .tagline span {
+      text-shadow:
+        1px 1px 0 #000,
+        2px 2px 0 #000,
+        3px 3px 0 #111;
+      padding: 0 3px;
+    }
+
+    .tag-build   { color: #ff4444; }
+    .tag-sep     { color: #fff; }
+    .tag-code    { color: #ffe066; }
+    .tag-explore { color: #69db7c; }
+    .tag-enjoy   { color: #4dabf7; }
+
+    /* ── Description ── */
+    .description {
+      font-family: 'ArcadeClassic', monospace;
+      font-size: clamp(10px, 1.8vw, 14px);
+      color: #fff;
+      text-align: center;
+      letter-spacing: 1px;
+      line-height: 2;
+      max-width: 540px;
+      text-shadow:
+        1px 1px 0 #000,
+        2px 2px 0 #000;
+    }
+  </style>
+</head>
+<body>
+  <div class="content">
+
+    <!-- Rainbow title -->
+    <h1 class="site-title">TokyubeVoxelVerse</h1>
+
+    <!-- Platform Coming Soon buttons -->
+    <div class="buttons">
+      <button class="platform-btn btn-steam">
+        <img src="Icons/Steam_icon_logo.svg.png" alt="Steam">
+        <span>COMING SOON</span>
+      </button>
+
+      <button class="platform-btn btn-steamvr">
+        <img src="Icons/SteamVR.png" alt="SteamVR">
+        <span>COMING SOON</span>
+      </button>
+
+      <button class="platform-btn btn-xbox">
+        <img src="Icons/Xbox.png" alt="Xbox">
+        <span>COMING SOON</span>
+      </button>
+
+      <button class="platform-btn btn-switch">
+        <img src="Icons/Switch2.png" alt="Nintendo Switch 2">
+        <span>COMING SOON</span>
+      </button>
+    </div>
+
+    <!-- Tagline -->
+    <div class="tagline">
+      <span class="tag-build">Build</span><span class="tag-sep">,&nbsp;</span>
+      <span class="tag-code">Code</span><span class="tag-sep">,&nbsp;</span>
+      <span class="tag-explore">Explore</span><span class="tag-sep">,&nbsp;</span>
+      <span class="tag-enjoy">Enjoy</span><span class="tag-sep">!</span>
+    </div>
+
+    <!-- Description -->
+    <p class="description">
+      With your friends or on your own, in voxels or in whatever you can create
+      and bring in yourself, your imagination TRULY has no limits in TOKYUBE.
+    </p>
+
+  </div>
+</body>
+</html>
