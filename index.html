@@ -229,6 +229,100 @@
         1px 1px 0 #000,
         2px 2px 0 #000;
     }
+
+    /* ── Minecraft Server Section ── */
+    .mc-section {
+      width: 100%;
+      max-width: 540px;
+      border: 3px solid #5a3e1b;
+      background: linear-gradient(180deg, #1a3d1a 0%, #0d1f0d 100%);
+      box-shadow:
+        inset 2px 2px 0 rgba(255,255,255,0.12),
+        inset -2px -2px 0 rgba(0,0,0,0.5),
+        0 6px 24px rgba(0,0,0,0.7);
+      padding: 28px 24px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .mc-title {
+      font-family: 'ArcadeClassic', monospace;
+      font-size: clamp(18px, 4vw, 28px);
+      color: #69db7c;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      text-shadow:
+        1px 1px 0 #000,
+        2px 2px 0 #1a3d1a,
+        0 0 12px rgba(105,219,124,0.5);
+    }
+
+    .mc-address-box {
+      background: #0a0a0a;
+      border: 2px solid #5a3e1b;
+      padding: 10px 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      width: 100%;
+    }
+
+    .mc-label {
+      font-family: 'ArcadeClassic', monospace;
+      font-size: clamp(10px, 1.8vw, 13px);
+      color: #888;
+      letter-spacing: 2px;
+    }
+
+    .mc-addr {
+      font-family: 'ArcadeClassic', monospace;
+      font-size: clamp(14px, 3vw, 20px);
+      color: #ffe066;
+      letter-spacing: 2px;
+      text-shadow: 1px 1px 0 #000, 0 0 8px rgba(255,224,102,0.4);
+    }
+
+    .mc-port {
+      font-family: 'ArcadeClassic', monospace;
+      font-size: clamp(11px, 2vw, 14px);
+      color: #aaa;
+      letter-spacing: 1px;
+    }
+
+    .mc-status-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-family: 'ArcadeClassic', monospace;
+      font-size: clamp(12px, 2.2vw, 16px);
+      letter-spacing: 1px;
+    }
+
+    .mc-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: #444;
+      box-shadow: 0 0 6px #000;
+      flex-shrink: 0;
+    }
+
+    .mc-dot.online  { background: #69db7c; box-shadow: 0 0 8px rgba(105,219,124,0.8); }
+    .mc-dot.offline { background: #ff4444; box-shadow: 0 0 8px rgba(255,68,68,0.6); }
+
+    .mc-status-text { color: #ccc; }
+    .mc-players     { color: #4dabf7; }
+
+    .mc-note {
+      font-family: 'ArcadeClassic', monospace;
+      font-size: clamp(10px, 1.8vw, 12px);
+      color: #666;
+      letter-spacing: 1px;
+      text-align: center;
+    }
   </style>
 </head>
 <body>
@@ -274,6 +368,48 @@
       and bring in yourself, your imagination TRULY has no limits in TOKYUBE.
     </p>
 
+    <!-- Minecraft Server -->
+    <div class="mc-section">
+      <div class="mc-title">Minecraft Server</div>
+
+      <div class="mc-address-box">
+        <span class="mc-label">Server Address</span>
+        <span class="mc-addr">mc.tokyube.com</span>
+        <span class="mc-port">Port: 60749</span>
+      </div>
+
+      <div class="mc-status-row">
+        <div class="mc-dot" id="mc-dot"></div>
+        <span class="mc-status-text" id="mc-status">Checking...</span>
+        <span class="mc-players" id="mc-players"></span>
+      </div>
+
+      <p class="mc-note">Bedrock Edition &nbsp;|&nbsp; Start server at aternos.org</p>
+    </div>
+
   </div>
+
+  <script>
+    fetch('https://api.mcsrvstat.us/bedrock/3/mc.tokyube.com:60749')
+      .then(r => r.json())
+      .then(data => {
+        const dot    = document.getElementById('mc-dot');
+        const status = document.getElementById('mc-status');
+        const players = document.getElementById('mc-players');
+        if (data.online) {
+          dot.classList.add('online');
+          status.textContent = 'Online';
+          status.style.color = '#69db7c';
+          players.textContent = `${data.players.online} / ${data.players.max} players`;
+        } else {
+          dot.classList.add('offline');
+          status.textContent = 'Offline';
+          status.style.color = '#ff4444';
+        }
+      })
+      .catch(() => {
+        document.getElementById('mc-status').textContent = 'Status unavailable';
+      });
+  </script>
 </body>
 </html>
