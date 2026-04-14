@@ -316,6 +316,28 @@
     .mc-status-text { color: #ccc; }
     .mc-players     { color: #4dabf7; }
 
+    .mc-start-btn {
+      font-family: 'ArcadeClassic', monospace;
+      font-size: clamp(13px, 2.5vw, 17px);
+      letter-spacing: 2px;
+      color: #0d1f0d;
+      background: linear-gradient(135deg, #69db7c 0%, #2f9e44 100%);
+      border: 3px solid #1a6b2a;
+      padding: 10px 28px;
+      text-decoration: none;
+      box-shadow:
+        inset 2px 2px 0 rgba(255,255,255,0.3),
+        inset -2px -2px 0 rgba(0,0,0,0.3),
+        0 4px 12px rgba(0,0,0,0.5);
+      transition: transform 0.15s ease, filter 0.15s ease;
+      text-shadow: 1px 1px 0 rgba(255,255,255,0.4);
+    }
+
+    .mc-start-btn:hover {
+      transform: scale(1.04);
+      filter: brightness(1.15);
+    }
+
     .mc-note {
       font-family: 'ArcadeClassic', monospace;
       font-size: clamp(10px, 1.8vw, 12px);
@@ -378,38 +400,12 @@
         <span class="mc-port">Port: 60749</span>
       </div>
 
-      <div class="mc-status-row">
-        <div class="mc-dot" id="mc-dot"></div>
-        <span class="mc-status-text" id="mc-status">Checking...</span>
-        <span class="mc-players" id="mc-players"></span>
-      </div>
+      <a class="mc-start-btn" href="https://aternos.org/server/tokyubevoxelverse" target="_blank">Check / Start Server</a>
 
-      <p class="mc-note">Bedrock Edition &nbsp;|&nbsp; Start server at aternos.org</p>
+      <p class="mc-note">Bedrock Edition &nbsp;|&nbsp; Free server via Aternos</p>
     </div>
 
   </div>
 
-  <script>
-    fetch('https://api.mcsrvstat.us/bedrock/3/tokyubevoxelverse.aternos.me:60749')
-      .then(r => r.json())
-      .then(data => {
-        const dot    = document.getElementById('mc-dot');
-        const status = document.getElementById('mc-status');
-        const players = document.getElementById('mc-players');
-        if (data.online) {
-          dot.classList.add('online');
-          status.textContent = 'Online';
-          status.style.color = '#69db7c';
-          players.textContent = `${data.players.online} / ${data.players.max} players`;
-        } else {
-          dot.classList.add('offline');
-          status.textContent = 'Offline';
-          status.style.color = '#ff4444';
-        }
-      })
-      .catch(() => {
-        document.getElementById('mc-status').textContent = 'Status unavailable';
-      });
-  </script>
 </body>
 </html>
