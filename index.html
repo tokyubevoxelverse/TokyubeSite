@@ -403,7 +403,6 @@
       <div class="mc-status-row">
         <div class="mc-dot" id="mc-dot"></div>
         <span class="mc-status-text" id="mc-status">Checking...</span>
-        <span class="mc-players" id="mc-players"></span>
       </div>
 
       <p class="mc-note">Bedrock Edition &nbsp;|&nbsp; Up to 20 Players</p>
@@ -422,18 +421,15 @@
           dot.classList.add('online');
           status.textContent = 'Online';
           status.style.color = '#69db7c';
-          players.textContent = `${data.players.online} / 20 players`;
         } else {
           dot.classList.add('offline');
           status.textContent = 'Offline';
           status.style.color = '#ff4444';
-          players.textContent = '0 / 20 players';
         }
       })
       .catch(() => {
         document.getElementById('mc-status').textContent = 'Offline';
         document.getElementById('mc-dot').classList.add('offline');
-        document.getElementById('mc-players').textContent = '0 / 20 players';
       });
   </script>
 
