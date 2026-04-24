@@ -72,21 +72,18 @@
       100% { color: #ff4444; }
     }
 
-    .site-title {
-      font-family: 'ArcadeClassic', monospace;
-      font-size: clamp(26px, 5.5vw, 52px);
-      letter-spacing: 4px;
-      text-transform: uppercase;
-      text-align: center;
-      line-height: 1.25;
-      animation: rainbow-color 3s linear infinite;
-      text-shadow:
-        1px 1px 0 #000,
-        2px 2px 0 #000,
-        3px 3px 0 #000,
-        4px 4px 0 #000,
-        5px 5px 0 #111,
-        6px 6px 0 #111;
+    .site-logo {
+      max-width: 400px;
+      width: 90vw;
+      height: auto;
+      image-rendering: crisp-edges;
+      filter: drop-shadow(0 0 20px rgba(255, 100, 100, 0.5));
+      animation: logo-glow 3s ease-in-out infinite;
+    }
+
+    @keyframes logo-glow {
+      0%, 100% { filter: drop-shadow(0 0 20px rgba(255, 100, 100, 0.5)); }
+      50% { filter: drop-shadow(0 0 30px rgba(100, 200, 255, 0.6)); }
     }
 
     /* ── Platform buttons ── */
@@ -230,128 +227,284 @@
         2px 2px 0 #000;
     }
 
-    /* ── Minecraft Server Section ── */
-    .mc-section {
+    /* ── Right-side Animated Hamburger Menu ── */
+    .side-menu {
+      position: fixed;
+      top: 0;
+      right: 0;
+      width: 320px;
+      height: 100vh;
+      background: linear-gradient(180deg, #1a1a2e 0%, #0f0f1e 100%);
+      border-left: 3px solid #444;
+      box-shadow: -8px 0 32px rgba(0, 0, 0, 0.8);
+      padding: 20px 0;
+      overflow-y: auto;
+      transform: translateX(100%);
+      transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      z-index: 1000;
+    }
+
+    .side-menu.active {
+      transform: translateX(0);
+    }
+
+    .menu-item {
+      padding: 16px 24px;
+      font-family: 'ArcadeClassic', monospace;
+      font-size: 16px;
+      letter-spacing: 2px;
+      border: none;
+      background: none;
+      color: #fff;
+      cursor: pointer;
       width: 100%;
-      max-width: 540px;
-      border: 3px solid #5a3e1b;
-      background: linear-gradient(180deg, #1a3d1a 0%, #0d1f0d 100%);
-      box-shadow:
-        inset 2px 2px 0 rgba(255,255,255,0.12),
-        inset -2px -2px 0 rgba(0,0,0,0.5),
-        0 6px 24px rgba(0,0,0,0.7);
-      padding: 28px 24px;
+      text-align: left;
+      transition: all 0.15s ease;
       display: flex;
-      flex-direction: column;
       align-items: center;
-      gap: 16px;
+      justify-content: space-between;
+      position: relative;
     }
 
-    .mc-title {
+    .menu-item:hover {
+      filter: brightness(1.2);
+      transform: translateX(-8px);
+    }
+
+    /* Creating Worlds - Red */
+    .menu-item.creating-worlds {
+      background: linear-gradient(90deg, #ff6b6b 0%, #e03131 100%);
+      color: #fff;
+      font-weight: bold;
+      border-bottom: 2px solid #c92a2a;
+    }
+
+    /* In World Tools - Orange */
+    .menu-item.in-world-tools {
+      background: linear-gradient(90deg, #ff922b 0%, #e67700 100%);
+      color: #fff;
+      font-weight: bold;
+      border-bottom: 2px solid #d9480f;
+    }
+
+    /* Tokyube Code Blocks - Yellow */
+    .menu-item.code-blocks {
+      background: linear-gradient(90deg, #ffd43b 0%, #f9ca24 100%);
+      color: #333;
+      font-weight: bold;
+      border-bottom: 2px solid #e8b923;
+    }
+
+    /* TokyPhone - Green */
+    .menu-item.tokyphone {
+      background: linear-gradient(90deg, #51cf66 0%, #40c057 100%);
+      color: #fff;
+      font-weight: bold;
+      border-bottom: 2px solid #2f9e44;
+    }
+
+    /* TokyTokinz - Blue */
+    .menu-item.tokytokinz {
+      background: linear-gradient(90deg, #4dabf7 0%, #1971c2 100%);
+      color: #fff;
+      font-weight: bold;
+      border-bottom: 2px solid #1550ab;
+    }
+
+    /* TokySocial - Purple */
+    .menu-item.tokysocial {
+      background: linear-gradient(90deg, #b197fc 0%, #7950f2 100%);
+      color: #fff;
+      font-weight: bold;
+      border-bottom: 2px solid #6741d9;
+    }
+
+    .menu-arrow {
+      font-size: 20px;
+      transition: transform 0.3s ease;
+    }
+
+    .menu-item.expanded .menu-arrow {
+      transform: rotate(90deg);
+    }
+
+    .submenu {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease;
+      background: rgba(0, 0, 0, 0.3);
+    }
+
+    .submenu.open {
+      max-height: 1000px;
+    }
+
+    .submenu-item {
+      padding: 12px 48px;
       font-family: 'ArcadeClassic', monospace;
-      font-size: clamp(18px, 4vw, 28px);
-      color: #69db7c;
-      letter-spacing: 3px;
-      text-transform: uppercase;
-      text-shadow:
-        1px 1px 0 #000,
-        2px 2px 0 #1a3d1a,
-        0 0 12px rgba(105,219,124,0.5);
-    }
-
-    .mc-address-box {
-      background: #0a0a0a;
-      border: 2px solid #5a3e1b;
-      padding: 10px 20px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 4px;
+      font-size: 13px;
+      letter-spacing: 1px;
+      border: none;
+      background: none;
+      color: #fff;
+      cursor: pointer;
       width: 100%;
+      text-align: left;
+      transition: all 0.15s ease;
+      display: block;
     }
 
-    .mc-label {
-      font-family: 'ArcadeClassic', monospace;
-      font-size: clamp(10px, 1.8vw, 13px);
-      color: #888;
-      letter-spacing: 2px;
-    }
-
-    .mc-addr {
-      font-family: 'ArcadeClassic', monospace;
-      font-size: clamp(14px, 3vw, 20px);
-      color: #ffe066;
-      letter-spacing: 2px;
-      text-shadow: 1px 1px 0 #000, 0 0 8px rgba(255,224,102,0.4);
-    }
-
-    .mc-port {
-      font-family: 'ArcadeClassic', monospace;
-      font-size: clamp(11px, 2vw, 14px);
-      color: #aaa;
-      letter-spacing: 1px;
-    }
-
-    .mc-status-row {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      font-family: 'ArcadeClassic', monospace;
-      font-size: clamp(12px, 2.2vw, 16px);
-      letter-spacing: 1px;
-    }
-
-    .mc-dot {
-      width: 12px;
-      height: 12px;
-      border-radius: 50%;
-      background: #444;
-      box-shadow: 0 0 6px #000;
-      flex-shrink: 0;
-    }
-
-    .mc-dot.online  { background: #69db7c; box-shadow: 0 0 8px rgba(105,219,124,0.8); }
-    .mc-dot.offline { background: #ff4444; box-shadow: 0 0 8px rgba(255,68,68,0.6); }
-
-    .mc-status-text { color: #ccc; }
-    .mc-players     { color: #4dabf7; }
-
-    .mc-start-btn {
-      font-family: 'ArcadeClassic', monospace;
-      font-size: clamp(13px, 2.5vw, 17px);
-      letter-spacing: 2px;
-      color: #0d1f0d;
-      background: linear-gradient(135deg, #69db7c 0%, #2f9e44 100%);
-      border: 3px solid #1a6b2a;
-      padding: 10px 28px;
-      text-decoration: none;
-      box-shadow:
-        inset 2px 2px 0 rgba(255,255,255,0.3),
-        inset -2px -2px 0 rgba(0,0,0,0.3),
-        0 4px 12px rgba(0,0,0,0.5);
-      transition: transform 0.15s ease, filter 0.15s ease;
-      text-shadow: 1px 1px 0 rgba(255,255,255,0.4);
-    }
-
-    .mc-start-btn:hover {
-      transform: scale(1.04);
+    .submenu-item:hover {
       filter: brightness(1.15);
+      transform: translateX(-6px);
     }
 
-    .mc-note {
-      font-family: 'ArcadeClassic', monospace;
-      font-size: clamp(10px, 1.8vw, 12px);
-      color: #666;
-      letter-spacing: 1px;
-      text-align: center;
+    /* Pastel Red Submenu */
+    .submenu.creating-worlds-sub .submenu-item {
+      background: #ffb3b3;
+      color: #333;
+    }
+
+    /* Pastel Orange Submenu */
+    .submenu.in-world-tools-sub .submenu-item {
+      background: #ffcc99;
+      color: #333;
+    }
+
+    /* Pastel Yellow Submenu */
+    .submenu.code-blocks-sub .submenu-item {
+      background: #ffeb99;
+      color: #333;
+    }
+
+    /* Pastel Green Submenu */
+    .submenu.tokyphone-sub .submenu-item {
+      background: #b3e5b3;
+      color: #333;
+    }
+
+    /* Menu trigger area (right edge of screen) */
+    .menu-trigger {
+      position: fixed;
+      top: 0;
+      right: 0;
+      width: 40px;
+      height: 100vh;
+      cursor: pointer;
+      z-index: 999;
     }
   </style>
 </head>
 <body>
+  <div class="menu-trigger" id="menuTrigger"></div>
+  
+  <div class="side-menu" id="sideMenu">
+    <!-- Creating Worlds -->
+    <button class="menu-item creating-worlds" data-menu="creating-worlds">
+      <span>Creating Worlds</span>
+      <span class="menu-arrow">▶</span>
+    </button>
+    <div class="submenu creating-worlds-sub" id="creating-worlds-sub">
+      <button class="submenu-item">Creating Worlds</button>
+      <button class="submenu-item">Loading Previous Worlds</button>
+      <button class="submenu-item">Duplicating Worlds</button>
+      <button class="submenu-item">Deleting Worlds</button>
+      <button class="submenu-item">Backing up your Worlds</button>
+      <button class="submenu-item">Hosting Multiplayer Worlds</button>
+      <button class="submenu-item">Joining Multiplayer Worlds</button>
+    </div>
+
+    <!-- In World Tools -->
+    <button class="menu-item in-world-tools" data-menu="in-world-tools">
+      <span>In World Tools</span>
+      <span class="menu-arrow">▶</span>
+    </button>
+    <div class="submenu in-world-tools-sub" id="in-world-tools-sub">
+      <button class="submenu-item">Building, Mining and Crafting</button>
+      <button class="submenu-item">Script Mode</button>
+      <button class="submenu-item">Component Mode</button>
+      <button class="submenu-item">AB Mode</button>
+      <button class="submenu-item">External Logins</button>
+    </div>
+
+    <!-- Tokyube Code Blocks -->
+    <button class="menu-item code-blocks" data-menu="code-blocks">
+      <span>Tokyube Code Blocks</span>
+      <span class="menu-arrow">▶</span>
+    </button>
+    <div class="submenu code-blocks-sub" id="code-blocks-sub">
+      <button class="submenu-item">Logic</button>
+      <button class="submenu-item">Loops</button>
+      <button class="submenu-item">Math</button>
+      <button class="submenu-item">Text</button>
+      <button class="submenu-item">Variables</button>
+      <button class="submenu-item">Functions</button>
+      <button class="submenu-item">Voxel Actions</button>
+      <button class="submenu-item">Shapes</button>
+      <button class="submenu-item">Animation</button>
+      <button class="submenu-item">Entity</button>
+      <button class="submenu-item">Persistence</button>
+      <button class="submenu-item">Player</button>
+      <button class="submenu-item">Display</button>
+      <button class="submenu-item">Teleport</button>
+      <button class="submenu-item">World</button>
+      <button class="submenu-item">Triggers</button>
+      <button class="submenu-item">Attachment</button>
+      <button class="submenu-item">Events</button>
+      <button class="submenu-item">Console</button>
+      <button class="submenu-item">FBX Entities</button>
+      <button class="submenu-item">Typed Variables</button>
+    </div>
+
+    <!-- TokyPhone -->
+    <button class="menu-item tokyphone" data-menu="tokyphone">
+      <span>TokyPhone</span>
+      <span class="menu-arrow">▶</span>
+    </button>
+    <div class="submenu tokyphone-sub" id="tokyphone-sub">
+      <button class="submenu-item">Messages</button>
+      <button class="submenu-item">Shop</button>
+      <button class="submenu-item">Notes</button>
+      <button class="submenu-item">TV Control</button>
+      <button class="submenu-item">Friends</button>
+      <button class="submenu-item">Weather</button>
+      <button class="submenu-item">Browser</button>
+      <button class="submenu-item">Music</button>
+      <button class="submenu-item">TokyubeSocial</button>
+      <button class="submenu-item">Camera</button>
+      <button class="submenu-item">Wallet</button>
+      <button class="submenu-item">Settings</button>
+      <button class="submenu-item">Calendar</button>
+      <button class="submenu-item">Alarm</button>
+      <button class="submenu-item">Calls</button>
+      <button class="submenu-item">Calculator</button>
+      <button class="submenu-item">Gallery</button>
+      <button class="submenu-item">Debug</button>
+      <button class="submenu-item">GoPeepGo</button>
+      <button class="submenu-item">Cube Ninja</button>
+      <button class="submenu-item">TokyRoad</button>
+      <button class="submenu-item">Fish!</button>
+    </div>
+
+    <!-- TokyTokinz -->
+    <button class="menu-item tokytokinz" data-menu="tokytokinz">
+      <span>TokyTokinz</span>
+      <span class="menu-arrow">▶</span>
+    </button>
+    <div class="submenu tokytokinz-sub" id="tokytokinz-sub"></div>
+
+    <!-- TokySocial -->
+    <button class="menu-item tokysocial" data-menu="tokysocial">
+      <span>TokySocial</span>
+      <span class="menu-arrow">▶</span>
+    </button>
+    <div class="submenu tokysocial-sub" id="tokysocial-sub"></div>
+  </div>
+
   <div class="content">
 
-    <!-- Rainbow title -->
-    <h1 class="site-title">TokyubeVoxelVerse</h1>
+    <!-- Logo -->
+    <img src="Logo.png" alt="TokyubeVoxelVerse" class="site-logo">
 
     <!-- Platform Coming Soon buttons -->
     <div class="buttons">
@@ -390,47 +543,59 @@
       and bring in yourself, your imagination TRULY has no limits in TOKYUBE.
     </p>
 
-    <!-- Minecraft Server -->
-    <div class="mc-section">
-      <div class="mc-title">Minecraft Server</div>
-
-      <div class="mc-address-box">
-        <span class="mc-label">Server Address</span>
-        <span class="mc-addr">mc.tokyube.com</span>
-        <span class="mc-port">Port: 60749</span>
-      </div>
-
-      <div class="mc-status-row">
-        <div class="mc-dot" id="mc-dot"></div>
-        <span class="mc-status-text" id="mc-status">Checking...</span>
-      </div>
-
-      <p class="mc-note">Bedrock Edition &nbsp;|&nbsp; Up to 20 Players</p>
-    </div>
-
   </div>
 
   <script>
-    fetch('https://api.mcsrvstat.us/bedrock/3/tokyubevoxelverse.aternos.me:60749')
-      .then(r => r.json())
-      .then(data => {
-        const dot     = document.getElementById('mc-dot');
-        const status  = document.getElementById('mc-status');
-        const players = document.getElementById('mc-players');
-        if (data.online) {
-          dot.classList.add('online');
-          status.textContent = 'Online';
-          status.style.color = '#69db7c';
-        } else {
-          dot.classList.add('offline');
-          status.textContent = 'Offline';
-          status.style.color = '#ff4444';
-        }
-      })
-      .catch(() => {
-        document.getElementById('mc-status').textContent = 'Offline';
-        document.getElementById('mc-dot').classList.add('offline');
+    const sideMenu = document.getElementById('sideMenu');
+    const menuTrigger = document.getElementById('menuTrigger');
+    const menuItems = document.querySelectorAll('.menu-item');
+    let menuTimeout;
+
+    // Show menu when mouse approaches right edge
+    document.addEventListener('mousemove', (e) => {
+      clearTimeout(menuTimeout);
+      
+      if (e.clientX > window.innerWidth - 50) {
+        sideMenu.classList.add('active');
+      } else if (e.clientX < window.innerWidth - 350) {
+        // Close menu if mouse moves too far from it
+        menuTimeout = setTimeout(() => {
+          sideMenu.classList.remove('active');
+        }, 300);
+      }
+    });
+
+    // Handle submenu toggle
+    menuItems.forEach(item => {
+      item.addEventListener('click', (e) => {
+        const menuId = item.dataset.menu;
+        const submenu = document.getElementById(`${menuId}-sub`);
+        
+        // Close other submenus
+        document.querySelectorAll('.submenu').forEach(sub => {
+          if (sub !== submenu) {
+            sub.classList.remove('open');
+          }
+        });
+        
+        // Toggle current submenu
+        submenu.classList.toggle('open');
+        item.classList.toggle('expanded');
       });
+    });
+
+    // Prevent menu from closing when hovering over it
+    sideMenu.addEventListener('mouseenter', () => {
+      clearTimeout(menuTimeout);
+    });
+
+    sideMenu.addEventListener('mouseleave', (e) => {
+      if (e.clientX < window.innerWidth - 350) {
+        menuTimeout = setTimeout(() => {
+          sideMenu.classList.remove('active');
+        }, 200);
+      }
+    });
   </script>
 
 </body>
