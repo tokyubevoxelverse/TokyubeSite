@@ -426,6 +426,22 @@
       border-bottom: 2px solid #6741d9;
     }
 
+    /* TokyNodes - Mint Green */
+    .menu-item.tokynodes {
+      background: linear-gradient(90deg, #8ce8c5 0%, #4ecca3 100%);
+      color: #fff;
+      font-weight: bold;
+      border-bottom: 2px solid #2fa37a;
+    }
+
+    /* TokyTar Stylizer - Hot Pink */
+    .menu-item.tokytar-stylizer {
+      background: linear-gradient(90deg, #ff7ad4 0%, #ff2db4 100%);
+      color: #fff;
+      font-weight: bold;
+      border-bottom: 2px solid #d61f95;
+    }
+
     .menu-arrow {
       font-size: 20px;
       transition: transform 0.3s ease;
@@ -595,6 +611,13 @@
       <button class="submenu-item">Fish!</button>
     </div>
 
+    <!-- TokyNodes (placeholder — submenu items coming later) -->
+    <button class="menu-item tokynodes" data-menu="tokynodes">
+      <span>TokyNodes</span>
+      <span class="menu-arrow">▶</span>
+    </button>
+    <div class="submenu tokynodes-sub" id="tokynodes-sub"></div>
+
     <!-- TokyTokinz -->
     <button class="menu-item tokytokinz" data-menu="tokytokinz">
       <span>TokyTokinz</span>
@@ -608,6 +631,13 @@
       <span class="menu-arrow">▶</span>
     </button>
     <div class="submenu tokysocial-sub" id="tokysocial-sub"></div>
+
+    <!-- TokyTar Stylizer (placeholder — submenu items coming later) -->
+    <button class="menu-item tokytar-stylizer" data-menu="tokytar-stylizer">
+      <span>TokyTar Stylizer</span>
+      <span class="menu-arrow">▶</span>
+    </button>
+    <div class="submenu tokytar-stylizer-sub" id="tokytar-stylizer-sub"></div>
   </div>
 
   <div class="content">
