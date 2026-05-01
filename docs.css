@@ -33,6 +33,8 @@ body[data-doc="stylizer"]      .doc-header { background: linear-gradient(90deg, 
 body[data-doc="creating"]      .doc-header { background: linear-gradient(90deg, #ff8c8c 0%, #ff4d4d 100%); border-bottom-color: #b22222; }
 body[data-doc="in-world"]      .doc-header { background: linear-gradient(90deg, #ffb96b 0%, #ff8c1a 100%); border-bottom-color: #b35400; }
 body[data-doc="collab"]        .doc-header { background: linear-gradient(90deg, #ffd166 0%, #ff8c1a 100%); border-bottom-color: #ad5400; }
+body[data-doc="code-blocks"]   .doc-header { background: linear-gradient(90deg, #ffeb99 0%, #f9ca24 100%); border-bottom-color: #b8860b; color: #2a1900; }
+body[data-doc="code-blocks"]   .doc-header .doc-title { color: #2a1900; text-shadow: 1px 1px 0 #fff8d4; }
 
 .doc-header .doc-title {
   font-size: 24px;
@@ -90,6 +92,7 @@ body[data-doc="stylizer"] .doc-toc { background: rgba(255, 122, 212, 0.10); bord
 body[data-doc="creating"] .doc-toc { background: rgba(255, 140, 140, 0.10); border-color: #ff4d4d; }
 body[data-doc="in-world"] .doc-toc { background: rgba(255, 185, 107, 0.10); border-color: #ff8c1a; }
 body[data-doc="collab"]   .doc-toc { background: rgba(255, 209, 102, 0.10); border-color: #ff8c1a; }
+body[data-doc="code-blocks"] .doc-toc { background: rgba(255, 235, 153, 0.12); border-color: #f9ca24; }
 
 .doc-toc h2 {
   margin: 0 0 12px 0;
@@ -100,6 +103,7 @@ body[data-doc="stylizer"] .doc-toc h2 { color: #ffaad9; }
 body[data-doc="creating"] .doc-toc h2 { color: #ffb3b3; }
 body[data-doc="in-world"] .doc-toc h2 { color: #ffd6a8; }
 body[data-doc="collab"]   .doc-toc h2 { color: #ffe09a; }
+body[data-doc="code-blocks"] .doc-toc h2 { color: #ffeb99; }
 
 .doc-toc ul { list-style: none; padding: 0; margin: 0; }
 .doc-toc li { margin: 6px 0; }
@@ -114,6 +118,7 @@ body[data-doc="stylizer"] .doc-toc a:hover { background: rgba(255,45,180,0.25); 
 body[data-doc="creating"] .doc-toc a:hover { background: rgba(255,77,77,0.25);  color: #fff; text-decoration: none; }
 body[data-doc="in-world"] .doc-toc a:hover { background: rgba(255,140,26,0.25); color: #fff; text-decoration: none; }
 body[data-doc="collab"]   .doc-toc a:hover { background: rgba(255,140,26,0.25); color: #fff; text-decoration: none; }
+body[data-doc="code-blocks"] .doc-toc a:hover { background: rgba(249,202,36,0.30); color: #fff; text-decoration: none; }
 
 /* Content */
 .doc-content { min-width: 0; }
@@ -126,6 +131,7 @@ body[data-doc="stylizer"] .doc-content h1 { color: #ffaad9; }
 body[data-doc="creating"] .doc-content h1 { color: #ffb3b3; }
 body[data-doc="in-world"] .doc-content h1 { color: #ffd6a8; }
 body[data-doc="collab"]   .doc-content h1 { color: #ffe09a; }
+body[data-doc="code-blocks"] .doc-content h1 { color: #ffeb99; }
 
 .doc-content .doc-lede {
   font-size: 14px;
@@ -144,6 +150,7 @@ body[data-doc="stylizer"] .doc-content section { border-left-color: #ff2db4; }
 body[data-doc="creating"] .doc-content section { border-left-color: #ff4d4d; }
 body[data-doc="in-world"] .doc-content section { border-left-color: #ff8c1a; }
 body[data-doc="collab"]   .doc-content section { border-left-color: #ff8c1a; }
+body[data-doc="code-blocks"] .doc-content section { border-left-color: #f9ca24; }
 
 .doc-content section h2 {
   margin-top: 0;
@@ -154,6 +161,7 @@ body[data-doc="stylizer"] .doc-content section h2 { color: #ffaad9; }
 body[data-doc="creating"] .doc-content section h2 { color: #ffb3b3; }
 body[data-doc="in-world"] .doc-content section h2 { color: #ffd6a8; }
 body[data-doc="collab"]   .doc-content section h2 { color: #ffe09a; }
+body[data-doc="code-blocks"] .doc-content section h2 { color: #ffeb99; }
 
 .doc-content section h3 { color: #ffe4f3; letter-spacing: 1px; font-size: 16px; margin-top: 16px; }
 .doc-content p, .doc-content li { font-size: 13px; line-height: 1.6; letter-spacing: 0.5px; color: #e5e5ee; }
@@ -199,3 +207,138 @@ body[data-doc="collab"]   .doc-content section h2 { color: #ffe09a; }
   font-size: 12px;
 }
 .doc-footer a { color: #ffaad9; }
+
+/* ── Block-catalog rows ─────────────────────────────────────────────── */
+/* Each row pairs the block's color-coded chip on the left with its
+   description on the right. Chip background uses the category's hue so the
+   visual mapping mirrors the in-app palette. */
+.block-row {
+  display: grid;
+  grid-template-columns: 220px 1fr;
+  gap: 14px;
+  padding: 8px 0;
+  border-bottom: 1px dashed rgba(255,255,255,0.08);
+  align-items: start;
+}
+.block-row:last-child { border-bottom: none; }
+.block-chip {
+  display: inline-block;
+  padding: 6px 12px;
+  border: 2px solid #000;
+  border-radius: 4px;
+  font-family: 'ArcadeClassic', monospace;
+  font-size: 12px;
+  letter-spacing: 0.5px;
+  color: #000;
+  font-weight: bold;
+  white-space: normal;
+  line-height: 1.2;
+  box-shadow: 2px 2px 0 #000;
+}
+.block-chip.cat-logic       { background: #5b80a5; color: #fff; }
+.block-chip.cat-loops       { background: #5ba55b; color: #fff; }
+.block-chip.cat-math        { background: #5b67a5; color: #fff; }
+.block-chip.cat-text        { background: #a55b80; color: #fff; }
+.block-chip.cat-variables   { background: #a55b5b; color: #fff; }
+.block-chip.cat-functions   { background: #995ba5; color: #fff; }
+.block-chip.cat-voxel       { background: #ff7a3d; color: #000; }
+.block-chip.cat-shapes      { background: #ffb84d; color: #000; }
+.block-chip.cat-animation   { background: #ffd166; color: #000; }
+.block-chip.cat-entity      { background: #4ecca3; color: #000; }
+.block-chip.cat-persistence { background: #6fa8dc; color: #000; }
+.block-chip.cat-player      { background: #ffaad9; color: #000; }
+.block-chip.cat-display     { background: #c084fc; color: #000; }
+.block-chip.cat-teleport    { background: #74e87e; color: #000; }
+.block-chip.cat-world       { background: #87ceeb; color: #000; }
+.block-chip.cat-triggers    { background: #ff5050; color: #fff; }
+.block-chip.cat-attachment  { background: #b78bff; color: #000; }
+.block-chip.cat-events      { background: #ffe85f; color: #000; }
+.block-chip.cat-console     { background: #2a2a2a; color: #0f0; border-color: #0f0; }
+.block-chip.cat-fbx         { background: #f9ca24; color: #000; }
+.block-chip.cat-typed       { background: #d97aff; color: #000; }
+.block-chip.cat-tv          { background: #5fc8ff; color: #000; }
+
+.block-desc { font-size: 13px; color: #e5e5ee; line-height: 1.5; }
+.block-desc code { background: #000; color: #ffeb99; padding: 1px 5px; border-radius: 3px; font-size: 11px; }
+
+/* ── Visual block stacks (Blockly-style preview, no JS) ─────────────── */
+/* Stacks render an entire example script as a vertical column of styled
+   chips. They are decorative — accurate enough to convey the visual
+   programming feel without requiring Blockly's full runtime in the docs. */
+.block-stack {
+  background: rgba(0,0,0,0.35);
+  border: 2px dashed rgba(255,235,153,0.5);
+  border-radius: 8px;
+  padding: 14px 16px;
+  margin: 14px 0 22px 0;
+  overflow-x: auto;
+}
+.block-stack-title {
+  font-size: 12px;
+  letter-spacing: 1.5px;
+  color: #ffeb99;
+  margin-bottom: 8px;
+  text-transform: uppercase;
+}
+.bs-row {
+  display: flex;
+  align-items: stretch;
+  margin: 4px 0;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.bs-block {
+  display: inline-flex;
+  align-items: center;
+  padding: 8px 14px;
+  font-family: 'ArcadeClassic', monospace;
+  font-size: 12px;
+  font-weight: bold;
+  border: 2px solid #000;
+  color: #000;
+  border-radius: 4px 12px 12px 4px;
+  box-shadow: 2px 2px 0 #000;
+  white-space: nowrap;
+  letter-spacing: 0.5px;
+}
+.bs-block.indent-1 { margin-left: 22px; }
+.bs-block.indent-2 { margin-left: 44px; }
+.bs-block.bs-logic       { background: #6c8fb6; color: #fff; }
+.bs-block.bs-loops       { background: #6cb96c; color: #fff; }
+.bs-block.bs-math        { background: #6c78b6; color: #fff; }
+.bs-block.bs-text        { background: #b66c91; color: #fff; }
+.bs-block.bs-variables   { background: #b66c6c; color: #fff; }
+.bs-block.bs-functions   { background: #aa6cb6; color: #fff; }
+.bs-block.bs-voxel       { background: #ff8a4a; color: #000; }
+.bs-block.bs-shapes      { background: #ffc966; color: #000; }
+.bs-block.bs-animation   { background: #ffe19a; color: #000; }
+.bs-block.bs-entity      { background: #6ed4b3; color: #000; }
+.bs-block.bs-persistence { background: #8cc1e8; color: #000; }
+.bs-block.bs-player      { background: #ffc4e3; color: #000; }
+.bs-block.bs-display     { background: #d8a4fc; color: #000; }
+.bs-block.bs-teleport    { background: #9beb9f; color: #000; }
+.bs-block.bs-world       { background: #aedcf0; color: #000; }
+.bs-block.bs-triggers    { background: #ff7a7a; color: #000; }
+.bs-block.bs-attachment  { background: #c8a4ff; color: #000; }
+.bs-block.bs-events      { background: #ffee87; color: #000; }
+.bs-block.bs-console     { background: #2a2a2a; color: #0f0; border-color: #0f0; box-shadow: 2px 2px 0 #0a4d0a; }
+.bs-block.bs-fbx         { background: #ffd84a; color: #000; }
+.bs-block.bs-typed       { background: #e5a4ff; color: #000; }
+.bs-block.bs-tv          { background: #a4ddff; color: #000; }
+.bs-block .bs-slot {
+  display: inline-block;
+  background: rgba(0,0,0,0.18);
+  color: inherit;
+  border: 1px solid rgba(0,0,0,0.4);
+  margin-left: 8px;
+  padding: 1px 7px;
+  border-radius: 3px;
+  font-style: italic;
+}
+.bs-note {
+  font-size: 11px;
+  color: #aab;
+  margin-top: 6px;
+  font-style: italic;
+}
+

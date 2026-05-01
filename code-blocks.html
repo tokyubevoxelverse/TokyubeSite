@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tokyube Code Blocks — TokyubeVoxelVerse Documentation</title>
+  <link rel="icon" type="image/png" href="Logo.png">
+  <link rel="apple-touch-icon" href="Logo.png">
+  <link rel="stylesheet" href="docs.css">
+</head>
+<body data-doc="code-blocks">
+  <header class="doc-header">
+    <div class="doc-title">Tokyube Code Blocks — Documentation</div>
+    <a class="doc-back" href="index.html">← BACK TO TOKYUBE.COM</a>
+  </header>
+
+  <div class="doc-layout">
+    <aside class="doc-toc">
+      <h2>Contents</h2>
+      <ul>
+        <li><a href="#overview">Overview</a></li>
+        <li><a href="#getting-started">Getting Started</a></li>
+        <li><a href="#workspace">The Workspace</a></li>
+        <li><a href="#cat-logic">Logic</a></li>
+        <li><a href="#cat-loops">Loops</a></li>
+        <li><a href="#cat-math">Math</a></li>
+        <li><a href="#cat-text">Text</a></li>
+        <li><a href="#cat-variables">Variables</a></li>
+        <li><a href="#cat-functions">Functions</a></li>
+        <li><a href="#cat-voxel-actions">Voxel Actions</a></li>
+        <li><a href="#cat-shapes">Shapes</a></li>
+        <li><a href="#cat-animation">Animation</a></li>
+        <li><a href="#cat-entity">Entity</a></li>
+        <li><a href="#cat-persistence">Persistence</a></li>
+        <li><a href="#cat-player">Player</a></li>
+        <li><a href="#cat-display">Display</a></li>
+        <li><a href="#cat-teleport">Teleport</a></li>
+        <li><a href="#cat-world">World</a></li>
+        <li><a href="#cat-triggers">Triggers</a></li>
+        <li><a href="#cat-attachment">Attachment</a></li>
+        <li><a href="#cat-events">Events</a></li>
+        <li><a href="#cat-console">Console</a></li>
+        <li><a href="#cat-fbx">FBX Entities</a></li>
+        <li><a href="#cat-typed">Typed Variables</a></li>
+        <li><a href="#cat-tv">TV &amp; Video Control</a></li>
+        <li><a href="#examples">Example Scripts</a></li>
+        <li><a href="#collab">Collaborative Code Blocking</a></li>
+        <li><a href="#tips">Tips &amp; Best Practices</a></li>
+      </ul>
+    </aside>
+
+    <main class="doc-content">
+      <h1>Tokyube Code Blocks</h1>
+      <p class="doc-lede">
+        Tokyube Code Blocks is the visual scripting layer of
+        TokyubeVoxelVerse — a powerful, non-restrictive visual programming
+        system built on top of JavaScript. Drop blocks together to build
+        anything from a one-line trigger to a full multiplayer minigame,
+        complete with named persistent variables, typed entity references,
+        timed events, networked components, and direct access to the voxel
+        world.
+      </p>
+
+      <section id="overview">
+        <h2>Overview</h2>
+        <p>Tokyube Code Blocks is not a watered-down beginner tool. Every
+        block compiles to clean, readable JavaScript that runs through the
+        same runtime as the rest of the engine — no sandbox limits beyond
+        what the engine itself enforces. That means:</p>
+        <ul>
+          <li><strong>Full expressive power.</strong> Conditionals,
+              loops, recursion, arithmetic, string manipulation, function
+              definitions, and event-driven flow. If you can express it in
+              JavaScript, you can express it in blocks.</li>
+          <li><strong>Named persistent variables.</strong> Save numbers,
+              strings, positions, voxels, components, FBX entities, and
+              full Tokyube entity references by name. Persisted scopes
+              survive restarts; transient scopes wipe with the world
+              reload.</li>
+          <li><strong>Typed Variables.</strong> Variables are
+              type-checked at compile-time so you can't accidentally treat
+              a position as an entity — surface errors before the script
+              ever fires.</li>
+          <li><strong>Real-time concurrency.</strong> Animate, delay,
+              repeat, and broadcast events without blocking the main
+              thread; the runtime handles scheduling deterministically
+              across single-player and multiplayer.</li>
+          <li><strong>First-class multiplayer.</strong> Triggers fire on
+              the host, replicate to peers, and stay consistent without
+              extra plumbing. Events broadcast to entities, components,
+              or every connected player.</li>
+          <li><strong>Native voxel operations.</strong> Place, remove,
+              query, and shape voxels in bulk. Cubes, spheres, lines,
+              walls — all available as primitive blocks.</li>
+        </ul>
+        <div class="callout">Code Blocks are authored inside the world,
+        attached to voxels, components, FBX entities, or TokyNodes via
+        <a href="in-world-tools.html#script-mode">Script Mode</a>. They
+        save with the world and travel with the entity they're attached
+        to.</div>
+      </section>
+
+      <section id="getting-started">
+        <h2>Getting Started</h2>
+        <ol>
+          <li>Enter <a href="in-world-tools.html#script-mode">Script
+              Mode</a> by holding <kbd>Tab</kbd>.</li>
+          <li>Click on the voxel, component, FBX entity, or TokyNode you
+              want to script. The Code Blocks workspace opens.</li>
+          <li>Drag blocks from the left-side toolbox into the workspace.
+              Connect them top-to-bottom for sequential execution; nest
+              blocks inside slots to pass values.</li>
+          <li>Press <strong>SAVE</strong> — the script attaches to the
+              selected target and starts running according to its
+              triggers.</li>
+        </ol>
+        <p>Every script has at least one entry point — usually a
+        <code>world_start</code> block, a trigger block, or a
+        <code>event_on_receive</code>. Without an entry point a script
+        can compile but never runs.</p>
+      </section>
+
+      <section id="workspace">
+        <h2>The Workspace</h2>
+        <p>The Code Blocks workspace is built on Google Blockly. The
+        Tokyube extensions on top add:</p>
+        <ul>
+          <li>The full custom toolbox (24 categories, 100+ blocks).</li>
+          <li>A <strong>Saved Scripts Library</strong> for pulling
+              previously authored scripts onto a new target.</li>
+          <li>An <strong>Attach From Library</strong> shortcut that
+              re-attaches any saved script to a fresh target without
+              opening the editor.</li>
+          <li>A live <a href="#cat-console">Console</a> panel that
+              streams <code>console_log</code> output as you play.</li>
+          <li>Per-script and per-workspace search so you can find any
+              block by typing its name.</li>
+        </ul>
+      </section>
+
+      <!-- ─────────── Category sections ─────────── -->
+
+      <section id="cat-logic">
+        <h2>Logic</h2>
+        <p>Conditionals, comparisons, and boolean operators. Logic blocks
+        return values that fit into any logic-shaped slot in another
+        block.</p>
+        <div class="block-row"><span class="block-chip cat-logic">if / else if / else</span><span class="block-desc">Branch on a boolean. Stack multiple <code>else if</code> arms with the gear icon.</span></div>
+        <div class="block-row"><span class="block-chip cat-logic">comparison</span><span class="block-desc">Compare two values: <code>=</code>, <code>≠</code>, <code>&lt;</code>, <code>≤</code>, <code>&gt;</code>, <code>≥</code>.</span></div>
+        <div class="block-row"><span class="block-chip cat-logic">and / or</span><span class="block-desc">Combine two booleans into one.</span></div>
+        <div class="block-row"><span class="block-chip cat-logic">not</span><span class="block-desc">Inverts a boolean.</span></div>
+        <div class="block-row"><span class="block-chip cat-logic">true / false</span><span class="block-desc">Constant booleans.</span></div>
+        <div class="block-row"><span class="block-chip cat-logic">null</span><span class="block-desc">The empty value — useful when a slot accepts any object reference.</span></div>
+        <div class="block-row"><span class="block-chip cat-logic">test ? a : b</span><span class="block-desc">Ternary expression — return one of two values based on a boolean.</span></div>
+      </section>
+
+      <section id="cat-loops">
+        <h2>Loops</h2>
+        <p>Standard control flow plus a few engine-specific helpers. All
+        loops are non-blocking — long iterations yield to the runtime.</p>
+        <div class="block-row"><span class="block-chip cat-loops">repeat N times</span><span class="block-desc">Run the body a fixed number of times.</span></div>
+        <div class="block-row"><span class="block-chip cat-loops">while / until</span><span class="block-desc">Run the body while a condition is true (or until it's true).</span></div>
+        <div class="block-row"><span class="block-chip cat-loops">for i from a to b by step</span><span class="block-desc">Counted loop with a counter variable.</span></div>
+        <div class="block-row"><span class="block-chip cat-loops">for each item in list</span><span class="block-desc">Iterate over a list. Pairs cleanly with <code>entity_all</code>.</span></div>
+        <div class="block-row"><span class="block-chip cat-loops">break / continue</span><span class="block-desc">Exit a loop early or skip to the next iteration.</span></div>
+      </section>
+
+      <section id="cat-math">
+        <h2>Math</h2>
+        <p>Arithmetic, trigonometry, randomness, and constants.</p>
+        <div class="block-row"><span class="block-chip cat-math">number</span><span class="block-desc">Literal number.</span></div>
+        <div class="block-row"><span class="block-chip cat-math">arithmetic</span><span class="block-desc">Add, subtract, multiply, divide, modulo, power.</span></div>
+        <div class="block-row"><span class="block-chip cat-math">single op</span><span class="block-desc">Square root, absolute value, negate, ln, log10, e^, 10^.</span></div>
+        <div class="block-row"><span class="block-chip cat-math">trig</span><span class="block-desc">sin, cos, tan, asin, acos, atan.</span></div>
+        <div class="block-row"><span class="block-chip cat-math">round / floor / ceiling</span><span class="block-desc">Standard rounding modes.</span></div>
+        <div class="block-row"><span class="block-chip cat-math">random integer / fraction</span><span class="block-desc">Random integer in a range, or a 0.0–1.0 float.</span></div>
+        <div class="block-row"><span class="block-chip cat-math">constants</span><span class="block-desc">π, e, φ, √2, infinity.</span></div>
+      </section>
+
+      <section id="cat-text">
+        <h2>Text</h2>
+        <p>String creation, manipulation, and conversion.</p>
+        <div class="block-row"><span class="block-chip cat-text">"text"</span><span class="block-desc">Literal string.</span></div>
+        <div class="block-row"><span class="block-chip cat-text">create text with</span><span class="block-desc">Concatenate any number of values into one string. Polymorphic — converts numbers and positions to display text.</span></div>
+        <div class="block-row"><span class="block-chip cat-text">length / is empty</span><span class="block-desc">String inspection.</span></div>
+        <div class="block-row"><span class="block-chip cat-text">find / get substring</span><span class="block-desc">Locate or extract substrings.</span></div>
+        <div class="block-row"><span class="block-chip cat-text">to upper / lower / trim</span><span class="block-desc">Standard case + whitespace handling.</span></div>
+        <div class="block-row"><span class="block-chip cat-text">replace</span><span class="block-desc">Find-and-replace inside a string.</span></div>
+      </section>
+
+      <section id="cat-variables">
+        <h2>Variables</h2>
+        <p>Standard Blockly variable scope. Pair this with the dedicated
+        <a href="#cat-typed">Typed Variables</a> blocks for engine-aware
+        types.</p>
+        <div class="block-row"><span class="block-chip cat-variables">create variable…</span><span class="block-desc">Define a new local variable. Available in any expression slot.</span></div>
+        <div class="block-row"><span class="block-chip cat-variables">set / change</span><span class="block-desc">Assign a value or increment/decrement.</span></div>
+        <div class="block-row"><span class="block-chip cat-variables">get</span><span class="block-desc">Read a variable's value.</span></div>
+      </section>
+
+      <section id="cat-functions">
+        <h2>Functions</h2>
+        <p>Define reusable procedures and call them from anywhere in the
+        script.</p>
+        <div class="block-row"><span class="block-chip cat-functions">to do something</span><span class="block-desc">Define a procedure. Can take any number of named parameters.</span></div>
+        <div class="block-row"><span class="block-chip cat-functions">to do something with return</span><span class="block-desc">Like above, but returns a value.</span></div>
+        <div class="block-row"><span class="block-chip cat-functions">if return</span><span class="block-desc">Early-return out of a function based on a condition.</span></div>
+        <div class="block-row"><span class="block-chip cat-functions">call</span><span class="block-desc">Invoke a defined procedure. Auto-generated when you create the procedure.</span></div>
+      </section>
+
+      <section id="cat-voxel-actions">
+        <h2>Voxel Actions</h2>
+        <p>Place, remove, query, and inspect voxels.</p>
+        <div class="block-row"><span class="block-chip cat-voxel">voxel_place</span><span class="block-desc">Place a voxel of a chosen type at a position.</span></div>
+        <div class="block-row"><span class="block-chip cat-voxel">voxel_remove</span><span class="block-desc">Remove the voxel at a position.</span></div>
+        <div class="block-row"><span class="block-chip cat-voxel">voxel_move</span><span class="block-desc">Translate a voxel from one position to another.</span></div>
+        <div class="block-row"><span class="block-chip cat-voxel">voxel_exists</span><span class="block-desc">Returns <code>true</code> if a voxel exists at the position.</span></div>
+        <div class="block-row"><span class="block-chip cat-voxel">voxel_get_type</span><span class="block-desc">Returns the voxel-type identifier at a position.</span></div>
+        <div class="block-row"><span class="block-chip cat-voxel">voxel_at_entity</span><span class="block-desc">Returns the voxel an entity is currently standing on.</span></div>
+      </section>
+
+      <section id="cat-shapes">
+        <h2>Shapes</h2>
+        <p>Bulk voxel placement primitives — all stream as a single
+        operation in multiplayer.</p>
+        <div class="block-row"><span class="block-chip cat-shapes">shape_cube</span><span class="block-desc">Fill a rectangular prism with a voxel type.</span></div>
+        <div class="block-row"><span class="block-chip cat-shapes">shape_sphere</span><span class="block-desc">Fill a sphere of a given radius.</span></div>
+        <div class="block-row"><span class="block-chip cat-shapes">shape_line</span><span class="block-desc">Draw a line of voxels between two positions.</span></div>
+        <div class="block-row"><span class="block-chip cat-shapes">shape_wall</span><span class="block-desc">Build a wall along an axis with a chosen height and length.</span></div>
+      </section>
+
+      <section id="cat-animation">
+        <h2>Animation</h2>
+        <p>Move and tween entities along paths with delays and timing
+        helpers. Animations run on a scheduler — they don't block other
+        scripts.</p>
+        <div class="block-row"><span class="block-chip cat-animation">timing_delay</span><span class="block-desc">Wait N seconds before continuing.</span></div>
+        <div class="block-row"><span class="block-chip cat-animation">timing_repeat</span><span class="block-desc">Run a body every N seconds; cancellable.</span></div>
+        <div class="block-row"><span class="block-chip cat-animation">timing_cancel</span><span class="block-desc">Cancel a previously scheduled timer by handle.</span></div>
+        <div class="block-row"><span class="block-chip cat-animation">animate_move</span><span class="block-desc">Linearly move an entity by a delta over a duration.</span></div>
+        <div class="block-row"><span class="block-chip cat-animation">animate_entity_to</span><span class="block-desc">Tween an entity from its current spot to a target position.</span></div>
+        <div class="block-row"><span class="block-chip cat-animation">animate_path</span><span class="block-desc">Walk an entity through a sequence of waypoints.</span></div>
+        <div class="block-row"><span class="block-chip cat-animation">animate_bounce</span><span class="block-desc">Spring/bounce easing helper for organic motion.</span></div>
+        <div class="block-row"><span class="block-chip cat-animation">make_position / make_path</span><span class="block-desc">Construct positions and waypoint lists inline.</span></div>
+      </section>
+
+      <section id="cat-entity">
+        <h2>Entity</h2>
+        <p>Reference, query, and modify Tokyube entities (mobs, items,
+        attached FBX, TokyNodes).</p>
+        <div class="block-row"><span class="block-chip cat-entity">entity_this</span><span class="block-desc">The entity this script is attached to.</span></div>
+        <div class="block-row"><span class="block-chip cat-entity">entity_get_by_name</span><span class="block-desc">Look up an entity by its assigned name.</span></div>
+        <div class="block-row"><span class="block-chip cat-entity">entity_get_position / set_name / get_name / get_type</span><span class="block-desc">Standard accessors.</span></div>
+        <div class="block-row"><span class="block-chip cat-entity">entity_all</span><span class="block-desc">Returns the list of all entities currently loaded.</span></div>
+        <div class="block-row"><span class="block-chip cat-entity">entity_at_position</span><span class="block-desc">Returns the entity at (or nearest to) a position, or null.</span></div>
+        <div class="block-row"><span class="block-chip cat-entity">entity_foreach</span><span class="block-desc">Iterate over a list of entities; combines with <code>entity_all</code>.</span></div>
+        <div class="block-row"><span class="block-chip cat-entity">entity_distance</span><span class="block-desc">Distance between two entities.</span></div>
+        <div class="block-row"><span class="block-chip cat-entity">entity_offset_position</span><span class="block-desc">Offset an entity's position by a delta vector.</span></div>
+        <div class="block-row"><span class="block-chip cat-entity">distance_xyz / distance_player_to</span><span class="block-desc">Distance helpers when you only have raw coordinates.</span></div>
+      </section>
+
+      <section id="cat-persistence">
+        <h2>Persistence</h2>
+        <p>Named save/load that survives world reloads.</p>
+        <div class="block-row"><span class="block-chip cat-persistence">data_save</span><span class="block-desc">Save a value under a key. Scope is per-world by default.</span></div>
+        <div class="block-row"><span class="block-chip cat-persistence">data_load</span><span class="block-desc">Load a saved value (or null if it's never been written).</span></div>
+        <div class="callout">Persistence is the bridge between scripts and
+        the world's <code>scripts.json</code> save file. Use it for
+        long-running counters (kills, score, unlocked stages) and for any
+        state you want to survive a server restart.</div>
+      </section>
+
+      <section id="cat-player">
+        <h2>Player</h2>
+        <p>Read and act on the player's state.</p>
+        <div class="block-row"><span class="block-chip cat-player">player_position</span><span class="block-desc">Returns the local player's current position.</span></div>
+        <div class="block-row"><span class="block-chip cat-player">player_attach_entity / detach_entity</span><span class="block-desc">Parent an entity to the player so it follows them.</span></div>
+        <div class="block-row"><span class="block-chip cat-player">player_attach_fbx_to_body / detach_fbx</span><span class="block-desc">Attach an external FBX mesh to a body bone (head, hand, etc).</span></div>
+      </section>
+
+      <section id="cat-display">
+        <h2>Display</h2>
+        <p>Show text on a display voxel/component.</p>
+        <div class="block-row"><span class="block-chip cat-display">display_set_text</span><span class="block-desc">Set the visible text on a display target.</span></div>
+      </section>
+
+      <section id="cat-teleport">
+        <h2>Teleport</h2>
+        <p>Move players, entities, or components instantly.</p>
+        <div class="block-row"><span class="block-chip cat-teleport">teleport_player</span><span class="block-desc">Move the player to a position.</span></div>
+        <div class="block-row"><span class="block-chip cat-teleport">teleport_to_biome</span><span class="block-desc">Find the nearest tile of a chosen biome and teleport there.</span></div>
+        <div class="block-row"><span class="block-chip cat-teleport">teleport_entity</span><span class="block-desc">Move an entity to a position.</span></div>
+        <div class="block-row"><span class="block-chip cat-teleport">teleport_component</span><span class="block-desc">Move a component instance to a position.</span></div>
+      </section>
+
+      <section id="cat-world">
+        <h2>World</h2>
+        <p>World-level lifecycle hooks.</p>
+        <div class="block-row"><span class="block-chip cat-world">world_start</span><span class="block-desc">Fires once when the world finishes loading. The most common script entry point.</span></div>
+      </section>
+
+      <section id="cat-triggers">
+        <h2>Triggers</h2>
+        <p>Run code in response to player or entity activity. Triggers
+        are the second-most-common entry point after
+        <code>world_start</code>.</p>
+        <div class="block-row"><span class="block-chip cat-triggers">trigger_on_enter</span><span class="block-desc">Fires when a player enters the trigger volume of the script's owner.</span></div>
+        <div class="block-row"><span class="block-chip cat-triggers">trigger_is_inside</span><span class="block-desc">Returns whether the player is currently inside the trigger zone.</span></div>
+        <div class="block-row"><span class="block-chip cat-triggers">trigger_launch_player</span><span class="block-desc">Apply a velocity to the player (jump pads, cannons, knockback).</span></div>
+        <div class="block-row"><span class="block-chip cat-triggers">trigger_voxel_enter</span><span class="block-desc">Fires when a voxel of a given type is entered.</span></div>
+        <div class="block-row"><span class="block-chip cat-triggers">trigger_entity_enter</span><span class="block-desc">Fires when any entity (or one of a given type) crosses the volume.</span></div>
+        <div class="block-row"><span class="block-chip cat-triggers">trigger_component_enter</span><span class="block-desc">Fires when a component instance enters the volume.</span></div>
+      </section>
+
+      <section id="cat-attachment">
+        <h2>Attachment</h2>
+        <p>Bind entities, components, and FBX objects to parents so they
+        move together. Pairs with <a href="#cat-events">Events</a> for
+        attached behaviors.</p>
+        <div class="block-row"><span class="block-chip cat-attachment">player_attach_entity / detach_entity</span><span class="block-desc">Attach/detach an entity from the player.</span></div>
+        <div class="block-row"><span class="block-chip cat-attachment">player_attach_fbx_to_body / detach_fbx</span><span class="block-desc">Attach/detach an FBX mesh to a player bone.</span></div>
+      </section>
+
+      <section id="cat-events">
+        <h2>Events</h2>
+        <p>Send and receive named events. Events are the cleanest way to
+        decouple scripts that need to talk to each other.</p>
+        <div class="block-row"><span class="block-chip cat-events">event_send_to_entity</span><span class="block-desc">Send an event with optional payload to a specific entity.</span></div>
+        <div class="block-row"><span class="block-chip cat-events">event_send_to_component</span><span class="block-desc">Send an event to every instance of a component.</span></div>
+        <div class="block-row"><span class="block-chip cat-events">event_broadcast</span><span class="block-desc">Send to every script in the world.</span></div>
+        <div class="block-row"><span class="block-chip cat-events">event_send_to_*_delay</span><span class="block-desc">Variants that fire after N seconds.</span></div>
+        <div class="block-row"><span class="block-chip cat-events">event_on_receive</span><span class="block-desc">Subscribe to an event by name. Body runs each time the event fires on this script's owner.</span></div>
+        <div class="block-row"><span class="block-chip cat-events">event_data</span><span class="block-desc">Inside an <code>on_receive</code> body, returns the event's payload.</span></div>
+      </section>
+
+      <section id="cat-console">
+        <h2>Console</h2>
+        <p>Debugging output streamed to the live console panel.</p>
+        <div class="block-row"><span class="block-chip cat-console">console_log</span><span class="block-desc">Print any value to the in-world Console. Tagged with the script's owner so logs are easy to attribute.</span></div>
+      </section>
+
+      <section id="cat-fbx">
+        <h2>FBX Entities</h2>
+        <p>External 3D meshes (.OBJ / .FBX) attached to the world.
+        Treat them like any other entity for transform, but with extra
+        per-mesh helpers.</p>
+        <div class="block-row"><span class="block-chip cat-fbx">fbx_get_entity / get_current</span><span class="block-desc">Resolve an FBX entity by name or get the script's own owner.</span></div>
+        <div class="block-row"><span class="block-chip cat-fbx">fbx_set_position / get_pos / move_to</span><span class="block-desc">Position controls.</span></div>
+        <div class="block-row"><span class="block-chip cat-fbx">fbx_set_rotation / rotate_to</span><span class="block-desc">Rotation controls.</span></div>
+        <div class="block-row"><span class="block-chip cat-fbx">fbx_set_scale / scale_to</span><span class="block-desc">Scale controls.</span></div>
+        <div class="block-row"><span class="block-chip cat-fbx">fbx_set_visible / set_collidable</span><span class="block-desc">Toggle rendering and collision.</span></div>
+        <div class="block-row"><span class="block-chip cat-fbx">fbx_on_player_enter / on_player_exit</span><span class="block-desc">Volume triggers for FBX meshes.</span></div>
+        <div class="block-row"><span class="block-chip cat-fbx">fbx_open_door / close_door</span><span class="block-desc">Door-mode helpers for hinged FBX meshes.</span></div>
+        <div class="block-row"><span class="block-chip cat-fbx">fbx_send_event / on_event</span><span class="block-desc">Per-FBX event channels.</span></div>
+        <div class="block-row"><span class="block-chip cat-fbx">fbx_set_property / get_property</span><span class="block-desc">Free-form per-mesh metadata storage.</span></div>
+      </section>
+
+      <section id="cat-typed">
+        <h2>Typed Variables</h2>
+        <p>Engine-aware variable storage. Each typed-variable block
+        accepts only its declared type, so a position never gets stored
+        in an entity slot — type errors surface in the editor instead of
+        at runtime.</p>
+        <div class="block-row"><span class="block-chip cat-typed">var_set_entity / get_entity</span><span class="block-desc">Store and retrieve entity references by name.</span></div>
+        <div class="block-row"><span class="block-chip cat-typed">var_set_number / get_number</span><span class="block-desc">Numeric typed variable.</span></div>
+        <div class="block-row"><span class="block-chip cat-typed">var_set_string / get_string</span><span class="block-desc">Strings.</span></div>
+        <div class="block-row"><span class="block-chip cat-typed">var_set_position / get_position</span><span class="block-desc">3D positions.</span></div>
+        <div class="block-row"><span class="block-chip cat-typed">var_set_fbx / get_fbx</span><span class="block-desc">FBX entity references.</span></div>
+        <div class="block-row"><span class="block-chip cat-typed">var_set_component / get_component</span><span class="block-desc">Component instances.</span></div>
+        <div class="block-row"><span class="block-chip cat-typed">var_set_voxel / get_voxel</span><span class="block-desc">Voxel positions or types.</span></div>
+        <div class="callout">Typed variables are <strong>persistent by
+        default</strong>. To wipe one, write <code>null</code> via the
+        matching <code>var_set_*</code> block.</div>
+      </section>
+
+      <section id="cat-tv">
+        <h2>TV &amp; Video Control</h2>
+        <p>Drive the in-world TV component or any video-component
+        instance. All commands sync across multiplayer (the host is
+        authoritative on playback state).</p>
+        <h3>Video Component blocks</h3>
+        <div class="block-row"><span class="block-chip cat-tv">play / pause / stop / resume / seek</span><span class="block-desc">Standard transport controls scoped to a single video component.</span></div>
+        <div class="block-row"><span class="block-chip cat-tv">get_video_time</span><span class="block-desc">Current playback time in seconds.</span></div>
+        <div class="block-row"><span class="block-chip cat-tv">set_video_volume / set_video_url</span><span class="block-desc">Volume (0–1) and source URL setters.</span></div>
+        <div class="block-row"><span class="block-chip cat-tv">on_video_completed</span><span class="block-desc">Body fires when the video reaches the end.</span></div>
+        <h3>TokyPhone TV control blocks</h3>
+        <div class="block-row"><span class="block-chip cat-tv">tv_play / tv_pause / tv_stop / tv_resume / tv_seek</span><span class="block-desc">Same transport, but routed through the in-world TV control system used by TokyPhone.</span></div>
+        <div class="block-row"><span class="block-chip cat-tv">tv_set_url / tv_set_volume</span><span class="block-desc">Source URL and volume.</span></div>
+        <div class="block-row"><span class="block-chip cat-tv">tv_get_time</span><span class="block-desc">Current playback time.</span></div>
+        <div class="block-row"><span class="block-chip cat-tv">tv_on_completed</span><span class="block-desc">Fires when a TV-routed video reaches the end.</span></div>
+      </section>
+
+      <!-- ─────────── Examples ─────────── -->
+
+      <section id="examples">
+        <h2>Example Scripts</h2>
+        <p>The following examples mirror the entries in the in-world
+        <strong>Saved Scripts Library</strong>. Each example shows the
+        block stack and walks through what it does so you can use it as a
+        starting point.</p>
+
+        <h3>1. Hello, world (your first script)</h3>
+        <p>The Code Blocks "hello world": when the world starts, log a
+        message and place a glowing voxel above the script's owner.</p>
+        <div class="block-stack">
+          <div class="block-stack-title">— stack —</div>
+          <div class="bs-row"><span class="bs-block bs-world">when world starts</span></div>
+          <div class="bs-row"><span class="bs-block bs-console indent-1">console log <span class="bs-slot">"Tokyube online ✨"</span></span></div>
+          <div class="bs-row"><span class="bs-block bs-voxel indent-1">voxel place <span class="bs-slot">glow</span> at <span class="bs-slot">player position</span></span></div>
+          <div class="bs-note">Replace "glow" with any voxel-type identifier. Drop a player_position block into the second slot.</div>
+        </div>
+
+        <h3>2. Bouncy jump pad</h3>
+        <p>Attach this to a voxel: anyone who steps on it gets launched
+        upward, classic platformer-style.</p>
+        <div class="block-stack">
+          <div class="block-stack-title">— stack —</div>
+          <div class="bs-row"><span class="bs-block bs-triggers">trigger on enter (player)</span></div>
+          <div class="bs-row"><span class="bs-block bs-triggers indent-1">launch player up <span class="bs-slot">28</span></span></div>
+          <div class="bs-row"><span class="bs-block bs-events indent-1">broadcast event <span class="bs-slot">"jump_pad_used"</span></span></div>
+          <div class="bs-note">The broadcast lets other scripts react — e.g., a counter that tracks how many times the pad has launched a player.</div>
+        </div>
+
+        <h3>3. Persistent score counter</h3>
+        <p>Increments a number that survives world reloads. Useful for
+        long-running games — kills, completed quests, win streaks.</p>
+        <div class="block-stack">
+          <div class="block-stack-title">— stack —</div>
+          <div class="bs-row"><span class="bs-block bs-events">on receive event <span class="bs-slot">"jump_pad_used"</span></span></div>
+          <div class="bs-row"><span class="bs-block bs-typed indent-1">set typed-number <span class="bs-slot">"score"</span> to <span class="bs-slot">get typed-number "score" + 1</span></span></div>
+          <div class="bs-row"><span class="bs-block bs-display indent-1">display set text <span class="bs-slot">"Score: " + get typed-number "score"</span></span></div>
+          <div class="bs-note">Typed variables persist by default, so this counter survives reloads.</div>
+        </div>
+
+        <h3>4. Patrol path enemy</h3>
+        <p>Walks an entity along a 3-point loop, pausing at each
+        waypoint. Great as the basis for a guard or roaming NPC.</p>
+        <div class="block-stack">
+          <div class="block-stack-title">— stack —</div>
+          <div class="bs-row"><span class="bs-block bs-world">when world starts</span></div>
+          <div class="bs-row"><span class="bs-block bs-loops indent-1">repeat forever</span></div>
+          <div class="bs-row"><span class="bs-block bs-animation indent-2">animate entity to <span class="bs-slot">make position 5,4,5</span> over <span class="bs-slot">3</span> sec</span></div>
+          <div class="bs-row"><span class="bs-block bs-animation indent-2">delay <span class="bs-slot">1</span> sec</span></div>
+          <div class="bs-row"><span class="bs-block bs-animation indent-2">animate entity to <span class="bs-slot">make position 12,4,5</span> over <span class="bs-slot">3</span> sec</span></div>
+          <div class="bs-row"><span class="bs-block bs-animation indent-2">delay <span class="bs-slot">1</span> sec</span></div>
+          <div class="bs-row"><span class="bs-block bs-animation indent-2">animate entity to <span class="bs-slot">make position 12,4,12</span> over <span class="bs-slot">3</span> sec</span></div>
+          <div class="bs-row"><span class="bs-block bs-animation indent-2">delay <span class="bs-slot">1</span> sec</span></div>
+        </div>
+
+        <h3>5. Door that opens when player approaches</h3>
+        <p>Combines an FBX entity with a trigger volume — the door swings
+        open when any player walks within range and closes when they
+        leave.</p>
+        <div class="block-stack">
+          <div class="block-stack-title">— stack —</div>
+          <div class="bs-row"><span class="bs-block bs-fbx">on player enter (this fbx)</span></div>
+          <div class="bs-row"><span class="bs-block bs-fbx indent-1">open door <span class="bs-slot">this fbx</span></span></div>
+          <div class="bs-row"><span class="bs-block bs-fbx">on player exit (this fbx)</span></div>
+          <div class="bs-row"><span class="bs-block bs-fbx indent-1">close door <span class="bs-slot">this fbx</span></span></div>
+        </div>
+
+        <h3>6. Spawning waves of enemies</h3>
+        <p>Every few seconds, spawn an entity at a random offset from the
+        script's owner. Combine with a kill counter to build an arena
+        mode.</p>
+        <div class="block-stack">
+          <div class="block-stack-title">— stack —</div>
+          <div class="bs-row"><span class="bs-block bs-world">when world starts</span></div>
+          <div class="bs-row"><span class="bs-block bs-animation indent-1">repeat every <span class="bs-slot">4</span> sec</span></div>
+          <div class="bs-row"><span class="bs-block bs-shapes indent-2">shape sphere at <span class="bs-slot">entity position + random</span> radius <span class="bs-slot">1</span></span></div>
+          <div class="bs-row"><span class="bs-block bs-events indent-2">broadcast event <span class="bs-slot">"enemy_spawned"</span></span></div>
+        </div>
+
+        <h3>7. TV that plays a playlist</h3>
+        <p>Cycles through a list of YouTube URLs on a TV component. When
+        one video ends, the next one starts.</p>
+        <div class="block-stack">
+          <div class="block-stack-title">— stack —</div>
+          <div class="bs-row"><span class="bs-block bs-world">when world starts</span></div>
+          <div class="bs-row"><span class="bs-block bs-typed indent-1">set typed-number <span class="bs-slot">"playlist_index"</span> to <span class="bs-slot">0</span></span></div>
+          <div class="bs-row"><span class="bs-block bs-tv indent-1">tv set url <span class="bs-slot">item 0 of playlist</span></span></div>
+          <div class="bs-row"><span class="bs-block bs-tv indent-1">tv play</span></div>
+          <div class="bs-row"><span class="bs-block bs-tv">on tv completed</span></div>
+          <div class="bs-row"><span class="bs-block bs-typed indent-1">set typed-number <span class="bs-slot">"playlist_index"</span> to <span class="bs-slot">(get + 1) mod length</span></span></div>
+          <div class="bs-row"><span class="bs-block bs-tv indent-1">tv set url <span class="bs-slot">item playlist_index of playlist</span></span></div>
+          <div class="bs-row"><span class="bs-block bs-tv indent-1">tv play</span></div>
+        </div>
+
+        <h3>8. Multiplayer broadcast — every player sees a fireworks burst</h3>
+        <p>An event-driven script that paints a sphere of bright voxels
+        anywhere a player triggers it, visible to everyone in the world.</p>
+        <div class="block-stack">
+          <div class="block-stack-title">— stack —</div>
+          <div class="bs-row"><span class="bs-block bs-triggers">trigger on enter (any player)</span></div>
+          <div class="bs-row"><span class="bs-block bs-events indent-1">broadcast event <span class="bs-slot">"firework_at"</span> data <span class="bs-slot">player position</span></span></div>
+          <div class="bs-row"><span class="bs-block bs-events">on receive event <span class="bs-slot">"firework_at"</span></span></div>
+          <div class="bs-row"><span class="bs-block bs-shapes indent-1">shape sphere at <span class="bs-slot">event data</span> radius <span class="bs-slot">3</span> type <span class="bs-slot">glow</span></span></div>
+          <div class="bs-row"><span class="bs-block bs-animation indent-1">delay <span class="bs-slot">1.5</span> sec</span></div>
+          <div class="bs-row"><span class="bs-block bs-shapes indent-1">shape sphere at <span class="bs-slot">event data</span> radius <span class="bs-slot">3</span> type <span class="bs-slot">air</span></span></div>
+          <div class="bs-note">Because the broadcast goes through the host, every connected client paints the same fireworks burst at the same moment.</div>
+        </div>
+      </section>
+
+      <section id="collab">
+        <h2>Collaborative Code Blocking</h2>
+        <div class="callout planned">Collaborative code-blocking is a
+        first-class planned feature, designed alongside
+        <a href="collaborative-build.html">Collaborative Build Mode</a>
+        — pair-program your Tokyube experiences live, with friends, in
+        the same workspace.</div>
+        <p>The Code Blocks workspace is being extended to support
+        multiple cursors at once, so two to four collaborators can edit
+        the same script in real time:</p>
+        <ul>
+          <li><strong>Operational transform on block edits.</strong> Two
+              creators dragging blocks into the same workspace at the
+              same time merge cleanly — neither one's move silently
+              clobbers the other's. Insertions, deletions, and slot
+              changes all OT independently.</li>
+          <li><strong>Per-collaborator cursors.</strong> Each
+              collaborator's selected block highlights in their assigned
+              color so you can see who is about to do what before they
+              commit.</li>
+          <li><strong>Per-script lock toggles.</strong> Mark a script
+              <em>solo</em> if you want to focus alone for a moment;
+              flip it back to <em>open</em> when you're ready for
+              partners again.</li>
+          <li><strong>Live console mirroring.</strong> When a
+              collaborator presses Run, every connected editor sees the
+              same <code>console_log</code> output — making bug-finding
+              a shared activity instead of a side conversation.</li>
+          <li><strong>Shared script library.</strong> The Saved Scripts
+              Library is per-world; collaborators in the same world
+              already share saved scripts, components, and FBX
+              attachments — Collaborative Code Blocking simply removes
+              the "one editor at a time" gate.</li>
+          <li><strong>Co-authored persistence.</strong> Typed variables
+              and persistent saves authored by either collaborator land
+              in the same world save, with audit metadata so you can
+              see who introduced what later.</li>
+        </ul>
+        <p>The networking primitives this rides on top of (host-authoritative
+        triggers, shared event bus, per-peer presence) are the same ones
+        powering the regular multiplayer layer — so the same world that
+        runs your finished scripted game can also be the one you author
+        it inside, together.</p>
+      </section>
+
+      <section id="tips">
+        <h2>Tips &amp; Best Practices</h2>
+        <ul>
+          <li><strong>Prefer events over polling.</strong> A
+              <code>repeat forever</code> with a delay works, but
+              <code>event_on_receive</code> is cheaper and
+              multiplayer-clean.</li>
+          <li><strong>Use Typed Variables for state.</strong> They
+              persist, type-check, and make the script self-documenting.</li>
+          <li><strong>Wire the Console early.</strong> Drop a
+              <code>console_log</code> at every interesting branch while
+              prototyping — pull them out once the script is shipping.</li>
+          <li><strong>Save scripts you like.</strong> The Saved Scripts
+              Library carries scripts between worlds; once a piece of
+              logic works, save it and re-attach instead of re-authoring.</li>
+          <li><strong>Test in single-player, ship in multiplayer.</strong>
+              Triggers and events behave the same across both — but
+              animation timing and event ordering can surprise you when
+              latency is involved. Always do a final pass with a peer
+              connected.</li>
+          <li><strong>Comment with Console.</strong> A
+              <code>console_log "section: enemy spawn"</code> at the top
+              of a sub-routine reads as a section header without needing
+              real comments.</li>
+        </ul>
+      </section>
+
+    </main>
+  </div>
+
+  <footer class="doc-footer">
+    <p>Need to file a bug? <a href="index.html#fileBug">Open the bug report on tokyube.com</a>.</p>
+    <p>© DOOM Industries, LLC — TokyubeVoxelVerse Alpha</p>
+  </footer>
+</body>
+</html>
