@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TokyTar Stylizer Documentation — TokyubeVoxelVerse</title>
+  <link rel="icon" type="image/png" href="Logo.png">
+  <link rel="apple-touch-icon" href="Logo.png">
+  <style>
+    @font-face {
+      font-family: 'ArcadeClassic';
+      src: url('fonts/ARCADECLASSIC.TTF') format('truetype');
+    }
+    * { box-sizing: border-box; }
+    html, body {
+      margin: 0;
+      padding: 0;
+      background: #14081c;
+      color: #f5f5fa;
+      font-family: 'ArcadeClassic', monospace;
+      letter-spacing: 1px;
+      word-spacing: 0.25em;
+    }
+    a { color: #ffaad9; text-decoration: none; }
+    a:hover { color: #fff; text-decoration: underline; }
+
+    /* ── Header banner ────────────────────────────────────────────────── */
+    .doc-header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px 28px;
+      background: linear-gradient(90deg, #ff7ad4 0%, #ff2db4 100%);
+      color: #fff;
+      border-bottom: 4px solid #d61f95;
+      box-shadow: 0 4px 0 rgba(0,0,0,0.3);
+    }
+    .doc-header .doc-title {
+      font-size: 24px;
+      font-weight: bold;
+      text-shadow: 2px 2px 0 #d61f95;
+    }
+    .doc-header .doc-back {
+      background: #fff;
+      color: #d61f95;
+      padding: 10px 18px;
+      font-family: 'ArcadeClassic', monospace;
+      font-weight: bold;
+      letter-spacing: 1px;
+      border: 3px solid #000;
+      box-shadow: 3px 3px 0 #000;
+      text-decoration: none;
+      transition: transform 0.1s, box-shadow 0.1s;
+    }
+    .doc-header .doc-back:hover {
+      transform: translate(-1px, -1px);
+      box-shadow: 4px 4px 0 #000;
+      text-decoration: none;
+    }
+    .doc-header .doc-back:active {
+      transform: translate(1px, 1px);
+      box-shadow: 1px 1px 0 #000;
+    }
+
+    /* ── Layout: TOC + content ────────────────────────────────────────── */
+    .doc-layout {
+      display: grid;
+      grid-template-columns: 280px 1fr;
+      gap: 32px;
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 28px;
+    }
+    @media (max-width: 880px) {
+      .doc-layout { grid-template-columns: 1fr; }
+      .doc-toc { position: static !important; max-height: none !important; }
+    }
+
+    /* Sidebar TOC */
+    .doc-toc {
+      position: sticky;
+      top: 92px;
+      align-self: start;
+      max-height: calc(100vh - 120px);
+      overflow-y: auto;
+      background: rgba(255, 122, 212, 0.10);
+      border: 2px solid #ff2db4;
+      border-radius: 8px;
+      padding: 16px;
+    }
+    .doc-toc h2 {
+      margin: 0 0 12px 0;
+      font-size: 16px;
+      color: #ffaad9;
+      letter-spacing: 2px;
+    }
+    .doc-toc ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    .doc-toc li { margin: 6px 0; }
+    .doc-toc a {
+      display: block;
+      padding: 6px 8px;
+      font-size: 13px;
+      color: #f5f5fa;
+      border-radius: 4px;
+    }
+    .doc-toc a:hover { background: rgba(255,45,180,0.25); color: #fff; text-decoration: none; }
+
+    /* Content */
+    .doc-content { min-width: 0; }
+    .doc-content h1 {
+      font-size: 36px;
+      margin: 0 0 8px 0;
+      color: #ffaad9;
+      text-shadow: 3px 3px 0 #000;
+    }
+    .doc-content .doc-lede {
+      font-size: 14px;
+      color: #cfcfd9;
+      max-width: 60ch;
+      margin-bottom: 24px;
+    }
+    .doc-content section {
+      background: rgba(0,0,0,0.25);
+      border-left: 4px solid #ff2db4;
+      padding: 18px 22px;
+      margin: 18px 0;
+      border-radius: 0 6px 6px 0;
+    }
+    .doc-content section h2 {
+      margin-top: 0;
+      color: #ffaad9;
+      letter-spacing: 1.5px;
+      font-size: 22px;
+    }
+    .doc-content section h3 {
+      color: #ffe4f3;
+      letter-spacing: 1px;
+      font-size: 16px;
+      margin-top: 16px;
+    }
+    .doc-content p, .doc-content li {
+      font-size: 13px;
+      line-height: 1.6;
+      letter-spacing: 0.5px;
+      color: #e5e5ee;
+    }
+    .doc-content ul {
+      padding-left: 22px;
+    }
+    .doc-content code, .doc-content kbd {
+      background: #000;
+      color: #ffaad9;
+      padding: 2px 6px;
+      font-size: 12px;
+      border-radius: 3px;
+      letter-spacing: 0.5px;
+    }
+    .doc-content kbd {
+      border: 1px solid #ff2db4;
+    }
+    .doc-content .callout {
+      background: rgba(255,234,150,0.12);
+      border-left: 4px solid #ffd43b;
+      padding: 12px 14px;
+      margin: 14px 0;
+      font-size: 13px;
+    }
+    .doc-content .callout.warn {
+      background: rgba(255,80,80,0.12);
+      border-left-color: #ff5050;
+    }
+    .doc-content section:target {
+      box-shadow: 0 0 0 3px #ff2db4, 0 0 24px rgba(255,45,180,0.6);
+    }
+
+    /* Footer */
+    .doc-footer {
+      text-align: center;
+      padding: 28px 12px 60px 12px;
+      color: #888;
+      font-size: 12px;
+    }
+    .doc-footer a { color: #ffaad9; }
+  </style>
+</head>
+<body>
+  <header class="doc-header">
+    <div class="doc-title">TokyTar Stylizer — Documentation</div>
+    <a class="doc-back" href="index.html">← BACK TO TOKYUBE.COM</a>
+  </header>
+
+  <div class="doc-layout">
+    <aside class="doc-toc">
+      <h2>Contents</h2>
+      <ul>
+        <li><a href="#overview">Overview</a></li>
+        <li><a href="#camera-controls">Camera, Rotation &amp; Zoom</a></li>
+        <li><a href="#part-selection">Part Selection &amp; Visibility</a></li>
+        <li><a href="#face-buttons">Six-Face Quick Editing</a></li>
+        <li><a href="#texture-upload">Uploading &amp; Downloading Textures</a></li>
+        <li><a href="#pixel-painting">Pixel Painting</a></li>
+        <li><a href="#paint-tools">Paint Tools</a></li>
+        <li><a href="#brush-sizes">Brush Sizes</a></li>
+        <li><a href="#paint-color">Paint Color &amp; Grid</a></li>
+        <li><a href="#drag-modes">Drag Pixel Art &amp; Drag Texture</a></li>
+        <li><a href="#undo-redo">Undo &amp; Redo</a></li>
+        <li><a href="#animations">Animations &amp; Frames</a></li>
+        <li><a href="#onion-skin">Onion Skinning</a></li>
+        <li><a href="#animation-preview">Animation Preview &amp; FPS</a></li>
+        <li><a href="#export">Exporting</a></li>
+        <li><a href="#save-account">Save to Account</a></li>
+        <li><a href="#load-folder">Loading a Folder</a></li>
+        <li><a href="#materials">Materials &amp; Lighting</a></li>
+        <li><a href="#downloading-obj">Download OBJ</a></li>
+        <li><a href="#multiplayer">Multiplayer &amp; Networking</a></li>
+        <li><a href="#tips">Tips &amp; Pitfalls</a></li>
+      </ul>
+    </aside>
+
+    <main class="doc-content">
+      <h1>TokyTar Stylizer</h1>
+      <p class="doc-lede">
+        TokyTar Stylizer is the in-app character editor for TokyubeVoxelVerse.
+        Design pixel-art skins, animate them frame-by-frame, and save them
+        directly to your account so they appear in-world (and to other players)
+        the next time you log in.
+      </p>
+
+      <section id="overview">
+        <h2>Overview</h2>
+        <p>The Stylizer opens from the title screen of TokyubeVoxelVerse via
+        the rainbow <strong>TOKYTAR STYLIZER</strong> button, beneath the
+        rendered avatar. Inside, you can:</p>
+        <ul>
+          <li>Paint each body part (head, body, left arm, right arm) directly on the 3D mesh.</li>
+          <li>Upload textures from disk or use the built-in pixel paint tools.</li>
+          <li>Build animated avatars of up to 32 frames per part.</li>
+          <li>Save your work to your Tokyube account so it follows you between machines.</li>
+          <li>Export a portable folder you can share or reload later.</li>
+        </ul>
+        <div class="callout">Your last-saved skin loads automatically when the
+        Stylizer opens — keep iterating on a saved character without re-importing.</div>
+      </section>
+
+      <section id="camera-controls">
+        <h2>Camera, Rotation &amp; Zoom</h2>
+        <p>The right-side controls overlay holds three sliders:</p>
+        <ul>
+          <li><strong>Rotate Y</strong> — spin the avatar horizontally (0–360°).</li>
+          <li><strong>Rotate X</strong> — tilt the avatar up/down (-90 to +90°).</li>
+          <li><strong>Zoom</strong> — pull in or push out (0.5×–5×).</li>
+        </ul>
+        <p>The <strong>view gizmo</strong> in the upper-right of the viewport
+        snaps the camera to a canonical view. Buttons:
+        <code>T</code> top, <code>F</code> front, <code>Bk</code> back,
+        <code>L</code> left, <code>R</code> right, <code>Bt</code> bottom.</p>
+        <p><strong>RESET VIEW</strong> (top-left of the viewport) returns
+        rotation and zoom to defaults without losing your skin edits.</p>
+        <p>You can also click and drag inside the viewport to orbit the
+        character; mouse-wheel scroll dollies in/out.</p>
+      </section>
+
+      <section id="part-selection">
+        <h2>Part Selection &amp; Visibility</h2>
+        <p>The main menu's part buttons (<strong>HEAD</strong>,
+        <strong>BODY</strong>, <strong>LEFT ARM</strong>, <strong>RIGHT
+        ARM</strong>) open a per-part submenu. Painting is locked to whichever
+        part's submenu is open, so rotating the camera around the model never
+        sprays paint onto the wrong limb.</p>
+        <h3>Visibility toggles</h3>
+        <p>The <strong>Visibility</strong> row inside the main menu hides or
+        shows individual parts of the avatar. Useful when you want to paint
+        the body without the arms blocking your view.</p>
+        <ul>
+          <li>Click a part's visibility button to toggle it on/off.</li>
+          <li>Hidden parts retain their textures — toggling back shows them
+              exactly as you left them.</li>
+          <li>Hidden parts are still exported in the final zip.</li>
+        </ul>
+      </section>
+
+      <section id="face-buttons">
+        <h2>Six-Face Quick Editing</h2>
+        <p>For each part, the editor exposes the six cube faces of the box
+        model (<strong>FRONT</strong>, <strong>BACK</strong>,
+        <strong>LEFT</strong>, <strong>RIGHT</strong>, <strong>TOP</strong>,
+        <strong>BOTTOM</strong>) as quick-jump targets. Click a face to snap
+        the camera to it so your brush hits the correct UV region without
+        guessing.</p>
+        <p>The face mapping is consistent across all parts, so a back-of-head
+        edit and a back-of-body edit use the same coordinate system.</p>
+      </section>
+
+      <section id="texture-upload">
+        <h2>Uploading &amp; Downloading Textures</h2>
+        <p>Each part's submenu has three texture buttons:</p>
+        <ul>
+          <li><strong>UPLOAD TEXTURE</strong> — replaces the current frame
+              with a PNG/JPEG from disk. The image is rescaled to the part's
+              UV resolution.</li>
+          <li><strong>DOWNLOAD TEXTURE</strong> — saves the current frame
+              as a PNG so you can edit it externally.</li>
+          <li><strong>DOWNLOAD UV GUIDE</strong> — exports a labeled UV
+              template for that part. Open the PNG in any pixel editor as a
+              reference layer.</li>
+        </ul>
+        <div class="callout">Uploads commit to the <em>currently selected
+        frame</em> of the part. When working on animated characters, switch to
+        the right frame before importing.</div>
+      </section>
+
+      <section id="pixel-painting">
+        <h2>Pixel Painting</h2>
+        <p>Click <strong>PAINTBRUSH: ON</strong> to enter paint mode. A
+        prompt asks which body part to paint. Once selected, click directly
+        on the model in the viewport to lay down pixels.</p>
+        <ul>
+          <li>Painting only ever lands on the selected part.</li>
+          <li>The brush snaps to the pixel grid for crisp pixel-art
+              alignment.</li>
+          <li>Toggling <strong>PAINTBRUSH</strong> off restores the
+              file/upload controls and unlocks regular camera dragging.</li>
+        </ul>
+      </section>
+
+      <section id="paint-tools">
+        <h2>Paint Tools (Brush, Eraser, Fill)</h2>
+        <ul>
+          <li><strong>BRUSH</strong> — paints with the current paint color.</li>
+          <li><strong>ERASER</strong> — removes pixels from the paint layer
+              without affecting the underlying base texture.</li>
+          <li><strong>FILL</strong> — flood-fills connected tiles of the same
+              color (tile-aligned to the current brush size). Toggle on, click
+              once on the region, then toggle off when you want to brush
+              again.</li>
+        </ul>
+      </section>
+
+      <section id="brush-sizes">
+        <h2>Brush Sizes</h2>
+        <p>Five sizes are available: <code>S</code> (16px),
+        <code>M</code> (32px), <code>L</code> (64px),
+        <code>XL</code> (128px), and <code>XXL</code> (256px). The grid
+        overlay (when on) updates to match the current size, so painting
+        always lands on a clean tile grid.</p>
+      </section>
+
+      <section id="paint-color">
+        <h2>Paint Color &amp; Grid</h2>
+        <ul>
+          <li><strong>PAINT COLOR</strong> opens the OS color picker. The
+              color is applied to the very next stroke — including the first
+              click after picking.</li>
+          <li><strong>GRID</strong> overlays a tile grid that matches the
+              current brush size. Useful for aligning patterns and planning
+              symmetry.</li>
+        </ul>
+      </section>
+
+      <section id="drag-modes">
+        <h2>Drag Pixel Art &amp; Drag Texture</h2>
+        <p>Two repositioning modes let you slide existing artwork without
+        repainting:</p>
+        <ul>
+          <li><strong>DRAG PIXEL ART</strong> — moves only the paint layer
+              (your brushed pixels) over the underlying base texture.</li>
+          <li><strong>DRAG TEXTURE</strong> — moves the base texture; the
+              paint layer stays anchored.</li>
+        </ul>
+        <p>Both wrap edge pixels so dragged content reappears on the
+        opposite side.</p>
+      </section>
+
+      <section id="undo-redo">
+        <h2>Undo &amp; Redo</h2>
+        <p>The paint controls include <strong>UNDO</strong> and
+        <strong>REDO</strong> buttons. They cover paint strokes,
+        upload/clear, and frame mutations (add/remove/clear), so you can
+        safely experiment with animations and roll back if a frame goes
+        wrong.</p>
+      </section>
+
+      <section id="animations">
+        <h2>Animations &amp; Frames</h2>
+        <p>Each part has its own frame list, capped at 32 frames. The
+        Animation Frames panel inside each part's submenu shows the active
+        frame and lets you build a timeline.</p>
+        <ul>
+          <li><strong>+</strong> adds a new frame, duplicating the current
+              one so you can tween an edit instead of starting from blank.</li>
+          <li><strong>−</strong> removes the current frame.</li>
+          <li><strong>CLEAR</strong> wipes only the current frame back to
+              white without affecting siblings.</li>
+        </ul>
+        <p>Frames are independent per part — you can have a 4-frame head
+        loop while the body stays static.</p>
+      </section>
+
+      <section id="onion-skin">
+        <h2>Onion Skinning</h2>
+        <p>The <strong>Onion Skin Opacity</strong> slider overlays the
+        previous and next frame on top of the current one at a chosen alpha
+        (0–100%). Set it to ~30% to see the previous pose ghosted as you
+        edit, then drop it to 0% when you want a clean view.</p>
+      </section>
+
+      <section id="animation-preview">
+        <h2>Animation Preview &amp; FPS</h2>
+        <p>Click <strong>PLAY ANIMATION</strong> on the left side of the
+        viewport to preview your animation. The FPS input next to the
+        DOWNLOAD OBJ button accepts any value 1–60.</p>
+        <p>Playback is GPU-cheap: every frame is pre-decoded into its own
+        texture once at play-time, then the renderer just swaps the bound
+        texture per tick — rotation and zoom stay smooth even on large
+        animations.</p>
+        <div class="callout">Press <strong>STOP ANIMATION</strong> to return
+        to the frame you were editing — your paint state is preserved.</div>
+      </section>
+
+      <section id="export">
+        <h2>Exporting Characters</h2>
+        <p>The <strong>EXPORT</strong> button opens an export panel where
+        you choose:</p>
+        <ul>
+          <li>The character's name (becomes <code>{name}.zip</code>).</li>
+          <li>An <strong>Animated</strong> toggle — turn off if you want a
+              static, single-frame avatar.</li>
+          <li>The animation FPS recorded inside the zip's manifest.</li>
+        </ul>
+        <p>The exported zip contains:</p>
+        <ul>
+          <li>One PNG per frame per part: <code>head_frame_1.png</code>,
+              <code>head_frame_2.png</code>, etc.</li>
+          <li><code>{name}.json</code> with an <code>animation</code>
+              manifest <code>(version, animated, fps, parts.&lt;part&gt;.frameFiles[])</code>
+              for downstream consumers like ChunkWorldGen.</li>
+          <li>Legacy <code>{part}_front.png</code> aliases so older loaders
+              still work.</li>
+        </ul>
+      </section>
+
+      <section id="save-account">
+        <h2>Save to Account</h2>
+        <p>The <strong>SAVE TO ACCOUNT</strong> button persists your
+        in-progress skin to your Tokyube account. Your Steam ID is captured
+        when you launch the Stylizer from the title screen, so the save is
+        scoped to you. Animated parts are stored as
+        <code>{frames, fps}</code>; static parts are stored as a single
+        dataURL, all using the same database column — no migration
+        required.</p>
+        <p>Once saved, the character renderer on the title screen reflects
+        the new skin (animated or otherwise), and other players in
+        multiplayer see the same animation.</p>
+      </section>
+
+      <section id="load-folder">
+        <h2>Loading a Character Folder</h2>
+        <p>Click <strong>LOAD FOLDER</strong> to import a previously
+        exported character. The loader recognizes both the legacy single-PNG
+        layout (<code>head.png</code>, <code>body.png</code>, …) and the new
+        per-frame layout (<code>head_frame_N.png</code>). The accompanying
+        JSON manifest, if present, sets the FPS for you.</p>
+      </section>
+
+      <section id="materials">
+        <h2>Materials, Lighting &amp; Transparency</h2>
+        <p>Inside the main menu, <strong>LIGHTING</strong> toggles between a
+        flat unlit look (great for evaluating raw pixel colors) and a
+        physically-shaded preview that approximates the in-world lighting
+        you'll see in ChunkWorldGen.</p>
+        <p>Three material sliders appear when lighting is on:</p>
+        <ul>
+          <li><strong>Metallic</strong> (0–100) — higher values make the
+              skin more reflective.</li>
+          <li><strong>Smoothness</strong> (0–100) — higher values tighten
+              specular highlights.</li>
+          <li><strong>Transparency</strong> (33–100) — lower values fade the
+              avatar toward see-through.</li>
+        </ul>
+      </section>
+
+      <section id="downloading-obj">
+        <h2>Downloading the OBJ Mesh</h2>
+        <p>The rainbow <strong>DOWNLOAD OBJ</strong> button (top-left,
+        beside RESET VIEW) saves the current avatar as an .OBJ + .MTL pair
+        with your current textures baked in. Open it in Blender, Maya, or
+        any modeling tool to extend or render outside Tokyube.</p>
+      </section>
+
+      <section id="multiplayer">
+        <h2>Multiplayer &amp; Networked Animations</h2>
+        <p>When you join a multiplayer lobby in ChunkWorldGen, your saved
+        character is broadcast once to peers. The packet includes the
+        per-part frame lists, FPS, and a shared start epoch.</p>
+        <p>Every client computes the frame index from local time relative
+        to that epoch — so animations stay aligned across machines without
+        any per-frame network traffic. Your animated avatar runs at full
+        smoothness on every other player's screen.</p>
+        <div class="callout">If you change skins mid-session, the change
+        re-broadcasts immediately rather than waiting for the periodic
+        keepalive.</div>
+      </section>
+
+      <section id="tips">
+        <h2>Tips &amp; Common Pitfalls</h2>
+        <ul>
+          <li><strong>Lag while editing?</strong> Turn off Onion Skin and
+              the Grid overlay while painting heavy strokes; both add
+              compositing cost.</li>
+          <li><strong>Animation feels stuttery?</strong> Check the FPS
+              field. The preview honors anything 1–60; 8–12 fps is the
+              classic pixel-anim sweet spot.</li>
+          <li><strong>Painted on the wrong part?</strong> Painting is locked
+              to the open submenu — back out and reopen the correct part's
+              menu before clicking.</li>
+          <li><strong>Saved skin not showing in-world?</strong> Sign in via
+              Steam first; account saves are keyed by Steam ID.</li>
+        </ul>
+      </section>
+
+    </main>
+  </div>
+
+  <footer class="doc-footer">
+    <p>Need to file a bug? <a href="index.html#fileBug">Open the bug report on tokyube.com</a>.</p>
+    <p>© DOOM Industries, LLC — TokyubeVoxelVerse Alpha</p>
+  </footer>
+
+  <script>
+    // Smooth-scroll TOC clicks; offset the sticky header so the section
+    // title isn't hidden under it.
+    document.querySelectorAll('.doc-toc a, .doc-content a[href^="#"]').forEach((a) => {
+      a.addEventListener('click', (e) => {
+        const href = a.getAttribute('href');
+        if (!href || !href.startsWith('#')) return;
+        const target = document.querySelector(href);
+        if (!target) return;
+        e.preventDefault();
+        const headerH = document.querySelector('.doc-header').offsetHeight + 12;
+        const top = target.getBoundingClientRect().top + window.scrollY - headerH;
+        window.scrollTo({ top, behavior: 'smooth' });
+        history.replaceState(null, '', href);
+      });
+    });
+  </script>
+</body>
+</html>

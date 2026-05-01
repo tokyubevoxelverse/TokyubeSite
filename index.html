@@ -4,6 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>TokyubeVoxelVerse</title>
+  <link rel="icon" type="image/png" href="Logo.png">
+  <link rel="apple-touch-icon" href="Logo.png">
   <style>
     @font-face {
       font-family: 'ArcadeClassic';
@@ -458,6 +460,15 @@
       border-bottom: 2px solid #d61f95;
     }
 
+    /* Pastel Pink Submenu — TokyTar Stylizer doc links. Each item is an
+       <a> so the click navigates instead of toggling the submenu state. */
+    .submenu.tokytar-stylizer-sub a.submenu-item {
+      background: #ffd6ec;
+      color: #333;
+      text-decoration: none;
+    }
+    .submenu.tokytar-stylizer-sub a.submenu-item:visited { color: #333; }
+
     .menu-arrow {
       font-size: 20px;
       transition: transform 0.3s ease;
@@ -534,6 +545,58 @@
       cursor: pointer;
       z-index: 999;
     }
+
+    /* Documentation search — sits under "File a Bug" at the bottom of the
+       side menu. Plain white input with black text, dropdown of matches. */
+    .docs-search {
+      position: relative;
+      padding: 12px;
+      background: rgba(0, 0, 0, 0.4);
+      border-top: 2px solid rgba(255,255,255,0.18);
+    }
+    .docs-search-input {
+      width: 100%;
+      box-sizing: border-box;
+      background: #ffffff;
+      color: #000000;
+      border: 2px solid #000000;
+      border-radius: 4px;
+      padding: 8px 10px;
+      font-family: 'ArcadeClassic', monospace;
+      font-size: 13px;
+      letter-spacing: 1px;
+      outline: none;
+    }
+    .docs-search-input::placeholder { color: #555; }
+    .docs-search-input:focus {
+      border-color: #ff2db4;
+      box-shadow: 0 0 0 2px rgba(255,45,180,0.35);
+    }
+    .docs-search-results {
+      list-style: none;
+      margin: 6px 0 0 0;
+      padding: 0;
+      max-height: 240px;
+      overflow-y: auto;
+      background: #ffffff;
+      color: #000000;
+      border: 2px solid #000000;
+      border-radius: 4px;
+      display: none;
+    }
+    .docs-search-results.visible { display: block; }
+    .docs-search-results li {
+      padding: 8px 10px;
+      font-family: 'ArcadeClassic', monospace;
+      font-size: 13px;
+      border-bottom: 1px solid #ddd;
+      cursor: pointer;
+    }
+    .docs-search-results li:last-child { border-bottom: none; }
+    .docs-search-results li:hover,
+    .docs-search-results li.active { background: #ffe4f3; }
+    .docs-search-results .doc-title { font-weight: bold; color: #ff2db4; }
+    .docs-search-results .doc-snippet { color: #444; font-size: 11px; margin-top: 2px; }
 
     /* File a Bug Button - Lilac */
     .menu-item.file-bug {
@@ -911,17 +974,46 @@
     </button>
     <div class="submenu tokysocial-sub" id="tokysocial-sub"></div>
 
-    <!-- TokyTar Stylizer (placeholder — submenu items coming later) -->
+    <!-- TokyTar Stylizer — opens the docs hub in its own page. -->
     <button class="menu-item tokytar-stylizer" data-menu="tokytar-stylizer">
       <span>TokyTar Stylizer</span>
       <span class="menu-arrow">▶</span>
     </button>
-    <div class="submenu tokytar-stylizer-sub" id="tokytar-stylizer-sub"></div>
+    <div class="submenu tokytar-stylizer-sub" id="tokytar-stylizer-sub">
+      <a class="submenu-item" href="tokytar-stylizer.html">Overview</a>
+      <a class="submenu-item" href="tokytar-stylizer.html#camera-controls">Camera, Rotation &amp; Zoom</a>
+      <a class="submenu-item" href="tokytar-stylizer.html#part-selection">Part Selection &amp; Visibility</a>
+      <a class="submenu-item" href="tokytar-stylizer.html#face-buttons">Six-Face Quick Editing</a>
+      <a class="submenu-item" href="tokytar-stylizer.html#texture-upload">Uploading &amp; Downloading Textures</a>
+      <a class="submenu-item" href="tokytar-stylizer.html#pixel-painting">Pixel Painting</a>
+      <a class="submenu-item" href="tokytar-stylizer.html#paint-tools">Paint Tools (Brush, Eraser, Fill)</a>
+      <a class="submenu-item" href="tokytar-stylizer.html#brush-sizes">Brush Sizes (S–XXL)</a>
+      <a class="submenu-item" href="tokytar-stylizer.html#paint-color">Paint Color &amp; Grid</a>
+      <a class="submenu-item" href="tokytar-stylizer.html#drag-modes">Drag Pixel Art &amp; Drag Texture</a>
+      <a class="submenu-item" href="tokytar-stylizer.html#undo-redo">Undo &amp; Redo</a>
+      <a class="submenu-item" href="tokytar-stylizer.html#animations">Animations &amp; Frames</a>
+      <a class="submenu-item" href="tokytar-stylizer.html#onion-skin">Onion Skinning</a>
+      <a class="submenu-item" href="tokytar-stylizer.html#animation-preview">Animation Preview &amp; FPS</a>
+      <a class="submenu-item" href="tokytar-stylizer.html#export">Exporting Characters</a>
+      <a class="submenu-item" href="tokytar-stylizer.html#save-account">Save to Account</a>
+      <a class="submenu-item" href="tokytar-stylizer.html#load-folder">Loading a Character Folder</a>
+      <a class="submenu-item" href="tokytar-stylizer.html#materials">Materials, Lighting &amp; Transparency</a>
+      <a class="submenu-item" href="tokytar-stylizer.html#downloading-obj">Downloading the OBJ Mesh</a>
+      <a class="submenu-item" href="tokytar-stylizer.html#multiplayer">Multiplayer &amp; Networked Animations</a>
+      <a class="submenu-item" href="tokytar-stylizer.html#tips">Tips &amp; Common Pitfalls</a>
+    </div>
 
     <!-- File a Bug Button -->
     <button class="menu-item file-bug" id="fileBugBtn">
       <span>📋 FILE A BUG</span>
     </button>
+
+    <!-- Documentation search — under "File a Bug" so it stays at the very
+         bottom of the side menu. White input + black text per design ask. -->
+    <div class="docs-search">
+      <input id="docsSearchInput" class="docs-search-input" type="text" placeholder="Search documentation..." autocomplete="off">
+      <ul id="docsSearchResults" class="docs-search-results" role="listbox"></ul>
+    </div>
   </div>
 
   <!-- Bug Report Modal -->
@@ -1082,22 +1174,106 @@
         if (item.classList.contains('file-bug')) {
           return;
         }
+        // Submenu items inside the bar are <a> links — let them navigate
+        // instead of bubbling up to toggle the parent submenu open/closed.
+        if (e.target && e.target.closest && e.target.closest('.submenu-item')) {
+          return;
+        }
 
         const menuId = item.dataset.menu;
         const submenu = document.getElementById(`${menuId}-sub`);
-        
+
         // Close other submenus
         document.querySelectorAll('.submenu').forEach(sub => {
           if (sub !== submenu) {
             sub.classList.remove('open');
           }
         });
-        
+
         // Toggle current submenu
         submenu.classList.toggle('open');
         item.classList.toggle('expanded');
       });
     });
+
+    // Documentation search.
+    //
+    // Static index — each entry points to a stable anchor in the docs page,
+    // so the user gets to the right section without us needing a build step.
+    const docsIndex = [
+      { title: 'TokyTar Stylizer — Overview',          url: 'tokytar-stylizer.html',                  keywords: 'tokytar stylizer character builder design avatars overview intro getting started' },
+      { title: 'Camera Controls, Rotation & Zoom',      url: 'tokytar-stylizer.html#camera-controls',  keywords: 'rotate rotation zoom drag move character view camera angle slider snap reset top front back left right' },
+      { title: 'Part Selection & Visibility Toggles',   url: 'tokytar-stylizer.html#part-selection',   keywords: 'head body left arm right arm select part visibility hide show toggle invisibility invisible' },
+      { title: 'Six-Face Quick Editing',                url: 'tokytar-stylizer.html#face-buttons',     keywords: 'six faces front back left right top bottom 6 buttons quick design face cube edit per face' },
+      { title: 'Uploading & Downloading Textures',      url: 'tokytar-stylizer.html#texture-upload',   keywords: 'upload texture png import download export texture uv guide' },
+      { title: 'Pixel Painting',                        url: 'tokytar-stylizer.html#pixel-painting',   keywords: 'pixel paint brush pixel art draw direct paintbrush onion grid live edit' },
+      { title: 'Paint Tools (Brush, Eraser, Fill)',     url: 'tokytar-stylizer.html#paint-tools',      keywords: 'brush eraser fill bucket flood paint tool tools toggle' },
+      { title: 'Brush Sizes (S, M, L, XL, XXL)',        url: 'tokytar-stylizer.html#brush-sizes',      keywords: 'brush size s m l xl xxl small medium large extra large pixel size' },
+      { title: 'Paint Color & Grid Toggle',             url: 'tokytar-stylizer.html#paint-color',      keywords: 'paint color picker palette grid overlay tile alignment' },
+      { title: 'Drag Pixel Art & Drag Texture',         url: 'tokytar-stylizer.html#drag-modes',       keywords: 'drag pixel art drag texture move reposition shift offset' },
+      { title: 'Undo & Redo',                           url: 'tokytar-stylizer.html#undo-redo',        keywords: 'undo redo history step back forward edit' },
+      { title: 'Animations & Frames',                   url: 'tokytar-stylizer.html#animations',       keywords: 'animation frames frame add remove duplicate clear 32 frame max animated avatar' },
+      { title: 'Onion Skinning',                        url: 'tokytar-stylizer.html#onion-skin',       keywords: 'onion skin opacity overlay previous next frame slider transparent ghost' },
+      { title: 'Animation Preview & FPS',               url: 'tokytar-stylizer.html#animation-preview',keywords: 'play animation preview fps speed playback frames per second timing' },
+      { title: 'Exporting Characters',                  url: 'tokytar-stylizer.html#export',           keywords: 'export zip download save name character animated toggle save to disk file' },
+      { title: 'Save to Account',                       url: 'tokytar-stylizer.html#save-account',     keywords: 'save account supabase steam id auto save persist cloud login signed in' },
+      { title: 'Loading a Character Folder',            url: 'tokytar-stylizer.html#load-folder',      keywords: 'load folder character textures import open existing project' },
+      { title: 'Materials, Lighting & Transparency',    url: 'tokytar-stylizer.html#materials',        keywords: 'metallic smoothness transparency lighting on off shaders shiny matte alpha' },
+      { title: 'Downloading the OBJ Mesh',              url: 'tokytar-stylizer.html#downloading-obj',  keywords: 'download obj mesh fbx 3d export model geometry blender external' },
+      { title: 'Multiplayer & Networked Animations',    url: 'tokytar-stylizer.html#multiplayer',      keywords: 'multiplayer multiplayer networked animations remote players see other players sync animated avatars' },
+      { title: 'Tips & Common Pitfalls',                url: 'tokytar-stylizer.html#tips',             keywords: 'tips troubleshooting fps lag missing texture default skin' },
+    ];
+
+    const searchInput = document.getElementById('docsSearchInput');
+    const searchResults = document.getElementById('docsSearchResults');
+    if (searchInput && searchResults) {
+      let activeIdx = -1;
+      const renderResults = (items) => {
+        searchResults.innerHTML = '';
+        if (!items.length) {
+          searchResults.classList.remove('visible');
+          return;
+        }
+        items.forEach((it, i) => {
+          const li = document.createElement('li');
+          li.innerHTML = '<div class="doc-title">' + it.title + '</div>'
+                       + '<div class="doc-snippet">' + (it.snippet || '') + '</div>';
+          li.addEventListener('click', () => { window.location.href = it.url; });
+          li.addEventListener('mouseenter', () => {
+            activeIdx = i;
+            [...searchResults.children].forEach((c, j) => c.classList.toggle('active', j === i));
+          });
+          searchResults.appendChild(li);
+        });
+        searchResults.classList.add('visible');
+      };
+      searchInput.addEventListener('input', () => {
+        const q = searchInput.value.trim().toLowerCase();
+        if (!q) { renderResults([]); return; }
+        const tokens = q.split(/\s+/).filter(Boolean);
+        const matches = docsIndex.map((entry) => {
+          const haystack = (entry.title + ' ' + entry.keywords).toLowerCase();
+          let score = 0;
+          for (const t of tokens) {
+            if (haystack.includes(t)) score += (entry.title.toLowerCase().includes(t) ? 3 : 1);
+          }
+          return { ...entry, score, snippet: entry.keywords.split(/\s+/).filter(w => w.includes(tokens[0])).slice(0, 4).join(' ') };
+        }).filter(e => e.score > 0).sort((a, b) => b.score - a.score).slice(0, 8);
+        activeIdx = -1;
+        renderResults(matches);
+      });
+      searchInput.addEventListener('keydown', (e) => {
+        const items = [...searchResults.children];
+        if (e.key === 'ArrowDown') { e.preventDefault(); activeIdx = Math.min(items.length - 1, activeIdx + 1); items.forEach((c, i) => c.classList.toggle('active', i === activeIdx)); }
+        else if (e.key === 'ArrowUp') { e.preventDefault(); activeIdx = Math.max(0, activeIdx - 1); items.forEach((c, i) => c.classList.toggle('active', i === activeIdx)); }
+        else if (e.key === 'Enter' && activeIdx >= 0 && items[activeIdx]) { items[activeIdx].click(); }
+        else if (e.key === 'Escape') { searchInput.value = ''; renderResults([]); searchInput.blur(); }
+      });
+      // Hide the dropdown when clicking outside the search column.
+      document.addEventListener('click', (e) => {
+        if (!e.target.closest('.docs-search')) searchResults.classList.remove('visible');
+      });
+    }
 
     // Prevent menu from closing when hovering over it
     sideMenu.addEventListener('mouseenter', () => {
