@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Collaborative Build Mode — TokyubeVoxelVerse Documentation</title>
+  <link rel="icon" type="image/png" href="Logo.png">
+  <link rel="apple-touch-icon" href="Logo.png">
+  <link rel="stylesheet" href="docs.css">
+</head>
+<body data-doc="collab">
+  <header class="doc-header">
+    <div class="doc-title">Collaborative Build Mode — Documentation</div>
+    <a class="doc-back" href="index.html">← BACK TO TOKYUBE.COM</a>
+  </header>
+
+  <div class="doc-layout">
+    <aside class="doc-toc">
+      <h2>Contents</h2>
+      <ul>
+        <li><a href="#overview">Overview</a></li>
+        <li><a href="#what-it-is">What It Is</a></li>
+        <li><a href="#how-it-works">How It Works</a></li>
+        <li><a href="#use-cases">Use Cases</a></li>
+        <li><a href="#sessions">Sessions &amp; Roles</a></li>
+        <li><a href="#editing">Live Editing Tools</a></li>
+        <li><a href="#scripting">Co-scripting</a></li>
+        <li><a href="#permissions">Permissions &amp; Safety</a></li>
+        <li><a href="#timeline">Release Timeline</a></li>
+      </ul>
+    </aside>
+
+    <main class="doc-content">
+      <h1>Collaborative Build Mode</h1>
+      <p class="doc-lede">
+        Collaborative Build Mode is a planned multiplayer feature for
+        TokyubeVoxelVerse: 2–4 creators sharing a single live world,
+        building, scripting, and iterating in real-time on the same game,
+        creation, or experience.
+      </p>
+
+      <section id="overview">
+        <h2>Overview</h2>
+        <div class="callout planned">Collaborative Build Mode is on the
+        roadmap and will roll out alongside the wider creator tooling.
+        This page describes how it's designed to work today so you can
+        plan around it.</div>
+        <p>Where regular multiplayer is about <em>playing</em> a world
+        together, Collab Build is about <em>making</em> it together:
+        every brush stroke, every block placement, every Code Blocks
+        edit, and every component update streams to everyone in the
+        session as it happens.</p>
+      </section>
+
+      <section id="what-it-is">
+        <h2>What It Is</h2>
+        <p>A live, low-latency multiplayer mode for the in-world creator
+        tools. Up to four players share:</p>
+        <ul>
+          <li>One shared voxel world (the host's save).</li>
+          <li>Synchronized cursors, selections, and AB-Mode regions so
+              you can see what your collaborators are about to do.</li>
+          <li>The same Code Blocks workspace per script — edit functions
+              side-by-side without trampling each other.</li>
+          <li>Shared inventory and component palettes (optional;
+              configurable per session).</li>
+        </ul>
+      </section>
+
+      <section id="how-it-works">
+        <h2>How It Works</h2>
+        <p>Under the hood, Collab Build is regular multiplayer with three
+        extras layered on top:</p>
+        <ol>
+          <li><strong>Operational Transform</strong> for code edits — two
+              creators editing the same script at the same time merge
+              cleanly without one overwriting the other.</li>
+          <li><strong>Region locking</strong> for AB-Mode — when one
+              player starts a multi-block selection or paste, that region
+              is briefly locked to them so simultaneous AB Mode edits
+              never collide.</li>
+          <li><strong>Presence indicators</strong> — every collaborator's
+              cursor, current tool, and currently selected block/component
+              renders as a colored ghost in everyone else's view.</li>
+        </ol>
+      </section>
+
+      <section id="use-cases">
+        <h2>Use Cases</h2>
+        <ul>
+          <li><strong>Co-built games.</strong> Two designers, one
+              scripter, one builder — all in the same lobby, shipping a
+              playable Tokyube experience together.</li>
+          <li><strong>Live workshops.</strong> Run a creator tutorial
+              where the audience watches every change land in real time
+              from inside the world.</li>
+          <li><strong>Family / group projects.</strong> Build a shared
+              town or theme park where each member owns a district but
+              everyone can wander and tweak in real time.</li>
+          <li><strong>Pair programming on Code Blocks.</strong> One
+              person drives the logic, another tests in-world; both edit
+              the same Blockly workspace.</li>
+        </ul>
+      </section>
+
+      <section id="sessions">
+        <h2>Sessions &amp; Roles</h2>
+        <p>A session has one host and up to three collaborators. The host
+        owns the world's save data; collaborators are temporary editors
+        whose work persists in the host's world.</p>
+        <ul>
+          <li><strong>Host</strong> — owns the save, can configure
+              session-level permissions, kick collaborators, and end the
+              session.</li>
+          <li><strong>Builder</strong> — full block place/break + AB
+              Mode access.</li>
+          <li><strong>Scripter</strong> — full Code Blocks + Component
+              Mode access; cannot place/break voxels by default
+              (configurable).</li>
+          <li><strong>Visitor</strong> — read-only; can move around but
+              not modify anything. Useful for showcasing.</li>
+        </ul>
+      </section>
+
+      <section id="editing">
+        <h2>Live Editing Tools</h2>
+        <p>Every in-world creator tool extends naturally into Collab Build:</p>
+        <ul>
+          <li><strong>Block place/break</strong> — broadcast as
+              compressed delta packets per chunk; peers see the change
+              within ~50ms.</li>
+          <li><strong>AB Mode regions</strong> — your selection box
+              renders in your peer's color, so collaborators stay out of
+              the way until you commit the operation.</li>
+          <li><strong>FBX attach</strong> and <strong>TokyNode mode</strong>
+              broadcast the attach/detach event itself; the attached
+              entity's transform syncs at the same 10Hz cadence used for
+              regular networked entities.</li>
+          <li><strong>Component spawn</strong> — peers see a phantom
+              outline as you drag a component into place, then the
+              committed instance appears once you release.</li>
+        </ul>
+      </section>
+
+      <section id="scripting">
+        <h2>Co-scripting</h2>
+        <p>The Code Blocks workspace can be opened by multiple
+        collaborators at once. Each collaborator has their own cursor in
+        the workspace; edits merge via operational transform so no one
+        gets clobbered.</p>
+        <ul>
+          <li>Per-script lock toggles let you mark a script
+              <em>solo-edit</em> if you don't want collaborators in
+              there yet.</li>
+          <li>Console output in scripted experiences is shared — you all
+              see the same logs as you play.</li>
+          <li>Triggers fire on the host first and replicate to peers,
+              keeping authoritative behavior consistent with regular
+              multiplayer.</li>
+        </ul>
+      </section>
+
+      <section id="permissions">
+        <h2>Permissions &amp; Safety</h2>
+        <ul>
+          <li>The host can flip permissions on the fly without ending the
+              session.</li>
+          <li>Every collaborator's actions are tagged with their Steam
+              ID in the world's audit log, so accidental damage is easy
+              to roll back.</li>
+          <li>The world's auto-save cadence remains the same; in case of
+              a sync hiccup, the host can revert to the last saved
+              snapshot from the pause menu.</li>
+          <li>Collaborators can never trigger a destructive operation
+              (delete world, rename, reset chunks) — only the host can.</li>
+        </ul>
+      </section>
+
+      <section id="timeline">
+        <h2>Release Timeline</h2>
+        <div class="callout planned">
+          Collab Build is targeted for an Alpha-window release after the
+          single-player creator tooling stabilizes. Specific features
+          (Operational Transform on Code Blocks, presence indicators,
+          AB-Mode region locking) will land in stages so playtesters can
+          give feedback as each piece ships.
+        </div>
+        <p>Status is tracked alongside the platform roadmap on tokyube.com.
+        If you'd like to participate in the Collab Build closed playtest,
+        join the Discord server and post in the <code>#playtests</code>
+        channel.</p>
+      </section>
+
+    </main>
+  </div>
+
+  <footer class="doc-footer">
+    <p>Need to file a bug? <a href="index.html#fileBug">Open the bug report on tokyube.com</a>.</p>
+    <p>© DOOM Industries, LLC — TokyubeVoxelVerse Alpha</p>
+  </footer>
+</body>
+</html>

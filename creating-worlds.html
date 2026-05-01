@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Creating Worlds — TokyubeVoxelVerse Documentation</title>
+  <link rel="icon" type="image/png" href="Logo.png">
+  <link rel="apple-touch-icon" href="Logo.png">
+  <link rel="stylesheet" href="docs.css">
+</head>
+<body data-doc="creating">
+  <header class="doc-header">
+    <div class="doc-title">Creating Worlds — Documentation</div>
+    <a class="doc-back" href="index.html">← BACK TO TOKYUBE.COM</a>
+  </header>
+
+  <div class="doc-layout">
+    <aside class="doc-toc">
+      <h2>Contents</h2>
+      <ul>
+        <li><a href="#overview">Overview</a></li>
+        <li><a href="#creating-worlds">Creating a New World</a></li>
+        <li><a href="#world-types">World Types &amp; Game Modes</a></li>
+        <li><a href="#world-settings">Seeds &amp; Generation Settings</a></li>
+        <li><a href="#loading">Loading Previous Worlds</a></li>
+        <li><a href="#duplicating">Duplicating Worlds</a></li>
+        <li><a href="#deleting">Deleting Worlds</a></li>
+        <li><a href="#renaming">Renaming Worlds</a></li>
+        <li><a href="#backing-up">Backing Up Worlds</a></li>
+        <li><a href="#hosting">Hosting Multiplayer</a></li>
+        <li><a href="#joining">Joining Multiplayer</a></li>
+        <li><a href="collaborative-build.html">Collaborative Build Mode →</a></li>
+        <li><a href="#world-files">Save Files &amp; Locations</a></li>
+        <li><a href="#troubleshooting">Troubleshooting</a></li>
+      </ul>
+    </aside>
+
+    <main class="doc-content">
+      <h1>Creating Worlds</h1>
+      <p class="doc-lede">
+        Worlds are the persistent voxel sandboxes you build, code, and play
+        inside. This guide covers everything from spinning up a brand-new
+        world to backing up an old one, sharing it with friends, and
+        recovering from edge cases.
+      </p>
+
+      <section id="overview">
+        <h2>Overview</h2>
+        <p>From the title screen, click <strong>WORLDS</strong> (or the
+        worlds card on the main menu) to open the world manager. From there
+        you can create new worlds, load existing ones, duplicate, rename,
+        or delete them, and host or join multiplayer sessions.</p>
+        <ul>
+          <li>Each world is its own folder under
+              <code>VoxelVerseData/saveDataWorlds/</code> next to the
+              executable, so worlds are portable — you can zip a folder and
+              hand it to someone else.</li>
+          <li>Worlds save automatically as you play. There is no manual
+              save button by design.</li>
+          <li>The world list is sorted by last-played time, so the most
+              recent project is always at the top.</li>
+        </ul>
+      </section>
+
+      <section id="creating-worlds">
+        <h2>Creating a New World</h2>
+        <ol>
+          <li>Open the world manager and click <strong>NEW WORLD</strong>.</li>
+          <li>Enter a name. Names are unique — the manager warns if you
+              already have a world with the same name.</li>
+          <li>Pick a game mode and (optionally) a seed.</li>
+          <li>Click <strong>CREATE</strong>. The world generates the spawn
+              chunks and drops you into it.</li>
+        </ol>
+        <p>You can also create a world from the title screen's
+        <strong>QUICK PLAY</strong> button, which auto-generates a name and
+        uses the default settings — useful when you just want to mess
+        around.</p>
+      </section>
+
+      <section id="world-types">
+        <h2>World Types &amp; Game Modes</h2>
+        <p>Three game modes ship with TokyubeVoxelVerse, each tuned for a
+        different style of play:</p>
+        <ul>
+          <li><strong>Relaxed</strong> — no health, no hunger, no hostile
+              entities. Mining and building cost nothing. The default for
+              creative-style play.</li>
+          <li><strong>Survival</strong> — health and hunger systems are on.
+              Crafting requires resources you mine. Hostile entities spawn
+              at night.</li>
+          <li><strong>Creative</strong> — like Relaxed, but with the full
+              creative palette unlocked from the start (every block in the
+              hotbar, infinite stack counts, fly toggle, instant break).</li>
+        </ul>
+        <p>You can change a world's game mode at any time via the in-world
+        debug panel — the mode is per-world, not per-player.</p>
+        <div class="callout">Multiplayer guests are <em>locked</em> to
+        Relaxed mode regardless of the host's setting. This prevents
+        accidentally griefing a survival save.</div>
+      </section>
+
+      <section id="world-settings">
+        <h2>Seeds &amp; Generation Settings</h2>
+        <p>The new-world dialog exposes the procedural-generation knobs:</p>
+        <ul>
+          <li><strong>Seed</strong> — any integer or string. The same seed
+              always produces the same terrain, biome layout, and ore
+              placement, so it's perfect for shared challenges or
+              speedruns.</li>
+          <li><strong>Biome Mix</strong> — currently auto-mixed across the
+              whole world. ChunkWorldGen seeds biomes deterministically off
+              the world seed, so vegetation density and color follow the
+              biome of each chunk.</li>
+          <li><strong>Day/Night Cycle</strong> — every world ships with the
+              cycle on by default. You can pause time or set a fixed
+              hour-of-day from the in-world debug panel.</li>
+        </ul>
+        <p>Leaving the seed field blank generates a random seed and
+        records it in the world's save data. Copy it from the world
+        manager later if you want to reproduce that map.</p>
+      </section>
+
+      <section id="loading">
+        <h2>Loading Previous Worlds</h2>
+        <p>The world manager lists every world you've ever created. Click
+        a world's card to load it. The first time a chunk is needed it
+        streams from disk, so the first few seconds in a large world may
+        be slightly slower than steady-state play — this is expected.</p>
+        <p>If a world fails to load, see <a href="#troubleshooting">Troubleshooting</a>.</p>
+      </section>
+
+      <section id="duplicating">
+        <h2>Duplicating Worlds</h2>
+        <p>Right-click a world (or use the context menu on its card) and
+        choose <strong>DUPLICATE</strong>. The duplicate copies every chunk,
+        every saved entity, and every script — but gets a fresh creation
+        time and a unique ID under the hood. Good for branching builds
+        without committing to a save.</p>
+      </section>
+
+      <section id="deleting">
+        <h2>Deleting Worlds</h2>
+        <p>Choose <strong>DELETE</strong> from the world's context menu.
+        You'll be asked to confirm; the deletion is permanent and removes
+        the entire world folder from disk.</p>
+        <div class="callout warn">There is no in-app "trash". If you might
+        want a world later, duplicate it first or back it up (see below).</div>
+      </section>
+
+      <section id="renaming">
+        <h2>Renaming Worlds</h2>
+        <p>Right-click → <strong>RENAME</strong> changes the world's
+        display name. The on-disk folder is also renamed so the file
+        layout stays human-readable.</p>
+      </section>
+
+      <section id="backing-up">
+        <h2>Backing Up Your Worlds</h2>
+        <p>Worlds are just folders. To back one up:</p>
+        <ol>
+          <li>Close the world (return to the title screen).</li>
+          <li>Open the file at
+              <code>VoxelVerseData/saveDataWorlds/&lt;your world&gt;</code>.</li>
+          <li>Zip the entire folder. The zip is a self-contained backup —
+              dropping it into another machine's <code>saveDataWorlds/</code>
+              makes that world available there.</li>
+        </ol>
+        <p>The Steam release stores its data in
+        <code>VoxelVerseData/</code> next to the .exe so backups don't
+        require touching system folders.</p>
+      </section>
+
+      <section id="hosting">
+        <h2>Hosting Multiplayer Worlds</h2>
+        <p>Open a world, then in the world's pause menu click
+        <strong>HOST MULTIPLAYER</strong>. You'll be prompted to choose
+        public or private:</p>
+        <ul>
+          <li><strong>Public</strong> — visible in the Steam Lobbies list
+              for friends-of-friends to discover.</li>
+          <li><strong>Private</strong> — invite-only. Use Steam's friend
+              invite or share the lobby code.</li>
+        </ul>
+        <p>The host's machine becomes the authoritative copy of the world.
+        Edits made by guests are streamed back to the host who then
+        broadcasts the canonical chunk state to all peers.</p>
+      </section>
+
+      <section id="joining">
+        <h2>Joining Multiplayer Worlds</h2>
+        <p>From the world manager, click <strong>JOIN LOBBY</strong> and
+        either accept a Steam invite or paste a lobby code. You don't need
+        a local copy of the host's world — chunks stream as you walk into
+        them.</p>
+        <p>Guests are locked to Relaxed mode and cannot save. Anything they
+        build persists in the host's world and stays there after the guest
+        leaves.</p>
+      </section>
+
+      <section id="world-files">
+        <h2>World Save Files &amp; Locations</h2>
+        <p>Each world is a folder containing:</p>
+        <ul>
+          <li><code>chunks/</code> — one file per loaded chunk, named by
+              chunk coordinates.</li>
+          <li><code>entities.json</code> — persistent entity state
+              (mobs, items, attached FBX entities).</li>
+          <li><code>scripts.json</code> — every script and component
+              definition associated with the world.</li>
+          <li><code>world.json</code> — top-level metadata: seed, mode,
+              creation time, last-played time, owner Steam ID.</li>
+        </ul>
+        <p>Editing these files by hand is unsupported but possible — the
+        formats are JSON or compact binary. Always back up before
+        experimenting.</p>
+      </section>
+
+      <section id="troubleshooting">
+        <h2>Troubleshooting Worlds</h2>
+        <ul>
+          <li><strong>World won't load.</strong> Check the bottom-left of
+              the title screen for a version mismatch — older saves are
+              auto-migrated, but a save from a future version isn't.</li>
+          <li><strong>Stuck on "Loading…"</strong> Try opening the world
+              and immediately quitting; the world's chunks may need a
+              clean re-write of the chunk index.</li>
+          <li><strong>Multiplayer host can't be found.</strong> Make sure
+              both you and the host are signed into Steam, and confirm
+              the host's lobby is set to Public if you're not on their
+              friend list.</li>
+          <li><strong>Save data missing after a Steam update.</strong>
+              Steam keeps the previous build's <code>VoxelVerseData/</code>
+              folder in place — check for a backup folder named with the
+              old version number next to the new install.</li>
+        </ul>
+      </section>
+
+    </main>
+  </div>
+
+  <footer class="doc-footer">
+    <p>Need to file a bug? <a href="index.html#fileBug">Open the bug report on tokyube.com</a>.</p>
+    <p>© DOOM Industries, LLC — TokyubeVoxelVerse Alpha</p>
+  </footer>
+</body>
+</html>
