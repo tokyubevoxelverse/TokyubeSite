@@ -530,10 +530,13 @@
     .submenu.in-world-tools-sub a.submenu-item:visited { color: #333; }
 
     /* Pastel Yellow Submenu */
-    .submenu.code-blocks-sub .submenu-item {
+    .submenu.code-blocks-sub .submenu-item,
+    .submenu.code-blocks-sub a.submenu-item {
       background: #ffeb99;
       color: #333;
+      text-decoration: none;
     }
+    .submenu.code-blocks-sub a.submenu-item:visited { color: #333; }
 
     /* Pastel Green Submenu */
     .submenu.tokyphone-sub .submenu-item {
@@ -920,27 +923,33 @@
       <span class="menu-arrow">▶</span>
     </button>
     <div class="submenu code-blocks-sub" id="code-blocks-sub">
-      <button class="submenu-item">Logic</button>
-      <button class="submenu-item">Loops</button>
-      <button class="submenu-item">Math</button>
-      <button class="submenu-item">Text</button>
-      <button class="submenu-item">Variables</button>
-      <button class="submenu-item">Functions</button>
-      <button class="submenu-item">Voxel Actions</button>
-      <button class="submenu-item">Shapes</button>
-      <button class="submenu-item">Animation</button>
-      <button class="submenu-item">Entity</button>
-      <button class="submenu-item">Persistence</button>
-      <button class="submenu-item">Player</button>
-      <button class="submenu-item">Display</button>
-      <button class="submenu-item">Teleport</button>
-      <button class="submenu-item">World</button>
-      <button class="submenu-item">Triggers</button>
-      <button class="submenu-item">Attachment</button>
-      <button class="submenu-item">Events</button>
-      <button class="submenu-item">Console</button>
-      <button class="submenu-item">FBX Entities</button>
-      <button class="submenu-item">Typed Variables</button>
+      <a class="submenu-item" href="code-blocks.html">Overview</a>
+      <a class="submenu-item" href="code-blocks.html#getting-started">Getting Started</a>
+      <a class="submenu-item" href="code-blocks.html#workspace">The Workspace</a>
+      <a class="submenu-item" href="code-blocks.html#cat-logic">Logic</a>
+      <a class="submenu-item" href="code-blocks.html#cat-loops">Loops</a>
+      <a class="submenu-item" href="code-blocks.html#cat-math">Math</a>
+      <a class="submenu-item" href="code-blocks.html#cat-text">Text</a>
+      <a class="submenu-item" href="code-blocks.html#cat-variables">Variables</a>
+      <a class="submenu-item" href="code-blocks.html#cat-functions">Functions</a>
+      <a class="submenu-item" href="code-blocks.html#cat-voxel-actions">Voxel Actions</a>
+      <a class="submenu-item" href="code-blocks.html#cat-shapes">Shapes</a>
+      <a class="submenu-item" href="code-blocks.html#cat-animation">Animation</a>
+      <a class="submenu-item" href="code-blocks.html#cat-entity">Entity</a>
+      <a class="submenu-item" href="code-blocks.html#cat-persistence">Persistence</a>
+      <a class="submenu-item" href="code-blocks.html#cat-player">Player</a>
+      <a class="submenu-item" href="code-blocks.html#cat-display">Display</a>
+      <a class="submenu-item" href="code-blocks.html#cat-teleport">Teleport</a>
+      <a class="submenu-item" href="code-blocks.html#cat-world">World</a>
+      <a class="submenu-item" href="code-blocks.html#cat-triggers">Triggers</a>
+      <a class="submenu-item" href="code-blocks.html#cat-attachment">Attachment</a>
+      <a class="submenu-item" href="code-blocks.html#cat-events">Events</a>
+      <a class="submenu-item" href="code-blocks.html#cat-console">Console</a>
+      <a class="submenu-item" href="code-blocks.html#cat-fbx">FBX Entities</a>
+      <a class="submenu-item" href="code-blocks.html#cat-typed">Typed Variables</a>
+      <a class="submenu-item" href="code-blocks.html#cat-tv">TV &amp; Video Control</a>
+      <a class="submenu-item" href="code-blocks.html#examples">Example Scripts</a>
+      <a class="submenu-item" href="code-blocks.html#collab">Collaborative Code Blocking</a>
     </div>
 
     <!-- TokyPhone -->
@@ -1251,6 +1260,36 @@
       { title: 'FBX Attach Mode',                      url: 'in-world-tools.html#fbx-mode',           keywords: 'fbx attach external mesh model import 3d rig' },
       { title: 'External Logins',                      url: 'in-world-tools.html#external-logins',    keywords: 'external logins steam discord google youtube xbox sign in' },
       { title: 'Debug Tools & Load Character',         url: 'in-world-tools.html#debug-tools',        keywords: 'debug tools load character avatar skin folder testing dev panel' },
+
+      // ── Tokyube Code Blocks (yellow menu) ──────────────────────────────
+      { title: 'Tokyube Code Blocks — Overview',        url: 'code-blocks.html',                       keywords: 'tokyube code blocks visual scripting blockly programming javascript persistent variables logic introduction overview' },
+      { title: 'Code Blocks — Getting Started',         url: 'code-blocks.html#getting-started',       keywords: 'getting started script mode tab attach voxel save first script' },
+      { title: 'Code Blocks — Workspace',               url: 'code-blocks.html#workspace',             keywords: 'workspace blockly editor toolbox saved scripts library attach console search' },
+      { title: 'Code Blocks — Logic',                   url: 'code-blocks.html#cat-logic',             keywords: 'logic if else if and or not boolean true false null ternary comparison' },
+      { title: 'Code Blocks — Loops',                   url: 'code-blocks.html#cat-loops',             keywords: 'loops repeat while until for each break continue iteration' },
+      { title: 'Code Blocks — Math',                    url: 'code-blocks.html#cat-math',              keywords: 'math arithmetic add subtract multiply divide modulo trig sin cos tan random round floor ceiling pi e constants' },
+      { title: 'Code Blocks — Text',                    url: 'code-blocks.html#cat-text',              keywords: 'text string concat length substring upper lower trim find replace' },
+      { title: 'Code Blocks — Variables',               url: 'code-blocks.html#cat-variables',         keywords: 'variables create set change get blockly local' },
+      { title: 'Code Blocks — Functions',               url: 'code-blocks.html#cat-functions',         keywords: 'functions procedures parameters return call recursion' },
+      { title: 'Code Blocks — Voxel Actions',           url: 'code-blocks.html#cat-voxel-actions',     keywords: 'voxel actions place remove move exists get type at entity blocks' },
+      { title: 'Code Blocks — Shapes',                  url: 'code-blocks.html#cat-shapes',            keywords: 'shapes cube sphere line wall bulk fill voxel primitives' },
+      { title: 'Code Blocks — Animation',               url: 'code-blocks.html#cat-animation',         keywords: 'animation delay repeat cancel move tween path bounce make position waypoints' },
+      { title: 'Code Blocks — Entity',                  url: 'code-blocks.html#cat-entity',            keywords: 'entity this get by name position type all foreach distance offset at position' },
+      { title: 'Code Blocks — Persistence',             url: 'code-blocks.html#cat-persistence',       keywords: 'persistence data save load named persistent variable score counter long running' },
+      { title: 'Code Blocks — Player',                  url: 'code-blocks.html#cat-player',            keywords: 'player position attach entity attach fbx body bone' },
+      { title: 'Code Blocks — Display',                 url: 'code-blocks.html#cat-display',           keywords: 'display set text screen sign show' },
+      { title: 'Code Blocks — Teleport',                url: 'code-blocks.html#cat-teleport',          keywords: 'teleport player entity component biome warp jump' },
+      { title: 'Code Blocks — World',                   url: 'code-blocks.html#cat-world',             keywords: 'world start lifecycle hook entry point' },
+      { title: 'Code Blocks — Triggers',                url: 'code-blocks.html#cat-triggers',          keywords: 'triggers on enter is inside launch player voxel entity component zone volume' },
+      { title: 'Code Blocks — Attachment',              url: 'code-blocks.html#cat-attachment',        keywords: 'attachment attach detach player entity fbx body bone parent' },
+      { title: 'Code Blocks — Events',                  url: 'code-blocks.html#cat-events',            keywords: 'events send broadcast on receive entity component delay event data payload' },
+      { title: 'Code Blocks — Console',                 url: 'code-blocks.html#cat-console',           keywords: 'console log debug print output panel' },
+      { title: 'Code Blocks — FBX Entities',            url: 'code-blocks.html#cat-fbx',               keywords: 'fbx entity get position rotate scale visible collidable open door close door event property' },
+      { title: 'Code Blocks — Typed Variables',         url: 'code-blocks.html#cat-typed',             keywords: 'typed variables persistent named entity number string position fbx component voxel type checked' },
+      { title: 'Code Blocks — TV & Video Control',      url: 'code-blocks.html#cat-tv',                keywords: 'tv video play pause stop resume seek volume url playlist on completed' },
+      { title: 'Code Blocks — Example Scripts',         url: 'code-blocks.html#examples',              keywords: 'example scripts hello world jump pad score counter patrol path enemy door fbx spawning waves tv playlist multiplayer fireworks samples gallery' },
+      { title: 'Collaborative Code Blocking',           url: 'code-blocks.html#collab',                keywords: 'collaborative code blocking multiplayer real time pair programming friends together cursors operational transform shared workspace planned' },
+      { title: 'Code Blocks — Tips & Best Practices',   url: 'code-blocks.html#tips',                  keywords: 'tips best practices events polling typed variables console save scripts library multiplayer test' },
 
       // ── TokyTar Stylizer (pink menu) ───────────────────────────────────
       { title: 'TokyTar Stylizer — Overview',          url: 'tokytar-stylizer.html',                  keywords: 'tokytar stylizer character builder design avatars overview intro getting started' },
