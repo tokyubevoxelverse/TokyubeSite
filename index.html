@@ -185,6 +185,22 @@
         inset -2px -2px 0 rgba(0,0,0,0.45);
     }
 
+    /* Discord — orange gradient (matches the warm pastel→dark style of the
+       platform buttons but in our brand orange so it's recognizably the
+       community/Discord CTA). */
+    .btn-discord {
+      background: linear-gradient(135deg, #ffd9a8 0%, #ff8c1a 40%, #b35400 100%);
+      border-color: #6b3000;
+      color: #fff;
+      text-shadow: 1px 1px 0 #000, 2px 2px 0 #6b3000;
+    }
+    .btn-discord:hover {
+      box-shadow:
+        0 0 24px rgba(255,140,26,0.8),
+        inset 2px 2px 0 rgba(255,255,255,0.35),
+        inset -2px -2px 0 rgba(0,0,0,0.45);
+    }
+
     /* ── Tagline row ── */
     .tagline {
       display: flex;
@@ -992,7 +1008,7 @@
 
     <!-- Rainbow Documentation Text -->
     <div class="rainbow-doc-text">
-      <span>H</span><span>o</span><span>v</span><span>e</span><span>r</span><span> </span><span>o</span><span>v</span><span>e</span><span>r</span><span> </span><span>t</span><span>h</span><span>e</span><span> </span><span>r</span><span>i</span><span>g</span><span>h</span><span>t</span><span> </span><span>t</span><span>o</span><span> </span><span>o</span><span>p</span><span>e</span><span>n</span><span> </span><span>d</span><span>o</span><span>c</span><span>u</span><span>m</span><span>e</span><span>n</span><span>t</span><span>a</span><span>t</span><span>i</span><span>o</span><span>n</span> <span>f</span><span>o</span><span>r</span> <span>T</span><span>o</span><span>k</span><span>y</span><span>u</span><span>b</span><span>e</span> <span>V</span><span>o</span><span>x</span><span>e</span><span>l</span><span>V</span><span>e</span><span>r</span><span>s</span><span>e</span> <span>E</span><span>n</span><span>g</span><span>i</span><span>n</span><span>e</span> <span>B</span><span>e</span><span>t</span><span>a</span> <span>0</span><span>.</span><span>0</span><span>.</span><span>0</span><span>4</span><span>6</span><span>8</span>
+      <span>H</span><span>o</span><span>v</span><span>e</span><span>r</span><span> </span><span>o</span><span>v</span><span>e</span><span>r</span><span> </span><span>t</span><span>h</span><span>e</span><span> </span><span>r</span><span>i</span><span>g</span><span>h</span><span>t</span><span> </span><span>t</span><span>o</span><span> </span><span>o</span><span>p</span><span>e</span><span>n</span><span> </span><span>d</span><span>o</span><span>c</span><span>u</span><span>m</span><span>e</span><span>n</span><span>t</span><span>a</span><span>t</span><span>i</span><span>o</span><span>n</span> <span>f</span><span>o</span><span>r</span> <span>T</span><span>o</span><span>k</span><span>y</span><span>u</span><span>b</span><span>e</span> <span>V</span><span>o</span><span>x</span><span>e</span><span>l</span><span>V</span><span>e</span><span>r</span><span>s</span><span>e</span> <span>E</span><span>n</span><span>g</span><span>i</span><span>n</span><span>e</span> <span>A</span><span>l</span><span>p</span><span>h</span><span>a</span> <span>0</span><span>.</span><span>0</span><span>.</span><span>0</span><span>4</span><span>6</span><span>9</span>
     </div>
 
     <!-- Platform Coming Soon buttons -->
@@ -1016,6 +1032,11 @@
         <img src="Icons/Switch2.png" alt="Nintendo Switch 2">
         <span>COMING TO NINTENDO<br>SWITCH 2 IN THE FUTURE</span>
       </button>
+
+      <a class="platform-btn btn-discord" href="https://discord.gg/PJFWdykGmS" target="_blank" rel="noopener noreferrer">
+        <img src="Icons/discord.png" alt="Discord">
+        <span>JOIN THE<br>IMAGINEERS</span>
+      </a>
     </div>
 
     <!-- Tagline -->
