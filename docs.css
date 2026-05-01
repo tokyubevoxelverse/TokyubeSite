@@ -1,0 +1,201 @@
+@font-face {
+  font-family: 'ArcadeClassic';
+  src: url('fonts/ARCADECLASSIC.TTF') format('truetype');
+}
+* { box-sizing: border-box; }
+html, body {
+  margin: 0;
+  padding: 0;
+  background: #14081c;
+  color: #f5f5fa;
+  font-family: 'ArcadeClassic', monospace;
+  letter-spacing: 1px;
+  word-spacing: 0.25em;
+}
+a { color: #ffaad9; text-decoration: none; }
+a:hover { color: #fff; text-decoration: underline; }
+
+/* ── Header banner ────────────────────────────────────────────────── */
+.doc-header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 28px;
+  color: #fff;
+  border-bottom: 4px solid rgba(0,0,0,0.4);
+  box-shadow: 0 4px 0 rgba(0,0,0,0.3);
+}
+/* Per-page header colors — set with body[data-doc] selectors. */
+body[data-doc="stylizer"]      .doc-header { background: linear-gradient(90deg, #ff7ad4 0%, #ff2db4 100%); border-bottom-color: #d61f95; }
+body[data-doc="creating"]      .doc-header { background: linear-gradient(90deg, #ff8c8c 0%, #ff4d4d 100%); border-bottom-color: #b22222; }
+body[data-doc="in-world"]      .doc-header { background: linear-gradient(90deg, #ffb96b 0%, #ff8c1a 100%); border-bottom-color: #b35400; }
+body[data-doc="collab"]        .doc-header { background: linear-gradient(90deg, #ffd166 0%, #ff8c1a 100%); border-bottom-color: #ad5400; }
+
+.doc-header .doc-title {
+  font-size: 24px;
+  font-weight: bold;
+  text-shadow: 2px 2px 0 rgba(0,0,0,0.5);
+}
+.doc-header .doc-back {
+  background: #fff;
+  color: #000;
+  padding: 10px 18px;
+  font-family: 'ArcadeClassic', monospace;
+  font-weight: bold;
+  letter-spacing: 1px;
+  border: 3px solid #000;
+  box-shadow: 3px 3px 0 #000;
+  text-decoration: none;
+  transition: transform 0.1s, box-shadow 0.1s;
+}
+.doc-header .doc-back:hover {
+  transform: translate(-1px, -1px);
+  box-shadow: 4px 4px 0 #000;
+  text-decoration: none;
+}
+.doc-header .doc-back:active {
+  transform: translate(1px, 1px);
+  box-shadow: 1px 1px 0 #000;
+}
+
+/* ── Layout: TOC + content ────────────────────────────────────────── */
+.doc-layout {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  gap: 32px;
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 28px;
+}
+@media (max-width: 880px) {
+  .doc-layout { grid-template-columns: 1fr; }
+  .doc-toc { position: static !important; max-height: none !important; }
+}
+
+/* Sidebar TOC — accent color matches the menu hue. */
+.doc-toc {
+  position: sticky;
+  top: 92px;
+  align-self: start;
+  max-height: calc(100vh - 120px);
+  overflow-y: auto;
+  border: 2px solid;
+  border-radius: 8px;
+  padding: 16px;
+}
+body[data-doc="stylizer"] .doc-toc { background: rgba(255, 122, 212, 0.10); border-color: #ff2db4; }
+body[data-doc="creating"] .doc-toc { background: rgba(255, 140, 140, 0.10); border-color: #ff4d4d; }
+body[data-doc="in-world"] .doc-toc { background: rgba(255, 185, 107, 0.10); border-color: #ff8c1a; }
+body[data-doc="collab"]   .doc-toc { background: rgba(255, 209, 102, 0.10); border-color: #ff8c1a; }
+
+.doc-toc h2 {
+  margin: 0 0 12px 0;
+  font-size: 16px;
+  letter-spacing: 2px;
+}
+body[data-doc="stylizer"] .doc-toc h2 { color: #ffaad9; }
+body[data-doc="creating"] .doc-toc h2 { color: #ffb3b3; }
+body[data-doc="in-world"] .doc-toc h2 { color: #ffd6a8; }
+body[data-doc="collab"]   .doc-toc h2 { color: #ffe09a; }
+
+.doc-toc ul { list-style: none; padding: 0; margin: 0; }
+.doc-toc li { margin: 6px 0; }
+.doc-toc a {
+  display: block;
+  padding: 6px 8px;
+  font-size: 13px;
+  color: #f5f5fa;
+  border-radius: 4px;
+}
+body[data-doc="stylizer"] .doc-toc a:hover { background: rgba(255,45,180,0.25); color: #fff; text-decoration: none; }
+body[data-doc="creating"] .doc-toc a:hover { background: rgba(255,77,77,0.25);  color: #fff; text-decoration: none; }
+body[data-doc="in-world"] .doc-toc a:hover { background: rgba(255,140,26,0.25); color: #fff; text-decoration: none; }
+body[data-doc="collab"]   .doc-toc a:hover { background: rgba(255,140,26,0.25); color: #fff; text-decoration: none; }
+
+/* Content */
+.doc-content { min-width: 0; }
+.doc-content h1 {
+  font-size: 36px;
+  margin: 0 0 8px 0;
+  text-shadow: 3px 3px 0 #000;
+}
+body[data-doc="stylizer"] .doc-content h1 { color: #ffaad9; }
+body[data-doc="creating"] .doc-content h1 { color: #ffb3b3; }
+body[data-doc="in-world"] .doc-content h1 { color: #ffd6a8; }
+body[data-doc="collab"]   .doc-content h1 { color: #ffe09a; }
+
+.doc-content .doc-lede {
+  font-size: 14px;
+  color: #cfcfd9;
+  max-width: 60ch;
+  margin-bottom: 24px;
+}
+.doc-content section {
+  background: rgba(0,0,0,0.25);
+  border-left: 4px solid;
+  padding: 18px 22px;
+  margin: 18px 0;
+  border-radius: 0 6px 6px 0;
+}
+body[data-doc="stylizer"] .doc-content section { border-left-color: #ff2db4; }
+body[data-doc="creating"] .doc-content section { border-left-color: #ff4d4d; }
+body[data-doc="in-world"] .doc-content section { border-left-color: #ff8c1a; }
+body[data-doc="collab"]   .doc-content section { border-left-color: #ff8c1a; }
+
+.doc-content section h2 {
+  margin-top: 0;
+  letter-spacing: 1.5px;
+  font-size: 22px;
+}
+body[data-doc="stylizer"] .doc-content section h2 { color: #ffaad9; }
+body[data-doc="creating"] .doc-content section h2 { color: #ffb3b3; }
+body[data-doc="in-world"] .doc-content section h2 { color: #ffd6a8; }
+body[data-doc="collab"]   .doc-content section h2 { color: #ffe09a; }
+
+.doc-content section h3 { color: #ffe4f3; letter-spacing: 1px; font-size: 16px; margin-top: 16px; }
+.doc-content p, .doc-content li { font-size: 13px; line-height: 1.6; letter-spacing: 0.5px; color: #e5e5ee; }
+.doc-content ul { padding-left: 22px; }
+.doc-content code, .doc-content kbd {
+  background: #000;
+  color: #ffaad9;
+  padding: 2px 6px;
+  font-size: 12px;
+  border-radius: 3px;
+  letter-spacing: 0.5px;
+}
+.doc-content kbd { border: 1px solid #ff2db4; }
+.doc-content .callout {
+  background: rgba(255,234,150,0.12);
+  border-left: 4px solid #ffd43b;
+  padding: 12px 14px;
+  margin: 14px 0;
+  font-size: 13px;
+}
+.doc-content .callout.warn {
+  background: rgba(255,80,80,0.12);
+  border-left-color: #ff5050;
+}
+.doc-content .callout.planned {
+  background: rgba(120,170,255,0.12);
+  border-left-color: #4aa3ff;
+}
+.doc-content .callout.planned::before {
+  content: "🛠 PLANNED FEATURE — ";
+  font-weight: bold;
+  color: #4aa3ff;
+}
+.doc-content section:target {
+  box-shadow: 0 0 0 3px currentColor, 0 0 24px rgba(255,255,255,0.3);
+}
+
+/* Footer */
+.doc-footer {
+  text-align: center;
+  padding: 28px 12px 60px 12px;
+  color: #888;
+  font-size: 12px;
+}
+.doc-footer a { color: #ffaad9; }

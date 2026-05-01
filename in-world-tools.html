@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>In World Tools — TokyubeVoxelVerse Documentation</title>
+  <link rel="icon" type="image/png" href="Logo.png">
+  <link rel="apple-touch-icon" href="Logo.png">
+  <link rel="stylesheet" href="docs.css">
+</head>
+<body data-doc="in-world">
+  <header class="doc-header">
+    <div class="doc-title">In World Tools — Documentation</div>
+    <a class="doc-back" href="index.html">← BACK TO TOKYUBE.COM</a>
+  </header>
+
+  <div class="doc-layout">
+    <aside class="doc-toc">
+      <h2>Contents</h2>
+      <ul>
+        <li><a href="#overview">Overview</a></li>
+        <li><a href="#building">Building, Mining &amp; Crafting</a></li>
+        <li><a href="#hotbar">Hotbar &amp; Inventory</a></li>
+        <li><a href="#crafting">Crafting Recipes</a></li>
+        <li><a href="#camera-modes">Camera &amp; Movement</a></li>
+        <li><a href="#script-mode">Script Mode</a></li>
+        <li><a href="#component-mode">Component Mode</a></li>
+        <li><a href="#ab-mode">AB Mode</a></li>
+        <li><a href="#tokynode-mode">TokyNode Mode</a></li>
+        <li><a href="#fbx-mode">FBX Attach Mode</a></li>
+        <li><a href="#external-logins">External Logins</a></li>
+        <li><a href="#debug-tools">Debug Tools &amp; Load Character</a></li>
+      </ul>
+    </aside>
+
+    <main class="doc-content">
+      <h1>In World Tools</h1>
+      <p class="doc-lede">
+        Once you're inside a world, the <strong>In-World Tools</strong>
+        govern how you build, code, and shape it. This page walks through
+        every editing mode, the hotbar, and the developer/debug helpers
+        that ship with TokyubeVoxelVerse.
+      </p>
+
+      <section id="overview">
+        <h2>Overview</h2>
+        <p>TokyubeVoxelVerse uses <em>modes</em> instead of separate
+        editor apps. Hold the right modifier key to switch the active
+        mode without leaving the world: blocks, scripts, components,
+        large-scale structures (AB), networked nodes (TokyNode), and
+        external 3D meshes (FBX). Modes are non-exclusive — you stay in
+        first-person camera at all times, the change is in what your
+        click does.</p>
+      </section>
+
+      <section id="building">
+        <h2>Building, Mining and Crafting</h2>
+        <p>The default mode. Left-click breaks a block, right-click
+        places the currently selected hotbar item. Range and break time
+        depend on game mode (instant in Creative, finite in Survival).</p>
+        <ul>
+          <li>Holding shift while breaking lets you fine-target a single
+              block when adjacent voxels overlap.</li>
+          <li>Holding alt while placing previews where the block will go
+              before committing.</li>
+          <li>Mined blocks return to your inventory; in Survival you
+              also drop into a small XP pool used for crafting.</li>
+        </ul>
+      </section>
+
+      <section id="hotbar">
+        <h2>Hotbar &amp; Inventory</h2>
+        <p>The bottom of the screen shows the 10-slot hotbar. The full
+        inventory has 50 slots (10 hotbar + 40 backing inventory).</p>
+        <ul>
+          <li>Mouse wheel cycles through hotbar slots.</li>
+          <li>Number keys <kbd>1</kbd>–<kbd>0</kbd> jump to a specific
+              hotbar slot.</li>
+          <li>Press <kbd>E</kbd> to open the full inventory grid. Drag
+              items between slots; right-click an item stack to split it
+              in half.</li>
+          <li>Each slot caps at 99 items. Picking up beyond the cap
+              spills into the next empty slot.</li>
+        </ul>
+      </section>
+
+      <section id="crafting">
+        <h2>Crafting Recipes</h2>
+        <p>From the inventory grid, the right-side recipe panel lists
+        every recipe you currently have ingredients for. Click a recipe
+        to consume the inputs and place the output in your hotbar.</p>
+        <p>Recipes are scripted — modders can add or override them via
+        Code Blocks (see <a href="#script-mode">Script Mode</a>).</p>
+      </section>
+
+      <section id="camera-modes">
+        <h2>Camera &amp; Movement Modes</h2>
+        <ul>
+          <li><strong>First-person</strong> — default. Mouse aims, WASD
+              moves, space jumps, shift sneaks.</li>
+          <li><strong>Third-person</strong> — toggle with <kbd>F5</kbd>.
+              Camera orbits the player; useful for posing your skin.</li>
+          <li><strong>Fly</strong> — Creative-only. Double-tap space to
+              activate; ascend/descend with space/shift.</li>
+          <li><strong>Aspect-ratio clamp</strong> — third-person view
+              stays bounded inside the visible window so you never lose
+              the player off-screen.</li>
+        </ul>
+      </section>
+
+      <section id="script-mode">
+        <h2>Script Mode</h2>
+        <p>Hold <kbd>Tab</kbd> to enter Script Mode. Your cursor turns
+        into a script-target pointer; click on any voxel, component, or
+        FBX entity to open its Tokyube Code Blocks workspace. From there
+        you can author logic with the visual programming categories
+        (Logic, Loops, Math, Voxel Actions, Triggers, etc.).</p>
+        <p>Scripts persist with the world. Exporting a world includes
+        every script attached to it.</p>
+      </section>
+
+      <section id="component-mode">
+        <h2>Component Mode</h2>
+        <p>Components are reusable, scripted prefabs. Build a thing once
+        — say, a working door, an elevator, or an enemy — then save it
+        as a component and stamp it anywhere. Component Mode opens the
+        component palette where you can:</p>
+        <ul>
+          <li>Browse your library of saved components.</li>
+          <li>Drag a component into the world to instantiate it.</li>
+          <li>Edit the underlying script of the component (changes
+              propagate to every instance).</li>
+          <li>Save a region of voxels + their scripts as a new
+              component.</li>
+        </ul>
+      </section>
+
+      <section id="ab-mode">
+        <h2>AB Mode (Advanced Building)</h2>
+        <p>AB Mode unlocks region-scale operations: copy, paste, fill,
+        replace, mirror, rotate, and randomize across an axis-aligned
+        bounding box.</p>
+        <h3>Workflow</h3>
+        <ol>
+          <li>Press <kbd>B</kbd> to enter AB Mode. Two coordinate cursors
+              appear.</li>
+          <li>Click two corners to define a rectangular prism.</li>
+          <li>Choose an operation: <strong>FILL</strong> with a block
+              type, <strong>COPY</strong> to clipboard, <strong>PASTE</strong>
+              from clipboard at a new position, <strong>REPLACE</strong>
+              every block of type X with type Y, etc.</li>
+          <li>Press <kbd>Enter</kbd> to commit, <kbd>Esc</kbd> to cancel.</li>
+        </ol>
+        <p>AB operations stream as compressed chunk-delta packets to
+        peers in multiplayer, so big paste operations don't flood the
+        network.</p>
+        <div class="callout">AB Mode is the primary tool used in
+        <a href="collaborative-build.html">Collaborative Build Mode</a>;
+        regions are softly locked to the player who started the
+        selection, preventing two collaborators from clobbering each
+        other.</div>
+      </section>
+
+      <section id="tokynode-mode">
+        <h2>TokyNode Mode</h2>
+        <p>TokyNodes are networked, attachable entities. They're the
+        basis for everything from in-world TVs to interactive vehicles
+        and family-tree relationships between objects.</p>
+        <h3>What you can do in TokyNode Mode</h3>
+        <ul>
+          <li><strong>Spawn</strong> a node from the TokyNode library
+              into the world. Spawning broadcasts to all peers.</li>
+          <li><strong>Move</strong> an existing node — its transform
+              syncs at 10Hz unreliable, just like a player position
+              update.</li>
+          <li><strong>Remove</strong> a node — broadcast and removed
+              from the host's authoritative state.</li>
+          <li><strong>Attach</strong> a node to a parent (a player, a
+              voxel, or another node) so they move together. Used for
+              rideable carts, decorative attachments, and family
+              groupings.</li>
+          <li><strong>Family</strong> nodes — a soft-grouping concept
+              that lets several attached children share parameters
+              (e.g., a TV node and its remote controller node behave as
+              one family).</li>
+        </ul>
+        <h3>Why a separate mode</h3>
+        <p>Voxels are local-first; TokyNodes are network-first. Keeping
+        TokyNode operations in their own mode prevents accidental
+        spawning during regular building and gives the multiplayer layer
+        a clean entry point for sync packets.</p>
+        <div class="callout">TokyNode Mode is also where the in-world
+        <strong>TV Control</strong> from TokyPhone routes its commands
+        — controlling a TV node syncs across all connected players via
+        the same packet types <code>tv_state</code> and
+        <code>tv_resync_req</code>.</div>
+      </section>
+
+      <section id="fbx-mode">
+        <h2>FBX Attach Mode</h2>
+        <p>FBX Attach Mode lets you import external .OBJ / .FBX meshes
+        into the world and attach them to voxels, players, or
+        TokyNodes.</p>
+        <ul>
+          <li>Drag-drop an .OBJ or .FBX file onto the world to spawn it
+              at the cursor.</li>
+          <li>Use <kbd>R</kbd>+drag to rotate, <kbd>S</kbd>+drag to
+              scale.</li>
+          <li>Click a mesh and then a target to attach; subsequent
+              transform updates sync to peers.</li>
+        </ul>
+        <p>Attached meshes are saved into the world's
+        <code>entities.json</code> and persist across sessions.</p>
+      </section>
+
+      <section id="external-logins">
+        <h2>External Logins</h2>
+        <p>The bottom-right corner of the title screen surfaces login
+        widgets for the external services Tokyube integrates with:</p>
+        <ul>
+          <li><strong>Steam</strong> — auto-detected when launched
+              through Steam. Powers multiplayer lobbies and account
+              persistence.</li>
+          <li><strong>Discord</strong> — link your Discord account so
+              friends can find you in the in-world TokyubeSocial app.</li>
+          <li><strong>Google / YouTube</strong> — required for the
+              in-world TV Control to play YouTube content via yt-dlp.</li>
+          <li><strong>Xbox</strong> — link for a verified marker on
+              shared content (full Xbox sign-in lands later).</li>
+        </ul>
+      </section>
+
+      <section id="debug-tools">
+        <h2>Debug Tools &amp; Load Character</h2>
+        <p>Press <kbd>F3</kbd> in-world to open the debug panel. The most
+        useful entries:</p>
+        <ul>
+          <li><strong>LOAD CHARACTER</strong> — opens a folder picker.
+              Drop in a TokyTar Stylizer export folder (animated or
+              static) to apply it to your in-world avatar. Frames are
+              detected automatically; the animation runs at the FPS
+              recorded in the manifest.</li>
+          <li><strong>RESPAWN</strong> — moves the player back to the
+              world's spawn coordinates.</li>
+          <li><strong>TIME OF DAY</strong> — set a fixed hour, freeze
+              time, or accelerate the day/night cycle.</li>
+          <li><strong>TOGGLE WIREFRAME</strong> — diagnostic; useful for
+              confirming chunk meshing.</li>
+          <li><strong>NETWORK STATS</strong> — RTT, packet loss, and
+              outbound/inbound rates per peer.</li>
+        </ul>
+        <p>Debug commands are local-only: they affect what you see, not
+        what your peers see (unless explicitly noted, like respawn).</p>
+      </section>
+
+    </main>
+  </div>
+
+  <footer class="doc-footer">
+    <p>Need to file a bug? <a href="index.html#fileBug">Open the bug report on tokyube.com</a>.</p>
+    <p>© DOOM Industries, LLC — TokyubeVoxelVerse Alpha</p>
+  </footer>
+</body>
+</html>

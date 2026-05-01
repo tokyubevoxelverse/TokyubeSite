@@ -512,16 +512,22 @@
     }
 
     /* Pastel Red Submenu */
-    .submenu.creating-worlds-sub .submenu-item {
+    .submenu.creating-worlds-sub .submenu-item,
+    .submenu.creating-worlds-sub a.submenu-item {
       background: #ffb3b3;
       color: #333;
+      text-decoration: none;
     }
+    .submenu.creating-worlds-sub a.submenu-item:visited { color: #333; }
 
     /* Pastel Orange Submenu */
-    .submenu.in-world-tools-sub .submenu-item {
+    .submenu.in-world-tools-sub .submenu-item,
+    .submenu.in-world-tools-sub a.submenu-item {
       background: #ffcc99;
       color: #333;
+      text-decoration: none;
     }
+    .submenu.in-world-tools-sub a.submenu-item:visited { color: #333; }
 
     /* Pastel Yellow Submenu */
     .submenu.code-blocks-sub .submenu-item {
@@ -872,13 +878,20 @@
       <span class="menu-arrow">▶</span>
     </button>
     <div class="submenu creating-worlds-sub" id="creating-worlds-sub">
-      <button class="submenu-item">Creating Worlds</button>
-      <button class="submenu-item">Loading Previous Worlds</button>
-      <button class="submenu-item">Duplicating Worlds</button>
-      <button class="submenu-item">Deleting Worlds</button>
-      <button class="submenu-item">Backing up your Worlds</button>
-      <button class="submenu-item">Hosting Multiplayer Worlds</button>
-      <button class="submenu-item">Joining Multiplayer Worlds</button>
+      <a class="submenu-item" href="creating-worlds.html#overview">Overview</a>
+      <a class="submenu-item" href="creating-worlds.html#creating-worlds">Creating Worlds</a>
+      <a class="submenu-item" href="creating-worlds.html#world-types">World Types &amp; Game Modes</a>
+      <a class="submenu-item" href="creating-worlds.html#world-settings">World Seeds &amp; Generation Settings</a>
+      <a class="submenu-item" href="creating-worlds.html#loading">Loading Previous Worlds</a>
+      <a class="submenu-item" href="creating-worlds.html#duplicating">Duplicating Worlds</a>
+      <a class="submenu-item" href="creating-worlds.html#deleting">Deleting Worlds</a>
+      <a class="submenu-item" href="creating-worlds.html#renaming">Renaming Worlds</a>
+      <a class="submenu-item" href="creating-worlds.html#backing-up">Backing up your Worlds</a>
+      <a class="submenu-item" href="creating-worlds.html#hosting">Hosting Multiplayer Worlds</a>
+      <a class="submenu-item" href="creating-worlds.html#joining">Joining Multiplayer Worlds</a>
+      <a class="submenu-item" href="collaborative-build.html">Collaborative Build Mode</a>
+      <a class="submenu-item" href="creating-worlds.html#world-files">World Save Files &amp; Locations</a>
+      <a class="submenu-item" href="creating-worlds.html#troubleshooting">Troubleshooting Worlds</a>
     </div>
 
     <!-- In World Tools -->
@@ -887,11 +900,18 @@
       <span class="menu-arrow">▶</span>
     </button>
     <div class="submenu in-world-tools-sub" id="in-world-tools-sub">
-      <button class="submenu-item">Building, Mining and Crafting</button>
-      <button class="submenu-item">Script Mode</button>
-      <button class="submenu-item">Component Mode</button>
-      <button class="submenu-item">AB Mode</button>
-      <button class="submenu-item">External Logins</button>
+      <a class="submenu-item" href="in-world-tools.html#overview">Overview</a>
+      <a class="submenu-item" href="in-world-tools.html#building">Building, Mining and Crafting</a>
+      <a class="submenu-item" href="in-world-tools.html#hotbar">Hotbar &amp; Inventory</a>
+      <a class="submenu-item" href="in-world-tools.html#crafting">Crafting Recipes</a>
+      <a class="submenu-item" href="in-world-tools.html#camera-modes">Camera &amp; Movement Modes</a>
+      <a class="submenu-item" href="in-world-tools.html#script-mode">Script Mode</a>
+      <a class="submenu-item" href="in-world-tools.html#component-mode">Component Mode</a>
+      <a class="submenu-item" href="in-world-tools.html#ab-mode">AB Mode (Advanced Building)</a>
+      <a class="submenu-item" href="in-world-tools.html#tokynode-mode">TokyNode Mode</a>
+      <a class="submenu-item" href="in-world-tools.html#fbx-mode">FBX Attach Mode</a>
+      <a class="submenu-item" href="in-world-tools.html#external-logins">External Logins</a>
+      <a class="submenu-item" href="in-world-tools.html#debug-tools">Debug Tools &amp; Load Character</a>
     </div>
 
     <!-- Tokyube Code Blocks -->
@@ -985,6 +1005,7 @@
       <a class="submenu-item" href="tokytar-stylizer.html#part-selection">Part Selection &amp; Visibility</a>
       <a class="submenu-item" href="tokytar-stylizer.html#face-buttons">Six-Face Quick Editing</a>
       <a class="submenu-item" href="tokytar-stylizer.html#texture-upload">Uploading &amp; Downloading Textures</a>
+      <a class="submenu-item" href="tokytar-stylizer.html#uv-guides">UV Guides (Blender / Maya)</a>
       <a class="submenu-item" href="tokytar-stylizer.html#pixel-painting">Pixel Painting</a>
       <a class="submenu-item" href="tokytar-stylizer.html#paint-tools">Paint Tools (Brush, Eraser, Fill)</a>
       <a class="submenu-item" href="tokytar-stylizer.html#brush-sizes">Brush Sizes (S–XXL)</a>
@@ -1201,11 +1222,43 @@
     // Static index — each entry points to a stable anchor in the docs page,
     // so the user gets to the right section without us needing a build step.
     const docsIndex = [
+      // ── Creating Worlds (red menu) ─────────────────────────────────────
+      { title: 'Creating Worlds — Overview',           url: 'creating-worlds.html#overview',          keywords: 'creating worlds overview intro start new world' },
+      { title: 'Creating a New World',                 url: 'creating-worlds.html#creating-worlds',   keywords: 'create new world fresh blank chunk seed name button' },
+      { title: 'World Types & Game Modes',             url: 'creating-worlds.html#world-types',       keywords: 'world types relaxed survival creative game mode peaceful difficulty' },
+      { title: 'World Seeds & Generation Settings',    url: 'creating-worlds.html#world-settings',    keywords: 'seed generation biome procedural settings preset terrain trees' },
+      { title: 'Loading Previous Worlds',              url: 'creating-worlds.html#loading',           keywords: 'load open existing previous worlds menu list resume' },
+      { title: 'Duplicating Worlds',                   url: 'creating-worlds.html#duplicating',       keywords: 'duplicate copy clone world template' },
+      { title: 'Deleting Worlds',                      url: 'creating-worlds.html#deleting',          keywords: 'delete remove erase world purge' },
+      { title: 'Renaming Worlds',                      url: 'creating-worlds.html#renaming',          keywords: 'rename change world name title' },
+      { title: 'Backing Up Your Worlds',               url: 'creating-worlds.html#backing-up',        keywords: 'backup back up copy save folder export world data' },
+      { title: 'Hosting Multiplayer Worlds',           url: 'creating-worlds.html#hosting',           keywords: 'host multiplayer steam lobby public private invite' },
+      { title: 'Joining Multiplayer Worlds',           url: 'creating-worlds.html#joining',           keywords: 'join multiplayer steam friend invite lobby code' },
+      { title: 'Collaborative Build Mode',             url: 'collaborative-build.html',               keywords: 'collaborative build mode multiplayer real time live editing 2 4 players coop together planned upcoming' },
+      { title: 'World Save Files & Locations',         url: 'creating-worlds.html#world-files',       keywords: 'save files folder location voxelversedata directory disk path' },
+      { title: 'Troubleshooting Worlds',               url: 'creating-worlds.html#troubleshooting',   keywords: 'troubleshooting fix problems worlds wont load corrupted save crash' },
+
+      // ── In-World Tools (orange menu) ───────────────────────────────────
+      { title: 'In World Tools — Overview',            url: 'in-world-tools.html#overview',           keywords: 'in world tools overview building hotbar tools' },
+      { title: 'Building, Mining and Crafting',        url: 'in-world-tools.html#building',           keywords: 'build place break mine pickaxe blocks voxel craft' },
+      { title: 'Hotbar & Inventory',                   url: 'in-world-tools.html#hotbar',             keywords: 'hotbar inventory slots block items 50 slots scroll' },
+      { title: 'Crafting Recipes',                     url: 'in-world-tools.html#crafting',           keywords: 'craft recipe combine items workbench' },
+      { title: 'Camera & Movement Modes',              url: 'in-world-tools.html#camera-modes',       keywords: 'camera first person third person fly walk movement controls keys' },
+      { title: 'Script Mode',                          url: 'in-world-tools.html#script-mode',        keywords: 'script mode tokyube code blocks blockly programming logic events' },
+      { title: 'Component Mode',                       url: 'in-world-tools.html#component-mode',     keywords: 'component mode reusable scripted prefab spawn template' },
+      { title: 'AB Mode (Advanced Building)',          url: 'in-world-tools.html#ab-mode',            keywords: 'ab mode advanced building large scale region copy paste rectangle prism shape' },
+      { title: 'TokyNode Mode',                        url: 'in-world-tools.html#tokynode-mode',      keywords: 'tokynode mode networked nodes multiplayer attachable family node entity' },
+      { title: 'FBX Attach Mode',                      url: 'in-world-tools.html#fbx-mode',           keywords: 'fbx attach external mesh model import 3d rig' },
+      { title: 'External Logins',                      url: 'in-world-tools.html#external-logins',    keywords: 'external logins steam discord google youtube xbox sign in' },
+      { title: 'Debug Tools & Load Character',         url: 'in-world-tools.html#debug-tools',        keywords: 'debug tools load character avatar skin folder testing dev panel' },
+
+      // ── TokyTar Stylizer (pink menu) ───────────────────────────────────
       { title: 'TokyTar Stylizer — Overview',          url: 'tokytar-stylizer.html',                  keywords: 'tokytar stylizer character builder design avatars overview intro getting started' },
       { title: 'Camera Controls, Rotation & Zoom',      url: 'tokytar-stylizer.html#camera-controls',  keywords: 'rotate rotation zoom drag move character view camera angle slider snap reset top front back left right' },
       { title: 'Part Selection & Visibility Toggles',   url: 'tokytar-stylizer.html#part-selection',   keywords: 'head body left arm right arm select part visibility hide show toggle invisibility invisible' },
       { title: 'Six-Face Quick Editing',                url: 'tokytar-stylizer.html#face-buttons',     keywords: 'six faces front back left right top bottom 6 buttons quick design face cube edit per face' },
-      { title: 'Uploading & Downloading Textures',      url: 'tokytar-stylizer.html#texture-upload',   keywords: 'upload texture png import download export texture uv guide' },
+      { title: 'Uploading & Downloading Textures',      url: 'tokytar-stylizer.html#texture-upload',   keywords: 'upload texture png import download export texture' },
+      { title: 'UV Guides (Blender / Maya Workflow)',    url: 'tokytar-stylizer.html#uv-guides',        keywords: 'uv guide head body left arm right arm blender maya photoshop aseprite professional workflow texture template label face cube layout download obj roundtrip pro' },
       { title: 'Pixel Painting',                        url: 'tokytar-stylizer.html#pixel-painting',   keywords: 'pixel paint brush pixel art draw direct paintbrush onion grid live edit' },
       { title: 'Paint Tools (Brush, Eraser, Fill)',     url: 'tokytar-stylizer.html#paint-tools',      keywords: 'brush eraser fill bucket flood paint tool tools toggle' },
       { title: 'Brush Sizes (S, M, L, XL, XXL)',        url: 'tokytar-stylizer.html#brush-sizes',      keywords: 'brush size s m l xl xxl small medium large extra large pixel size' },

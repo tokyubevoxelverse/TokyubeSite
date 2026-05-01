@@ -205,6 +205,7 @@
         <li><a href="#part-selection">Part Selection &amp; Visibility</a></li>
         <li><a href="#face-buttons">Six-Face Quick Editing</a></li>
         <li><a href="#texture-upload">Uploading &amp; Downloading Textures</a></li>
+        <li><a href="#uv-guides">UV Guides (Blender / Maya)</a></li>
         <li><a href="#pixel-painting">Pixel Painting</a></li>
         <li><a href="#paint-tools">Paint Tools</a></li>
         <li><a href="#brush-sizes">Brush Sizes</a></li>
@@ -309,11 +310,103 @@
               as a PNG so you can edit it externally.</li>
           <li><strong>DOWNLOAD UV GUIDE</strong> — exports a labeled UV
               template for that part. Open the PNG in any pixel editor as a
-              reference layer.</li>
+              reference layer (more on this in the next section).</li>
         </ul>
         <div class="callout">Uploads commit to the <em>currently selected
         frame</em> of the part. When working on animated characters, switch to
         the right frame before importing.</div>
+      </section>
+
+      <section id="uv-guides">
+        <h2>UV Guides — Blender / Maya / Pro Workflow</h2>
+        <p>Every part of the Tokyube avatar ships with a labeled UV guide
+        you can download from the part's submenu. The guides are exported
+        from the same UV layout the in-app paint canvas uses, so anything
+        you draw inside the labeled regions lands on the correct face of
+        the cube model in-game.</p>
+
+        <h3>What the four guides cover</h3>
+        <ul>
+          <li><strong>HeadUVGuide.png</strong> — six-face cube layout for
+              the head (front, back, left, right, top, bottom).</li>
+          <li><strong>BodyUVGuide.png</strong> — six-face cube layout for
+              the torso, including the shoulder and waist seams.</li>
+          <li><strong>LeftArmUVGuide.png</strong> — six-face cube layout
+              for the left arm (your character's left, viewer's right).</li>
+          <li><strong>RightArmUVGuide.png</strong> — six-face cube layout
+              for the right arm.</li>
+        </ul>
+
+        <h3>Why pros download them</h3>
+        <p>The DOWNLOAD UV GUIDE button gives serious creators a clean
+        starting point for editing skins outside Tokyube. The 2048×2048
+        guide PNG ships with crisp face borders and per-face labels so
+        you can build pixel-perfect skins in Photoshop, Aseprite, Krita,
+        or — more importantly — line up your in-app paint with high-res
+        renders done in Blender or Maya.</p>
+
+        <h3>Blender workflow</h3>
+        <ol>
+          <li>Click <strong>DOWNLOAD UV GUIDE</strong> for the part you
+              want to edit. Save it somewhere reachable (e.g.
+              <code>~/projects/skins/HeadUVGuide.png</code>).</li>
+          <li>Click <strong>DOWNLOAD OBJ</strong> to grab the avatar mesh
+              with your current textures baked in.</li>
+          <li>In Blender, <em>File → Import → Wavefront (.obj)</em> and
+              select the OBJ. The materials should auto-attach.</li>
+          <li>Open the <em>Shading</em> workspace. Replace the texture
+              node's image with the UV Guide PNG so you can see the face
+              regions while modeling. Tip: use the <em>Image Texture
+              Interpolation: Closest</em> setting so pixel boundaries
+              stay crisp.</li>
+          <li>Switch to the <em>UV Editing</em> workspace and verify the
+              UVs land on the labeled regions. They should — the guide is
+              generated from the same layout — but it's a sanity check.</li>
+          <li>Paint or edit in Blender's Texture Paint mode (or in an
+              external editor like Photoshop using Blender as a preview),
+              save the resulting PNG, and re-import it via the Stylizer's
+              <strong>UPLOAD TEXTURE</strong> button.</li>
+        </ol>
+
+        <h3>Maya workflow</h3>
+        <ol>
+          <li>Download the UV guide and the OBJ as above.</li>
+          <li>In Maya, <em>File → Import</em> the OBJ. The mesh comes in
+              with the model named per-part (head, body, left/right arm)
+              so you can isolate one part at a time.</li>
+          <li>Open <em>Window → UV Editor</em>. Set the editor's image
+              to the UV guide PNG to overlay the labeled face regions on
+              the actual UV islands.</li>
+          <li>Use <em>3D Paint Tool</em> or PSD networks (Hypershade →
+              File node) to author the skin. Maya's PSD network is
+              especially handy for layered animation cycles — you can
+              keep each frame as a separate Photoshop layer and export
+              one PNG per layer for the Stylizer's frames panel.</li>
+          <li>Save each finished frame as a 2048×2048 PNG named
+              <code>head_frame_1.png</code>, <code>head_frame_2.png</code>,
+              etc., then drop the whole folder onto the Stylizer's
+              <strong>LOAD FOLDER</strong> button to roundtrip the
+              animation back in.</li>
+        </ol>
+
+        <h3>Tips for high-end skins</h3>
+        <ul>
+          <li>Stick to power-of-two textures (1024 or 2048 square). Tokyube
+              uses NEAREST filtering so anti-aliased upscales lose their
+              softness; design at the resolution you'll ship at.</li>
+          <li>Keep the labeled face borders <em>visible</em> in your
+              working file but on a separate layer you can hide before
+              flattening — accidentally exporting the labels into the
+              final skin happens more often than you'd think.</li>
+          <li>For animated avatars built in Blender/Maya, name your
+              frames with explicit numbers (<code>_frame_1</code>,
+              <code>_frame_2</code>, …) — the loader sorts on those
+              numbers, not file modification time.</li>
+          <li>The Stylizer's <strong>DOWNLOAD TEXTURE</strong> button
+              gives you the current frame back at full resolution so you
+              can roundtrip in-engine paint into your DCC of choice without
+              losing fidelity.</li>
+        </ul>
       </section>
 
       <section id="pixel-painting">
