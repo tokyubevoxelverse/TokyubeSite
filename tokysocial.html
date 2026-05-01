@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TokySocial — TokyubeVoxelVerse Documentation</title>
+  <link rel="icon" type="image/png" href="Logo.png">
+  <link rel="apple-touch-icon" href="Logo.png">
+  <link rel="stylesheet" href="docs.css">
+</head>
+<body data-doc="tokysocial">
+  <header class="doc-header">
+    <div class="doc-title">TokySocial — Documentation</div>
+    <a class="doc-back" href="index.html">← BACK TO TOKYUBE.COM</a>
+  </header>
+
+  <div class="doc-layout">
+    <aside class="doc-toc">
+      <h2>Contents</h2>
+      <ul>
+        <li><a href="#overview">Overview</a></li>
+        <li><a href="#vision">Why TokySocial</a></li>
+        <li><a href="#feed">In-Game Feed</a></li>
+        <li><a href="#posting">Posting From In-World</a></li>
+        <li><a href="#profiles">Profiles &amp; Verified</a></li>
+        <li><a href="#friends">Friends &amp; DMs</a></li>
+        <li><a href="#discovery">Discovery &amp; Tags</a></li>
+        <li><a href="#stories">Stories &amp; Reels (Planned)</a></li>
+        <li><a href="#creator-tools">Creator Tools (Planned)</a></li>
+        <li><a href="#monetization">Monetization (Planned)</a></li>
+        <li><a href="#moderation">Moderation &amp; Safety</a></li>
+        <li><a href="#roadmap">Roadmap</a></li>
+      </ul>
+    </aside>
+
+    <main class="doc-content">
+      <h1>TokySocial</h1>
+      <p class="doc-lede">
+        TokySocial is the in-engine, in-phone social media experience for
+        TokyubeVoxelVerse. It's where creators show their builds, stream
+        screenshots and clips of in-game moments, follow other players,
+        DM friends, and grow an audience for the worlds they make —
+        without ever leaving the game.
+      </p>
+
+      <section id="overview">
+        <h2>Overview</h2>
+        <p>TokySocial sits behind the
+        <a href="tokyphone.html#app-tokyubesocial">TokyubeSocial</a>
+        icon on TokyPhone. The feed, profile, and DM features are also
+        accessible from the in-world TokySocial overlay (bottom-right
+        corner of the title screen, as part of the social login widget
+        cluster).</p>
+        <p>It is built on the same Supabase-backed Tokyube platform that
+        powers Friends, Avatars, and Profiles — so your TokySocial
+        identity, follower graph, and post history travel with your
+        Steam ID across machines.</p>
+      </section>
+
+      <section id="vision">
+        <h2>Why TokySocial</h2>
+        <p>Players already capture and share their best in-game moments
+        — they just have to leave the game to do it. They open Discord,
+        Reddit, X, Instagram, or YouTube; they juggle screenshot
+        folders, video editors, and external platforms that have nothing
+        to do with the game they're playing.</p>
+        <p>TokySocial closes that loop. The capture happens in-engine,
+        the post happens in-engine, the audience that sees it is also
+        in-engine — actively building, playing, and creating in
+        TokyubeVoxelVerse. That tightens the creator-to-audience cycle
+        in ways external platforms simply can't:</p>
+        <ul>
+          <li>A screenshot links directly to the world it was taken in.
+              Tap and you can join (if the host allows) and stand where
+              the photo was taken.</li>
+          <li>A scripted-game post can include the script's
+              <strong>Saved Scripts Library</strong> entry — readers
+              copy it into a free slot and run it themselves.</li>
+          <li>A character pose can ship the avatar payload along with
+              it so other creators can study or remix the skin.</li>
+          <li>A TokyNode showcase can include the actual node — viewers
+              import it into their library with one tap.</li>
+        </ul>
+        <p>Every post is, optionally, a working demo. That's the
+        difference between in-engine social and the social
+        infrastructure most platforms use.</p>
+      </section>
+
+      <section id="feed">
+        <h2>In-Game Feed</h2>
+        <p>The default view of TokySocial. Posts from people you follow
+        rendered as a vertical scroll, infinite-scroll style.</p>
+        <ul>
+          <li><strong>Image posts</strong> — screenshot from the
+              in-world Camera or imported from your Gallery.</li>
+          <li><strong>Video posts</strong> — short captures, eventually
+              up to 60-second reels (planned).</li>
+          <li><strong>World posts</strong> — a card linking to a
+              specific world; tap to join if the host allows.</li>
+          <li><strong>Build posts</strong> — image plus an optional
+              attached TokyNode/Family/Component the viewer can import.</li>
+          <li><strong>Script posts</strong> — image plus a Saved Scripts
+              Library entry to copy.</li>
+        </ul>
+        <p>Likes, comments, shares, and saves are all available on every
+        post type. Reactions sync via the same Supabase backend used by
+        the rest of the Tokyube social graph.</p>
+      </section>
+
+      <section id="posting">
+        <h2>Posting From In-World</h2>
+        <p>Three ways to post:</p>
+        <ol>
+          <li><strong>Camera → Share.</strong> The TokyPhone Camera app
+              has a "Share to TokySocial" action right after capture.</li>
+          <li><strong>Gallery → Share.</strong> Any saved screenshot or
+              imported image can be promoted to a post.</li>
+          <li><strong>Direct compose.</strong> The TokySocial app has a
+              compose button that opens a fresh draft — pick a media
+              source, write a caption, optionally attach a node or
+              script, hit post.</li>
+        </ol>
+        <p>Drafts auto-save to your account so you can start a post on
+        one machine and finish it on another.</p>
+      </section>
+
+      <section id="profiles">
+        <h2>Profiles &amp; Verified</h2>
+        <p>Every Tokyube account already has a profile (the same one
+        Friends and the in-world social cards use). TokySocial extends
+        it with:</p>
+        <ul>
+          <li>A pinned post (your best build, your most-played world,
+              etc).</li>
+          <li>A grid of recent posts.</li>
+          <li>Follower / following counts.</li>
+          <li>A "build with me" status that links to your currently
+              hosted world (if any).</li>
+          <li><strong>Verified</strong> markers for studios, partners,
+              and high-trust creators — set via the
+              <code>setVerified</code> admin endpoint.</li>
+        </ul>
+      </section>
+
+      <section id="friends">
+        <h2>Friends &amp; DMs</h2>
+        <p>The same Tokyube friend graph powers TokySocial follows and
+        DMs. A Tokyube friend is automatically followed; a DM with a
+        Tokyube friend opens the same thread you'd see in
+        <a href="tokyphone.html#app-messages">Messages</a>.</p>
+        <p>You can follow non-friends too — following is a one-way
+        action that puts their posts in your feed without requiring
+        mutual approval.</p>
+      </section>
+
+      <section id="discovery">
+        <h2>Discovery &amp; Tags</h2>
+        <p>The Discovery tab surfaces posts beyond your follow graph.
+        Algorithms (planned) will weight by:</p>
+        <ul>
+          <li>Trending tags in the last 24 hours.</li>
+          <li>Posts from people your friends follow.</li>
+          <li>Posts attached to worlds with high concurrent player counts.</li>
+          <li>Verified creators you don't follow yet.</li>
+        </ul>
+        <p>Tags are free-form (user-supplied, hash-prefixed). The
+        tagging system is shared with the marketplace so a
+        <code>#vehicle</code> post about a TokyNode shows up alongside
+        marketplace listings for vehicles.</p>
+      </section>
+
+      <section id="stories">
+        <h2>Stories &amp; Reels (Planned)</h2>
+        <div class="callout planned">Stories and Reels are on the
+        roadmap — Instagram-style ephemeral and short-form video
+        formats native to TokySocial.</div>
+        <ul>
+          <li><strong>Stories</strong> — 24-hour rotating images and
+              short clips that show at the top of the feed. Useful for
+              "currently building" peeks without committing to a permanent
+              post.</li>
+          <li><strong>Reels</strong> — short (≤60s) video captures with
+              music and a caption. The capture pipeline reuses the
+              Camera app's video recorder; reels render with a vertical
+              9:16 crop optimized for TokyPhone playback.</li>
+          <li><strong>Story Polls / Reactions</strong> — quick
+              interactions (yes/no, this/that) that light up a
+              creator's audience without requiring a comment thread.</li>
+          <li><strong>Highlights</strong> — pin past stories to your
+              profile in a horizontally-scrollable strip.</li>
+        </ul>
+      </section>
+
+      <section id="creator-tools">
+        <h2>Creator Tools (Planned)</h2>
+        <div class="callout planned">A creator dashboard for users who
+        actively post is on the roadmap.</div>
+        <ul>
+          <li><strong>Insights.</strong> Per-post reach, engagement
+              rate, follower growth, and best-time-to-post charts.</li>
+          <li><strong>Scheduled posts.</strong> Queue up posts for
+              specific times (great for global audiences across
+              timezones).</li>
+          <li><strong>Cross-posting.</strong> Optional pipe to mirror
+              posts to Discord, X, or YouTube Shorts when you want a
+              wider net.</li>
+          <li><strong>Collabs.</strong> Tag a friend as a co-creator;
+              the post appears in both profiles' grids and counts as
+              a co-authored asset for marketplace splits.</li>
+          <li><strong>Drafts vault.</strong> Multi-platform draft
+              storage so a post-in-progress lives on Tokyube's backend,
+              not your local disk.</li>
+        </ul>
+      </section>
+
+      <section id="monetization">
+        <h2>Monetization (Planned)</h2>
+        <div class="callout planned">Creator monetization on TokySocial
+        is targeted post-Alpha. The hooks already exist — Wallet,
+        TokyTokinz, the marketplace — but the social-side
+        monetization features are still in design.</div>
+        <ul>
+          <li><strong>Tipping.</strong> Send TokyTokinz on any post or
+              profile. The creator chooses whether tips go to their
+              Wallet or a charity wallet.</li>
+          <li><strong>Paid follows.</strong> Optional creator-tier
+              follows that unlock subscriber-only posts.</li>
+          <li><strong>Marketplace links.</strong> Promote a node,
+              component, or world for sale directly from a post; the
+              CTA opens the Shop deep-linked to the listing.</li>
+          <li><strong>Sponsored posts.</strong> Brand partnerships will
+              be clearly labelled and opt-in for both the creator and
+              the viewer.</li>
+        </ul>
+      </section>
+
+      <section id="moderation">
+        <h2>Moderation &amp; Safety</h2>
+        <ul>
+          <li><strong>Report flow.</strong> Any post, profile, or DM
+              can be reported with one tap. Reports queue into the
+              Tokyube moderation backend and are reviewed by the
+              DOOM Industries team.</li>
+          <li><strong>Block / mute.</strong> Block hides their posts
+              and prevents DMs; mute hides posts but keeps the friend
+              link.</li>
+          <li><strong>Word filters.</strong> Per-account word filters
+              hide posts and comments containing your chosen tokens.</li>
+          <li><strong>Underage protection.</strong> Accounts flagged as
+              minors get safer defaults: closed DMs except to friends,
+              no monetization features, stricter discovery filters.</li>
+          <li><strong>Verified ID for sellers.</strong> Anyone who
+              wants to monetize on TokySocial completes a verified ID
+              flow. Receivers always know whether the account they're
+              tipping or paying has been verified.</li>
+        </ul>
+      </section>
+
+      <section id="roadmap">
+        <h2>Roadmap</h2>
+        <p>Roughly ordered by what we're building first:</p>
+        <ol>
+          <li><strong>Alpha (now).</strong> Profiles, friends, DMs,
+              text+image posts, like/comment, follow graph, basic feed.</li>
+          <li><strong>Alpha + 1.</strong> Video posts, reels recorder
+              in the Camera app, share-from-Gallery shortcut.</li>
+          <li><strong>Alpha + 2.</strong> Stories, hashtags, Discovery
+              tab, trending sort.</li>
+          <li><strong>Beta.</strong> Creator dashboard, scheduled
+              posts, insights.</li>
+          <li><strong>Beta + 1.</strong> Tipping, paid follows,
+              marketplace deep-links.</li>
+          <li><strong>Post-launch.</strong> Live streams (in-engine
+              broadcasting), Story Polls, cross-posting integrations,
+              creator collabs.</li>
+        </ol>
+        <div class="callout">Want to weigh in on the roadmap? Join the
+        <a href="https://discord.gg/PJFWdykGmS">Discord</a> and post in
+        <code>#tokysocial-feedback</code>.</div>
+      </section>
+
+    </main>
+  </div>
+
+  <footer class="doc-footer">
+    <p>Need to file a bug? <a href="index.html#fileBug">Open the bug report on tokyube.com</a>.</p>
+    <p>© DOOM Industries, LLC — TokyubeVoxelVerse Alpha</p>
+  </footer>
+</body>
+</html>

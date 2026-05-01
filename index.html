@@ -539,10 +539,29 @@
     .submenu.code-blocks-sub a.submenu-item:visited { color: #333; }
 
     /* Pastel Green Submenu */
-    .submenu.tokyphone-sub .submenu-item {
+    .submenu.tokyphone-sub .submenu-item,
+    .submenu.tokyphone-sub a.submenu-item {
       background: #b3e5b3;
       color: #333;
+      text-decoration: none;
     }
+    .submenu.tokyphone-sub a.submenu-item:visited { color: #333; }
+
+    /* Pastel Mint TokyNodes submenu */
+    .submenu.tokynodes-sub a.submenu-item {
+      background: #c2f0d8;
+      color: #1a3a2a;
+      text-decoration: none;
+    }
+    .submenu.tokynodes-sub a.submenu-item:visited { color: #1a3a2a; }
+
+    /* Pastel Purple TokySocial submenu */
+    .submenu.tokysocial-sub a.submenu-item {
+      background: #e0d0ff;
+      color: #2a1a3a;
+      text-decoration: none;
+    }
+    .submenu.tokysocial-sub a.submenu-item:visited { color: #2a1a3a; }
 
     /* Menu trigger area (right edge of screen) */
     .menu-trigger {
@@ -958,36 +977,53 @@
       <span class="menu-arrow">▶</span>
     </button>
     <div class="submenu tokyphone-sub" id="tokyphone-sub">
-      <button class="submenu-item">Messages</button>
-      <button class="submenu-item">Shop</button>
-      <button class="submenu-item">Notes</button>
-      <button class="submenu-item">TV Control</button>
-      <button class="submenu-item">Friends</button>
-      <button class="submenu-item">Weather</button>
-      <button class="submenu-item">Browser</button>
-      <button class="submenu-item">Music</button>
-      <button class="submenu-item">TokyubeSocial</button>
-      <button class="submenu-item">Camera</button>
-      <button class="submenu-item">Wallet</button>
-      <button class="submenu-item">Settings</button>
-      <button class="submenu-item">Calendar</button>
-      <button class="submenu-item">Alarm</button>
-      <button class="submenu-item">Calls</button>
-      <button class="submenu-item">Calculator</button>
-      <button class="submenu-item">Gallery</button>
-      <button class="submenu-item">Debug</button>
-      <button class="submenu-item">GoPeepGo</button>
-      <button class="submenu-item">Cube Ninja</button>
-      <button class="submenu-item">TokyRoad</button>
-      <button class="submenu-item">Fish!</button>
+      <a class="submenu-item" href="tokyphone.html">Overview</a>
+      <a class="submenu-item" href="tokyphone.html#opening">Opening &amp; Navigation</a>
+      <a class="submenu-item" href="tokyphone.html#controls">Universal Controls</a>
+      <a class="submenu-item" href="tokyphone.html#app-messages">Messages</a>
+      <a class="submenu-item" href="tokyphone.html#app-shop">Shop</a>
+      <a class="submenu-item" href="tokyphone.html#app-notes">Notes</a>
+      <a class="submenu-item" href="tokyphone.html#app-tv">TV Control</a>
+      <a class="submenu-item" href="tokyphone.html#app-friends">Friends</a>
+      <a class="submenu-item" href="tokyphone.html#app-weather">Weather</a>
+      <a class="submenu-item" href="tokyphone.html#app-browser">Browser</a>
+      <a class="submenu-item" href="tokyphone.html#app-music">Music</a>
+      <a class="submenu-item" href="tokyphone.html#app-tokyubesocial">TokyubeSocial</a>
+      <a class="submenu-item" href="tokyphone.html#app-camera">Camera</a>
+      <a class="submenu-item" href="tokyphone.html#app-wallet">Wallet</a>
+      <a class="submenu-item" href="tokyphone.html#app-settings">Settings</a>
+      <a class="submenu-item" href="tokyphone.html#app-calendar">Calendar</a>
+      <a class="submenu-item" href="tokyphone.html#app-alarm">Alarm</a>
+      <a class="submenu-item" href="tokyphone.html#app-calls">Calls</a>
+      <a class="submenu-item" href="tokyphone.html#app-calculator">Calculator</a>
+      <a class="submenu-item" href="tokyphone.html#app-gallery">Gallery</a>
+      <a class="submenu-item" href="tokyphone.html#app-debug">Debug</a>
+      <a class="submenu-item" href="tokyphone.html#app-tokynodes">TokyNodes (in-phone)</a>
+      <a class="submenu-item" href="tokyphone.html#app-gopeepgo">GoPeepGo</a>
+      <a class="submenu-item" href="tokyphone.html#app-cubeninja">Cube Ninja</a>
+      <a class="submenu-item" href="tokyphone.html#app-tokyroad">TokyRoad</a>
+      <a class="submenu-item" href="tokyphone.html#app-fish">Fish!</a>
     </div>
 
-    <!-- TokyNodes (placeholder — submenu items coming later) -->
+    <!-- TokyNodes — full doc page covering nodes + families. -->
     <button class="menu-item tokynodes" data-menu="tokynodes">
       <span>TokyNodes</span>
       <span class="menu-arrow">▶</span>
     </button>
-    <div class="submenu tokynodes-sub" id="tokynodes-sub"></div>
+    <div class="submenu tokynodes-sub" id="tokynodes-sub">
+      <a class="submenu-item" href="tokynodes.html">Overview</a>
+      <a class="submenu-item" href="tokynodes.html#mission">The Cross-World Mission</a>
+      <a class="submenu-item" href="tokynodes.html#what-is-a-tokynode">What Is a TokyNode</a>
+      <a class="submenu-item" href="tokynodes.html#families">TokyNode Families</a>
+      <a class="submenu-item" href="tokynodes.html#cross-world">Cross-World Persistence</a>
+      <a class="submenu-item" href="tokynodes.html#networking">Networking &amp; Sync</a>
+      <a class="submenu-item" href="tokynodes.html#authoring">Authoring TokyNodes</a>
+      <a class="submenu-item" href="tokynodes.html#attaching">Attaching &amp; Hierarchy</a>
+      <a class="submenu-item" href="tokynodes.html#scripting">Scripting TokyNodes</a>
+      <a class="submenu-item" href="tokynodes.html#library">TokyNode Library</a>
+      <a class="submenu-item" href="tokynodes.html#tokyphone-app">TokyNodes Phone App</a>
+      <a class="submenu-item" href="tokynodes.html#troubleshooting">Troubleshooting</a>
+    </div>
 
     <!-- TokyTokinz -->
     <button class="menu-item tokytokinz" data-menu="tokytokinz">
@@ -1001,7 +1037,20 @@
       <span>TokySocial</span>
       <span class="menu-arrow">▶</span>
     </button>
-    <div class="submenu tokysocial-sub" id="tokysocial-sub"></div>
+    <div class="submenu tokysocial-sub" id="tokysocial-sub">
+      <a class="submenu-item" href="tokysocial.html">Overview</a>
+      <a class="submenu-item" href="tokysocial.html#vision">Why TokySocial</a>
+      <a class="submenu-item" href="tokysocial.html#feed">In-Game Feed</a>
+      <a class="submenu-item" href="tokysocial.html#posting">Posting From In-World</a>
+      <a class="submenu-item" href="tokysocial.html#profiles">Profiles &amp; Verified</a>
+      <a class="submenu-item" href="tokysocial.html#friends">Friends &amp; DMs</a>
+      <a class="submenu-item" href="tokysocial.html#discovery">Discovery &amp; Tags</a>
+      <a class="submenu-item" href="tokysocial.html#stories">Stories &amp; Reels (Planned)</a>
+      <a class="submenu-item" href="tokysocial.html#creator-tools">Creator Tools (Planned)</a>
+      <a class="submenu-item" href="tokysocial.html#monetization">Monetization (Planned)</a>
+      <a class="submenu-item" href="tokysocial.html#moderation">Moderation &amp; Safety</a>
+      <a class="submenu-item" href="tokysocial.html#roadmap">Roadmap</a>
+    </div>
 
     <!-- TokyTar Stylizer — opens the docs hub in its own page. -->
     <button class="menu-item tokytar-stylizer" data-menu="tokytar-stylizer">
@@ -1260,6 +1309,61 @@
       { title: 'FBX Attach Mode',                      url: 'in-world-tools.html#fbx-mode',           keywords: 'fbx attach external mesh model import 3d rig' },
       { title: 'External Logins',                      url: 'in-world-tools.html#external-logins',    keywords: 'external logins steam discord google youtube xbox sign in' },
       { title: 'Debug Tools & Load Character',         url: 'in-world-tools.html#debug-tools',        keywords: 'debug tools load character avatar skin folder testing dev panel' },
+
+      // ── TokyNodes (mint green menu) ────────────────────────────────────
+      { title: 'TokyNodes — Overview',                   url: 'tokynodes.html',                          keywords: 'tokynodes overview cross world persistent networked attachable items families introduction' },
+      { title: 'TokyNodes — Cross-World Mission',        url: 'tokynodes.html#mission',                  keywords: 'cross world mission inventory bounds platform restriction abolish ownership account scope creator' },
+      { title: 'What Is a TokyNode',                     url: 'tokynodes.html#what-is-a-tokynode',       keywords: 'what is tokynode mesh script attach point networked entity unique id' },
+      { title: 'TokyNode Families',                      url: 'tokynodes.html#families',                 keywords: 'tokynode families root member attachable role atomic spawn delete coordinated scripting cross world transfer' },
+      { title: 'TokyNodes — Cross-World Persistence',    url: 'tokynodes.html#cross-world',              keywords: 'cross world persistence supabase steam id account scope content addressed asset library import opt in open allowlist closed' },
+      { title: 'TokyNodes — Networking & Sync',          url: 'tokynodes.html#networking',               keywords: 'networking sync tokynode_spawn tokynode_remove tokynode_move 10hz host authoritative' },
+      { title: 'TokyNodes — Authoring',                  url: 'tokynodes.html#authoring',                keywords: 'authoring tokynode voxel structure ab mode promote external mesh fbx obj' },
+      { title: 'TokyNodes — Attaching & Hierarchy',      url: 'tokynodes.html#attaching',                keywords: 'attaching hierarchy parent child vehicle wheels tv remote wearables hat bone' },
+      { title: 'TokyNodes — Scripting',                  url: 'tokynodes.html#scripting',                keywords: 'scripting tokynode typed variables family events cross world identity' },
+      { title: 'TokyNode Library',                       url: 'tokynodes.html#library',                  keywords: 'tokynode library browse sort tag spawn metadata trade gift marketplace' },
+      { title: 'TokyNodes Phone App',                    url: 'tokynodes.html#tokyphone-app',            keywords: 'tokynodes phone app spawn library client first person' },
+
+      // ── TokyPhone (green menu) ─────────────────────────────────────────
+      { title: 'TokyPhone — Overview',                   url: 'tokyphone.html',                          keywords: 'tokyphone overview phone apps launcher utilities connected mini games' },
+      { title: 'TokyPhone — Opening & Navigation',       url: 'tokyphone.html#opening',                  keywords: 'opening close phone p key navigation home grid app launcher xbox view menu playstation touchpad' },
+      { title: 'TokyPhone — Universal Controls',         url: 'tokyphone.html#controls',                 keywords: 'universal controls phone keyboard xbox playstation gamepad scroll confirm cancel keyboard on screen text fields' },
+      { title: 'TokyPhone — Messages',                   url: 'tokyphone.html#app-messages',             keywords: 'messages app dm thread send tutorial bot' },
+      { title: 'TokyPhone — Shop',                       url: 'tokyphone.html#app-shop',                 keywords: 'shop marketplace tokytokinz buy items' },
+      { title: 'TokyPhone — Notes',                      url: 'tokyphone.html#app-notes',                keywords: 'notes app text scratch save account' },
+      { title: 'TokyPhone — TV Control',                 url: 'tokyphone.html#app-tv',                   keywords: 'tv control video play pause seek volume url playlist youtube mp4' },
+      { title: 'TokyPhone — Friends',                    url: 'tokyphone.html#app-friends',              keywords: 'friends list tokyube steam request profile dm' },
+      { title: 'TokyPhone — Weather',                    url: 'tokyphone.html#app-weather',              keywords: 'weather forecast biome temperature condition celsius fahrenheit' },
+      { title: 'TokyPhone — Browser',                    url: 'tokyphone.html#app-browser',              keywords: 'browser web url back forward reload in phone' },
+      { title: 'TokyPhone — Music',                      url: 'tokyphone.html#app-music',                keywords: 'music playlist play pause shuffle next previous volume soundtrack' },
+      { title: 'TokyPhone — TokyubeSocial',              url: 'tokyphone.html#app-tokyubesocial',        keywords: 'tokyubesocial in phone shortcut feed like comment share dm' },
+      { title: 'TokyPhone — Camera',                     url: 'tokyphone.html#app-camera',               keywords: 'camera app screenshot shutter zoom switch front rear gallery' },
+      { title: 'TokyPhone — Wallet',                     url: 'tokyphone.html#app-wallet',               keywords: 'wallet tokytokinz balance send receive qr transactions' },
+      { title: 'TokyPhone — Settings',                   url: 'tokyphone.html#app-settings',             keywords: 'settings preferences notifications privacy accessibility controller' },
+      { title: 'TokyPhone — Calendar',                   url: 'tokyphone.html#app-calendar',             keywords: 'calendar monthly grid event day view friends' },
+      { title: 'TokyPhone — Alarm',                      url: 'tokyphone.html#app-alarm',                keywords: 'alarm timer reminder world loaded toggle' },
+      { title: 'TokyPhone — Calls',                      url: 'tokyphone.html#app-calls',                keywords: 'calls voice webrtc proximity mute' },
+      { title: 'TokyPhone — Calculator',                 url: 'tokyphone.html#app-calculator',           keywords: 'calculator 4 function square root percent memory' },
+      { title: 'TokyPhone — Gallery',                    url: 'tokyphone.html#app-gallery',              keywords: 'gallery photos screenshots albums share delete' },
+      { title: 'TokyPhone — Debug',                      url: 'tokyphone.html#app-debug',                keywords: 'debug load character respawn time of day network stats wireframe' },
+      { title: 'TokyPhone — TokyNodes (in-phone)',       url: 'tokyphone.html#app-tokynodes',            keywords: 'tokynodes in phone library spawn metadata search families public' },
+      { title: 'TokyPhone — GoPeepGo',                   url: 'tokyphone.html#app-gopeepgo',             keywords: 'gopeepgo flap endless runner mini game leaderboard' },
+      { title: 'TokyPhone — Cube Ninja',                 url: 'tokyphone.html#app-cubeninja',            keywords: 'cube ninja slice voxel cubes combo power up high score' },
+      { title: 'TokyPhone — TokyRoad',                   url: 'tokyphone.html#app-tokyroad',             keywords: 'tokyroad hop road traffic logs daily challenge mini game' },
+      { title: 'TokyPhone — Fish!',                      url: 'tokyphone.html#app-fish',                 keywords: 'fishing biome lure cast reel rare catch loot table' },
+
+      // ── TokySocial (purple menu) ───────────────────────────────────────
+      { title: 'TokySocial — Overview',                  url: 'tokysocial.html',                         keywords: 'tokysocial in engine in phone social media post share build creators' },
+      { title: 'TokySocial — Why',                       url: 'tokysocial.html#vision',                  keywords: 'vision why tokysocial in engine creator audience world script tokynode demo' },
+      { title: 'TokySocial — In-Game Feed',              url: 'tokysocial.html#feed',                    keywords: 'in game feed image video world build script post like comment share save' },
+      { title: 'TokySocial — Posting From In-World',     url: 'tokysocial.html#posting',                 keywords: 'posting compose camera gallery direct draft auto save' },
+      { title: 'TokySocial — Profiles & Verified',       url: 'tokysocial.html#profiles',                keywords: 'profiles verified pinned post grid follower following build with me' },
+      { title: 'TokySocial — Friends & DMs',             url: 'tokysocial.html#friends',                 keywords: 'friends dms tokyube graph follow auto messages thread' },
+      { title: 'TokySocial — Discovery & Tags',          url: 'tokysocial.html#discovery',               keywords: 'discovery tags trending hashtags algorithm explore' },
+      { title: 'TokySocial — Stories & Reels (Planned)', url: 'tokysocial.html#stories',                 keywords: 'stories reels planned ephemeral 24 hour short video instagram polls highlights vertical' },
+      { title: 'TokySocial — Creator Tools (Planned)',   url: 'tokysocial.html#creator-tools',           keywords: 'creator tools dashboard insights scheduled posts cross posting collabs drafts vault planned' },
+      { title: 'TokySocial — Monetization (Planned)',    url: 'tokysocial.html#monetization',            keywords: 'monetization tipping paid follows marketplace links sponsored posts tokytokinz wallet planned' },
+      { title: 'TokySocial — Moderation & Safety',       url: 'tokysocial.html#moderation',              keywords: 'moderation safety report block mute word filters underage protection verified id' },
+      { title: 'TokySocial — Roadmap',                   url: 'tokysocial.html#roadmap',                 keywords: 'roadmap alpha beta launch features planned future' },
 
       // ── Tokyube Code Blocks (yellow menu) ──────────────────────────────
       { title: 'Tokyube Code Blocks — Overview',        url: 'code-blocks.html',                       keywords: 'tokyube code blocks visual scripting blockly programming javascript persistent variables logic introduction overview' },

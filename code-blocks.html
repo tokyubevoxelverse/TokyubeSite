@@ -394,111 +394,163 @@
 
       <section id="examples">
         <h2>Example Scripts</h2>
-        <p>The following examples mirror the entries in the in-world
-        <strong>Saved Scripts Library</strong>. Each example shows the
-        block stack and walks through what it does so you can use it as a
-        starting point.</p>
+        <p>These are the same 17 starter scripts shipped in the in-engine
+        <strong>Saved Scripts Library</strong>. Click any tile in the
+        Starter Scripts row at the bottom of the in-world Library to copy
+        one of these into a free slot, then edit it from there.</p>
 
-        <h3>1. Hello, world (your first script)</h3>
-        <p>The Code Blocks "hello world": when the world starts, log a
-        message and place a glowing voxel above the script's owner.</p>
+        <h3>BNC — Bounce</h3>
+        <p>Makes the entity voxel bounce up 3 blocks and back down
+        repeatedly.</p>
         <div class="block-stack">
-          <div class="block-stack-title">— stack —</div>
+          <div class="bs-row"><span class="bs-block bs-animation">repeat every <span class="bs-slot">2000</span> ms</span></div>
+          <div class="bs-row"><span class="bs-block bs-animation indent-1">animate bounce <span class="bs-slot">this entity</span> height <span class="bs-slot">3</span> speed <span class="bs-slot">150</span></span></div>
+        </div>
+
+        <h3>PLS — Pulse Up Down</h3>
+        <p>Moves entity up 1 block then back down every second.</p>
+        <div class="block-stack">
+          <div class="bs-row"><span class="bs-block bs-animation">repeat every <span class="bs-slot">1000</span> ms</span></div>
+          <div class="bs-row"><span class="bs-block bs-animation indent-1">animate bounce <span class="bs-slot">this entity</span> height <span class="bs-slot">1</span> speed <span class="bs-slot">200</span></span></div>
+        </div>
+
+        <h3>HLO — Hello World</h3>
+        <p>Logs "Hello World!" to the console. Simple test script.</p>
+        <div class="block-stack">
+          <div class="bs-row"><span class="bs-block bs-console">console log <span class="bs-slot">"Hello World!"</span></span></div>
+        </div>
+
+        <h3>TWR — Place Tower</h3>
+        <p>Builds a 5-block tall stone tower above this entity.</p>
+        <div class="block-stack">
+          <div class="bs-row"><span class="bs-block bs-loops">for i from <span class="bs-slot">1</span> to <span class="bs-slot">5</span></span></div>
+          <div class="bs-row"><span class="bs-block bs-voxel indent-1">voxel place <span class="bs-slot">stone</span> at (<span class="bs-slot">this.x</span>, <span class="bs-slot">this.y + i</span>, <span class="bs-slot">this.z</span>)</span></div>
+        </div>
+
+        <h3>MVR — Move Right 5</h3>
+        <p>Smoothly animates this entity 5 blocks to the right over
+        1 second.</p>
+        <div class="block-stack">
+          <div class="bs-row"><span class="bs-block bs-animation">animate entity to (<span class="bs-slot">this.x + 5</span>, <span class="bs-slot">this.y</span>, <span class="bs-slot">this.z</span>) over <span class="bs-slot">1000</span> ms</span></div>
+        </div>
+
+        <h3>SPN — Spin Around</h3>
+        <p>Moves entity in a square pattern around its starting position.</p>
+        <div class="block-stack">
+          <div class="bs-row"><span class="bs-block bs-animation">animate path <span class="bs-slot">this entity</span> through positions interval <span class="bs-slot">300</span> ms</span></div>
+          <div class="bs-row"><span class="bs-block bs-animation indent-1">make position (<span class="bs-slot">this.x + 3</span>, <span class="bs-slot">this.y</span>, <span class="bs-slot">this.z</span>)</span></div>
+          <div class="bs-row"><span class="bs-block bs-animation indent-1">make position (<span class="bs-slot">this.x</span>, <span class="bs-slot">this.y</span>, <span class="bs-slot">this.z + 3</span>)</span></div>
+          <div class="bs-row"><span class="bs-block bs-animation indent-1">make position (<span class="bs-slot">this.x − 3</span>, <span class="bs-slot">this.y</span>, <span class="bs-slot">this.z</span>)</span></div>
+          <div class="bs-row"><span class="bs-block bs-animation indent-1">make position (<span class="bs-slot">this.x</span>, <span class="bs-slot">this.y</span>, <span class="bs-slot">this.z</span>)</span></div>
+        </div>
+
+        <h3>TRG — Trigger Launch Pad</h3>
+        <p>When a player walks into the trigger zone, launch them
+        5 blocks up.</p>
+        <div class="block-stack">
+          <div class="bs-row"><span class="bs-block bs-triggers">trigger on enter at (<span class="bs-slot">this.x</span>, <span class="bs-slot">this.y</span>, <span class="bs-slot">this.z</span>)</span></div>
+          <div class="bs-row"><span class="bs-block bs-triggers indent-1">launch player <span class="bs-slot">5</span></span></div>
+        </div>
+
+        <h3>EVT — Event Demo</h3>
+        <p>When the world starts, register to receive the
+        <code>"launch"</code> event on the player (which launches them
+        5 blocks high), then immediately send the <code>"launch"</code>
+        event to the player.</p>
+        <div class="block-stack">
           <div class="bs-row"><span class="bs-block bs-world">when world starts</span></div>
-          <div class="bs-row"><span class="bs-block bs-console indent-1">console log <span class="bs-slot">"Tokyube online ✨"</span></span></div>
-          <div class="bs-row"><span class="bs-block bs-voxel indent-1">voxel place <span class="bs-slot">glow</span> at <span class="bs-slot">player position</span></span></div>
-          <div class="bs-note">Replace "glow" with any voxel-type identifier. Drop a player_position block into the second slot.</div>
+          <div class="bs-row"><span class="bs-block bs-events indent-1">on player receive event <span class="bs-slot">"launch"</span></span></div>
+          <div class="bs-row"><span class="bs-block bs-triggers indent-2">launch player <span class="bs-slot">5</span></span></div>
+          <div class="bs-row"><span class="bs-block bs-events indent-1">send event to player <span class="bs-slot">"launch"</span> data <span class="bs-slot">0</span></span></div>
         </div>
 
-        <h3>2. Bouncy jump pad</h3>
-        <p>Attach this to a voxel: anyone who steps on it gets launched
-        upward, classic platformer-style.</p>
+        <h3>TPB — Teleport to Sakura Biome</h3>
+        <p>When the world starts, wait 2 seconds then teleport the
+        player to the Sakura biome (if one exists in this world).</p>
         <div class="block-stack">
-          <div class="block-stack-title">— stack —</div>
-          <div class="bs-row"><span class="bs-block bs-triggers">trigger on enter (player)</span></div>
-          <div class="bs-row"><span class="bs-block bs-triggers indent-1">launch player up <span class="bs-slot">28</span></span></div>
-          <div class="bs-row"><span class="bs-block bs-events indent-1">broadcast event <span class="bs-slot">"jump_pad_used"</span></span></div>
-          <div class="bs-note">The broadcast lets other scripts react — e.g., a counter that tracks how many times the pad has launched a player.</div>
-        </div>
-
-        <h3>3. Persistent score counter</h3>
-        <p>Increments a number that survives world reloads. Useful for
-        long-running games — kills, completed quests, win streaks.</p>
-        <div class="block-stack">
-          <div class="block-stack-title">— stack —</div>
-          <div class="bs-row"><span class="bs-block bs-events">on receive event <span class="bs-slot">"jump_pad_used"</span></span></div>
-          <div class="bs-row"><span class="bs-block bs-typed indent-1">set typed-number <span class="bs-slot">"score"</span> to <span class="bs-slot">get typed-number "score" + 1</span></span></div>
-          <div class="bs-row"><span class="bs-block bs-display indent-1">display set text <span class="bs-slot">"Score: " + get typed-number "score"</span></span></div>
-          <div class="bs-note">Typed variables persist by default, so this counter survives reloads.</div>
-        </div>
-
-        <h3>4. Patrol path enemy</h3>
-        <p>Walks an entity along a 3-point loop, pausing at each
-        waypoint. Great as the basis for a guard or roaming NPC.</p>
-        <div class="block-stack">
-          <div class="block-stack-title">— stack —</div>
           <div class="bs-row"><span class="bs-block bs-world">when world starts</span></div>
-          <div class="bs-row"><span class="bs-block bs-loops indent-1">repeat forever</span></div>
-          <div class="bs-row"><span class="bs-block bs-animation indent-2">animate entity to <span class="bs-slot">make position 5,4,5</span> over <span class="bs-slot">3</span> sec</span></div>
-          <div class="bs-row"><span class="bs-block bs-animation indent-2">delay <span class="bs-slot">1</span> sec</span></div>
-          <div class="bs-row"><span class="bs-block bs-animation indent-2">animate entity to <span class="bs-slot">make position 12,4,5</span> over <span class="bs-slot">3</span> sec</span></div>
-          <div class="bs-row"><span class="bs-block bs-animation indent-2">delay <span class="bs-slot">1</span> sec</span></div>
-          <div class="bs-row"><span class="bs-block bs-animation indent-2">animate entity to <span class="bs-slot">make position 12,4,12</span> over <span class="bs-slot">3</span> sec</span></div>
-          <div class="bs-row"><span class="bs-block bs-animation indent-2">delay <span class="bs-slot">1</span> sec</span></div>
+          <div class="bs-row"><span class="bs-block bs-animation indent-1">delay <span class="bs-slot">2000</span> ms</span></div>
+          <div class="bs-row"><span class="bs-block bs-teleport indent-2">teleport to biome <span class="bs-slot">sakura</span></span></div>
         </div>
 
-        <h3>5. Door that opens when player approaches</h3>
-        <p>Combines an FBX entity with a trigger volume — the door swings
-        open when any player walks within range and closes when they
-        leave.</p>
+        <h3>DSP — Display Text on Component</h3>
+        <p>When the world starts, set the text of a Text component at
+        position (0, 20, 0) to "Hello World!". Edit the x/y/z to match
+        your Text component's position.</p>
         <div class="block-stack">
-          <div class="block-stack-title">— stack —</div>
-          <div class="bs-row"><span class="bs-block bs-fbx">on player enter (this fbx)</span></div>
-          <div class="bs-row"><span class="bs-block bs-fbx indent-1">open door <span class="bs-slot">this fbx</span></span></div>
-          <div class="bs-row"><span class="bs-block bs-fbx">on player exit (this fbx)</span></div>
-          <div class="bs-row"><span class="bs-block bs-fbx indent-1">close door <span class="bs-slot">this fbx</span></span></div>
-        </div>
-
-        <h3>6. Spawning waves of enemies</h3>
-        <p>Every few seconds, spawn an entity at a random offset from the
-        script's owner. Combine with a kill counter to build an arena
-        mode.</p>
-        <div class="block-stack">
-          <div class="block-stack-title">— stack —</div>
           <div class="bs-row"><span class="bs-block bs-world">when world starts</span></div>
-          <div class="bs-row"><span class="bs-block bs-animation indent-1">repeat every <span class="bs-slot">4</span> sec</span></div>
-          <div class="bs-row"><span class="bs-block bs-shapes indent-2">shape sphere at <span class="bs-slot">entity position + random</span> radius <span class="bs-slot">1</span></span></div>
-          <div class="bs-row"><span class="bs-block bs-events indent-2">broadcast event <span class="bs-slot">"enemy_spawned"</span></span></div>
+          <div class="bs-row"><span class="bs-block bs-display indent-1">display set text at (<span class="bs-slot">0</span>, <span class="bs-slot">20</span>, <span class="bs-slot">0</span>) to <span class="bs-slot">"Hello World!"</span></span></div>
         </div>
 
-        <h3>7. TV that plays a playlist</h3>
-        <p>Cycles through a list of YouTube URLs on a TV component. When
-        one video ends, the next one starts.</p>
+        <h3>TVP — TV Playlist (2 Videos)</h3>
+        <p>When the world starts: play video 1, then when it ends play
+        video 2, then loop. Edit <code>VIDEO_1</code> /
+        <code>VIDEO_2</code> to your own YouTube or .mp4 links.</p>
         <div class="block-stack">
-          <div class="block-stack-title">— stack —</div>
           <div class="bs-row"><span class="bs-block bs-world">when world starts</span></div>
-          <div class="bs-row"><span class="bs-block bs-typed indent-1">set typed-number <span class="bs-slot">"playlist_index"</span> to <span class="bs-slot">0</span></span></div>
-          <div class="bs-row"><span class="bs-block bs-tv indent-1">tv set url <span class="bs-slot">item 0 of playlist</span></span></div>
+          <div class="bs-row"><span class="bs-block bs-tv indent-1">tv set url <span class="bs-slot">"https://youtu.be/VIDEO_1"</span></span></div>
           <div class="bs-row"><span class="bs-block bs-tv indent-1">tv play</span></div>
-          <div class="bs-row"><span class="bs-block bs-tv">on tv completed</span></div>
-          <div class="bs-row"><span class="bs-block bs-typed indent-1">set typed-number <span class="bs-slot">"playlist_index"</span> to <span class="bs-slot">(get + 1) mod length</span></span></div>
-          <div class="bs-row"><span class="bs-block bs-tv indent-1">tv set url <span class="bs-slot">item playlist_index of playlist</span></span></div>
-          <div class="bs-row"><span class="bs-block bs-tv indent-1">tv play</span></div>
+          <div class="bs-row"><span class="bs-block bs-tv indent-1">on tv completed</span></div>
+          <div class="bs-row"><span class="bs-block bs-tv indent-2">tv set url <span class="bs-slot">"https://youtu.be/VIDEO_2"</span></span></div>
+          <div class="bs-row"><span class="bs-block bs-tv indent-2">tv play</span></div>
+          <div class="bs-note">The runtime version of this script also re-binds <code>tv on completed</code> after each play so the playlist loops indefinitely.</div>
         </div>
 
-        <h3>8. Multiplayer broadcast — every player sees a fireworks burst</h3>
-        <p>An event-driven script that paints a sphere of bright voxels
-        anywhere a player triggers it, visible to everyone in the world.</p>
+        <h3>RH+ — Equip in Right Hand</h3>
+        <p>Attach <em>this</em> FBX entity to the player's right hand
+        when the world starts. Toggle <strong>ATTACHABLE</strong> on in
+        the FBX entity's properties first.</p>
         <div class="block-stack">
-          <div class="block-stack-title">— stack —</div>
-          <div class="bs-row"><span class="bs-block bs-triggers">trigger on enter (any player)</span></div>
-          <div class="bs-row"><span class="bs-block bs-events indent-1">broadcast event <span class="bs-slot">"firework_at"</span> data <span class="bs-slot">player position</span></span></div>
-          <div class="bs-row"><span class="bs-block bs-events">on receive event <span class="bs-slot">"firework_at"</span></span></div>
-          <div class="bs-row"><span class="bs-block bs-shapes indent-1">shape sphere at <span class="bs-slot">event data</span> radius <span class="bs-slot">3</span> type <span class="bs-slot">glow</span></span></div>
-          <div class="bs-row"><span class="bs-block bs-animation indent-1">delay <span class="bs-slot">1.5</span> sec</span></div>
-          <div class="bs-row"><span class="bs-block bs-shapes indent-1">shape sphere at <span class="bs-slot">event data</span> radius <span class="bs-slot">3</span> type <span class="bs-slot">air</span></span></div>
-          <div class="bs-note">Because the broadcast goes through the host, every connected client paints the same fireworks burst at the same moment.</div>
+          <div class="bs-row"><span class="bs-block bs-world">when world starts</span></div>
+          <div class="bs-row"><span class="bs-block bs-attachment indent-1">attach fbx <span class="bs-slot">this fbx</span> to body anchor <span class="bs-slot">right_hand</span></span></div>
         </div>
+
+        <h3>LH+ — Equip in Left Hand</h3>
+        <p>Same as RH+, but binds to the left hand anchor.</p>
+        <div class="block-stack">
+          <div class="bs-row"><span class="bs-block bs-world">when world starts</span></div>
+          <div class="bs-row"><span class="bs-block bs-attachment indent-1">attach fbx <span class="bs-slot">this fbx</span> to body anchor <span class="bs-slot">left_hand</span></span></div>
+        </div>
+
+        <h3>HAT — Wear as Hat (Head Anchor)</h3>
+        <p>Attach this FBX to the head — works great for hats, helmets,
+        halos.</p>
+        <div class="block-stack">
+          <div class="bs-row"><span class="bs-block bs-world">when world starts</span></div>
+          <div class="bs-row"><span class="bs-block bs-attachment indent-1">attach fbx <span class="bs-slot">this fbx</span> to body anchor <span class="bs-slot">head</span></span></div>
+        </div>
+
+        <h3>CST — Wear on Chest</h3>
+        <p>Attach this FBX to the chest — backpacks, body armor, badges.</p>
+        <div class="block-stack">
+          <div class="bs-row"><span class="bs-block bs-world">when world starts</span></div>
+          <div class="bs-row"><span class="bs-block bs-attachment indent-1">attach fbx <span class="bs-slot">this fbx</span> to body anchor <span class="bs-slot">chest</span></span></div>
+        </div>
+
+        <h3>PIK — Pick Up on Trigger</h3>
+        <p>When the player walks over <em>this</em> FBX entity, the FBX
+        equips to their right hand. Toggle
+        <strong>ATTACHABLE</strong> on first.</p>
+        <div class="block-stack">
+          <div class="bs-row"><span class="bs-block bs-triggers">trigger on enter at (<span class="bs-slot">this fbx.x</span>, <span class="bs-slot">this fbx.y</span>, <span class="bs-slot">this fbx.z</span>)</span></div>
+          <div class="bs-row"><span class="bs-block bs-attachment indent-1">attach fbx <span class="bs-slot">this fbx</span> to body anchor <span class="bs-slot">right_hand</span></span></div>
+        </div>
+
+        <h3>UNQ — Equip Then Auto-Detach</h3>
+        <p>Equip this FBX to the right hand, then detach it after
+        5 seconds — handy for temporary boost items / power-ups.</p>
+        <div class="block-stack">
+          <div class="bs-row"><span class="bs-block bs-world">when world starts</span></div>
+          <div class="bs-row"><span class="bs-block bs-attachment indent-1">attach fbx <span class="bs-slot">this fbx</span> to body anchor <span class="bs-slot">right_hand</span></span></div>
+          <div class="bs-row"><span class="bs-block bs-animation indent-1">delay <span class="bs-slot">5000</span> ms</span></div>
+          <div class="bs-row"><span class="bs-block bs-attachment indent-2">detach fbx <span class="bs-slot">this fbx</span></span></div>
+        </div>
+
+        <div class="callout">Each starter ships with both the original
+        block stack <em>and</em> the generated JavaScript ready to run.
+        After copying a starter into a slot, hit <strong>EDIT
+        SCRIPT</strong> in the library info panel to open the workspace
+        and customize.</div>
       </section>
 
       <section id="collab">
