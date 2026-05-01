@@ -767,6 +767,20 @@
       border: 2px solid #5a2d2d;
       color: #3a1a1a;
     }
+
+    /* Formspree field error styling */
+    [data-fs-error] {
+      display: none;
+    }
+
+    [data-fs-error]:not(:empty) {
+      display: block;
+    }
+
+    [aria-invalid="true"] {
+      border-color: #d62828 !important;
+      background-color: rgba(214, 40, 40, 0.1) !important;
+    }
   </style>
 </head>
 <body>
@@ -902,22 +916,27 @@
         <button class="close-modal" id="closeModal">&times;</button>
       </div>
       
-      <div id="formStatus" class="form-status"></div>
+      <div data-fs-success class="form-status success" style="display:none;">
+        ✓ <strong>Report submitted successfully!</strong><br>Thank you for helping us improve Tokyube! We'll review your issue and get back to you if needed.
+      </div>
+      <div data-fs-error class="form-status error" style="display:none;"></div>
       
-      <form id="bugReportForm">
+      <form id="bugReportForm" data-fs-form>
         <div class="form-group">
           <label for="bugTitle">Issue Title *</label>
-          <input type="text" id="bugTitle" name="title" placeholder="Brief summary of the issue" required>
+          <input type="text" id="bugTitle" name="title" placeholder="Brief summary of the issue" data-fs-field required>
+          <span data-fs-error="title" style="color:#d62828;font-size:12px;"></span>
         </div>
 
         <div class="form-group">
           <label for="bugDescription">Detailed Description *</label>
-          <textarea id="bugDescription" name="description" placeholder="Please describe what you experienced. Your detailed feedback helps us identify and resolve issues faster." required></textarea>
+          <textarea id="bugDescription" name="description" placeholder="Please describe what you experienced. Your detailed feedback helps us identify and resolve issues faster." data-fs-field required></textarea>
+          <span data-fs-error="description" style="color:#d62828;font-size:12px;"></span>
         </div>
 
         <div class="form-group">
           <label for="bugSeverity">Severity Level</label>
-          <select id="bugSeverity" name="severity">
+          <select id="bugSeverity" name="severity" data-fs-field>
             <option value="Low">Low - Minor inconvenience</option>
             <option value="Medium" selected>Medium - Affects gameplay</option>
             <option value="High">High - Major issue</option>
@@ -927,35 +946,40 @@
 
         <div class="form-group">
           <label for="bugSteps">Steps to Reproduce *</label>
-          <textarea id="bugSteps" name="steps" placeholder="Please provide detailed steps so we can reproduce the issue. This accelerates our debugging process." required></textarea>
+          <textarea id="bugSteps" name="steps" placeholder="Please provide detailed steps so we can reproduce the issue. This accelerates our debugging process." data-fs-field required></textarea>
+          <span data-fs-error="steps" style="color:#d62828;font-size:12px;"></span>
         </div>
 
         <div class="form-group">
           <label for="bugEmail">Contact Email (optional)</label>
-          <input type="email" id="bugEmail" name="email" placeholder="your@email.com - We'll use this to follow up if we need more information">
+          <input type="email" id="bugEmail" name="email" placeholder="your@email.com - We'll use this to follow up if we need more information" data-fs-field>
+          <span data-fs-error="email" style="color:#d62828;font-size:12px;"></span>
         </div>
 
         <div class="form-group">
           <label for="devLogs">Backend & Developer Console Logs *</label>
-          <input type="file" id="devLogs" name="devLogs" accept=".log,.txt" multiple required>
+          <input type="file" id="devLogs" name="devLogs" accept=".log,.txt" multiple data-fs-field required>
           <div class="file-info">Accepted: .log, .txt files | Critical for debugging - Include developer console output and backend logs from the time of the issue</div>
+          <span data-fs-error="devLogs" style="color:#d62828;font-size:12px;"></span>
         </div>
 
         <div class="form-group">
           <label for="screenshots">Screenshots & Media</label>
-          <input type="file" id="screenshots" name="screenshots" accept="image/*" multiple>
+          <input type="file" id="screenshots" name="screenshots" accept="image/*" multiple data-fs-field>
           <div class="file-info">Accepted: .png, .jpg, .jpeg, .gif, .webp | Visual evidence helps us understand the context of the issue</div>
+          <span data-fs-error="screenshots" style="color:#d62828;font-size:12px;"></span>
         </div>
 
         <div class="form-group">
           <label for="videos">Video Recordings (optional)</label>
-          <input type="file" id="videos" name="videos" accept="video/*" multiple>
+          <input type="file" id="videos" name="videos" accept="video/*" multiple data-fs-field>
           <div class="file-info">Accepted: .mp4, .webm, .avi, .mov | Screen recordings are invaluable for reproducing the exact conditions</div>
+          <span data-fs-error="videos" style="color:#d62828;font-size:12px;"></span>
         </div>
 
         <div class="modal-buttons">
           <button type="button" class="cancel-bug-btn" id="cancelBugBtn">Cancel</button>
-          <button type="submit" class="submit-bug-btn" id="submitBugBtn">Submit Report</button>
+          <button type="submit" class="submit-bug-btn" data-fs-submit-btn>Submit Report</button>
         </div>
       </form>
     </div>
@@ -1073,8 +1097,6 @@
     const fileBugBtn = document.getElementById('fileBugBtn');
     const closeModal = document.getElementById('closeModal');
     const cancelBugBtn = document.getElementById('cancelBugBtn');
-    const submitBugBtn = document.getElementById('submitBugBtn');
-    const formStatus = document.getElementById('formStatus');
 
     // Open bug report modal
     fileBugBtn.addEventListener('click', (e) => {
@@ -1087,8 +1109,9 @@
     function closeReportModal() {
       bugReportModal.classList.remove('open');
       bugReportForm.reset();
-      formStatus.textContent = '';
-      formStatus.className = 'form-status';
+      // Clear success/error messages
+      document.querySelector('[data-fs-success]').style.display = 'none';
+      document.querySelector('[data-fs-error]').style.display = 'none';
     }
 
     closeModal.addEventListener('click', closeReportModal);
@@ -1101,105 +1124,18 @@
       }
     });
 
-    // Handle form submission with Formspree
-    bugReportForm.addEventListener('submit', async (e) => {
-      e.preventDefault();
-      
-      submitBugBtn.disabled = true;
-      formStatus.textContent = 'Validating files...';
-      formStatus.className = 'form-status';
+    // Initialize Formspree AJAX form - handles file uploads automatically
+    window.formspree = window.formspree || function () { (formspree.q = formspree.q || []).push(arguments); };
+    formspree('initForm', { formElement: '#bugReportForm', formId: 'mkoynpwz' });
 
-      const formData = new FormData(bugReportForm);
-      
-      // Check file sizes
-      const maxFileSize = 25 * 1024 * 1024; // 25MB per file
-      const maxTotalSize = 100 * 1024 * 1024; // 100MB total
-      let totalSize = 0;
-      
-      for (let [key, value] of formData.entries()) {
-        if (value instanceof File) {
-          if (value.size > maxFileSize) {
-            formStatus.textContent = `✗ File "${value.name}" is too large (max 25MB per file)`;
-            formStatus.className = 'form-status error';
-            submitBugBtn.disabled = false;
-            return;
-          }
-          totalSize += value.size;
-        }
-      }
-      
-      if (totalSize > maxTotalSize) {
-        formStatus.textContent = '✗ Total file size exceeds 100MB limit';
-        formStatus.className = 'form-status error';
-        submitBugBtn.disabled = false;
-        return;
-      }
-      
-      formStatus.textContent = 'Sending report...';
-      
-      try {
-        // Using Formspree endpoint
-        const response = await fetch('https://formspree.io/f/mkoynpwz', {
-          method: 'POST',
-          body: formData,
-          headers: {
-            'Accept': 'application/json'
-          }
-        });
-
-        if (response.ok) {
-          formStatus.textContent = '✓ Report submitted successfully! Thank you for helping us improve Tokyube!';
-          formStatus.className = 'form-status success';
-          bugReportForm.reset();
-          
-          setTimeout(closeReportModal, 3000);
-        } else {
-          const responseText = await response.text();
-          console.error('Formspree error:', response.status, responseText);
-          
-          // If Formspree fails, try alternative submission
-          throw new Error(`Server responded with status ${response.status}`);
-        }
-      } catch (error) {
-        console.error('Submission error:', error);
-        
-        // Fallback: Try sending without files
-        formStatus.textContent = 'Attempting alternative submission method...';
-        
-        try {
-          const textFormData = new FormData();
-          textFormData.append('title', document.getElementById('bugTitle').value);
-          textFormData.append('description', document.getElementById('bugDescription').value);
-          textFormData.append('severity', document.getElementById('bugSeverity').value);
-          textFormData.append('steps', document.getElementById('bugSteps').value);
-          textFormData.append('email', document.getElementById('bugEmail').value);
-          
-          const fallbackResponse = await fetch('https://formspree.io/f/mkoynpwz', {
-            method: 'POST',
-            body: textFormData,
-            headers: {
-              'Accept': 'application/json'
-            }
-          });
-          
-          if (fallbackResponse.ok) {
-            formStatus.innerHTML = '✓ <strong>Report submitted!</strong><br>Note: Files were too large to attach. Please contact us directly at support@tokyube.dev with attachments.';
-            formStatus.className = 'form-status success';
-            bugReportForm.reset();
-            
-            setTimeout(closeReportModal, 4000);
-          } else {
-            throw new Error('Fallback also failed');
-          }
-        } catch (fallbackError) {
-          console.error('Fallback error:', fallbackError);
-          formStatus.innerHTML = '✗ <strong>Submission Failed</strong><br>Please email your report to: <strong>support@tokyube.dev</strong><br>Include your issue details and attachments in the email.';
-          formStatus.className = 'form-status error';
-          submitBugBtn.disabled = false;
-        }
-      }
+    // Watch for successful submission to close modal
+    document.addEventListener('formspree.submit', function() {
+      setTimeout(closeReportModal, 3000);
     });
   </script>
+
+  <!-- Formspree AJAX Library for proper file upload handling -->
+  <script src="https://unpkg.com/@formspree/ajax@1" defer></script>
 
 </body>
 </html>
