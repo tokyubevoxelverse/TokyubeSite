@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TokyTokinz &amp; Marketplace — TokyubeVoxelVerse Documentation</title>
+  <link rel="icon" type="image/png" href="Logo.png">
+  <link rel="apple-touch-icon" href="Logo.png">
+  <link rel="stylesheet" href="docs.css">
+</head>
+<body data-doc="tokytokinz">
+  <header class="doc-header">
+    <div class="doc-title">TokyTokinz &amp; Marketplace — Documentation</div>
+    <a class="doc-back" href="index.html">← BACK TO TOKYUBE.COM</a>
+  </header>
+
+  <div class="doc-layout">
+    <aside class="doc-toc">
+      <h2>Contents</h2>
+      <ul>
+        <li><a href="#overview">Overview</a></li>
+        <li><a href="#what-is">What Is TokyTokinz</a></li>
+        <li><a href="#earning">Earning TokyTokinz</a></li>
+        <li><a href="#spending">Spending TokyTokinz</a></li>
+        <li><a href="#wallet">Your Wallet</a></li>
+        <li><a href="#marketplace">Marketplace Overview</a></li>
+        <li><a href="#mkt-scripts">Codeblock Scripts</a></li>
+        <li><a href="#mkt-skins">Custom Tokytar Skins</a></li>
+        <li><a href="#mkt-models">3D Models &amp; Materials</a></li>
+        <li><a href="#mkt-purchase">Purchase TokyTokinz</a></li>
+        <li><a href="#publishing">Publishing &amp; Payouts</a></li>
+        <li><a href="#tipping">Tipping &amp; Transfers</a></li>
+        <li><a href="#trust-safety">Trust &amp; Safety</a></li>
+        <li><a href="#roadmap">Marketplace Roadmap</a></li>
+      </ul>
+    </aside>
+
+    <main class="doc-content">
+      <h1>TokyTokinz &amp; Marketplace</h1>
+      <p class="doc-lede">
+        TokyTokinz is the in-engine currency of TokyubeVoxelVerse, and the
+        Tokyube Marketplace is the storefront it powers. Together they
+        form the economy where creators sell scripts, skins, models, and
+        materials, and where players spend their tokinz on the work that
+        makes their experience their own.
+      </p>
+
+      <section id="overview">
+        <h2>Overview</h2>
+        <p>The marketplace is reachable directly from the title screen
+        (left of the main menu's button column) under the
+        <strong>TOKYTOKINZ MARKETPLACE</strong> heading. From there you
+        can jump into any of the four marketplace sections, top up your
+        balance, or peek at upcoming categories.</p>
+        <p>This page documents both halves of that economy:</p>
+        <ul>
+          <li>What TokyTokinz is, how to earn it, and how to spend it.</li>
+          <li>How each of the four marketplace sections works for
+              buyers and for creators.</li>
+          <li>How payouts, tipping, and transfers work.</li>
+          <li>The roadmap for upcoming marketplace features.</li>
+        </ul>
+        <div class="callout">The marketplace is currently in
+        <strong>COMING SOON</strong> on the title screen — every panel
+        loads, but live transactions begin with the public Alpha
+        rollout. The buyer/creator flows below describe the shipping
+        design.</div>
+      </section>
+
+      <section id="what-is">
+        <h2>What Is TokyTokinz</h2>
+        <p>TokyTokinz is the universal in-engine currency for everything
+        you can buy or sell inside TokyubeVoxelVerse. One balance,
+        scoped to your Tokyube account (keyed by your Steam ID), spent
+        across every marketplace category, every world, every creator.</p>
+        <ul>
+          <li><strong>One ledger.</strong> No per-world wallets, no
+              region-locked currencies. The balance you see in your
+              <a href="tokyphone.html#app-wallet">Wallet</a> is the
+              balance you spend everywhere.</li>
+          <li><strong>Account-bound.</strong> Tokinz are not tradable
+              for real currency between players directly — earnings
+              from the marketplace pay out into your wallet, and
+              payouts to real-world accounts are gated through the
+              Publishing &amp; Payouts flow.</li>
+          <li><strong>Stable display.</strong> TokyTokinz balances and
+              prices show as integers; sub-tokinz amounts (used for
+              fractional tipping) round to the nearest whole tokin
+              when they hit your wallet.</li>
+        </ul>
+      </section>
+
+      <section id="earning">
+        <h2>Earning TokyTokinz</h2>
+        <p>Five ways to grow your balance:</p>
+        <ul>
+          <li><strong>Sales on the marketplace.</strong> Every script,
+              skin, model, or material you publish earns tokinz when
+              another player buys it. The split is the default 85/15
+              creator/platform unless your contributor tier negotiates a
+              different rate.</li>
+          <li><strong>Tipping.</strong> Other players can send tokinz
+              to your wallet from any marketplace listing or
+              <a href="tokysocial.html#monetization">TokySocial post</a>.</li>
+          <li><strong>Daily play rewards.</strong> Active accounts earn
+              a small daily tokinz drip that scales with playtime,
+              capped weekly.</li>
+          <li><strong>Achievement unlocks.</strong> Unlocking
+              Steam achievements pays out a one-time tokinz bonus.</li>
+          <li><strong>Top-up purchases.</strong> Convert real-world
+              currency to tokinz via the
+              <a href="#mkt-purchase">Purchase TokyTokinz</a> panel.</li>
+        </ul>
+      </section>
+
+      <section id="spending">
+        <h2>Spending TokyTokinz</h2>
+        <p>Anywhere a tokinz price appears, you can spend with one
+        confirmation tap. Spend categories include:</p>
+        <ul>
+          <li>Buying marketplace listings (scripts, skins, models,
+              materials, and — eventually — TokyNodes).</li>
+          <li>Tipping creators on the marketplace or on TokySocial.</li>
+          <li>Boosting a TokySocial post into Discovery (planned).</li>
+          <li>Sponsoring a public world's hosting cost (planned).</li>
+        </ul>
+        <p>Every spend writes to your transaction history, visible from
+        the <a href="tokyphone.html#app-wallet">Wallet app</a>. You can
+        download a CSV of your full history at any time from the wallet
+        settings.</p>
+      </section>
+
+      <section id="wallet">
+        <h2>Your Wallet</h2>
+        <p>The <a href="tokyphone.html#app-wallet">Wallet app</a> on
+        TokyPhone shows:</p>
+        <ul>
+          <li>Current TokyTokinz balance.</li>
+          <li>Pending payouts (sales not yet cleared from the 7-day
+              creator hold window).</li>
+          <li>Recent transactions, filterable by type (purchases,
+              sales, tips in, tips out, top-ups).</li>
+          <li>A QR-style receive code for quick in-world tipping
+              between players standing next to each other.</li>
+          <li>Send / receive controls, plus a "favorite recipients"
+              list for friends you tip often.</li>
+        </ul>
+      </section>
+
+      <section id="marketplace">
+        <h2>Marketplace Overview</h2>
+        <p>The Tokyube Marketplace is a single storefront with four
+        starting sections. The title-screen panel exposes one button per
+        section plus a top-up button:</p>
+        <ul>
+          <li><strong>Codeblock Scripts</strong> — published Tokyube Code
+              Blocks scripts, ready to copy into your Saved Scripts
+              Library.</li>
+          <li><strong>Custom Tokytar Skins</strong> — animated and
+              static avatar skins authored in TokyTar Stylizer.</li>
+          <li><strong>3D Models &amp; Materials</strong> — external
+              meshes (FBX / OBJ) and Tokyube-friendly material packs.</li>
+          <li><strong>Purchase TokyTokinz</strong> — top-up flow that
+              converts real-world currency into tokinz.</li>
+        </ul>
+        <p>Listings carry a price, a creator handle, a verified badge
+        (where applicable), preview media, a license blurb, and a one-tap
+        buy button. Every purchase routes to the creator's wallet
+        (minus the platform fee), with a 7-day creator hold for refund
+        eligibility.</p>
+      </section>
+
+      <section id="mkt-scripts">
+        <h2>Codeblock Scripts</h2>
+        <p>The first section of the marketplace, surfaced as
+        <strong>Codeblock Scripts</strong> (white button). It hosts
+        ready-to-use Tokyube Code Blocks scripts that buyers copy
+        directly into their Saved Scripts Library.</p>
+        <h3>For buyers</h3>
+        <ul>
+          <li>Browse by category (Triggers, Animations, Mini-games, AI,
+              Vehicles, etc.) or search by keyword.</li>
+          <li>Each listing includes a preview image, a short
+              description, the block stack, and the generated JavaScript
+              so you can audit before you buy.</li>
+          <li>Purchases drop a copy into your library. The original
+              listing keeps version history so you can pull updates the
+              creator pushes later.</li>
+        </ul>
+        <h3>For creators</h3>
+        <ul>
+          <li>Publish from inside the in-world Saved Scripts Library —
+              a "Publish to Marketplace" action on any saved slot opens
+              the listing form.</li>
+          <li>Set a price, write a description, choose a license
+              (Standard, Royalty-Free, Educational), pick tags.</li>
+          <li>Update the listing at any time; subscribers can opt to
+              receive updates.</li>
+        </ul>
+        <p>See <a href="code-blocks.html">Tokyube Code Blocks</a> for the
+        block reference.</p>
+      </section>
+
+      <section id="mkt-skins">
+        <h2>Custom Tokytar Skins</h2>
+        <p>The <strong>Custom Tokytar Skins</strong> section (light-sand
+        button) hosts skins authored in
+        <a href="tokytar-stylizer.html">TokyTar Stylizer</a>, both static
+        and animated.</p>
+        <h3>For buyers</h3>
+        <ul>
+          <li>Preview a skin live on a rotating Tokyube avatar before
+              buying.</li>
+          <li>Animated skins preview at the creator's chosen FPS so you
+              know exactly what you're getting.</li>
+          <li>Purchased skins land in your TokyTar Stylizer skin
+              library; apply them with one click and the skin replaces
+              your active avatar (with the same Save-to-Account flow
+              you'd use for a self-authored skin).</li>
+        </ul>
+        <h3>For creators</h3>
+        <ul>
+          <li>Publish from the Stylizer's export panel — a
+              "Publish to Marketplace" toggle next to the standard
+              Save-to-Account button.</li>
+          <li>Royalty splits available for collaborator credits when
+              two creators co-author a skin.</li>
+          <li>Animated skins ship as the same per-frame PNGs +
+              manifest you'd export to disk.</li>
+        </ul>
+      </section>
+
+      <section id="mkt-models">
+        <h2>3D Models &amp; Materials</h2>
+        <p>The <strong>3D Models &amp; Materials</strong> section
+        (sand-color button) covers external meshes and material packs —
+        the assets that ride on top of voxels, FBX entities, and
+        TokyNodes.</p>
+        <ul>
+          <li><strong>Models</strong> — OBJ / FBX meshes ready to import
+              with FBX Attach Mode or to promote into a
+              <a href="tokynodes.html">TokyNode</a>.</li>
+          <li><strong>Materials</strong> — tile-able PNG sets +
+              metallic/smoothness/transparency presets that match the
+              Stylizer material sliders. Drop one onto an FBX import or
+              a Stylizer skin and it just works.</li>
+          <li><strong>Bundles</strong> — multi-asset packs (a vehicle
+              with paintwork variants, a furniture set, etc).</li>
+        </ul>
+        <h3>For creators</h3>
+        <ul>
+          <li>Upload .OBJ / .FBX with Tokyube's standard validation
+              (poly count limits, texture-size limits).</li>
+          <li>Materials publish from the Stylizer's material panel —
+              the same metallic/smoothness/transparency triplet a buyer
+              will apply.</li>
+          <li>Bundle SKUs let you ship multi-piece sets without
+              listing each piece individually.</li>
+        </ul>
+      </section>
+
+      <section id="mkt-purchase">
+        <h2>Purchase TokyTokinz</h2>
+        <p>The <strong>Purchase TokyTokinz</strong> panel (dark-sand
+        button) is the top-up flow that converts real-world currency
+        into tokinz that land in your Wallet.</p>
+        <ul>
+          <li>Pre-set bundles cover the common amounts (small / medium
+              / large / mega), with a custom-amount input for any sum
+              between the min and max.</li>
+          <li>Bundle prices include a small bonus on the larger
+              tiers — buy more, get more.</li>
+          <li>Payment processing routes through Steam Wallet by
+              default, with Stripe-backed credit-card support coming
+              for non-Steam launches.</li>
+          <li>Receipts land in the Wallet app's transaction history
+              and as an email to the address on the Steam account.</li>
+        </ul>
+        <div class="callout">Top-ups credit instantly. If a payment is
+        flagged for review, the tokinz lock until clearance — the
+        purchase is fully refundable during that window.</div>
+      </section>
+
+      <section id="publishing">
+        <h2>Publishing &amp; Payouts</h2>
+        <p>Selling on the marketplace requires a verified creator
+        account:</p>
+        <ol>
+          <li>Open the Wallet → Creator tab.</li>
+          <li>Click <strong>BECOME A CREATOR</strong>. The flow asks
+              for a display handle, an optional Tokyube tag (e.g.,
+              <code>@yourname</code>), and an ID-verification step
+              (KYC) handled through Stripe Identity.</li>
+          <li>Once verified, all your future "Publish to Marketplace"
+              buttons go live. Listings can include a co-author split.</li>
+          <li>Earnings accumulate in your tokinz balance. The first
+              payout to real currency unlocks after $25 (USD) equivalent
+              and clears the standard 7-day hold.</li>
+        </ol>
+        <p>Default split is 85% creator / 15% platform. Verified studios
+        and high-trust contributors negotiate custom splits.</p>
+      </section>
+
+      <section id="tipping">
+        <h2>Tipping &amp; Transfers</h2>
+        <p>Two flavors of player-to-player tokinz movement:</p>
+        <ul>
+          <li><strong>Tipping</strong> — public, attached to a listing
+              or post. Tips show on the recipient's profile as a
+              public stat (count, not amount).</li>
+          <li><strong>Direct transfer</strong> — private, peer-to-peer.
+              Send tokinz between Tokyube friends with an optional
+              message; receipts appear in both wallets.</li>
+        </ul>
+        <p>Both flows go through the host-authoritative tokinz ledger
+        — the transfer is atomic across both wallets so a connection
+        hiccup mid-transfer never produces a half-applied transfer.</p>
+      </section>
+
+      <section id="trust-safety">
+        <h2>Trust &amp; Safety</h2>
+        <ul>
+          <li><strong>Verified creators.</strong> ID-verified accounts
+              get a checkmark on listings and profiles. Buyers always
+              know whether the seller is verified before tapping
+              <strong>BUY</strong>.</li>
+          <li><strong>Refund window.</strong> Every purchase is
+              refundable for 7 days unless the asset has been actively
+              used (e.g., the script has fired triggers, the skin has
+              been worn into a multiplayer lobby).</li>
+          <li><strong>Reporting.</strong> Listings, posts, and DMs all
+              have a one-tap report flow. Reports queue into the
+              Tokyube moderation backend and trigger automatic
+              escrow on flagged listings.</li>
+          <li><strong>Anti-fraud.</strong> Volume-spike detection
+              flags suspicious sales patterns; affected accounts get
+              a temporary payout hold pending manual review.</li>
+          <li><strong>Underage protections.</strong> Minor accounts
+              cannot publish, monetize, or top up beyond a small
+              capped amount.</li>
+        </ul>
+      </section>
+
+      <section id="roadmap">
+        <h2>Marketplace Roadmap</h2>
+        <p>Roughly ordered by what's shipping next:</p>
+        <ol>
+          <li><strong>Alpha (now).</strong> Marketplace panel on the
+              title screen, four buttons live. Full transactional flow
+              follows the public Alpha launch.</li>
+          <li><strong>Alpha + 1.</strong> Codeblock Scripts and
+              Custom Tokytar Skins go live. KYC flow opens for
+              creators.</li>
+          <li><strong>Alpha + 2.</strong> 3D Models &amp; Materials
+              go live. Bundle SKUs land. Tipping enabled across
+              listings and TokySocial posts.</li>
+          <li><strong>Beta.</strong> TokyNode and Family listings
+              join the storefront, sharing the same payout / refund
+              flow as the existing categories.</li>
+          <li><strong>Beta + 1.</strong> Subscriptions for
+              creator-tier follows on TokySocial; "boost" spend to
+              promote a listing or post.</li>
+          <li><strong>Post-launch.</strong> World hosting sponsorship,
+              cross-creator collabs with multi-party splits, and a
+              public marketplace API for external integrations.</li>
+        </ol>
+        <div class="callout">Want to weigh in on what should ship
+        next? Join the
+        <a href="https://discord.gg/PJFWdykGmS">Discord</a> and post in
+        <code>#marketplace-feedback</code>.</div>
+      </section>
+
+    </main>
+  </div>
+
+  <footer class="doc-footer">
+    <p>Need to file a bug? <a href="index.html#fileBug">Open the bug report on tokyube.com</a>.</p>
+    <p>© DOOM Industries, LLC — TokyubeVoxelVerse Alpha</p>
+  </footer>
+</body>
+</html>
