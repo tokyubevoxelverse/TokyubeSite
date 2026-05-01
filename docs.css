@@ -38,6 +38,7 @@ body[data-doc="code-blocks"]   .doc-header .doc-title { color: #2a1900; text-sha
 body[data-doc="tokynodes"]     .doc-header { background: linear-gradient(90deg, #8ce8c5 0%, #4ecca3 100%); border-bottom-color: #2fa37a; }
 body[data-doc="tokyphone"]     .doc-header { background: linear-gradient(90deg, #51cf66 0%, #40c057 100%); border-bottom-color: #2f9e44; }
 body[data-doc="tokysocial"]    .doc-header { background: linear-gradient(90deg, #b197fc 0%, #7950f2 100%); border-bottom-color: #6741d9; }
+body[data-doc="tokytokinz"]    .doc-header { background: linear-gradient(90deg, #4dabf7 0%, #1971c2 100%); border-bottom-color: #1550ab; }
 
 .doc-header .doc-title {
   font-size: 24px;
@@ -99,6 +100,7 @@ body[data-doc="code-blocks"] .doc-toc { background: rgba(255, 235, 153, 0.12); b
 body[data-doc="tokynodes"]   .doc-toc { background: rgba(140, 232, 197, 0.12); border-color: #4ecca3; }
 body[data-doc="tokyphone"]   .doc-toc { background: rgba(81, 207, 102, 0.12);  border-color: #40c057; }
 body[data-doc="tokysocial"]  .doc-toc { background: rgba(177, 151, 252, 0.12); border-color: #7950f2; }
+body[data-doc="tokytokinz"]  .doc-toc { background: rgba(77, 171, 247, 0.12); border-color: #1971c2; }
 
 .doc-toc h2 {
   margin: 0 0 12px 0;
@@ -113,6 +115,7 @@ body[data-doc="code-blocks"] .doc-toc h2 { color: #ffeb99; }
 body[data-doc="tokynodes"]   .doc-toc h2 { color: #8ce8c5; }
 body[data-doc="tokyphone"]   .doc-toc h2 { color: #b3e5b3; }
 body[data-doc="tokysocial"]  .doc-toc h2 { color: #d8c4ff; }
+body[data-doc="tokytokinz"]  .doc-toc h2 { color: #b3d4ff; }
 
 .doc-toc ul { list-style: none; padding: 0; margin: 0; }
 .doc-toc li { margin: 6px 0; }
@@ -131,6 +134,7 @@ body[data-doc="code-blocks"] .doc-toc a:hover { background: rgba(249,202,36,0.30
 body[data-doc="tokynodes"]   .doc-toc a:hover { background: rgba(78,204,163,0.30); color: #fff; text-decoration: none; }
 body[data-doc="tokyphone"]   .doc-toc a:hover { background: rgba(64,192,87,0.30); color: #fff; text-decoration: none; }
 body[data-doc="tokysocial"]  .doc-toc a:hover { background: rgba(121,80,242,0.35); color: #fff; text-decoration: none; }
+body[data-doc="tokytokinz"]  .doc-toc a:hover { background: rgba(25,113,194,0.35); color: #fff; text-decoration: none; }
 
 /* Content */
 .doc-content { min-width: 0; }
@@ -147,6 +151,7 @@ body[data-doc="code-blocks"] .doc-content h1 { color: #ffeb99; }
 body[data-doc="tokynodes"]   .doc-content h1 { color: #8ce8c5; }
 body[data-doc="tokyphone"]   .doc-content h1 { color: #b3e5b3; }
 body[data-doc="tokysocial"]  .doc-content h1 { color: #d8c4ff; }
+body[data-doc="tokytokinz"]  .doc-content h1 { color: #b3d4ff; }
 
 .doc-content .doc-lede {
   font-size: 14px;
@@ -169,6 +174,7 @@ body[data-doc="code-blocks"] .doc-content section { border-left-color: #f9ca24; 
 body[data-doc="tokynodes"]   .doc-content section { border-left-color: #4ecca3; }
 body[data-doc="tokyphone"]   .doc-content section { border-left-color: #40c057; }
 body[data-doc="tokysocial"]  .doc-content section { border-left-color: #7950f2; }
+body[data-doc="tokytokinz"]  .doc-content section { border-left-color: #1971c2; }
 
 .doc-content section h2 {
   margin-top: 0;
@@ -183,6 +189,7 @@ body[data-doc="code-blocks"] .doc-content section h2 { color: #ffeb99; }
 body[data-doc="tokynodes"]   .doc-content section h2 { color: #8ce8c5; }
 body[data-doc="tokyphone"]   .doc-content section h2 { color: #b3e5b3; }
 body[data-doc="tokysocial"]  .doc-content section h2 { color: #d8c4ff; }
+body[data-doc="tokytokinz"]  .doc-content section h2 { color: #b3d4ff; }
 
 /* ── Controls table for TokyPhone apps ─────────────────────────────── */
 .controls-table {
