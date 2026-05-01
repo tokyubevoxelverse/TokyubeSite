@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TokyNodes — TokyubeVoxelVerse Documentation</title>
+  <link rel="icon" type="image/png" href="Logo.png">
+  <link rel="apple-touch-icon" href="Logo.png">
+  <link rel="stylesheet" href="docs.css">
+</head>
+<body data-doc="tokynodes">
+  <header class="doc-header">
+    <div class="doc-title">TokyNodes — Documentation</div>
+    <a class="doc-back" href="index.html">← BACK TO TOKYUBE.COM</a>
+  </header>
+
+  <div class="doc-layout">
+    <aside class="doc-toc">
+      <h2>Contents</h2>
+      <ul>
+        <li><a href="#overview">Overview</a></li>
+        <li><a href="#mission">The Cross-World Mission</a></li>
+        <li><a href="#what-is-a-tokynode">What Is a TokyNode</a></li>
+        <li><a href="#families">TokyNode Families</a></li>
+        <li><a href="#cross-world">Cross-World Persistence</a></li>
+        <li><a href="#networking">Networking &amp; Sync</a></li>
+        <li><a href="#authoring">Authoring TokyNodes</a></li>
+        <li><a href="#attaching">Attaching &amp; Hierarchy</a></li>
+        <li><a href="#scripting">Scripting TokyNodes</a></li>
+        <li><a href="#library">TokyNode Library</a></li>
+        <li><a href="#tokyphone-app">TokyNodes Phone App</a></li>
+        <li><a href="#troubleshooting">Troubleshooting</a></li>
+      </ul>
+    </aside>
+
+    <main class="doc-content">
+      <h1>TokyNodes</h1>
+      <p class="doc-lede">
+        TokyNodes are the cross-world, networked, attachable building
+        blocks of TokyubeVoxelVerse. They're the layer that lets a chair
+        you built in one world walk into another with you — without
+        anyone needing to grant you collaborative-build access to either.
+      </p>
+
+      <section id="overview">
+        <h2>Overview</h2>
+        <p>A TokyNode is a first-class entity that exists outside the
+        boundaries of any single world. Where voxels and FBX attachments
+        live and die with the world they were placed in, a TokyNode is
+        owned by <em>you</em> — it travels with your account across every
+        world that allows TokyNode imports.</p>
+        <p>Every TokyNode is networked the moment it spawns. Every change
+        — move, attach, detach, scripted state update — broadcasts to
+        every connected player automatically. There is no "sync this for
+        multiplayer" toggle; networking is the floor of the
+        feature, not a layer bolted on top.</p>
+        <p>A TokyNode <strong>family</strong> is a soft grouping of nodes
+        that travel together. Families are how you ship a multi-piece
+        item — a TV and its remote, a vehicle and its wheels, a chess
+        set and its pieces — as a single named entity that can be
+        spawned, gifted, or imported as one unit.</p>
+      </section>
+
+      <section id="mission">
+        <h2>The Cross-World Mission</h2>
+        <p>Every other major creator platform we've used draws an
+        impassable line at the edge of the world or game. Build a
+        beautiful chair in Roblox? It stays inside that experience. Carve
+        out a treasured artifact in Minecraft? It belongs to that save
+        file. Compose a custom outfit in Fortnite? It belongs to a
+        single battle royale. The user is restricted by the bounds of
+        their world or game — even though they're the one who made the
+        thing.</p>
+        <p>We think that's a failure of imagination. A creator's library
+        is theirs, period. When you build something in Tokyube, it's
+        your thing — across every world that wants to host it, across
+        the multiplayer lobbies you join, across the marketplace you
+        eventually sell or trade it in. <strong>TokyNodes are how we
+        abolish the cross-world wall.</strong></p>
+        <p>That mission shapes every design choice on this page:</p>
+        <ul>
+          <li>Nodes are owned by the player's account, not the world.</li>
+          <li>Families let creators ship complete multi-piece items
+              without needing collaborative-build access in either the
+              source world or the destination world.</li>
+          <li>The networking layer is identical in single-player,
+              hosted multiplayer, and Steam P2P lobbies — so importing
+              a node never produces "this only works in the world I
+              made it in" surprises.</li>
+          <li>Persistence is account-scoped via the same Tokyube backend
+              that powers profiles, friends, and avatars.</li>
+        </ul>
+        <div class="callout">TokyNodes are deliberately distinct from
+        TokyTokinz. TokyTokinz are tradable in-engine collectibles;
+        TokyNodes are functional, scriptable items you author. The two
+        will eventually share a marketplace, but they live in separate
+        ledgers.</div>
+      </section>
+
+      <section id="what-is-a-tokynode">
+        <h2>What Is a TokyNode</h2>
+        <p>Mechanically, a TokyNode is:</p>
+        <ul>
+          <li>A 3D mesh (any OBJ, FBX, or composite voxel structure).</li>
+          <li>Optional <a href="code-blocks.html">Tokyube Code Blocks</a>
+              scripts attached to it — same scripting layer as anything
+              else in the engine.</li>
+          <li>A persistent identifier that's globally unique across
+              your account.</li>
+          <li>A set of attach points so other nodes can dock to it (or
+              it to them) — the basis for families.</li>
+          <li>A network handle so position, rotation, scale, and
+              scripted events all replicate the moment they change.</li>
+        </ul>
+        <p>You spawn a TokyNode in
+        <a href="in-world-tools.html#tokynode-mode">TokyNode Mode</a> from
+        either your library or someone else's shared library. The node
+        appears at your cursor; from there it behaves like any other
+        entity but persists in your account-side library when the world
+        unloads.</p>
+      </section>
+
+      <section id="families">
+        <h2>TokyNode Families</h2>
+        <p>A family is a soft grouping of TokyNodes that share a common
+        identity and travel together. The simplest family has one
+        member; the most complex can have hundreds.</p>
+        <h3>What families enable</h3>
+        <ul>
+          <li><strong>Atomic spawn.</strong> Place the family root and
+              every member spawns in the right relative position.</li>
+          <li><strong>Atomic delete.</strong> Remove the root and every
+              member tears down with it (configurable per family).</li>
+          <li><strong>Coordinated scripting.</strong> A family member
+              can address any other member by role name (e.g.
+              <code>family.find('remote')</code>) without juggling
+              individual entity references.</li>
+          <li><strong>Cross-world transfer.</strong> Gift, trade, or
+              import an entire family in one operation — no need to
+              re-build the relationships in the destination world.</li>
+        </ul>
+        <h3>Roles inside a family</h3>
+        <ul>
+          <li><strong>Root.</strong> Every family has exactly one root.
+              Its position and rotation define the family's "anchor"
+              when it spawns.</li>
+          <li><strong>Members.</strong> Every other node in the family.
+              Members can be attached to the root or to each other,
+              forming arbitrary hierarchies.</li>
+          <li><strong>Attachables.</strong> Members tagged as
+              attachable can be detached and re-attached to nodes
+              outside the family — useful for accessories or
+              decorative pieces that live both inside and outside the
+              family.</li>
+        </ul>
+        <h3>Authoring a family</h3>
+        <ol>
+          <li>Spawn the nodes you want to include in the family.</li>
+          <li>In TokyNode Mode, select the root node and click
+              <strong>NEW FAMILY</strong>.</li>
+          <li>Add members by selecting them and clicking <strong>ADD
+              TO FAMILY</strong>; assign each a role name (free-form
+              string).</li>
+          <li>Click <strong>SAVE FAMILY</strong>. The family is now a
+              first-class entry in your TokyNode Library — spawn it
+              into any other world with a single click.</li>
+        </ol>
+      </section>
+
+      <section id="cross-world">
+        <h2>Cross-World Persistence</h2>
+        <p>Persistence is the whole point. The state we keep travels
+        with you across every world your account opens:</p>
+        <ul>
+          <li>Every TokyNode you've ever authored.</li>
+          <li>Every family you've assembled.</li>
+          <li>Per-node scripts — scripts ride with the node, so a
+              functional door in your home world is still a functional
+              door in someone else's gallery.</li>
+          <li>Per-node scripted state (typed variables, persistent
+              counters, last-known event payloads). What was true about
+              the node when you closed one world is true about it when
+              you re-open it in another.</li>
+        </ul>
+        <p>Storage is account-scoped — keyed by your Steam ID — so
+        signing into Tokyube on a different machine pulls the same
+        library. The node payload itself (mesh + texture + script
+        graph) is content-addressed in the Tokyube backend, so the
+        actual asset only uploads once even if you spawn it across 50
+        worlds.</p>
+        <h3>How worlds opt in</h3>
+        <p>Hosts decide whether a world accepts external TokyNode
+        imports. Three settings:</p>
+        <ul>
+          <li><strong>Open</strong> — any visitor can spawn any node
+              they own.</li>
+          <li><strong>Allowlist</strong> — only nodes from the host's
+              friends or a curated list.</li>
+          <li><strong>Closed</strong> — only the host's own nodes.</li>
+        </ul>
+        <p>Worlds default to <em>Open</em>. Hosts running a focused
+        creative project can flip to Closed without losing their own
+        cross-world library.</p>
+      </section>
+
+      <section id="networking">
+        <h2>Networking &amp; Sync</h2>
+        <p>Three packet types drive TokyNode multiplayer (the same names
+        you'll see in the engine logs):</p>
+        <ul>
+          <li><code>tokynode_spawn</code> — broadcast when a node
+              appears in the world. Includes the node's globally-unique
+              ID, its mesh asset reference, and its initial transform.</li>
+          <li><code>tokynode_remove</code> — broadcast when a node is
+              removed. Cleans up on every peer.</li>
+          <li><code>tokynode_move</code> — 10Hz position/rotation/scale
+              update. Identical cadence to the regular player position
+              broadcast, so motion stays smooth without flooding the
+              network.</li>
+        </ul>
+        <p>Family-level operations (add member, change role, save
+        family) ride on top of these primitives — each member's spawn
+        broadcasts individually, then the family record itself syncs as
+        a single packet so peers' libraries stay in sync.</p>
+        <p>The host is authoritative for state, but every client
+        renders locally — so even if your connection has a hiccup,
+        nodes stay visible at their last-known transform until updates
+        resume.</p>
+      </section>
+
+      <section id="authoring">
+        <h2>Authoring TokyNodes</h2>
+        <p>Two paths to author a node:</p>
+        <h3>From a voxel structure</h3>
+        <ol>
+          <li>Build the structure in-world.</li>
+          <li>Enter <a href="in-world-tools.html#ab-mode">AB Mode</a>
+              and select the bounding region.</li>
+          <li>Click <strong>SAVE AS TOKYNODE</strong> from the AB-Mode
+              actions panel. The structure converts into a single
+              meshed asset and joins your library.</li>
+        </ol>
+        <h3>From an external mesh</h3>
+        <ol>
+          <li>Drag-drop an .OBJ or .FBX onto the world (this places
+              an FBX attachment first).</li>
+          <li>Enter TokyNode Mode and click
+              <strong>PROMOTE TO TOKYNODE</strong>.</li>
+          <li>The mesh is uploaded once to the Tokyube backend; from
+              then on every spawn references the same asset by hash.</li>
+        </ol>
+        <p>Either path can be followed up by attaching scripts via
+        <a href="in-world-tools.html#script-mode">Script Mode</a>. The
+        scripts persist with the node.</p>
+      </section>
+
+      <section id="attaching">
+        <h2>Attaching &amp; Hierarchy</h2>
+        <p>Attachment is how a node parents to another node, a player,
+        or a voxel. An attached node's transform is interpreted relative
+        to its parent — move the parent, the child follows.</p>
+        <h3>Common patterns</h3>
+        <ul>
+          <li><strong>Vehicle wheels.</strong> Wheel nodes attached to
+              a chassis node form a family that drives as one unit.</li>
+          <li><strong>TV + remote.</strong> A remote node attached
+              to a TV node lets a script on the remote send events to
+              the TV — and the family record carries them together
+              across worlds.</li>
+          <li><strong>Wearables.</strong> A hat node attached to the
+              player's head bone walks with the avatar even after the
+              player teleports.</li>
+        </ul>
+        <p>Hierarchies are arbitrary depth. The networking layer flattens
+        attach trees on the wire, so deep hierarchies don't pay a
+        per-frame networking cost beyond the leaf nodes that actually
+        move.</p>
+      </section>
+
+      <section id="scripting">
+        <h2>Scripting TokyNodes</h2>
+        <p>TokyNodes are full first-class targets in Tokyube Code Blocks.
+        Open a node in
+        <a href="in-world-tools.html#script-mode">Script Mode</a> to
+        author logic; the script and any persistent typed-variable state
+        live with the node and travel with it across worlds.</p>
+        <p>Useful patterns:</p>
+        <ul>
+          <li><strong>Per-node typed variables.</strong> Use
+              <a href="code-blocks.html#cat-typed">typed variables</a>
+              for any state that should persist on the node — score,
+              ammo count, last-fired time. Wipes when the node's owner
+              chooses to reset it, not when the world unloads.</li>
+          <li><strong>Family events.</strong> Send events scoped to
+              the family with <code>event_send_to_family</code> (and
+              the symmetric <code>on_receive_family</code>) so
+              members can coordinate without knowing each other's
+              individual IDs.</li>
+          <li><strong>Cross-world identity.</strong> Read the node's
+              global ID from a script to gate behavior — e.g., a
+              "first time in this world" check that surfaces a tutorial
+              prompt the first time the node enters a new world.</li>
+        </ul>
+      </section>
+
+      <section id="library">
+        <h2>TokyNode Library</h2>
+        <p>Your library is the master index of every node and family
+        you own. Open it from the in-world TokyNode Mode panel or from
+        the <a href="#tokyphone-app">TokyNodes phone app</a>.</p>
+        <p>The library lets you:</p>
+        <ul>
+          <li>Browse, sort, and tag your nodes and families.</li>
+          <li>Spawn directly from the panel into the current world.</li>
+          <li>Edit metadata (name, description, tags, public/private,
+              attachable yes/no).</li>
+          <li>Trade or gift nodes to friends — the recipient gets a
+              copy that lives in their library; the original stays in
+              yours.</li>
+          <li>Publish a node to the marketplace (planned) so other
+              creators can discover and import it.</li>
+        </ul>
+      </section>
+
+      <section id="tokyphone-app">
+        <h2>TokyNodes Phone App</h2>
+        <p>The TokyPhone hosts a thin client of the TokyNode Library so
+        you can browse and spawn without leaving the player view. See
+        <a href="tokyphone.html#app-tokynodes">TokyNodes (in-phone)</a>
+        for the controls reference.</p>
+      </section>
+
+      <section id="troubleshooting">
+        <h2>Troubleshooting</h2>
+        <ul>
+          <li><strong>"Node didn't spawn for my friend."</strong> Check
+              the host's import setting — Closed worlds reject external
+              nodes silently.</li>
+          <li><strong>"Family imported but lost its scripts."</strong>
+              Scripts persist with each node, but typed-variable state
+              only restores from the most recent autosave. If you
+              imported a stale snapshot, re-export the family from the
+              source world.</li>
+          <li><strong>"Mesh shows as a placeholder cube."</strong> The
+              backend is still streaming the asset bytes. Wait a few
+              seconds; if it persists, your asset hash may have failed
+              upload — re-promote the source mesh.</li>
+          <li><strong>"Attached node ghosts behind its parent."</strong>
+              That's the local-render fallback during a network hiccup.
+              Once <code>tokynode_move</code> packets resume, the lerp
+              catches up. Persistent ghosting indicates a peer with
+              degraded P2P — check Network Stats in the debug panel.</li>
+        </ul>
+      </section>
+
+    </main>
+  </div>
+
+  <footer class="doc-footer">
+    <p>Need to file a bug? <a href="index.html#fileBug">Open the bug report on tokyube.com</a>.</p>
+    <p>© DOOM Industries, LLC — TokyubeVoxelVerse Alpha</p>
+  </footer>
+</body>
+</html>
