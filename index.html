@@ -1148,19 +1148,55 @@
         });
 
         if (response.ok) {
-          formStatus.textContent = '✓ Bug report submitted successfully! Thank you for helping us improve Tokyube!';
+          formStatus.textContent = '✓ Report submitted successfully! Thank you for helping us improve Tokyube!';
           formStatus.className = 'form-status success';
           bugReportForm.reset();
           
           setTimeout(closeReportModal, 3000);
         } else {
-          throw new Error('Form submission failed');
+          const responseText = await response.text();
+          console.error('Formspree error:', response.status, responseText);
+          
+          // If Formspree fails, try alternative submission
+          throw new Error(`Server responded with status ${response.status}`);
         }
       } catch (error) {
-        console.error('Error:', error);
-        formStatus.textContent = '✗ Error submitting report. Please try again or email us directly.';
-        formStatus.className = 'form-status error';
-        submitBugBtn.disabled = false;
+        console.error('Submission error:', error);
+        
+        // Fallback: Try sending without files
+        formStatus.textContent = 'Attempting alternative submission method...';
+        
+        try {
+          const textFormData = new FormData();
+          textFormData.append('title', document.getElementById('bugTitle').value);
+          textFormData.append('description', document.getElementById('bugDescription').value);
+          textFormData.append('severity', document.getElementById('bugSeverity').value);
+          textFormData.append('steps', document.getElementById('bugSteps').value);
+          textFormData.append('email', document.getElementById('bugEmail').value);
+          
+          const fallbackResponse = await fetch('https://formspree.io/f/mkoynpwz', {
+            method: 'POST',
+            body: textFormData,
+            headers: {
+              'Accept': 'application/json'
+            }
+          });
+          
+          if (fallbackResponse.ok) {
+            formStatus.innerHTML = '✓ <strong>Report submitted!</strong><br>Note: Files were too large to attach. Please contact us directly at support@tokyube.dev with attachments.';
+            formStatus.className = 'form-status success';
+            bugReportForm.reset();
+            
+            setTimeout(closeReportModal, 4000);
+          } else {
+            throw new Error('Fallback also failed');
+          }
+        } catch (fallbackError) {
+          console.error('Fallback error:', fallbackError);
+          formStatus.innerHTML = '✗ <strong>Submission Failed</strong><br>Please email your report to: <strong>support@tokyube.dev</strong><br>Include your issue details and attachments in the email.';
+          formStatus.className = 'form-status error';
+          submitBugBtn.disabled = false;
+        }
       }
     });
   </script>
