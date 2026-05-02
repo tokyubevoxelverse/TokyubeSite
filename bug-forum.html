@@ -573,12 +573,30 @@
       return card;
     }
 
+    function renderCardCounts(card) {
+      const upT = parseInt(card.dataset.upTotal  || '0', 10);
+      const upU = parseInt(card.dataset.upUndo   || '0', 10);
+      const dnT = parseInt(card.dataset.downTotal|| '0', 10);
+      const dnU = parseInt(card.dataset.downUndo || '0', 10);
+      card.querySelector('.vote-btn.up   .count').textContent = Math.max(0, upT - upU);
+      card.querySelector('.vote-btn.down .count').textContent = Math.max(0, dnT - dnU);
+    }
+
     async function hydrateVotesFor(card, issueNumber) {
-      const upBtn   = card.querySelector('.vote-btn.up');
-      const downBtn = card.querySelector('.vote-btn.down');
       const state = await fetchVoteState(issueNumber);
-      upBtn.querySelector('.count').textContent = state.up;
-      downBtn.querySelector('.count').textContent = state.down;
+      card.dataset.upTotal   = state.upTotal;
+      card.dataset.upUndo    = state.upUndo;
+      card.dataset.downTotal = state.downTotal;
+      card.dataset.downUndo  = state.downUndo;
+      renderCardCounts(card);
+    }
+
+    function counterField(key) {
+      if (key.startsWith('up_undo-'))   return 'upUndo';
+      if (key.startsWith('down_undo-')) return 'downUndo';
+      if (key.startsWith('up-'))        return 'upTotal';
+      if (key.startsWith('down-'))      return 'downTotal';
+      return null;
     }
 
     function readCount(el) {
@@ -597,68 +615,78 @@
 
     async function handleVote(btn) {
       if (btn.classList.contains('busy')) return;
+      const card        = btn.closest('.bug-card');
       const issueNumber = btn.dataset.issue;
-      const clicked    = btn.dataset.vote; // 'up' | 'down'
-      const votes      = loadVotes();
-      const current    = votes[issueNumber] || null;
+      const clicked     = btn.dataset.vote; // 'up' | 'down'
+      const votes       = loadVotes();
+      const current     = votes[issueNumber] || null;
 
-      const upBtn   = btn.parentElement.querySelector('.vote-btn.up');
-      const downBtn = btn.parentElement.querySelector('.vote-btn.down');
-      const upCount   = upBtn.querySelector('.count');
-      const downCount = downBtn.querySelector('.count');
+      const upBtn   = card.querySelector('.vote-btn.up');
+      const downBtn = card.querySelector('.vote-btn.down');
 
       upBtn.classList.add('busy');
       downBtn.classList.add('busy');
 
-      // Decide which counters to bump (all increment-only) and how to update local state
+      // Decide which counters to bump (all increment-only)
       const ops = [];
-      let optimisticUpDelta = 0, optimisticDownDelta = 0, nextVote = current;
+      let nextVote = current;
 
       if (current === clicked) {
         // undo
         ops.push(`${clicked}_undo-${issueNumber}`);
-        if (clicked === 'up') optimisticUpDelta = -1; else optimisticDownDelta = -1;
         nextVote = null;
       } else if (current && current !== clicked) {
         // switch: undo old direction + add new direction
         ops.push(`${current}_undo-${issueNumber}`);
         ops.push(`${clicked}-${issueNumber}`);
-        if (current === 'up') { optimisticUpDelta = -1; optimisticDownDelta = +1; }
-        else                  { optimisticDownDelta = -1; optimisticUpDelta = +1; }
         nextVote = clicked;
       } else {
         // first vote
         ops.push(`${clicked}-${issueNumber}`);
-        if (clicked === 'up') optimisticUpDelta = +1; else optimisticDownDelta = +1;
         nextVote = clicked;
       }
 
-      // Optimistic UI
-      const beforeUp   = readCount(upCount);
-      const beforeDown = readCount(downCount);
-      upCount.textContent   = Math.max(0, beforeUp + optimisticUpDelta);
-      downCount.textContent = Math.max(0, beforeDown + optimisticDownDelta);
+      // Snapshot current state for optimistic UI + rollback
+      const snapshot = {
+        upTotal:   card.dataset.upTotal,
+        upUndo:    card.dataset.upUndo,
+        downTotal: card.dataset.downTotal,
+        downUndo:  card.dataset.downUndo
+      };
+
+      // Optimistic: bump each op locally by 1
+      ops.forEach(k => {
+        const f = counterField(k);
+        if (!f) return;
+        const cur = parseInt(card.dataset[f] || '0', 10);
+        card.dataset[f] = cur + 1;
+      });
       upBtn.classList.toggle('voted', nextVote === 'up');
       downBtn.classList.toggle('voted', nextVote === 'down');
+      renderCardCounts(card);
 
-      // Fire the increment(s) in parallel
+      // Fire the increments in parallel; trust each /hit's returned value as authoritative
       const results = await Promise.all(ops.map(k => hitCounter(k)));
       const allOk = results.every(r => r !== null);
 
       if (allOk) {
+        ops.forEach((k, i) => {
+          const f = counterField(k);
+          if (f) card.dataset[f] = results[i];
+        });
         if (nextVote === null) delete votes[issueNumber];
         else votes[issueNumber] = nextVote;
         saveVotes(votes);
-        // Re-derive accurate counts (some other visitor may have voted in the meantime)
-        const fresh = await fetchVoteState(issueNumber);
-        upCount.textContent   = fresh.up;
-        downCount.textContent = fresh.down;
+        renderCardCounts(card);
       } else {
-        // Roll back UI; do not change saved vote
-        upCount.textContent   = beforeUp;
-        downCount.textContent = beforeDown;
+        // Roll back to snapshot; do not change saved vote
+        card.dataset.upTotal   = snapshot.upTotal;
+        card.dataset.upUndo    = snapshot.upUndo;
+        card.dataset.downTotal = snapshot.downTotal;
+        card.dataset.downUndo  = snapshot.downUndo;
         upBtn.classList.toggle('voted', current === 'up');
         downBtn.classList.toggle('voted', current === 'down');
+        renderCardCounts(card);
       }
 
       upBtn.classList.remove('busy');
