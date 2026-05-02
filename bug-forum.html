@@ -383,9 +383,13 @@
     const REPO_URL = `https://github.com/${REPO_OWNER}/${REPO_NAME}`;
 
     // Free anonymous counter API (no signup, CORS enabled). Used for on-site votes.
+    // abacus is increment-only: no /down, /set, or /update. We model "undo" with
+    // a paired _undo counter and display shown = total - undo. v2 namespace because
+    // v1 has dirty data from a previous build that tried to call /down (which silently
+    // failed and skewed totals).
     const COUNTER_API = 'https://abacus.jasoncameron.dev';
-    const COUNTER_NS  = 'tokyube-bug-forum';
-    const VOTE_STORE  = 'tokyube-bug-votes-v1';
+    const COUNTER_NS  = 'tokyube-bug-forum-v2';
+    const VOTE_STORE  = 'tokyube-bug-votes-v2';
 
     function loadVotes() {
       try { return JSON.parse(localStorage.getItem(VOTE_STORE) || '{}'); }
@@ -411,13 +415,20 @@
         return Number(d.value) || 0;
       } catch (_) { return null; }
     }
-    async function downCounter(key) {
-      try {
-        const r = await fetch(`${COUNTER_API}/down/${COUNTER_NS}/${encodeURIComponent(key)}`);
-        if (!r.ok) return null;
-        const d = await r.json();
-        return Number(d.value) || 0;
-      } catch (_) { return null; }
+
+    async function fetchVoteState(issueNumber) {
+      const [upT, upU, dnT, dnU] = await Promise.all([
+        getCounter(`up-${issueNumber}`),
+        getCounter(`up_undo-${issueNumber}`),
+        getCounter(`down-${issueNumber}`),
+        getCounter(`down_undo-${issueNumber}`)
+      ]);
+      return {
+        upTotal: upT, upUndo: upU,
+        downTotal: dnT, downUndo: dnU,
+        up: Math.max(0, upT - upU),
+        down: Math.max(0, dnT - dnU)
+      };
     }
 
     const NEW_ISSUE_TEMPLATE = `**What happened?**
@@ -565,32 +576,14 @@
     async function hydrateVotesFor(card, issueNumber) {
       const upBtn   = card.querySelector('.vote-btn.up');
       const downBtn = card.querySelector('.vote-btn.down');
-      const [up, down] = await Promise.all([
-        getCounter(`up-${issueNumber}`),
-        getCounter(`down-${issueNumber}`)
-      ]);
-      upBtn.querySelector('.count').textContent = up;
-      downBtn.querySelector('.count').textContent = down;
+      const state = await fetchVoteState(issueNumber);
+      upBtn.querySelector('.count').textContent = state.up;
+      downBtn.querySelector('.count').textContent = state.down;
     }
 
     function readCount(el) {
       const n = parseInt(el.textContent, 10);
       return isNaN(n) ? 0 : n;
-    }
-
-    async function applyDelta(direction, issueNumber, delta, btn) {
-      const countEl = btn.querySelector('.count');
-      const before = readCount(countEl);
-      countEl.textContent = Math.max(0, before + delta);
-      const result = delta > 0
-        ? await hitCounter(`${direction}-${issueNumber}`)
-        : await downCounter(`${direction}-${issueNumber}`);
-      if (result !== null) {
-        countEl.textContent = result;
-        return true;
-      }
-      countEl.textContent = before;
-      return false;
     }
 
     function attachActionHandlers(container) {
@@ -611,41 +604,65 @@
 
       const upBtn   = btn.parentElement.querySelector('.vote-btn.up');
       const downBtn = btn.parentElement.querySelector('.vote-btn.down');
-      const sameBtn  = clicked === 'up' ? upBtn : downBtn;
-      const otherBtn = clicked === 'up' ? downBtn : upBtn;
-      const otherDir = clicked === 'up' ? 'down' : 'up';
+      const upCount   = upBtn.querySelector('.count');
+      const downCount = downBtn.querySelector('.count');
 
-      sameBtn.classList.add('busy');
-      otherBtn.classList.add('busy');
+      upBtn.classList.add('busy');
+      downBtn.classList.add('busy');
 
-      let nextVote;
-      let okSame = true, okOther = true;
+      // Decide which counters to bump (all increment-only) and how to update local state
+      const ops = [];
+      let optimisticUpDelta = 0, optimisticDownDelta = 0, nextVote = current;
 
       if (current === clicked) {
         // undo
-        okSame = await applyDelta(clicked, issueNumber, -1, sameBtn);
-        if (okSame) sameBtn.classList.remove('voted');
-        nextVote = okSame ? null : current;
-      } else if (current === otherDir) {
-        // switch: subtract from other, add to clicked
-        okOther = await applyDelta(otherDir, issueNumber, -1, otherBtn);
-        okSame  = await applyDelta(clicked,  issueNumber, +1, sameBtn);
-        if (okOther) otherBtn.classList.remove('voted');
-        if (okSame)  sameBtn.classList.add('voted');
-        nextVote = okSame ? clicked : (okOther ? null : current);
+        ops.push(`${clicked}_undo-${issueNumber}`);
+        if (clicked === 'up') optimisticUpDelta = -1; else optimisticDownDelta = -1;
+        nextVote = null;
+      } else if (current && current !== clicked) {
+        // switch: undo old direction + add new direction
+        ops.push(`${current}_undo-${issueNumber}`);
+        ops.push(`${clicked}-${issueNumber}`);
+        if (current === 'up') { optimisticUpDelta = -1; optimisticDownDelta = +1; }
+        else                  { optimisticDownDelta = -1; optimisticUpDelta = +1; }
+        nextVote = clicked;
       } else {
         // first vote
-        okSame = await applyDelta(clicked, issueNumber, +1, sameBtn);
-        if (okSame) sameBtn.classList.add('voted');
-        nextVote = okSame ? clicked : null;
+        ops.push(`${clicked}-${issueNumber}`);
+        if (clicked === 'up') optimisticUpDelta = +1; else optimisticDownDelta = +1;
+        nextVote = clicked;
       }
 
-      if (nextVote === null) delete votes[issueNumber];
-      else votes[issueNumber] = nextVote;
-      saveVotes(votes);
+      // Optimistic UI
+      const beforeUp   = readCount(upCount);
+      const beforeDown = readCount(downCount);
+      upCount.textContent   = Math.max(0, beforeUp + optimisticUpDelta);
+      downCount.textContent = Math.max(0, beforeDown + optimisticDownDelta);
+      upBtn.classList.toggle('voted', nextVote === 'up');
+      downBtn.classList.toggle('voted', nextVote === 'down');
 
-      sameBtn.classList.remove('busy');
-      otherBtn.classList.remove('busy');
+      // Fire the increment(s) in parallel
+      const results = await Promise.all(ops.map(k => hitCounter(k)));
+      const allOk = results.every(r => r !== null);
+
+      if (allOk) {
+        if (nextVote === null) delete votes[issueNumber];
+        else votes[issueNumber] = nextVote;
+        saveVotes(votes);
+        // Re-derive accurate counts (some other visitor may have voted in the meantime)
+        const fresh = await fetchVoteState(issueNumber);
+        upCount.textContent   = fresh.up;
+        downCount.textContent = fresh.down;
+      } else {
+        // Roll back UI; do not change saved vote
+        upCount.textContent   = beforeUp;
+        downCount.textContent = beforeDown;
+        upBtn.classList.toggle('voted', current === 'up');
+        downBtn.classList.toggle('voted', current === 'down');
+      }
+
+      upBtn.classList.remove('busy');
+      downBtn.classList.remove('busy');
     }
 
     const commentsCache = new Map(); // issueNumber -> rendered HTML
