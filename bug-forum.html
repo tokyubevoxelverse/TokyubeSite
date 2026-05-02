@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Public Bug Forum — TokyubeVoxelVerse</title>
+  <link rel="icon" type="image/png" href="Logo.png">
+  <link rel="apple-touch-icon" href="Logo.png">
+  <style>
+    @font-face {
+      font-family: 'ArcadeClassic';
+      src: url('fonts/ARCADECLASSIC.TTF') format('truetype');
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    @keyframes rainbow-bg {
+      0%   { background-position: 0% 0%, 0% 0%, 0% 50%; }
+      50%  { background-position: 0% 0%, 0% 0%, 100% 50%; }
+      100% { background-position: 0% 0%, 0% 0%, 0% 50%; }
+    }
+
+    body {
+      min-height: 100vh;
+      font-family: 'ArcadeClassic', monospace;
+      color: #fff;
+      background:
+        repeating-linear-gradient(0deg, transparent, transparent 3px, rgba(0,0,0,0.25) 3px, rgba(0,0,0,0.25) 4px),
+        repeating-linear-gradient(90deg, transparent, transparent 3px, rgba(0,0,0,0.20) 3px, rgba(0,0,0,0.20) 4px),
+        linear-gradient(135deg, #2d0010, #0a0a2e, #002d1a, #1a0a2d, #2d1a00, #002020, #1a002d, #2d0a0a, #002d10, #0a1a2d, #2d0018, #0a0a2e);
+      background-size: 4px 4px, 4px 4px, 600% 600%;
+      background-attachment: fixed;
+      animation: rainbow-bg 12s ease infinite;
+      padding: 40px 20px 80px;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+    .header img {
+      max-width: 280px;
+      width: 70vw;
+      height: auto;
+      filter: drop-shadow(0 0 20px rgba(100, 200, 255, 0.6));
+    }
+    .header h1 {
+      font-family: 'ArcadeClassic', monospace;
+      font-size: 32px;
+      letter-spacing: 2px;
+      margin-top: 16px;
+      color: #67e8f9;
+      text-shadow: 2px 2px 0 #003344, 0 0 12px rgba(34, 211, 238, 0.6);
+    }
+    .header p {
+      margin-top: 12px;
+      font-size: 14px;
+      color: #cce;
+      letter-spacing: 1px;
+      line-height: 1.6;
+    }
+
+    .nav-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      justify-content: center;
+      margin: 24px 0 32px;
+    }
+    .action-btn {
+      font-family: 'ArcadeClassic', monospace;
+      font-size: 14px;
+      letter-spacing: 1px;
+      padding: 12px 20px;
+      border: 2px solid;
+      border-radius: 6px;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-block;
+      transition: transform 0.15s ease, filter 0.15s ease;
+    }
+    .action-btn:hover { transform: translateY(-2px); filter: brightness(1.15); }
+    .btn-home { background: #1a0033; color: #fff; border-color: #a855f7; }
+    .btn-submit { background: linear-gradient(90deg, #67e8f9 0%, #22d3ee 100%); color: #003344; border-color: #0891b2; }
+    .btn-refresh { background: #fff; color: #1a0033; border-color: #fff; }
+
+    .controls {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      justify-content: center;
+      align-items: center;
+      margin-bottom: 24px;
+    }
+    .controls label {
+      font-size: 13px;
+      letter-spacing: 1px;
+    }
+    .controls select {
+      font-family: 'ArcadeClassic', monospace;
+      font-size: 13px;
+      padding: 6px 10px;
+      background: #fff;
+      color: #000;
+      border: 2px solid #67e8f9;
+      border-radius: 4px;
+    }
+
+    .status-msg {
+      text-align: center;
+      padding: 24px;
+      font-size: 14px;
+      letter-spacing: 1px;
+      color: #cce;
+    }
+    .status-msg.error { color: #ffb4b4; }
+
+    .bug-list {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .bug-card {
+      background: rgba(0, 0, 0, 0.55);
+      border: 2px solid rgba(103, 232, 249, 0.4);
+      border-radius: 10px;
+      padding: 20px;
+      transition: transform 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
+    }
+    .bug-card:hover {
+      transform: translateY(-2px);
+      border-color: #22d3ee;
+      box-shadow: 0 6px 24px rgba(34, 211, 238, 0.25);
+    }
+
+    .bug-card .bug-title {
+      font-family: 'ArcadeClassic', monospace;
+      font-size: 20px;
+      color: #fff;
+      letter-spacing: 1px;
+      margin-bottom: 8px;
+      word-wrap: break-word;
+    }
+    .bug-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      font-size: 12px;
+      color: #aac;
+      margin-bottom: 12px;
+      letter-spacing: 0.5px;
+    }
+    .bug-meta .label-pill {
+      background: rgba(103, 232, 249, 0.15);
+      color: #67e8f9;
+      padding: 2px 8px;
+      border-radius: 10px;
+      border: 1px solid rgba(103, 232, 249, 0.4);
+    }
+    .bug-meta .state-open { color: #4ade80; }
+    .bug-meta .state-closed { color: #f472b6; }
+
+    .bug-body {
+      font-family: 'Courier New', monospace;
+      font-size: 13px;
+      color: #e8e8ff;
+      line-height: 1.6;
+      background: rgba(0, 0, 0, 0.4);
+      padding: 12px;
+      border-radius: 6px;
+      border-left: 3px solid #22d3ee;
+      white-space: pre-wrap;
+      word-wrap: break-word;
+      max-height: 300px;
+      overflow-y: auto;
+      margin-bottom: 12px;
+    }
+
+    .bug-media {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+    .bug-media img, .bug-media video {
+      max-width: 200px;
+      max-height: 150px;
+      border-radius: 6px;
+      border: 2px solid rgba(103, 232, 249, 0.4);
+      cursor: pointer;
+      object-fit: cover;
+    }
+
+    .bug-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      align-items: center;
+      padding-top: 12px;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    .reaction-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 12px;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 20px;
+      font-size: 13px;
+      color: #fff;
+    }
+    .reaction-pill.up { background: rgba(74, 222, 128, 0.15); border-color: rgba(74, 222, 128, 0.5); }
+    .reaction-pill.down { background: rgba(248, 113, 113, 0.15); border-color: rgba(248, 113, 113, 0.5); }
+    .reaction-pill.comment { background: rgba(167, 139, 250, 0.15); border-color: rgba(167, 139, 250, 0.5); }
+
+    .vote-link {
+      margin-left: auto;
+      font-size: 12px;
+      padding: 8px 14px;
+      background: linear-gradient(90deg, #67e8f9 0%, #22d3ee 100%);
+      color: #003344;
+      text-decoration: none;
+      border-radius: 6px;
+      border: 2px solid #0891b2;
+      letter-spacing: 1px;
+      font-weight: bold;
+      transition: transform 0.15s ease;
+    }
+    .vote-link:hover { transform: translateY(-1px); filter: brightness(1.15); }
+
+    .footer-note {
+      text-align: center;
+      margin-top: 40px;
+      font-size: 12px;
+      color: #99a;
+      line-height: 1.6;
+    }
+    .footer-note a { color: #67e8f9; }
+
+    @media (max-width: 600px) {
+      .header h1 { font-size: 22px; }
+      .bug-card .bug-title { font-size: 16px; }
+      .vote-link { margin-left: 0; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <img src="Logo.png" alt="TokyubeVoxelVerse">
+      <h1>💬 PUBLIC BUG FORUM</h1>
+      <p>
+        Browse community-reported bugs. Upvote ones you've experienced,<br>
+        downvote ones you haven't, and share your story in the comments.
+      </p>
+    </div>
+
+    <div class="nav-actions">
+      <a class="action-btn btn-home" href="index.html">← Back to Home</a>
+      <a class="action-btn btn-submit" id="submitPublicBtn" target="_blank" rel="noopener">+ Submit Public Bug</a>
+      <button class="action-btn btn-refresh" id="refreshBtn">⟳ Refresh</button>
+    </div>
+
+    <div class="controls">
+      <label for="stateFilter">Show:</label>
+      <select id="stateFilter">
+        <option value="open" selected>Open Bugs</option>
+        <option value="closed">Resolved Bugs</option>
+        <option value="all">All Bugs</option>
+      </select>
+      <label for="sortFilter">Sort by:</label>
+      <select id="sortFilter">
+        <option value="reactions-+1" selected>Most Upvoted</option>
+        <option value="created">Newest</option>
+        <option value="updated">Recently Active</option>
+        <option value="comments">Most Discussed</option>
+      </select>
+    </div>
+
+    <div id="statusMsg" class="status-msg">Loading bugs from the community...</div>
+    <div id="bugList" class="bug-list"></div>
+
+    <div class="footer-note">
+      Powered by GitHub Issues — voting and commenting requires a free
+      <a href="https://github.com/signup" target="_blank" rel="noopener">GitHub account</a>.<br>
+      Logs and contact emails from private bug reports are never shown here.
+    </div>
+  </div>
+
+  <script>
+    // ──── CONFIG ────
+    const REPO_OWNER = 'tokyubevoxelverse';
+    const REPO_NAME  = 'TokyubeSite';
+    const PUBLIC_LABEL = 'public-bug'; // only issues with this label appear in the forum
+
+    const API_BASE = `https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/issues`;
+    const REPO_URL = `https://github.com/${REPO_OWNER}/${REPO_NAME}`;
+
+    const NEW_ISSUE_TEMPLATE = `**What happened?**
+(Describe the bug in your own words — please don't paste personal info, emails, or developer logs here. Those belong in the private "FILE A BUG" form.)
+
+**Steps to reproduce**
+1.
+2.
+3.
+
+**Screenshots / Videos**
+(Drag and drop images or videos directly into this box — GitHub will host them for free.)
+`;
+
+    document.getElementById('submitPublicBtn').href =
+      `${REPO_URL}/issues/new?labels=${encodeURIComponent(PUBLIC_LABEL)}&title=${encodeURIComponent('[Public Bug] ')}&body=${encodeURIComponent(NEW_ISSUE_TEMPLATE)}`;
+
+    const statusMsg = document.getElementById('statusMsg');
+    const bugList   = document.getElementById('bugList');
+    const stateSel  = document.getElementById('stateFilter');
+    const sortSel   = document.getElementById('sortFilter');
+    const refreshBtn = document.getElementById('refreshBtn');
+
+    // ──── HELPERS ────
+    function escapeHtml(str) {
+      const div = document.createElement('div');
+      div.textContent = str == null ? '' : String(str);
+      return div.innerHTML;
+    }
+
+    // Strip out anything that smells private even if a user accidentally pastes it
+    function sanitizeBody(body) {
+      if (!body) return '';
+      return body
+        // remove email-looking strings
+        .replace(/[\w.+-]+@[\w-]+\.[\w.-]+/g, '[email hidden]')
+        // remove fenced log/code blocks
+        .replace(/```[\s\S]*?```/g, '[code block hidden]')
+        // remove common log markers and anything until next blank line
+        .replace(/(?:^|\n)(?:logs?|stack ?trace|console output|backend log|developer console)[:\s][\s\S]*?(?=\n\s*\n|$)/gi, '\n[logs hidden]\n');
+    }
+
+    // Pull image / video URLs out of markdown body before stripping for display.
+    // Matches ![alt](url) and bare GitHub user-content URLs.
+    function extractMedia(body) {
+      if (!body) return [];
+      const media = [];
+      const seen = new Set();
+      const mdImg = /!\[[^\]]*\]\(([^)\s]+)\)/g;
+      const bareUrl = /https?:\/\/(?:user-images\.githubusercontent\.com|github\.com\/user-attachments|private-user-images\.githubusercontent\.com)[^\s)]+/g;
+      let m;
+      while ((m = mdImg.exec(body)) !== null) {
+        const url = m[1];
+        if (seen.has(url)) continue;
+        seen.add(url);
+        media.push(url);
+      }
+      while ((m = bareUrl.exec(body)) !== null) {
+        const url = m[0];
+        if (seen.has(url)) continue;
+        seen.add(url);
+        media.push(url);
+      }
+      return media;
+    }
+
+    function isVideoUrl(url) {
+      return /\.(mp4|webm|mov|avi)(\?|$)/i.test(url);
+    }
+
+    function timeAgo(iso) {
+      const then = new Date(iso).getTime();
+      const sec = Math.max(1, Math.floor((Date.now() - then) / 1000));
+      if (sec < 60) return sec + 's ago';
+      if (sec < 3600) return Math.floor(sec/60) + 'm ago';
+      if (sec < 86400) return Math.floor(sec/3600) + 'h ago';
+      if (sec < 2592000) return Math.floor(sec/86400) + 'd ago';
+      if (sec < 31536000) return Math.floor(sec/2592000) + 'mo ago';
+      return Math.floor(sec/31536000) + 'y ago';
+    }
+
+    function bodyToText(body) {
+      if (!body) return '(no description provided)';
+      return body
+        .replace(/!\[[^\]]*\]\([^)]*\)/g, '')           // strip image markdown
+        .replace(/https?:\/\/(?:user-images\.githubusercontent\.com|github\.com\/user-attachments|private-user-images\.githubusercontent\.com)\S+/g, '')
+        .replace(/\r\n/g, '\n')
+        .replace(/\n{3,}/g, '\n\n')
+        .trim();
+    }
+
+    function renderBugCard(issue) {
+      const card = document.createElement('div');
+      card.className = 'bug-card';
+
+      const sanitized = sanitizeBody(issue.body || '');
+      const text = bodyToText(sanitized);
+      const media = extractMedia(issue.body || ''); // media URLs are GitHub-hosted, safe to render
+
+      const reactions = issue.reactions || {};
+      const ups = reactions['+1'] || 0;
+      const downs = reactions['-1'] || 0;
+
+      const labelPills = (issue.labels || [])
+        .filter(l => l.name && l.name !== PUBLIC_LABEL)
+        .slice(0, 4)
+        .map(l => `<span class="label-pill">${escapeHtml(l.name)}</span>`)
+        .join('');
+
+      const stateClass = issue.state === 'open' ? 'state-open' : 'state-closed';
+      const stateLabel = issue.state === 'open' ? '● OPEN' : '✓ RESOLVED';
+
+      let mediaHtml = '';
+      if (media.length) {
+        mediaHtml = '<div class="bug-media">' + media.slice(0, 6).map(url => {
+          const safeUrl = encodeURI(url);
+          if (isVideoUrl(url)) {
+            return `<video src="${safeUrl}" controls preload="metadata"></video>`;
+          }
+          return `<a href="${safeUrl}" target="_blank" rel="noopener"><img src="${safeUrl}" alt="bug media" loading="lazy"></a>`;
+        }).join('') + '</div>';
+      }
+
+      card.innerHTML = `
+        <div class="bug-title">#${issue.number} — ${escapeHtml(issue.title)}</div>
+        <div class="bug-meta">
+          <span class="${stateClass}">${stateLabel}</span>
+          <span>filed ${escapeHtml(timeAgo(issue.created_at))}</span>
+          <span>updated ${escapeHtml(timeAgo(issue.updated_at))}</span>
+          ${labelPills}
+        </div>
+        <div class="bug-body">${escapeHtml(text)}</div>
+        ${mediaHtml}
+        <div class="bug-actions">
+          <span class="reaction-pill up">👍 ${ups}</span>
+          <span class="reaction-pill down">👎 ${downs}</span>
+          <span class="reaction-pill comment">💬 ${issue.comments}</span>
+          <a class="vote-link" href="${escapeHtml(issue.html_url)}" target="_blank" rel="noopener">Vote / Comment on GitHub →</a>
+        </div>
+      `;
+      return card;
+    }
+
+    async function loadBugs() {
+      statusMsg.style.display = 'block';
+      statusMsg.classList.remove('error');
+      statusMsg.textContent = 'Loading bugs from the community...';
+      bugList.innerHTML = '';
+
+      const params = new URLSearchParams({
+        state: stateSel.value,
+        labels: PUBLIC_LABEL,
+        sort: sortSel.value.startsWith('reactions') ? 'reactions-+1' : sortSel.value,
+        direction: 'desc',
+        per_page: '50'
+      });
+
+      try {
+        const res = await fetch(`${API_BASE}?${params.toString()}`, {
+          headers: { 'Accept': 'application/vnd.github+json' }
+        });
+        if (!res.ok) {
+          if (res.status === 403) {
+            throw new Error('GitHub API rate limit reached. Please try again in a few minutes.');
+          }
+          throw new Error(`Could not load bugs (HTTP ${res.status}).`);
+        }
+        const issues = await res.json();
+        // Filter out pull requests (the issues endpoint returns both)
+        const bugs = (Array.isArray(issues) ? issues : []).filter(i => !i.pull_request);
+
+        if (bugs.length === 0) {
+          statusMsg.textContent = 'No public bugs yet. Be the first to file one using the "Submit Public Bug" button above!';
+          return;
+        }
+        statusMsg.style.display = 'none';
+        bugs.forEach(issue => bugList.appendChild(renderBugCard(issue)));
+      } catch (err) {
+        statusMsg.classList.add('error');
+        statusMsg.textContent = `⚠ ${err.message}`;
+      }
+    }
+
+    refreshBtn.addEventListener('click', loadBugs);
+    stateSel.addEventListener('change', loadBugs);
+    sortSel.addEventListener('change', loadBugs);
+
+    loadBugs();
+  </script>
+</body>
+</html>
