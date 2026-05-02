@@ -215,7 +215,66 @@
       font-size: 13px;
       color: #fff;
     }
-    .reaction-pill.comment { background: rgba(167, 139, 250, 0.15); border-color: rgba(167, 139, 250, 0.5); }
+    .reaction-pill.comment {
+      background: rgba(167, 139, 250, 0.15);
+      border-color: rgba(167, 139, 250, 0.5);
+      cursor: pointer;
+      font-family: 'ArcadeClassic', monospace;
+      letter-spacing: 0.5px;
+      transition: transform 0.1s ease, filter 0.1s ease, background 0.15s ease;
+    }
+    .reaction-pill.comment:hover { transform: translateY(-1px); filter: brightness(1.2); }
+    .reaction-pill.comment.open { background: rgba(167, 139, 250, 0.4); border-color: #a78bfa; }
+
+    .comments-panel {
+      margin-top: 12px;
+      padding: 12px;
+      background: rgba(0,0,0,0.35);
+      border-radius: 8px;
+      border-left: 3px solid #a78bfa;
+      display: none;
+    }
+    .comments-panel.open { display: block; }
+    .comments-loading, .comments-empty, .comments-error {
+      font-size: 12px;
+      color: #ccc;
+      letter-spacing: 0.5px;
+      padding: 4px 0;
+    }
+    .comments-error { color: #ffb4b4; }
+    .comment {
+      padding: 10px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+    .comment:last-child { border-bottom: none; }
+    .comment-head {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 6px;
+    }
+    .comment-avatar {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      border: 1px solid rgba(255,255,255,0.25);
+    }
+    .comment-author {
+      font-family: 'ArcadeClassic', monospace;
+      font-size: 13px;
+      color: #c4b5fd;
+      letter-spacing: 0.5px;
+    }
+    .comment-time { font-size: 11px; color: #889; margin-left: auto; }
+    .comment-body {
+      font-family: 'Courier New', monospace;
+      font-size: 12px;
+      color: #e8e8ff;
+      line-height: 1.5;
+      white-space: pre-wrap;
+      word-wrap: break-word;
+      padding-left: 32px;
+    }
 
     .vote-btn {
       display: inline-flex;
@@ -232,8 +291,8 @@
       letter-spacing: 0.5px;
       transition: transform 0.1s ease, filter 0.1s ease, background 0.15s ease;
     }
-    .vote-btn:hover:not(:disabled) { transform: translateY(-1px); filter: brightness(1.2); }
-    .vote-btn:disabled { cursor: default; opacity: 0.85; }
+    .vote-btn:hover:not(.busy) { transform: translateY(-1px); filter: brightness(1.2); }
+    .vote-btn.busy { cursor: progress; opacity: 0.7; }
     .vote-btn.up { background: rgba(74, 222, 128, 0.15); border-color: rgba(74, 222, 128, 0.5); }
     .vote-btn.up.voted { background: rgba(74, 222, 128, 0.55); border-color: #4ade80; box-shadow: 0 0 12px rgba(74, 222, 128, 0.5); }
     .vote-btn.down { background: rgba(248, 113, 113, 0.15); border-color: rgba(248, 113, 113, 0.5); }
@@ -347,6 +406,14 @@
     async function hitCounter(key) {
       try {
         const r = await fetch(`${COUNTER_API}/hit/${COUNTER_NS}/${encodeURIComponent(key)}`);
+        if (!r.ok) return null;
+        const d = await r.json();
+        return Number(d.value) || 0;
+      } catch (_) { return null; }
+    }
+    async function downCounter(key) {
+      try {
+        const r = await fetch(`${COUNTER_API}/down/${COUNTER_NS}/${encodeURIComponent(key)}`);
         if (!r.ok) return null;
         const d = await r.json();
         return Number(d.value) || 0;
@@ -473,7 +540,6 @@
       const myVote = votes[issue.number] || null; // 'up' | 'down' | null
       const upClass   = 'vote-btn up'   + (myVote === 'up'   ? ' voted' : '');
       const downClass = 'vote-btn down' + (myVote === 'down' ? ' voted' : '');
-      const disabled  = myVote ? 'disabled' : '';
 
       card.innerHTML = `
         <div class="bug-title">#${issue.number} — ${escapeHtml(issue.title)}</div>
@@ -486,11 +552,12 @@
         <div class="bug-body">${escapeHtml(text)}</div>
         ${mediaHtml}
         <div class="bug-actions">
-          <button type="button" class="${upClass}"   data-vote="up"   data-issue="${issue.number}" ${disabled}>👍 <span class="count">…</span></button>
-          <button type="button" class="${downClass}" data-vote="down" data-issue="${issue.number}" ${disabled}>👎 <span class="count">…</span></button>
-          <span class="reaction-pill comment">💬 ${issue.comments}</span>
-          <a class="vote-link" href="${escapeHtml(issue.html_url)}" target="_blank" rel="noopener">Comment on GitHub →</a>
+          <button type="button" class="${upClass}"   data-vote="up"   data-issue="${issue.number}">👍 <span class="count">…</span></button>
+          <button type="button" class="${downClass}" data-vote="down" data-issue="${issue.number}">👎 <span class="count">…</span></button>
+          <button type="button" class="reaction-pill comment" data-toggle-comments data-issue="${issue.number}">💬 <span class="comment-count">${issue.comments}</span></button>
+          <a class="vote-link" href="${escapeHtml(issue.html_url)}#new_comment_field" target="_blank" rel="noopener">Comment on GitHub →</a>
         </div>
+        <div class="comments-panel" data-comments data-issue="${issue.number}"></div>
       `;
       return card;
     }
@@ -506,42 +573,145 @@
       downBtn.querySelector('.count').textContent = down;
     }
 
-    function attachVoteHandlers(container) {
+    function readCount(el) {
+      const n = parseInt(el.textContent, 10);
+      return isNaN(n) ? 0 : n;
+    }
+
+    async function applyDelta(direction, issueNumber, delta, btn) {
+      const countEl = btn.querySelector('.count');
+      const before = readCount(countEl);
+      countEl.textContent = Math.max(0, before + delta);
+      const result = delta > 0
+        ? await hitCounter(`${direction}-${issueNumber}`)
+        : await downCounter(`${direction}-${issueNumber}`);
+      if (result !== null) {
+        countEl.textContent = result;
+        return true;
+      }
+      countEl.textContent = before;
+      return false;
+    }
+
+    function attachActionHandlers(container) {
       container.addEventListener('click', async (e) => {
-        const btn = e.target.closest('.vote-btn');
-        if (!btn || btn.disabled) return;
-        const issueNumber = btn.dataset.issue;
-        const direction   = btn.dataset.vote;
-        const votes = loadVotes();
-        if (votes[issueNumber]) return; // already voted this browser
-
-        // Optimistic UI
-        const countEl = btn.querySelector('.count');
-        const current = parseInt(countEl.textContent, 10);
-        const optimistic = isNaN(current) ? 1 : current + 1;
-        countEl.textContent = optimistic;
-        btn.classList.add('voted');
-        const sibling = btn.parentElement.querySelector(
-          direction === 'up' ? '.vote-btn.down' : '.vote-btn.up'
-        );
-        btn.disabled = true;
-        if (sibling) sibling.disabled = true;
-
-        const newVal = await hitCounter(`${direction}-${issueNumber}`);
-        if (newVal !== null) {
-          countEl.textContent = newVal;
-          votes[issueNumber] = direction;
-          saveVotes(votes);
-        } else {
-          // Roll back UI on network failure
-          countEl.textContent = isNaN(current) ? 0 : current;
-          btn.classList.remove('voted');
-          btn.disabled = false;
-          if (sibling) sibling.disabled = false;
-        }
+        const voteBtn = e.target.closest('.vote-btn');
+        if (voteBtn) return handleVote(voteBtn);
+        const commentBtn = e.target.closest('[data-toggle-comments]');
+        if (commentBtn) return handleCommentToggle(commentBtn);
       });
     }
-    attachVoteHandlers(bugList);
+
+    async function handleVote(btn) {
+      if (btn.classList.contains('busy')) return;
+      const issueNumber = btn.dataset.issue;
+      const clicked    = btn.dataset.vote; // 'up' | 'down'
+      const votes      = loadVotes();
+      const current    = votes[issueNumber] || null;
+
+      const upBtn   = btn.parentElement.querySelector('.vote-btn.up');
+      const downBtn = btn.parentElement.querySelector('.vote-btn.down');
+      const sameBtn  = clicked === 'up' ? upBtn : downBtn;
+      const otherBtn = clicked === 'up' ? downBtn : upBtn;
+      const otherDir = clicked === 'up' ? 'down' : 'up';
+
+      sameBtn.classList.add('busy');
+      otherBtn.classList.add('busy');
+
+      let nextVote;
+      let okSame = true, okOther = true;
+
+      if (current === clicked) {
+        // undo
+        okSame = await applyDelta(clicked, issueNumber, -1, sameBtn);
+        if (okSame) sameBtn.classList.remove('voted');
+        nextVote = okSame ? null : current;
+      } else if (current === otherDir) {
+        // switch: subtract from other, add to clicked
+        okOther = await applyDelta(otherDir, issueNumber, -1, otherBtn);
+        okSame  = await applyDelta(clicked,  issueNumber, +1, sameBtn);
+        if (okOther) otherBtn.classList.remove('voted');
+        if (okSame)  sameBtn.classList.add('voted');
+        nextVote = okSame ? clicked : (okOther ? null : current);
+      } else {
+        // first vote
+        okSame = await applyDelta(clicked, issueNumber, +1, sameBtn);
+        if (okSame) sameBtn.classList.add('voted');
+        nextVote = okSame ? clicked : null;
+      }
+
+      if (nextVote === null) delete votes[issueNumber];
+      else votes[issueNumber] = nextVote;
+      saveVotes(votes);
+
+      sameBtn.classList.remove('busy');
+      otherBtn.classList.remove('busy');
+    }
+
+    const commentsCache = new Map(); // issueNumber -> rendered HTML
+
+    async function handleCommentToggle(btn) {
+      const issueNumber = btn.dataset.issue;
+      const card = btn.closest('.bug-card');
+      const panel = card.querySelector('[data-comments]');
+      const isOpen = panel.classList.contains('open');
+
+      if (isOpen) {
+        panel.classList.remove('open');
+        btn.classList.remove('open');
+        return;
+      }
+
+      btn.classList.add('open');
+      panel.classList.add('open');
+
+      if (commentsCache.has(issueNumber)) {
+        panel.innerHTML = commentsCache.get(issueNumber);
+        return;
+      }
+
+      panel.innerHTML = '<div class="comments-loading">Loading comments…</div>';
+      try {
+        const r = await fetch(
+          `https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/issues/${encodeURIComponent(issueNumber)}/comments?per_page=100`,
+          { headers: { 'Accept': 'application/vnd.github+json' } }
+        );
+        if (!r.ok) {
+          if (r.status === 403) throw new Error('GitHub API rate limit reached. Try again in a few minutes.');
+          throw new Error(`Could not load comments (HTTP ${r.status}).`);
+        }
+        const data = await r.json();
+        if (!Array.isArray(data) || data.length === 0) {
+          const html = '<div class="comments-empty">No comments yet — be the first to share your experience using "Comment on GitHub" above.</div>';
+          commentsCache.set(issueNumber, html);
+          panel.innerHTML = html;
+          return;
+        }
+        const html = data.map(c => {
+          const sanitized = sanitizeBody(c.body || '');
+          const text = bodyToText(sanitized) || '(empty)';
+          const author = (c.user && c.user.login) ? c.user.login : 'unknown';
+          const avatar = (c.user && c.user.avatar_url) ? c.user.avatar_url : '';
+          const safeAvatar = avatar ? `<img class="comment-avatar" src="${escapeHtml(avatar)}" alt="" loading="lazy">` : '';
+          return `
+            <div class="comment">
+              <div class="comment-head">
+                ${safeAvatar}
+                <span class="comment-author">${escapeHtml(author)}</span>
+                <span class="comment-time">${escapeHtml(timeAgo(c.created_at))}</span>
+              </div>
+              <div class="comment-body">${escapeHtml(text)}</div>
+            </div>
+          `;
+        }).join('');
+        commentsCache.set(issueNumber, html);
+        panel.innerHTML = html;
+      } catch (err) {
+        panel.innerHTML = `<div class="comments-error">⚠ ${escapeHtml(err.message)}</div>`;
+      }
+    }
+
+    attachActionHandlers(bugList);
 
     async function loadBugs() {
       statusMsg.style.display = 'block';
@@ -600,9 +770,10 @@
       }
     }
 
-    refreshBtn.addEventListener('click', loadBugs);
-    stateSel.addEventListener('change', loadBugs);
-    sortSel.addEventListener('change', loadBugs);
+    function reload() { commentsCache.clear(); loadBugs(); }
+    refreshBtn.addEventListener('click', reload);
+    stateSel.addEventListener('change', reload);
+    sortSel.addEventListener('change', reload);
 
     loadBugs();
   </script>
