@@ -187,35 +187,43 @@
     // ──────────────────────────────────────────────────────────────────
     // MIRROR (so the player can see themselves on spawn)
     // 720p (1280×720) reflection RT, 4× MSAA-equivalent via samples.
+    // The mirror + frame live in a single Group so we can teleport the
+    // whole thing 3m in front of the player at session start, regardless
+    // of which direction the headset is physically facing.
     // ──────────────────────────────────────────────────────────────────
-    const MIRROR_W = 2.4, MIRROR_H = 2.6;
-    const mirrorGeo = new THREE.PlaneGeometry(MIRROR_W, MIRROR_H);
-    const mirror = new THREE.Reflector ? null : null; // (placeholder; real ctor below)
-    const mirrorReflector = new Reflector(mirrorGeo, {
+    const MIRROR_W = 2.4, MIRROR_H = 2.8;
+    const mirrorGroup = new THREE.Group();
+    scene.add(mirrorGroup);
+
+    const mirrorReflector = new Reflector(new THREE.PlaneGeometry(MIRROR_W, MIRROR_H), {
       textureWidth: 1280,
       textureHeight: 720,
       color: 0x9aa0a6,
       multisample: 4
     });
-    // Place in front of spawn (player spawns facing -Z by default).
-    mirrorReflector.position.set(0, MIRROR_H / 2 + 0.05, -2.5);
-    scene.add(mirrorReflector);
+    // The reflector's reflective face is +Z in its local space. Position it at the
+    // group origin; the group itself will be placed/rotated in world space.
+    mirrorReflector.position.set(0, MIRROR_H / 2 + 0.05, 0);
+    mirrorGroup.add(mirrorReflector);
 
     // Decorative frame around the mirror so it reads as a mirror, not a portal.
-    const frameMat = new THREE.MeshLambertMaterial({ color: 0x2a2a3a });
-    const frameThick = 0.08;
-    const frameDepth = 0.08;
+    const frameMat = new THREE.MeshLambertMaterial({ color: 0x2a2a3a, emissive: 0x1a1a3a, emissiveIntensity: 0.4 });
+    const frameThick = 0.10;
+    const frameDepth = 0.10;
     const frameTop    = new THREE.Mesh(new THREE.BoxGeometry(MIRROR_W + frameThick * 2, frameThick, frameDepth), frameMat);
     const frameBottom = new THREE.Mesh(new THREE.BoxGeometry(MIRROR_W + frameThick * 2, frameThick, frameDepth), frameMat);
     const frameLeft   = new THREE.Mesh(new THREE.BoxGeometry(frameThick, MIRROR_H + frameThick * 2, frameDepth), frameMat);
     const frameRight  = new THREE.Mesh(new THREE.BoxGeometry(frameThick, MIRROR_H + frameThick * 2, frameDepth), frameMat);
-    const fz = -2.55;
     const fy = MIRROR_H / 2 + 0.05;
-    frameTop.position.set(0, fy + MIRROR_H / 2 + frameThick / 2, fz);
-    frameBottom.position.set(0, fy - MIRROR_H / 2 - frameThick / 2, fz);
-    frameLeft.position.set(-MIRROR_W / 2 - frameThick / 2, fy, fz);
-    frameRight.position.set( MIRROR_W / 2 + frameThick / 2, fy, fz);
-    scene.add(frameTop, frameBottom, frameLeft, frameRight);
+    frameTop.position.set(0, fy + MIRROR_H / 2 + frameThick / 2, -0.02);
+    frameBottom.position.set(0, fy - MIRROR_H / 2 - frameThick / 2, -0.02);
+    frameLeft.position.set(-MIRROR_W / 2 - frameThick / 2, fy, -0.02);
+    frameRight.position.set( MIRROR_W / 2 + frameThick / 2, fy, -0.02);
+    mirrorGroup.add(frameTop, frameBottom, frameLeft, frameRight);
+
+    // Default placement (used outside XR / before sessionstart): 3m down -Z.
+    mirrorGroup.position.set(0, 0, -3);
+    mirrorGroup.rotation.y = 0; // facing +Z toward the player at origin
 
     // ──────────────────────────────────────────────────────────────────
     // PLAYER RIG: Group at floor level. Camera + avatar attach to it.
@@ -242,9 +250,13 @@
     //   RightArm: mirror of LeftArm
     // Avatar scale: bring full height (~3.25u) to ~1.75m → scale ≈ 0.55
     const AVATAR_SCALE = 0.55;
-    // Where the neck attaches to the head (relative to the camera). Negative Y so
-    // shoulders + arms hang BELOW the headset, not on top of it.
-    const NECK_BELOW_HEAD = 0.20; // m below camera
+    // Where the neck attaches relative to the camera (eye height).
+    // We deliberately put the neck FAR below the eyes (≈ 0.85 m) so that the
+    // shoulder-to-eye distance is greater than the avatar's arm length
+    // (arm = 1.438 OBJ-units × AVATAR_SCALE 0.55 ≈ 0.79 m). With the gap larger
+    // than the arm length, the arm geometry physically cannot reach the eye/head
+    // region no matter where the player aims their controllers.
+    const NECK_BELOW_HEAD = 0.85; // m below camera
 
     // Shoulder anchor points in OBJ space, RELATIVE TO THE NECK (OBJ y=1.0 is neck-top).
     // Original shoulder world (OBJ space) ~ (±0.8, 0.85, 0). Subtract neck (0,1,0):
@@ -294,7 +306,15 @@
         bodyMesh.position.set(0, -1.0, 0); // OBJ neck-top (0,1,0) → torsoGroup origin
         torsoGroup.add(bodyMesh);
       }
-      if (avatarHead) avatarHead.visible = false; // user IS the head in 1st person
+      // Show the avatar head — the camera now sits well above it, so it does NOT
+      // occlude the view. Reattach the head to the torso group so it follows
+      // the head-yaw and translation along with the body.
+      if (avatarHead) {
+        avatarHead.parent && avatarHead.parent.remove(avatarHead);
+        avatarHead.position.set(0, -1.0, 0); // OBJ neck-base (0,1.105,0) → torso-local (0, 0.105, 0); we anchor at neck top
+        avatarHead.visible = true;
+        torsoGroup.add(avatarHead);
+      }
       playerRig.add(torsoGroup);
 
       // ── ARMS: shoulder pivots are children of torsoGroup (so they inherit head-follow + scale).
@@ -502,6 +522,25 @@
 
     let wheelOpen = false;
     let wheelSelection = -1;
+    let mirrorPlaced = false;
+
+    function placeMirrorInFrontOfPlayer() {
+      const camPos = new THREE.Vector3();
+      camera.getWorldPosition(camPos);
+      const camFwd = new THREE.Vector3();
+      camera.getWorldDirection(camFwd);
+      camFwd.y = 0;
+      if (camFwd.lengthSq() < 1e-4) { camFwd.set(0, 0, -1); }
+      camFwd.normalize();
+      const target = camPos.clone().addScaledVector(camFwd, 3.0);
+      mirrorGroup.position.set(target.x, 0, target.z);
+      // The reflective face is +Z in mirrorGroup local — rotate the group so its +Z
+      // points back at the player.
+      const back = camPos.clone().sub(target); back.y = 0; back.normalize();
+      const yaw = Math.atan2(back.x, back.z);
+      mirrorGroup.rotation.set(0, yaw, 0);
+      mirrorPlaced = true;
+    }
 
     function readGamepads(session, dt) {
       if (!session) return;
@@ -688,6 +727,11 @@
 
     renderer.xr.addEventListener('sessionstart', () => {
       document.body.classList.add('in-xr');
+      // Place the mirror 3 m in front of wherever the player is physically facing
+      // when they entered VR. The first XR pose isn't valid until at least one
+      // animation-loop tick, so we defer with a short timeout + a retry inside
+      // the loop (see mirrorPlaced flag below).
+      mirrorPlaced = false;
     });
     renderer.xr.addEventListener('sessionend', () => {
       document.body.classList.remove('in-xr');
@@ -719,6 +763,13 @@
       updateWheelSelection();
       positionWheel();
       updateAvatar();
+
+      // First valid XR frame after sessionstart: snap the mirror in front of the
+      // player's actual facing direction (Quest sets headset pose only after the
+      // first frame, so doing this in 'sessionstart' alone gives a stale pose).
+      if (session && !mirrorPlaced) {
+        placeMirrorInFrontOfPlayer();
+      }
 
       if (wheelSelection !== lastWheelDrawSel || (wheelOpen && lastWheelDrawSel === -2)) {
         drawWheel(wheelSelection);
