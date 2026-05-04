@@ -1,0 +1,680 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TokyubeVoxelVerse — VR</title>
+  <link rel="icon" type="image/png" href="Logo.png">
+  <link rel="apple-touch-icon" href="Logo.png">
+  <style>
+    @font-face {
+      font-family: 'ArcadeClassic';
+      src: url('fonts/ARCADECLASSIC.TTF') format('truetype');
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body { width: 100%; height: 100%; overflow: hidden; background: #07070f; color: #fff; font-family: 'ArcadeClassic', monospace; }
+    #vrContainer { position: fixed; inset: 0; }
+    canvas { display: block; }
+
+    /* Top bar (only visible outside of VR session) */
+    #topBar {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 10;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 14px 20px; pointer-events: none;
+      background: linear-gradient(180deg, rgba(0,0,0,0.55), rgba(0,0,0,0));
+    }
+    #backBtn {
+      pointer-events: auto;
+      font-family: 'ArcadeClassic', monospace;
+      letter-spacing: 2px;
+      font-size: 18px;
+      color: #fff;
+      text-decoration: none;
+      padding: 10px 18px;
+      border: 2px solid #fff;
+      border-radius: 6px;
+      background: rgba(0,0,0,0.5);
+      text-shadow: 1px 1px 0 #000;
+    }
+    #backBtn:hover { background: rgba(255,255,255,0.15); }
+    #title {
+      font-family: 'ArcadeClassic', monospace;
+      letter-spacing: 4px;
+      font-size: clamp(18px, 3vw, 28px);
+      text-shadow: 2px 2px 0 #000, 3px 3px 0 #1a002d;
+      pointer-events: none;
+    }
+
+    /* Center splash with the VR button (the WebXR VRButton attaches itself bottom-center; we wrap it) */
+    #splash {
+      position: fixed; left: 0; right: 0; top: 50%;
+      transform: translateY(-50%);
+      display: flex; flex-direction: column; align-items: center; gap: 22px;
+      padding: 20px;
+      pointer-events: none;
+      text-align: center;
+    }
+    #splash h1 {
+      font-family: 'ArcadeClassic', monospace;
+      letter-spacing: 4px;
+      font-size: clamp(28px, 5.5vw, 56px);
+      text-shadow: 3px 3px 0 #000, 5px 5px 0 #1a002d;
+    }
+    #splash p {
+      max-width: 640px;
+      font-family: 'ArcadeClassic', monospace;
+      letter-spacing: 1px;
+      font-size: clamp(13px, 2.2vw, 17px);
+      line-height: 1.7;
+      color: #ddd;
+      text-shadow: 1px 1px 0 #000;
+    }
+    #status {
+      font-family: 'ArcadeClassic', monospace;
+      font-size: 14px;
+      letter-spacing: 1px;
+      color: #ffe066;
+      text-shadow: 1px 1px 0 #000;
+    }
+    /* Three.js auto-injected VRButton sits at bottom; force it readable on our background */
+    body > button {
+      pointer-events: auto;
+    }
+    /* Hide UI once a VR session is active */
+    body.in-xr #topBar,
+    body.in-xr #splash { display: none !important; }
+  </style>
+</head>
+<body>
+  <div id="vrContainer"></div>
+
+  <div id="topBar">
+    <a id="backBtn" href="index.html">&larr; BACK TO SITE</a>
+    <div id="title">TOKYUBE VR</div>
+    <div style="width: 160px"></div>
+  </div>
+
+  <div id="splash">
+    <h1>ENTER THE TOKYUBE VOXELVERSE</h1>
+    <p>
+      Put on your headset and tap the <b>ENTER VR</b> button below.<br>
+      Left thumbstick: smooth walk &nbsp;|&nbsp; Right thumbstick: smooth turn<br>
+      Hold the left controller's <b>menu / Y button</b> for 2.5s to open the radial wheel.<br>
+      With the wheel open, the left thumbstick selects one of 8 segments.
+    </p>
+    <div id="status">Loading scene…</div>
+  </div>
+
+  <!-- Three.js (WebXR-capable) loaded via importmap -->
+  <script type="importmap">
+  {
+    "imports": {
+      "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+      "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
+    }
+  }
+  </script>
+
+  <script type="module">
+    import * as THREE from 'three';
+    import { VRButton } from 'three/addons/webxr/VRButton.js';
+    import { OBJLoader } from 'three/addons/loaders/OBJLoader.js';
+    import { MTLLoader } from 'three/addons/loaders/MTLLoader.js';
+    import { XRControllerModelFactory } from 'three/addons/webxr/XRControllerModelFactory.js';
+
+    const statusEl = document.getElementById('status');
+    const setStatus = (msg) => { if (statusEl) statusEl.textContent = msg; };
+
+    // ──────────────────────────────────────────────────────────────────
+    // RENDERER + SCENE
+    // ──────────────────────────────────────────────────────────────────
+    const renderer = new THREE.WebGLRenderer({ antialias: true });
+    renderer.setPixelRatio(window.devicePixelRatio);
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.outputColorSpace = THREE.SRGBColorSpace;
+    renderer.xr.enabled = true;
+    document.getElementById('vrContainer').appendChild(renderer.domElement);
+
+    const scene = new THREE.Scene();
+    scene.background = new THREE.Color(0x88c8ff);
+    scene.fog = new THREE.Fog(0x88c8ff, 30, 110);
+
+    // Camera (in non-XR mode it sits a bit above floor; XR overrides position automatically)
+    const camera = new THREE.PerspectiveCamera(70, window.innerWidth / window.innerHeight, 0.05, 500);
+    camera.position.set(0, 1.6, 2);
+
+    // Lighting
+    const hemi = new THREE.HemisphereLight(0xeaf6ff, 0x4a3a2a, 0.85);
+    scene.add(hemi);
+    const sun = new THREE.DirectionalLight(0xfff1c8, 1.1);
+    sun.position.set(20, 35, 12);
+    sun.castShadow = false;
+    scene.add(sun);
+
+    // Ground
+    const groundMat = new THREE.MeshLambertMaterial({ color: 0x4a8c3a });
+    const ground = new THREE.Mesh(new THREE.PlaneGeometry(400, 400), groundMat);
+    ground.rotation.x = -Math.PI / 2;
+    scene.add(ground);
+
+    // Voxel-style scattered blocks for visual interest (so the player has something to walk around)
+    const blockColors = [0x6dbb4a, 0x8b5a2b, 0xc8a76a, 0xeae6ff, 0xff9aa2, 0xffd166, 0x6ec5ff, 0xb197fc];
+    const blockGeo = new THREE.BoxGeometry(1, 1, 1);
+    const blocks = new THREE.Group();
+    scene.add(blocks);
+    for (let i = 0; i < 80; i++) {
+      const c = blockColors[Math.floor(Math.random() * blockColors.length)];
+      const mat = new THREE.MeshLambertMaterial({ color: c });
+      const m = new THREE.Mesh(blockGeo, mat);
+      const r = 6 + Math.random() * 35;
+      const a = Math.random() * Math.PI * 2;
+      const stack = 1 + Math.floor(Math.random() * 4);
+      for (let s = 0; s < stack; s++) {
+        const mm = m.clone();
+        mm.position.set(Math.cos(a) * r, 0.5 + s, Math.sin(a) * r);
+        blocks.add(mm);
+      }
+    }
+
+    // Reference grid line for orientation
+    const grid = new THREE.GridHelper(80, 80, 0x223344, 0x223344);
+    grid.position.y = 0.01;
+    grid.material.transparent = true;
+    grid.material.opacity = 0.25;
+    scene.add(grid);
+
+    // ──────────────────────────────────────────────────────────────────
+    // PLAYER RIG: Group at floor level. Camera + avatar attach to it.
+    // The headset auto-drives the camera within the rig; the rig is what
+    // we move for locomotion / smooth turn.
+    // ──────────────────────────────────────────────────────────────────
+    const playerRig = new THREE.Group();
+    playerRig.position.set(0, 0, 0);
+    scene.add(playerRig);
+    playerRig.add(camera);
+
+    // ──────────────────────────────────────────────────────────────────
+    // AVATAR LOADING (Tokyube Base.obj from /baseModels)
+    // The OBJ has 4 named children: Head, Body, LeftArm, RightArm.
+    // We want first-person, so we hide the avatar's own head, place its
+    // body below the camera and re-parent each arm to a "shoulder" pivot
+    // so it can rotate from a fixed shoulder point toward the controller.
+    // ──────────────────────────────────────────────────────────────────
+
+    // Avatar coordinate facts (from Base.obj, units before scaling):
+    //   Head:    y∈[1.105, 2.255]   (head box)
+    //   Body:    y∈[-1.0, 1.0]      (torso)
+    //   LeftArm: x∈[-0.967, -0.633] y∈[-0.469, 0.969]  (shoulder top, hand bottom)
+    //   RightArm: mirror of LeftArm
+    // Avatar scale: bring full height (~3.25u) to ~1.75m → scale ≈ 0.55
+    const AVATAR_SCALE = 0.55;
+    // Body bottom is y=-1 in OBJ space. We want body bottom around y=0.55m
+    // above the floor (the user's hips). So we lift the body vertically.
+    const BODY_HIP_Y = 0.55; // hip height above floor (m)
+
+    // Shoulder anchor points in OBJ space (used to recompute arm pivots)
+    const SHOULDER_L = new THREE.Vector3(-0.8, 0.85, 0);
+    const SHOULDER_R = new THREE.Vector3( 0.8, 0.85, 0);
+    // Hand end of arm in OBJ space (used as the "tip" of each arm box)
+    const HAND_LOCAL_OFFSET = new THREE.Vector3(0, -1.32, 0); // in arm-local, hand is below shoulder
+
+    let avatarHead = null, avatarBody = null;
+    let leftShoulder = null, rightShoulder = null;
+    let leftArmMesh = null, rightArmMesh = null;
+    let avatarReady = false;
+
+    function buildAvatar(loadedGroup) {
+      // The OBJ comes back as a Group with 4 child meshes named via `o` declarations.
+      // OBJLoader generally preserves the `o` name verbatim on the resulting Mesh.
+      const meshes = [];
+      loadedGroup.traverse(o => { if (o.isMesh) meshes.push(o); });
+      const findMesh = (key) => meshes.find(m => m.name === key)
+                            || meshes.find(m => (m.name || '').toLowerCase().includes(key.toLowerCase()));
+      avatarHead = findMesh('Head') || null;
+      avatarBody = findMesh('Body') || null;
+      const lArm = findMesh('LeftArm') || null;
+      const rArm = findMesh('RightArm') || null;
+      if (!avatarBody || !lArm || !rArm) {
+        console.warn('Avatar parts found:', meshes.map(m => m.name));
+      }
+
+      // Common: flat shading for blocky voxel look + ensure colorspace.
+      [avatarHead, avatarBody, lArm, rArm].forEach(m => {
+        if (!m) return;
+        if (Array.isArray(m.material)) {
+          m.material.forEach(mat => {
+            if (mat && mat.map) mat.map.colorSpace = THREE.SRGBColorSpace;
+            if (mat) { mat.flatShading = true; mat.needsUpdate = true; }
+          });
+        } else if (m.material) {
+          if (m.material.map) m.material.map.colorSpace = THREE.SRGBColorSpace;
+          m.material.flatShading = true;
+          m.material.needsUpdate = true;
+        }
+      });
+
+      // ── BODY: place hips at BODY_HIP_Y above floor; body's local origin is at OBJ y=0 (waist), so:
+      const bodyGroup = new THREE.Group();
+      bodyGroup.scale.setScalar(AVATAR_SCALE);
+      // We want the BOTTOM of the body (OBJ y=-1) at floor-Y BODY_HIP_Y.
+      // After scale, body bottom is at -1*AVATAR_SCALE relative to bodyGroup origin.
+      // So bodyGroup.position.y = BODY_HIP_Y - (-1)*AVATAR_SCALE  →  BODY_HIP_Y + AVATAR_SCALE
+      bodyGroup.position.y = BODY_HIP_Y + AVATAR_SCALE;
+      if (avatarBody) bodyGroup.add(avatarBody);
+      // Hide the avatar's head since the user IS the head in 1st person
+      if (avatarHead) avatarHead.visible = false;
+      playerRig.add(bodyGroup);
+      // Track for yaw following
+      avatarBody = bodyGroup;
+
+      // ── ARMS: re-parent each arm so its pivot is at the shoulder.
+      // The arm mesh's vertices are in OBJ-world coords (shoulder ~ y=0.85, hand ~ y=-0.469).
+      // We make a "shoulder group" that we'll position at the shoulder world location and rotate.
+      // The arm mesh is then offset so its shoulder vertex sits at the shoulder group's origin.
+      function makeShoulder(armMesh, shoulderPos) {
+        if (!armMesh) return null;
+        // Pull arm out of its current parent, into a new pivot group.
+        armMesh.parent && armMesh.parent.remove(armMesh);
+        const pivot = new THREE.Group();
+        // Translate arm so its shoulder point is at pivot origin.
+        armMesh.position.set(-shoulderPos.x, -shoulderPos.y, -shoulderPos.z);
+        pivot.add(armMesh);
+        // Place the pivot in world via bodyGroup so it inherits avatar scale.
+        // We want shoulders to follow the body's yaw + position. Attach to bodyGroup so scale & position match.
+        pivot.position.copy(shoulderPos);
+        bodyGroup.add(pivot);
+        return pivot;
+      }
+
+      leftShoulder  = makeShoulder(lArm, SHOULDER_L);
+      rightShoulder = makeShoulder(rArm, SHOULDER_R);
+      leftArmMesh = lArm;
+      rightArmMesh = rArm;
+
+      avatarReady = true;
+      setStatus('Avatar ready. Press ENTER VR.');
+    }
+
+    const mtlLoader = new MTLLoader();
+    mtlLoader.setPath('baseModels/');
+    mtlLoader.load('Base.mtl', (mats) => {
+      mats.preload();
+      const objLoader = new OBJLoader();
+      objLoader.setMaterials(mats);
+      objLoader.setPath('baseModels/');
+      objLoader.load('Base.obj', (group) => {
+        buildAvatar(group);
+      }, undefined, (err) => {
+        console.error('OBJ load error', err);
+        setStatus('Failed to load avatar OBJ.');
+      });
+    }, undefined, (err) => {
+      console.error('MTL load error', err);
+      setStatus('Failed to load avatar MTL.');
+    });
+
+    // ──────────────────────────────────────────────────────────────────
+    // CONTROLLERS
+    // WebXR exposes input sources by index (0, 1) — NOT by handedness.
+    // We resolve which grip is left vs right at 'connected' time from the
+    // XRInputSource.handedness field and store pointers (gripL/gripR).
+    // ──────────────────────────────────────────────────────────────────
+    const ctrl0 = renderer.xr.getController(0);
+    const ctrl1 = renderer.xr.getController(1);
+    const grip0 = renderer.xr.getControllerGrip(0);
+    const grip1 = renderer.xr.getControllerGrip(1);
+    playerRig.add(ctrl0, ctrl1, grip0, grip1);
+
+    const controllerModelFactory = new XRControllerModelFactory();
+    grip0.add(controllerModelFactory.createControllerModel(grip0));
+    grip1.add(controllerModelFactory.createControllerModel(grip1));
+
+    // Pointers resolved on connect:
+    let gripL = null, gripR = null;
+    function bindHandedness(ctrl, grip) {
+      ctrl.addEventListener('connected', (e) => {
+        const h = e && e.data && e.data.handedness;
+        if (h === 'left')  gripL = grip;
+        else if (h === 'right') gripR = grip;
+      });
+      ctrl.addEventListener('disconnected', () => {
+        if (gripL === grip) gripL = null;
+        if (gripR === grip) gripR = null;
+      });
+    }
+    bindHandedness(ctrl0, grip0);
+    bindHandedness(ctrl1, grip1);
+
+    // ──────────────────────────────────────────────────────────────────
+    // RADIAL WHEEL (8 segments, GTA-V weapon-wheel style)
+    // Drawn into a CanvasTexture, applied to a plane that follows the
+    // left controller. Toggled by holding the left controller's menu/Y
+    // button for 2.5 seconds.
+    // ──────────────────────────────────────────────────────────────────
+    const WHEEL_SEGMENTS = [
+      'Build', 'Code', 'Tools', 'Phone',
+      'Social', 'Tokinz', 'Nodes', 'Stylize'
+    ];
+    const WHEEL_COLORS = [
+      '#ff6b6b', '#ff922b', '#ffd43b', '#51cf66',
+      '#4dabf7', '#b197fc', '#8ce8c5', '#ff7ad4'
+    ];
+    const wheelCanvas = document.createElement('canvas');
+    wheelCanvas.width = 512; wheelCanvas.height = 512;
+    const wheelCtx = wheelCanvas.getContext('2d');
+    const wheelTexture = new THREE.CanvasTexture(wheelCanvas);
+    wheelTexture.colorSpace = THREE.SRGBColorSpace;
+    const wheelMat = new THREE.MeshBasicMaterial({ map: wheelTexture, transparent: true, depthTest: false });
+    const wheelMesh = new THREE.Mesh(new THREE.PlaneGeometry(0.32, 0.32), wheelMat);
+    wheelMesh.renderOrder = 999;
+    wheelMesh.visible = false;
+    scene.add(wheelMesh);
+
+    function drawWheel(highlightIdx) {
+      const ctx = wheelCtx;
+      const W = wheelCanvas.width, H = wheelCanvas.height;
+      const cx = W / 2, cy = H / 2;
+      const rOuter = W * 0.46;
+      const rInner = W * 0.14;
+      ctx.clearRect(0, 0, W, H);
+      // Backdrop disc (subtle glow)
+      ctx.fillStyle = 'rgba(0,0,0,0.55)';
+      ctx.beginPath(); ctx.arc(cx, cy, rOuter + 6, 0, Math.PI * 2); ctx.fill();
+      const seg = (Math.PI * 2) / 8;
+      // The 0th segment is centered on "up" (-Y in stick = forward). Start angle for segment i is:
+      //   start = -PI/2 - seg/2 + i*seg
+      for (let i = 0; i < 8; i++) {
+        const start = -Math.PI / 2 - seg / 2 + i * seg;
+        const end   = start + seg;
+        ctx.beginPath();
+        ctx.moveTo(cx, cy);
+        ctx.arc(cx, cy, rOuter, start, end);
+        ctx.closePath();
+        const col = WHEEL_COLORS[i];
+        ctx.fillStyle = (i === highlightIdx) ? brightenColor(col, 0.35) : col;
+        ctx.globalAlpha = (i === highlightIdx) ? 0.95 : 0.78;
+        ctx.fill();
+        // segment border
+        ctx.globalAlpha = 1;
+        ctx.lineWidth = 4;
+        ctx.strokeStyle = '#0b0b18';
+        ctx.stroke();
+      }
+      // Inner hole
+      ctx.globalCompositeOperation = 'destination-out';
+      ctx.beginPath(); ctx.arc(cx, cy, rInner, 0, Math.PI * 2); ctx.fill();
+      ctx.globalCompositeOperation = 'source-over';
+      // Inner ring
+      ctx.beginPath(); ctx.arc(cx, cy, rInner, 0, Math.PI * 2);
+      ctx.lineWidth = 4; ctx.strokeStyle = '#fff'; ctx.stroke();
+      // Labels
+      ctx.fillStyle = '#fff';
+      ctx.font = 'bold 30px Arial, sans-serif';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.shadowColor = '#000';
+      ctx.shadowBlur = 6;
+      for (let i = 0; i < 8; i++) {
+        const mid = -Math.PI / 2 + i * seg;
+        const lr = (rOuter + rInner) / 2;
+        const lx = cx + Math.cos(mid) * lr;
+        const ly = cy + Math.sin(mid) * lr;
+        ctx.fillText(WHEEL_SEGMENTS[i], lx, ly);
+      }
+      ctx.shadowBlur = 0;
+      // Center label
+      ctx.fillStyle = '#fff';
+      ctx.font = 'bold 22px Arial, sans-serif';
+      ctx.fillText(highlightIdx >= 0 ? WHEEL_SEGMENTS[highlightIdx] : 'WHEEL', cx, cy);
+      wheelTexture.needsUpdate = true;
+    }
+    function brightenColor(hex, amt) {
+      const c = hex.replace('#','');
+      const r = Math.min(255, parseInt(c.substr(0,2),16) + 255*amt);
+      const g = Math.min(255, parseInt(c.substr(2,2),16) + 255*amt);
+      const b = Math.min(255, parseInt(c.substr(4,2),16) + 255*amt);
+      return `rgb(${r|0},${g|0},${b|0})`;
+    }
+    drawWheel(-1);
+
+    // ──────────────────────────────────────────────────────────────────
+    // INPUT STATE
+    // ──────────────────────────────────────────────────────────────────
+    const input = {
+      // Left stick (axes 2,3 in standard mapping for Quest controllers)
+      leftX: 0, leftY: 0,
+      // Right stick
+      rightX: 0, rightY: 0,
+      // Buttons (left)
+      leftMenuHeld: false,    // true while user holds left X or Y
+      leftMenuHoldTime: 0,    // how long held (s)
+      leftMenuJustToggled: false, // edge guard
+    };
+
+    let wheelOpen = false;
+    let wheelSelection = -1;
+
+    function readGamepads(session, dt) {
+      if (!session) return;
+      let leftGP = null, rightGP = null;
+      for (const src of session.inputSources) {
+        if (!src.gamepad) continue;
+        if (src.handedness === 'left') leftGP = src.gamepad;
+        else if (src.handedness === 'right') rightGP = src.gamepad;
+      }
+      const dz = (v) => Math.abs(v) < 0.15 ? 0 : v;
+      // Standard XR mapping: thumbstick is axes[2], axes[3]
+      if (leftGP && leftGP.axes && leftGP.axes.length >= 4) {
+        input.leftX = dz(leftGP.axes[2]);
+        input.leftY = dz(leftGP.axes[3]);
+      } else { input.leftX = 0; input.leftY = 0; }
+      if (rightGP && rightGP.axes && rightGP.axes.length >= 4) {
+        input.rightX = dz(rightGP.axes[2]);
+        input.rightY = dz(rightGP.axes[3]);
+      } else { input.rightX = 0; input.rightY = 0; }
+
+      // "Menu" button: the OS reserves the literal Oculus menu (☰) button,
+      // so we use the left controller's face buttons (X = buttons[4], Y = buttons[5])
+      // as the menu trigger for the radial wheel.
+      let menuPressed = false;
+      if (leftGP && leftGP.buttons) {
+        const x = leftGP.buttons[4]; const y = leftGP.buttons[5];
+        if ((x && x.pressed) || (y && y.pressed)) menuPressed = true;
+      }
+
+      if (menuPressed) {
+        input.leftMenuHoldTime += dt;
+        // Threshold reached → toggle wheel, then wait for release before allowing another toggle
+        if (!input.leftMenuJustToggled && input.leftMenuHoldTime >= 2.5) {
+          wheelOpen = !wheelOpen;
+          input.leftMenuJustToggled = true;
+          if (!wheelOpen) wheelSelection = -1;
+        }
+      } else {
+        input.leftMenuHoldTime = 0;
+        input.leftMenuJustToggled = false;
+      }
+    }
+
+    // ──────────────────────────────────────────────────────────────────
+    // LOCOMOTION + TURN
+    // ──────────────────────────────────────────────────────────────────
+    const MOVE_SPEED = 2.4;       // m/s
+    const TURN_SPEED = 1.6;       // rad/s (smooth turn)
+
+    const tmpV = new THREE.Vector3();
+    const tmpQ = new THREE.Quaternion();
+    const tmpE = new THREE.Euler();
+
+    function applyLocomotion(dt) {
+      // ── Smooth turn (right stick X) — always active.
+      if (Math.abs(input.rightX) > 0.001) {
+        playerRig.rotation.y -= input.rightX * TURN_SPEED * dt;
+      }
+
+      // ── Walk (left stick) — only when wheel is closed.
+      if (!wheelOpen && (input.leftX !== 0 || input.leftY !== 0)) {
+        // Movement direction is camera-yaw relative.
+        // Camera forward in rig-space: project camera quaternion's Z onto XZ plane.
+        const camForward = new THREE.Vector3(0, 0, -1);
+        camera.getWorldDirection(camForward);
+        camForward.y = 0; camForward.normalize();
+        const camRight = new THREE.Vector3();
+        camRight.crossVectors(camForward, new THREE.Vector3(0, 1, 0)).normalize();
+        // Stick: X = strafe right(+) / left(-), Y = forward(-) / back(+) (WebXR convention)
+        tmpV.set(0,0,0)
+          .addScaledVector(camForward, -input.leftY)
+          .addScaledVector(camRight, input.leftX);
+        // Cap magnitude
+        const m = Math.hypot(tmpV.x, tmpV.z);
+        if (m > 1) tmpV.multiplyScalar(1 / m);
+        playerRig.position.x += tmpV.x * MOVE_SPEED * dt;
+        playerRig.position.z += tmpV.z * MOVE_SPEED * dt;
+      }
+    }
+
+    // ──────────────────────────────────────────────────────────────────
+    // RADIAL WHEEL UPDATE
+    // ──────────────────────────────────────────────────────────────────
+    function updateWheelSelection() {
+      if (!wheelOpen) { wheelSelection = -1; return; }
+      const mag = Math.hypot(input.leftX, input.leftY);
+      if (mag < 0.35) { wheelSelection = -1; return; }
+      // angle: 0 = up (forward, stick Y negative), increasing clockwise
+      // In XR: stick Y positive = pulled back; we treat -Y as "up".
+      const theta = Math.atan2(input.leftX, -input.leftY); // 0 at top, +CW
+      // 8 segments of 2π/8 each, segment 0 is centered at top:
+      const seg = (Math.PI * 2) / 8;
+      let i = Math.floor((theta + seg / 2 + Math.PI * 2) / seg) % 8;
+      wheelSelection = i;
+    }
+
+    function positionWheel() {
+      if (!wheelOpen || !gripL) { wheelMesh.visible = false; return; }
+      wheelMesh.visible = true;
+      // Place above-left of left grip, in world space.
+      const pos = new THREE.Vector3();
+      gripL.getWorldPosition(pos);
+      pos.y += 0.20; // 20 cm above hand
+      wheelMesh.position.copy(pos);
+      // Billboard toward the camera
+      const camPos = new THREE.Vector3();
+      camera.getWorldPosition(camPos);
+      wheelMesh.lookAt(camPos);
+    }
+
+    // ──────────────────────────────────────────────────────────────────
+    // AVATAR UPDATE (head yaw → body, controllers → arm IK)
+    // ──────────────────────────────────────────────────────────────────
+    const _camWorldPos = new THREE.Vector3();
+    const _camWorldQuat = new THREE.Quaternion();
+    const _ctrlWorldPos = new THREE.Vector3();
+    const _localPos = new THREE.Vector3();
+    const _shoulderWorld = new THREE.Vector3();
+
+    function updateAvatar() {
+      if (!avatarReady) return;
+
+      // ── Body: position xz under camera (head), keep at floor level Y;
+      // body yaw follows camera yaw (so torso faces where you look).
+      camera.getWorldPosition(_camWorldPos);
+      camera.getWorldQuaternion(_camWorldQuat);
+
+      // Convert camera position to playerRig-local (avatar lives under playerRig)
+      _localPos.copy(_camWorldPos);
+      playerRig.worldToLocal(_localPos);
+      avatarBody.position.x = _localPos.x;
+      avatarBody.position.z = _localPos.z;
+      // Y already set to BODY_HIP_Y + AVATAR_SCALE in build step.
+
+      // Extract camera yaw (around world Y) and apply to body.
+      // We need yaw relative to playerRig.
+      const camRigQuat = _camWorldQuat.clone();
+      const rigQuatInv = playerRig.getWorldQuaternion(new THREE.Quaternion()).invert();
+      camRigQuat.premultiply(rigQuatInv);
+      const e = new THREE.Euler().setFromQuaternion(camRigQuat, 'YXZ');
+      avatarBody.rotation.set(0, e.y, 0);
+
+      // ── Arms: rotate each shoulder pivot so the arm "points" at the controller.
+      // gripL/gripR may be null until the controller's 'connected' event fires.
+      function aimArm(shoulderPivot, gripObj) {
+        if (!shoulderPivot || !gripObj) {
+          if (shoulderPivot) shoulderPivot.quaternion.identity();
+          return;
+        }
+        // Get controller (grip) world position
+        gripObj.getWorldPosition(_ctrlWorldPos);
+        // Get shoulder world position
+        shoulderPivot.getWorldPosition(_shoulderWorld);
+        // Direction from shoulder to controller (in world space)
+        const dir = _ctrlWorldPos.clone().sub(_shoulderWorld);
+        const dist = dir.length();
+        if (dist < 0.001) return;
+        // Convert direction into the shoulderPivot's parent (bodyGroup) local space
+        const parent = shoulderPivot.parent;
+        const parentInv = parent.getWorldQuaternion(new THREE.Quaternion()).invert();
+        dir.applyQuaternion(parentInv);
+        dir.normalize();
+        // The arm geometry's "down" (toward hand) is local -Y. We need to rotate
+        // the shoulderPivot so that its local -Y axis points along `dir`.
+        // Compute quaternion that rotates (0,-1,0) → dir.
+        const from = new THREE.Vector3(0, -1, 0);
+        const q = new THREE.Quaternion().setFromUnitVectors(from, dir);
+        shoulderPivot.quaternion.copy(q);
+      }
+      aimArm(leftShoulder,  gripL);
+      aimArm(rightShoulder, gripR);
+    }
+
+    // ──────────────────────────────────────────────────────────────────
+    // SESSION LIFECYCLE
+    // ──────────────────────────────────────────────────────────────────
+    const vrButton = VRButton.createButton(renderer);
+    document.body.appendChild(vrButton);
+
+    renderer.xr.addEventListener('sessionstart', () => {
+      document.body.classList.add('in-xr');
+    });
+    renderer.xr.addEventListener('sessionend', () => {
+      document.body.classList.remove('in-xr');
+      // Reset wheel state on exit so re-entry isn't confused.
+      wheelOpen = false; wheelSelection = -1;
+      input.leftMenuHoldTime = 0; input.leftMenuJustToggled = false;
+    });
+
+    // ──────────────────────────────────────────────────────────────────
+    // RESIZE
+    // ──────────────────────────────────────────────────────────────────
+    window.addEventListener('resize', () => {
+      camera.aspect = window.innerWidth / window.innerHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(window.innerWidth, window.innerHeight);
+    });
+
+    // ──────────────────────────────────────────────────────────────────
+    // MAIN LOOP
+    // ──────────────────────────────────────────────────────────────────
+    const clock = new THREE.Clock();
+    let lastWheelDrawSel = -2;
+    renderer.setAnimationLoop(() => {
+      const dt = Math.min(0.05, clock.getDelta());
+      const session = renderer.xr.getSession();
+
+      readGamepads(session, dt);
+      applyLocomotion(dt);
+      updateWheelSelection();
+      positionWheel();
+      updateAvatar();
+
+      if (wheelSelection !== lastWheelDrawSel || (wheelOpen && lastWheelDrawSel === -2)) {
+        drawWheel(wheelSelection);
+        lastWheelDrawSel = wheelSelection;
+      }
+
+      renderer.render(scene, camera);
+    });
+
+    setStatus('Loading avatar…');
+  </script>
+</body>
+</html>
