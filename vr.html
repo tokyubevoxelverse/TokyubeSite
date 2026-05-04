@@ -121,6 +121,7 @@
     import { OBJLoader } from 'three/addons/loaders/OBJLoader.js';
     import { MTLLoader } from 'three/addons/loaders/MTLLoader.js';
     import { XRControllerModelFactory } from 'three/addons/webxr/XRControllerModelFactory.js';
+    import { Reflector } from 'three/addons/objects/Reflector.js';
 
     const statusEl = document.getElementById('status');
     const setStatus = (msg) => { if (statusEl) statusEl.textContent = msg; };
@@ -184,6 +185,39 @@
     scene.add(grid);
 
     // ──────────────────────────────────────────────────────────────────
+    // MIRROR (so the player can see themselves on spawn)
+    // 720p (1280×720) reflection RT, 4× MSAA-equivalent via samples.
+    // ──────────────────────────────────────────────────────────────────
+    const MIRROR_W = 2.4, MIRROR_H = 2.6;
+    const mirrorGeo = new THREE.PlaneGeometry(MIRROR_W, MIRROR_H);
+    const mirror = new THREE.Reflector ? null : null; // (placeholder; real ctor below)
+    const mirrorReflector = new Reflector(mirrorGeo, {
+      textureWidth: 1280,
+      textureHeight: 720,
+      color: 0x9aa0a6,
+      multisample: 4
+    });
+    // Place in front of spawn (player spawns facing -Z by default).
+    mirrorReflector.position.set(0, MIRROR_H / 2 + 0.05, -2.5);
+    scene.add(mirrorReflector);
+
+    // Decorative frame around the mirror so it reads as a mirror, not a portal.
+    const frameMat = new THREE.MeshLambertMaterial({ color: 0x2a2a3a });
+    const frameThick = 0.08;
+    const frameDepth = 0.08;
+    const frameTop    = new THREE.Mesh(new THREE.BoxGeometry(MIRROR_W + frameThick * 2, frameThick, frameDepth), frameMat);
+    const frameBottom = new THREE.Mesh(new THREE.BoxGeometry(MIRROR_W + frameThick * 2, frameThick, frameDepth), frameMat);
+    const frameLeft   = new THREE.Mesh(new THREE.BoxGeometry(frameThick, MIRROR_H + frameThick * 2, frameDepth), frameMat);
+    const frameRight  = new THREE.Mesh(new THREE.BoxGeometry(frameThick, MIRROR_H + frameThick * 2, frameDepth), frameMat);
+    const fz = -2.55;
+    const fy = MIRROR_H / 2 + 0.05;
+    frameTop.position.set(0, fy + MIRROR_H / 2 + frameThick / 2, fz);
+    frameBottom.position.set(0, fy - MIRROR_H / 2 - frameThick / 2, fz);
+    frameLeft.position.set(-MIRROR_W / 2 - frameThick / 2, fy, fz);
+    frameRight.position.set( MIRROR_W / 2 + frameThick / 2, fy, fz);
+    scene.add(frameTop, frameBottom, frameLeft, frameRight);
+
+    // ──────────────────────────────────────────────────────────────────
     // PLAYER RIG: Group at floor level. Camera + avatar attach to it.
     // The headset auto-drives the camera within the rig; the rig is what
     // we move for locomotion / smooth turn.
@@ -202,25 +236,25 @@
     // ──────────────────────────────────────────────────────────────────
 
     // Avatar coordinate facts (from Base.obj, units before scaling):
-    //   Head:    y∈[1.105, 2.255]   (head box)
-    //   Body:    y∈[-1.0, 1.0]      (torso)
-    //   LeftArm: x∈[-0.967, -0.633] y∈[-0.469, 0.969]  (shoulder top, hand bottom)
+    //   Head:    y∈[1.105, 2.255]   (head box, neck base at y=1.105)
+    //   Body:    y∈[-1.0, 1.0]      (torso; top of torso = neck = y=1.0)
+    //   LeftArm: x∈[-0.967, -0.633] y∈[-0.469, 0.969]  (shoulder top y=0.969, hand bottom y=-0.469)
     //   RightArm: mirror of LeftArm
     // Avatar scale: bring full height (~3.25u) to ~1.75m → scale ≈ 0.55
     const AVATAR_SCALE = 0.55;
-    // Body bottom is y=-1 in OBJ space. We want body bottom around y=0.55m
-    // above the floor (the user's hips). So we lift the body vertically.
-    const BODY_HIP_Y = 0.55; // hip height above floor (m)
+    // Where the neck attaches to the head (relative to the camera). Negative Y so
+    // shoulders + arms hang BELOW the headset, not on top of it.
+    const NECK_BELOW_HEAD = 0.20; // m below camera
 
-    // Shoulder anchor points in OBJ space (used to recompute arm pivots)
-    const SHOULDER_L = new THREE.Vector3(-0.8, 0.85, 0);
-    const SHOULDER_R = new THREE.Vector3( 0.8, 0.85, 0);
-    // Hand end of arm in OBJ space (used as the "tip" of each arm box)
-    const HAND_LOCAL_OFFSET = new THREE.Vector3(0, -1.32, 0); // in arm-local, hand is below shoulder
+    // Shoulder anchor points in OBJ space, RELATIVE TO THE NECK (OBJ y=1.0 is neck-top).
+    // Original shoulder world (OBJ space) ~ (±0.8, 0.85, 0). Subtract neck (0,1,0):
+    const SHOULDER_L_REL_NECK = new THREE.Vector3(-0.8, -0.15, 0);
+    const SHOULDER_R_REL_NECK = new THREE.Vector3( 0.8, -0.15, 0);
 
-    let avatarHead = null, avatarBody = null;
+    let avatarHead = null;
+    let torsoGroup = null;     // follows head xz + yaw; sits below camera; holds shoulder pivots + torso mesh
+    let pelvisGroup = null;    // stays at rig origin so legs/hips don't tele-port to head
     let leftShoulder = null, rightShoulder = null;
-    let leftArmMesh = null, rightArmMesh = null;
     let avatarReady = false;
 
     function buildAvatar(loadedGroup) {
@@ -231,65 +265,80 @@
       const findMesh = (key) => meshes.find(m => m.name === key)
                             || meshes.find(m => (m.name || '').toLowerCase().includes(key.toLowerCase()));
       avatarHead = findMesh('Head') || null;
-      avatarBody = findMesh('Body') || null;
+      const bodyMesh = findMesh('Body') || null;
       const lArm = findMesh('LeftArm') || null;
       const rArm = findMesh('RightArm') || null;
-      if (!avatarBody || !lArm || !rArm) {
+      if (!bodyMesh || !lArm || !rArm) {
         console.warn('Avatar parts found:', meshes.map(m => m.name));
       }
 
       // Common: flat shading for blocky voxel look + ensure colorspace.
-      [avatarHead, avatarBody, lArm, rArm].forEach(m => {
+      [avatarHead, bodyMesh, lArm, rArm].forEach(m => {
         if (!m) return;
-        if (Array.isArray(m.material)) {
-          m.material.forEach(mat => {
-            if (mat && mat.map) mat.map.colorSpace = THREE.SRGBColorSpace;
-            if (mat) { mat.flatShading = true; mat.needsUpdate = true; }
-          });
-        } else if (m.material) {
-          if (m.material.map) m.material.map.colorSpace = THREE.SRGBColorSpace;
-          m.material.flatShading = true;
-          m.material.needsUpdate = true;
-        }
+        const apply = (mat) => {
+          if (!mat) return;
+          if (mat.map) mat.map.colorSpace = THREE.SRGBColorSpace;
+          mat.flatShading = true;
+          mat.needsUpdate = true;
+        };
+        if (Array.isArray(m.material)) m.material.forEach(apply); else apply(m.material);
       });
 
-      // ── BODY: place hips at BODY_HIP_Y above floor; body's local origin is at OBJ y=0 (waist), so:
-      const bodyGroup = new THREE.Group();
-      bodyGroup.scale.setScalar(AVATAR_SCALE);
-      // We want the BOTTOM of the body (OBJ y=-1) at floor-Y BODY_HIP_Y.
-      // After scale, body bottom is at -1*AVATAR_SCALE relative to bodyGroup origin.
-      // So bodyGroup.position.y = BODY_HIP_Y - (-1)*AVATAR_SCALE  →  BODY_HIP_Y + AVATAR_SCALE
-      bodyGroup.position.y = BODY_HIP_Y + AVATAR_SCALE;
-      if (avatarBody) bodyGroup.add(avatarBody);
-      // Hide the avatar's head since the user IS the head in 1st person
-      if (avatarHead) avatarHead.visible = false;
-      playerRig.add(bodyGroup);
-      // Track for yaw following
-      avatarBody = bodyGroup;
+      // ── TORSO: a group whose ORIGIN is the NECK (top of the torso mesh).
+      // We translate the torso mesh down by 1.0 (OBJ neck Y) so the neck sits at group origin.
+      // Then we'll position this group at (camera_x, camera_y - NECK_BELOW_HEAD, camera_z) each frame
+      // and yaw it with the camera, so shoulders are below the head and follow head movement.
+      torsoGroup = new THREE.Group();
+      torsoGroup.scale.setScalar(AVATAR_SCALE);
+      if (bodyMesh) {
+        bodyMesh.position.set(0, -1.0, 0); // OBJ neck-top (0,1,0) → torsoGroup origin
+        torsoGroup.add(bodyMesh);
+      }
+      if (avatarHead) avatarHead.visible = false; // user IS the head in 1st person
+      playerRig.add(torsoGroup);
 
-      // ── ARMS: re-parent each arm so its pivot is at the shoulder.
-      // The arm mesh's vertices are in OBJ-world coords (shoulder ~ y=0.85, hand ~ y=-0.469).
-      // We make a "shoulder group" that we'll position at the shoulder world location and rotate.
-      // The arm mesh is then offset so its shoulder vertex sits at the shoulder group's origin.
-      function makeShoulder(armMesh, shoulderPos) {
+      // ── ARMS: shoulder pivots are children of torsoGroup (so they inherit head-follow + scale).
+      // Each pivot is positioned at SHOULDER_L/R_REL_NECK (relative to neck origin),
+      // and the arm mesh inside is translated so its shoulder-top vertex coincides with the pivot.
+      function makeShoulder(armMesh, shoulderRelNeck) {
         if (!armMesh) return null;
-        // Pull arm out of its current parent, into a new pivot group.
         armMesh.parent && armMesh.parent.remove(armMesh);
         const pivot = new THREE.Group();
-        // Translate arm so its shoulder point is at pivot origin.
-        armMesh.position.set(-shoulderPos.x, -shoulderPos.y, -shoulderPos.z);
+        // Original arm shoulder-top vertex in OBJ space (used as the "anchor").
+        // For LeftArm:  (-0.8, 0.969, 0); for RightArm: (0.8, 0.969, 0).
+        // We use shoulderRelNeck.x as the lateral anchor and 0.969 (not 0.85) as the actual top of the arm.
+        const anchor = new THREE.Vector3(shoulderRelNeck.x < 0 ? -0.8 : 0.8, 0.969, 0);
+        // Arm vertex positions are in OBJ world; offset the mesh so OBJ `anchor` lands at pivot origin,
+        // then position the pivot at neck-relative shoulder location.
+        armMesh.position.set(-anchor.x, -anchor.y, -anchor.z);
         pivot.add(armMesh);
-        // Place the pivot in world via bodyGroup so it inherits avatar scale.
-        // We want shoulders to follow the body's yaw + position. Attach to bodyGroup so scale & position match.
-        pivot.position.copy(shoulderPos);
-        bodyGroup.add(pivot);
+        // Place pivot relative to neck (OBJ y=1). Convert to torso-local: just the rel-neck offset,
+        // because torsoGroup origin = neck (we translated body by -1).
+        pivot.position.set(shoulderRelNeck.x, shoulderRelNeck.y + 1.0, shoulderRelNeck.z);
+        // Wait — the body mesh was translated by -1 in y to move neck-to-origin. The pivot lives in
+        // torso-local space whose origin IS the neck (y=1 OBJ). So the shoulder-top, which is at
+        // OBJ y=0.969 = neck (1.0) - 0.031, should be at torso-local y = -0.031.
+        // Use a clean formula: pivot_local_y = anchor.y - 1.0
+        pivot.position.set(shoulderRelNeck.x, anchor.y - 1.0, shoulderRelNeck.z);
+        torsoGroup.add(pivot);
         return pivot;
       }
 
-      leftShoulder  = makeShoulder(lArm, SHOULDER_L);
-      rightShoulder = makeShoulder(rArm, SHOULDER_R);
-      leftArmMesh = lArm;
-      rightArmMesh = rArm;
+      leftShoulder  = makeShoulder(lArm, SHOULDER_L_REL_NECK);
+      rightShoulder = makeShoulder(rArm, SHOULDER_R_REL_NECK);
+
+      // ── PELVIS: a leg/hip stand-in so a third party (the mirror!) sees something below the torso.
+      // The torso bottom (OBJ y=-1, scaled = -0.55m below neck) sits ~ camera.y - NECK_BELOW_HEAD - 0.55
+      // ≈ 0.85m above floor for a 1.6m headset. We add a simple voxel-style pelvis+legs filler.
+      pelvisGroup = new THREE.Group();
+      const legMat = new THREE.MeshLambertMaterial({ color: 0x3b3b6e });
+      const legGeo = new THREE.BoxGeometry(0.22, 0.85, 0.28);
+      const legL = new THREE.Mesh(legGeo, legMat);
+      const legR = new THREE.Mesh(legGeo, legMat);
+      legL.position.set(-0.13, 0.425, 0);
+      legR.position.set( 0.13, 0.425, 0);
+      pelvisGroup.add(legL, legR);
+      playerRig.add(pelvisGroup);
 
       avatarReady = true;
       setStatus('Avatar ready. Press ENTER VR.');
@@ -575,25 +624,30 @@
     function updateAvatar() {
       if (!avatarReady) return;
 
-      // ── Body: position xz under camera (head), keep at floor level Y;
-      // body yaw follows camera yaw (so torso faces where you look).
+      // ── Torso: anchored at the NECK, sitting NECK_BELOW_HEAD below the camera so
+      // shoulders+arms hang off the chest (NOT off the eyes). Yaw follows camera yaw.
       camera.getWorldPosition(_camWorldPos);
       camera.getWorldQuaternion(_camWorldQuat);
 
-      // Convert camera position to playerRig-local (avatar lives under playerRig)
       _localPos.copy(_camWorldPos);
       playerRig.worldToLocal(_localPos);
-      avatarBody.position.x = _localPos.x;
-      avatarBody.position.z = _localPos.z;
-      // Y already set to BODY_HIP_Y + AVATAR_SCALE in build step.
+      torsoGroup.position.x = _localPos.x;
+      torsoGroup.position.y = _localPos.y - NECK_BELOW_HEAD;
+      torsoGroup.position.z = _localPos.z;
 
-      // Extract camera yaw (around world Y) and apply to body.
-      // We need yaw relative to playerRig.
+      // Yaw of camera relative to playerRig:
       const camRigQuat = _camWorldQuat.clone();
       const rigQuatInv = playerRig.getWorldQuaternion(new THREE.Quaternion()).invert();
       camRigQuat.premultiply(rigQuatInv);
-      const e = new THREE.Euler().setFromQuaternion(camRigQuat, 'YXZ');
-      avatarBody.rotation.set(0, e.y, 0);
+      const eul = new THREE.Euler().setFromQuaternion(camRigQuat, 'YXZ');
+      torsoGroup.rotation.set(0, eul.y, 0);
+
+      // Pelvis: stays at rig origin (the user's standing position) but yaws with the head
+      // so a mirror reflection looks consistent.
+      if (pelvisGroup) {
+        pelvisGroup.position.set(_localPos.x, 0, _localPos.z);
+        pelvisGroup.rotation.set(0, eul.y, 0);
+      }
 
       // ── Arms: rotate each shoulder pivot so the arm "points" at the controller.
       // gripL/gripR may be null until the controller's 'connected' event fires.
