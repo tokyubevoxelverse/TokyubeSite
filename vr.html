@@ -99,7 +99,7 @@
     <p>
       Put on your headset and tap the <b>ENTER VR</b> button below.<br>
       Left thumbstick: smooth walk &nbsp;|&nbsp; Right thumbstick: smooth turn<br>
-      Hold the right controller's <b>A or B button</b> for 2.5s to open / close the radial wheel.<br>
+      Right <b>A button</b>: jump &nbsp;|&nbsp; Hold left <b>X or Y</b> for 0.7s to open / close the radial wheel.<br>
       With the wheel open, the left thumbstick selects one of 8 segments.
     </p>
     <div id="status">Loading scene…</div>
@@ -249,9 +249,10 @@
     //   LeftArm: x∈[-0.967, -0.633] y∈[-0.469, 0.969]  (shoulder top y=0.969, hand bottom y=-0.469)
     //   RightArm: mirror of LeftArm
     const AVATAR_SCALE = 0.55;
-    // Eyes-inside-head offset: place the head's CENTER (OBJ y≈1.68) at the camera Y.
-    // Head center is 0.68 OBJ-units above neck-top → 0.374 m at AVATAR_SCALE.
-    const NECK_BELOW_HEAD = 0.374;
+    // Avatar is floor-anchored: body bottom is always at y=0 (rig-local), so the
+    // neck sits at y = AVATAR_SCALE regardless of headset height. This means the
+    // avatar never sinks into the ground for short users, and never floats for
+    // tall users — the user's view is always inside the avatar's head region.
 
     // Avatar geometry goes on AVATAR_LAYER. Main camera renders only layer 0 so the
     // player never sees their own avatar. The mirror's internal camera enables both
@@ -328,38 +329,46 @@
       }
       playerRig.add(torsoGroup);
 
-      // ── 2-bone procedural arms.
-      // Match the avatar's blocky look with simple boxes; we'll try to sample the
-      // OBJ arm texture's average tone for the color. Fall back to a tan/brown.
-      const armMat = new THREE.MeshLambertMaterial({ color: 0xc18a5e, flatShading: true });
-      // If the loaded LeftArm material has a texture map, reuse it as a base color hint.
-      if (lArmObj && lArmObj.material) {
-        const m = Array.isArray(lArmObj.material) ? lArmObj.material[0] : lArmObj.material;
-        if (m && m.color) armMat.color.copy(m.color);
+      // ── 2-bone procedural arms — apply the actual LeftArm.png / RightArm.png
+      // textures from the OBJ's material so the procedural arms look skinned
+      // rather than solid-colored.
+      function pickTexture(armObj) {
+        if (!armObj || !armObj.material) return null;
+        const m = Array.isArray(armObj.material) ? armObj.material[0] : armObj.material;
+        if (m && m.map) {
+          m.map.colorSpace = THREE.SRGBColorSpace;
+          m.map.needsUpdate = true;
+          return m.map;
+        }
+        return null;
       }
-      function makeBone(length) {
-        // Box-with-pivot-at-top: BoxGeometry centered, then translated so y=0..-length.
-        // Keep height=1 in geometry, scale.y at runtime to set the actual length so we
-        // can stretch the arm to match shoulder→elbow / elbow→hand distance.
+      const lArmTex = pickTexture(lArmObj);
+      const rArmTex = pickTexture(rArmObj);
+      const armMatL = new THREE.MeshLambertMaterial({ map: lArmTex, color: lArmTex ? 0xffffff : 0xc18a5e, flatShading: true });
+      const armMatR = new THREE.MeshLambertMaterial({ map: rArmTex, color: rArmTex ? 0xffffff : 0xc18a5e, flatShading: true });
+      function makeBone(mat, length) {
+        // BoxGeometry pivoted at top — scale.y = actual bone length at runtime
+        // so the bone stretches to match shoulder→elbow / elbow→hand distance.
         const g = new THREE.BoxGeometry(ARM_W, 1, ARM_D);
         g.translate(0, -0.5, 0);
-        const m = new THREE.Mesh(g, armMat);
+        const m = new THREE.Mesh(g, mat);
         m.scale.set(1, length, 1);
         return m;
       }
-      function makeArmRig() {
-        const upper = makeBone(ARM_UPPER);
-        const fore  = makeBone(ARM_FORE);
+      function makeArmRig(mat) {
+        const upper = makeBone(mat, ARM_UPPER);
+        const fore  = makeBone(mat, ARM_FORE);
         scene.add(upper, fore);
         return { upper, fore };
       }
-      leftArmRig  = makeArmRig();
-      rightArmRig = makeArmRig();
+      leftArmRig  = makeArmRig(armMatL);
+      rightArmRig = makeArmRig(armMatR);
 
-      // ── Hand cubes (visible "wrists" / hands at each controller).
+      // ── Hand cubes (visible "wrists" / hands at each controller), textured
+      // from the same arm textures so they blend with the limb.
       const handGeo = new THREE.BoxGeometry(0.10, 0.10, 0.10);
-      handCubeL = new THREE.Mesh(handGeo, armMat);
-      handCubeR = new THREE.Mesh(handGeo, armMat);
+      handCubeL = new THREE.Mesh(handGeo, armMatL);
+      handCubeR = new THREE.Mesh(handGeo, armMatR);
       scene.add(handCubeL, handCubeR);
 
       // Cull the entire avatar from the main camera's view (player can't see
@@ -527,10 +536,19 @@
     const input = {
       leftX: 0, leftY: 0,
       rightX: 0, rightY: 0,
-      // Wheel toggle is now on the RIGHT controller (A or B face button), held 2.5s.
+      // Wheel toggle is on the LEFT controller (X or Y face button), held 0.7s.
       menuHoldTime: 0,
-      menuToggleConsumed: false, // press-edge guard so a single long-press doesn't double-toggle
+      menuToggleConsumed: false,
+      // Jump: A button on right controller, press-edge.
+      aWasPressed: false,
     };
+
+    // Vertical physics for jumping. The avatar is floor-anchored separately, so
+    // the rig itself jumps cleanly without affecting the avatar's foot position.
+    const GRAVITY = -16.0;        // m/s^2 (snappier than real-world for VR feel)
+    const JUMP_VELOCITY = 4.5;    // m/s
+    const GROUND_Y = 0.0;
+    let verticalVelocity = 0;
 
     let wheelOpen = false;
     let wheelSelection = -1;
@@ -573,17 +591,17 @@
         input.rightY = dz(rightGP.axes[3]);
       } else { input.rightX = 0; input.rightY = 0; }
 
-      // Wheel toggle is on the RIGHT controller's A or B face button (buttons[4] / [5]).
-      // Hold 2.5s to toggle open; hold 2.5s again to close. Press-edge guard
-      // (menuToggleConsumed) ensures a single long-press doesn't keep flipping.
+      // Wheel toggle: hold the LEFT controller's X or Y face button (buttons[4] / [5])
+      // for 0.7s to toggle open / closed. Press-edge guard so a single long-press
+      // can't keep flipping the state.
       let menuPressed = false;
-      if (rightGP && rightGP.buttons) {
-        const a = rightGP.buttons[4]; const b = rightGP.buttons[5];
-        if ((a && a.pressed) || (b && b.pressed)) menuPressed = true;
+      if (leftGP && leftGP.buttons) {
+        const x = leftGP.buttons[4]; const y = leftGP.buttons[5];
+        if ((x && x.pressed) || (y && y.pressed)) menuPressed = true;
       }
       if (menuPressed) {
         input.menuHoldTime += dt;
-        if (!input.menuToggleConsumed && input.menuHoldTime >= 2.5) {
+        if (!input.menuToggleConsumed && input.menuHoldTime >= 0.7) {
           wheelOpen = !wheelOpen;
           input.menuToggleConsumed = true;
           if (!wheelOpen) wheelSelection = -1;
@@ -592,6 +610,15 @@
         input.menuHoldTime = 0;
         input.menuToggleConsumed = false;
       }
+
+      // Jump: RIGHT controller's A button (buttons[4]). Press-edge so each tap
+      // produces exactly one jump impulse, only when grounded.
+      let aNow = false;
+      if (rightGP && rightGP.buttons && rightGP.buttons[4]) aNow = !!rightGP.buttons[4].pressed;
+      if (aNow && !input.aWasPressed && playerRig.position.y <= GROUND_Y + 0.001) {
+        verticalVelocity = JUMP_VELOCITY;
+      }
+      input.aWasPressed = aNow;
     }
 
     // ──────────────────────────────────────────────────────────────────
@@ -605,6 +632,14 @@
     const tmpE = new THREE.Euler();
 
     function applyLocomotion(dt) {
+      // ── Vertical: gravity + jump impulse on the rig.
+      verticalVelocity += GRAVITY * dt;
+      playerRig.position.y += verticalVelocity * dt;
+      if (playerRig.position.y < GROUND_Y) {
+        playerRig.position.y = GROUND_Y;
+        verticalVelocity = 0;
+      }
+
       // ── Smooth turn (right stick X) — always active.
       if (Math.abs(input.rightX) > 0.001) {
         playerRig.rotation.y -= input.rightX * TURN_SPEED * dt;
@@ -648,12 +683,12 @@
     }
 
     function positionWheel() {
-      // Wheel now hovers above the RIGHT hand (the hand whose A/B button opened it).
-      // Left thumbstick still drives the wedge selection per original spec.
-      if (!wheelOpen || !gripR) { wheelMesh.visible = false; return; }
+      // Wheel hovers above the LEFT hand. Left X/Y opens it; left thumbstick
+      // selects the wedge while it's open.
+      if (!wheelOpen || !gripL) { wheelMesh.visible = false; return; }
       wheelMesh.visible = true;
       const pos = new THREE.Vector3();
-      gripR.getWorldPosition(pos);
+      gripL.getWorldPosition(pos);
       pos.y += 0.20;
       wheelMesh.position.copy(pos);
       const camPos = new THREE.Vector3();
@@ -742,7 +777,10 @@
       _localPos.copy(_camWorldPos);
       playerRig.worldToLocal(_localPos);
       torsoGroup.position.x = _localPos.x;
-      torsoGroup.position.y = _localPos.y - NECK_BELOW_HEAD;
+      // Floor-anchor the avatar: body bottom always sits at y=0 in rig-local space,
+      // so the avatar can never sink into the ground regardless of the headset's
+      // height. Body bottom = neck − AVATAR_SCALE → set neck Y = AVATAR_SCALE.
+      torsoGroup.position.y = AVATAR_SCALE;
       torsoGroup.position.z = _localPos.z;
 
       // Yaw of camera relative to playerRig — torso follows head yaw.
@@ -838,6 +876,17 @@
       updateWheelSelection();
       positionWheel();
       updateAvatar();
+
+      // Force layer mask on BOTH stereo eyes every frame. Three.js's WebXRManager
+      // can override per-eye layer masks during pose updates, which previously
+      // resulted in the avatar showing up in only one eye. Setting both subcameras
+      // (and the parent ArrayCamera) to layer 0 only — and then re-enabling
+      // AVATAR_LAYER on the mirror's virtual camera — guarantees consistent culling.
+      const xrCam = renderer.xr.getCamera();
+      if (xrCam) {
+        xrCam.layers.set(0);
+        if (xrCam.cameras) for (const c of xrCam.cameras) c.layers.set(0);
+      }
 
       // First valid XR frame after sessionstart: snap the mirror in front of the
       // player's actual facing direction (Quest sets headset pose only after the
