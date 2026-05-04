@@ -249,21 +249,25 @@
     //   LeftArm: x∈[-0.967, -0.633] y∈[-0.469, 0.969]  (shoulder top y=0.969, hand bottom y=-0.469)
     //   RightArm: mirror of LeftArm
     const AVATAR_SCALE = 0.55;
-    // Avatar is floor-anchored: body bottom is always at y=0 (rig-local), so the
-    // neck sits at y = AVATAR_SCALE regardless of headset height. This means the
-    // avatar never sinks into the ground for short users, and never floats for
-    // tall users — the user's view is always inside the avatar's head region.
+    // Body shrink factor — body smaller (and slightly narrower) so the head reads
+    // bigger by comparison, per the ChunkWorldGen voxel rig style.
+    const BODY_SCALE = 0.85;
+    // The body geometry is recentered so its TOP coincides with the torso-group
+    // origin. After that recentering the body extends 0 → -2 in torso-local Y,
+    // and BODY_SCALE shortens it to 0 → -2*BODY_SCALE. Floor-anchor: body bottom
+    // at world y=0 ⇒ torsoGroup.position.y = 2 * BODY_SCALE * AVATAR_SCALE.
 
     // Avatar geometry goes on AVATAR_LAYER. Main camera renders only layer 0 so the
     // player never sees their own avatar. The mirror's internal camera enables both
     // layer 0 and layer 1, so the reflection includes the avatar.
     const AVATAR_LAYER = 1;
 
-    // Shoulder anchor in TORSO-LOCAL space (origin = neck-top). The OBJ shoulder-top
-    // vertex is at (±0.8, 0.969, 0); torso origin is at OBJ y=1.0, so torso-local Y
-    // for the shoulder is 0.969 − 1.0 = −0.031.
-    const SHOULDER_LOCAL_Y = -0.031;
-    const SHOULDER_LOCAL_X = 0.8;
+    // Shoulder anchor in TORSO-LOCAL space (origin = neck = body top).
+    // OBJ shoulder-top vertex is at (±0.8, 0.969, 0); body top is at OBJ y=1.0.
+    // Shoulders narrow with body so they don't drift away from the (now-narrower)
+    // torso silhouette.
+    const SHOULDER_LOCAL_Y = (0.969 - 1.0) * BODY_SCALE;  // ≈ -0.0264
+    const SHOULDER_LOCAL_X = 0.8 * BODY_SCALE;            // ≈ 0.68
 
     // Single-arm length (OBJ): 1.438. Split evenly into upper-arm + forearm.
     const ARM_TOTAL = 1.438 * AVATAR_SCALE;            // ≈ 0.79 m
@@ -275,7 +279,6 @@
     let avatarHead = null;
     let torsoGroup = null;       // origin = neck-top; follows camera xz + yaw
     let leftArmRig = null, rightArmRig = null;  // {upper, fore} two-bone procedural arms
-    let handCubeL = null, handCubeR = null;
     let avatarReady = false;
 
     // Tag every Object3D in a subtree onto AVATAR_LAYER (only) so it's hidden from the
@@ -310,72 +313,82 @@
       });
       avatarHead = headMesh;
 
-      // ── Torso group: origin = neck-top.
+      // ── Torso group: origin = body top (neck). Floor-anchored: body bottom
+      // sits at world y=0 because we recenter the body geometry so its TOP is at
+      // mesh-origin and then place torsoGroup.y = body height in world units.
       torsoGroup = new THREE.Group();
       torsoGroup.scale.setScalar(AVATAR_SCALE);
+      torsoGroup.position.y = 2 * BODY_SCALE * AVATAR_SCALE;
+
       if (bodyMesh) {
-        bodyMesh.position.set(0, -1.0, 0); // OBJ neck-top (0,1,0) → torso origin
-        // Body texture was authored with face on +Z; rotate 180° so the face points
-        // along -Z (Three.js forward) — fixes the "backwards" reflection.
-        bodyMesh.rotation.y = Math.PI;
+        // Recenter the body so its TOP coincides with the mesh origin, then scale
+        // down. Shrink happens DOWNWARD; body top stays at the torso-group origin.
+        bodyMesh.geometry = bodyMesh.geometry.clone();
+        bodyMesh.geometry.translate(0, -1, 0);
+        bodyMesh.scale.set(BODY_SCALE, BODY_SCALE, BODY_SCALE);
+        bodyMesh.rotation.y = Math.PI;            // face -Z (forward)
+        bodyMesh.position.set(0, 0, 0);
         torsoGroup.add(bodyMesh);
       }
       if (headMesh) {
         headMesh.parent && headMesh.parent.remove(headMesh);
-        headMesh.position.set(0, -1.0, 0);
+        headMesh.position.set(0, -1.0, 0);        // OBJ neck-base (1.105) → torso-local 0.105
         headMesh.rotation.y = Math.PI;
         headMesh.visible = true;
         torsoGroup.add(headMesh);
       }
       playerRig.add(torsoGroup);
 
-      // ── 2-bone procedural arms — apply the actual LeftArm.png / RightArm.png
-      // textures from the OBJ's material so the procedural arms look skinned
-      // rather than solid-colored.
-      function pickTexture(armObj) {
-        if (!armObj || !armObj.material) return null;
-        const m = Array.isArray(armObj.material) ? armObj.material[0] : armObj.material;
-        if (m && m.map) {
-          m.map.colorSpace = THREE.SRGBColorSpace;
-          m.map.needsUpdate = true;
-          return m.map;
-        }
-        return null;
+      // ── 2-bone procedural arms — clone the OBJ arm geometry so each bone
+      // segment uses the avatar's authored UVs (the texture wraps the box like
+      // in ChunkWorldGen instead of being squashed onto every face). Each side
+      // uses its own LeftArm / RightArm material from the loaded MTL.
+      function makeArmGeo(armObj, anchorX) {
+        if (!armObj || !armObj.geometry) return new THREE.BoxGeometry(0.18, 1, 0.22);
+        const g = armObj.geometry.clone();
+        // Move the OBJ shoulder-top vertex (anchorX, 0.969, 0) to mesh origin so
+        // the bone pivots from its top end (shoulder side).
+        g.translate(-anchorX, -0.969, 0);
+        // Normalize length to 1 (so runtime scale.y = bone length in meters),
+        // and bake AVATAR_SCALE into the cross-section so the arm box matches
+        // the avatar body's voxel proportions.
+        g.scale(AVATAR_SCALE, 1 / 1.438, AVATAR_SCALE);
+        return g;
       }
-      const lArmTex = pickTexture(lArmObj);
-      const rArmTex = pickTexture(rArmObj);
-      const armMatL = new THREE.MeshLambertMaterial({ map: lArmTex, color: lArmTex ? 0xffffff : 0xc18a5e, flatShading: true });
-      const armMatR = new THREE.MeshLambertMaterial({ map: rArmTex, color: rArmTex ? 0xffffff : 0xc18a5e, flatShading: true });
-      function makeBone(mat, length) {
-        // BoxGeometry pivoted at top — scale.y = actual bone length at runtime
-        // so the bone stretches to match shoulder→elbow / elbow→hand distance.
-        const g = new THREE.BoxGeometry(ARM_W, 1, ARM_D);
-        g.translate(0, -0.5, 0);
-        const m = new THREE.Mesh(g, mat);
+      function pickArmMat(armObj) {
+        let m = armObj && armObj.material;
+        if (Array.isArray(m)) m = m[0];
+        if (m) {
+          if (m.map) m.map.colorSpace = THREE.SRGBColorSpace;
+          m.flatShading = true;
+          m.needsUpdate = true;
+        }
+        return m || new THREE.MeshLambertMaterial({ color: 0xc18a5e, flatShading: true });
+      }
+      const lArmGeo = makeArmGeo(lArmObj, -0.8);
+      const rArmGeo = makeArmGeo(rArmObj,  0.8);
+      const lArmMat = pickArmMat(lArmObj);
+      const rArmMat = pickArmMat(rArmObj);
+
+      function makeBone(geo, mat, length) {
+        const m = new THREE.Mesh(geo, mat);
         m.scale.set(1, length, 1);
         return m;
       }
-      function makeArmRig(mat) {
-        const upper = makeBone(mat, ARM_UPPER);
-        const fore  = makeBone(mat, ARM_FORE);
+      function makeArmRig(geo, mat) {
+        const upper = makeBone(geo, mat, ARM_UPPER);
+        const fore  = makeBone(geo, mat, ARM_FORE);
         scene.add(upper, fore);
         return { upper, fore };
       }
-      leftArmRig  = makeArmRig(armMatL);
-      rightArmRig = makeArmRig(armMatR);
-
-      // ── Hand cubes (visible "wrists" / hands at each controller), textured
-      // from the same arm textures so they blend with the limb.
-      const handGeo = new THREE.BoxGeometry(0.10, 0.10, 0.10);
-      handCubeL = new THREE.Mesh(handGeo, armMatL);
-      handCubeR = new THREE.Mesh(handGeo, armMatR);
-      scene.add(handCubeL, handCubeR);
+      leftArmRig  = makeArmRig(lArmGeo, lArmMat);
+      rightArmRig = makeArmRig(rArmGeo, rArmMat);
 
       // Cull the entire avatar from the main camera's view (player can't see
       // themselves), but keep them on AVATAR_LAYER so the mirror can.
       setSubtreeLayer(torsoGroup, AVATAR_LAYER);
-      [leftArmRig.upper, leftArmRig.fore, rightArmRig.upper, rightArmRig.fore,
-       handCubeL, handCubeR].forEach(o => setSubtreeLayer(o, AVATAR_LAYER));
+      [leftArmRig.upper, leftArmRig.fore, rightArmRig.upper, rightArmRig.fore]
+        .forEach(o => setSubtreeLayer(o, AVATAR_LAYER));
 
       avatarReady = true;
       setStatus('Avatar ready. Press ENTER VR.');
@@ -777,10 +790,8 @@
       _localPos.copy(_camWorldPos);
       playerRig.worldToLocal(_localPos);
       torsoGroup.position.x = _localPos.x;
-      // Floor-anchor the avatar: body bottom always sits at y=0 in rig-local space,
-      // so the avatar can never sink into the ground regardless of the headset's
-      // height. Body bottom = neck − AVATAR_SCALE → set neck Y = AVATAR_SCALE.
-      torsoGroup.position.y = AVATAR_SCALE;
+      // Y is locked at build-time to 2*BODY_SCALE*AVATAR_SCALE so body bottom
+      // sits exactly on the floor; do not touch it per frame.
       torsoGroup.position.z = _localPos.z;
 
       // Yaw of camera relative to playerRig — torso follows head yaw.
@@ -791,20 +802,6 @@
       torsoGroup.rotation.set(0, eul.y, 0);
       torsoGroup.updateMatrixWorld(true);
       torsoGroup.getWorldQuaternion(_torsoQuat);
-
-      // ── Hand cubes track each controller exactly. Hidden when controller is missing.
-      if (gripL) {
-        gripL.getWorldPosition(_handW);
-        handCubeL.visible = true;
-        handCubeL.position.copy(_handW);
-        handCubeL.quaternion.copy(gripL.getWorldQuaternion(new THREE.Quaternion()));
-      } else { handCubeL.visible = false; }
-      if (gripR) {
-        gripR.getWorldPosition(_handW);
-        handCubeR.visible = true;
-        handCubeR.position.copy(_handW);
-        handCubeR.quaternion.copy(gripR.getWorldQuaternion(new THREE.Quaternion()));
-      } else { handCubeR.visible = false; }
 
       // ── 2-bone IK arms: shoulder world = torsoGroup.localToWorld(local shoulder).
       function shoulderWorld(sideX, out) {
