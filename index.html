@@ -203,6 +203,76 @@
         inset -2px -2px 0 rgba(0,0,0,0.45);
     }
 
+    /* ── ENTER VR mega-button (bottom of page) ── */
+    @keyframes vr-rainbow-bg {
+      0%   { background-position:   0% 50%; }
+      50%  { background-position: 100% 50%; }
+      100% { background-position:   0% 50%; }
+    }
+    .vr-launch-wrap {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      margin-top: 8px;
+      padding: 0 12px;
+    }
+    .vr-launch-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 14px;
+      width: 460px;
+      max-width: 96vw;
+      padding: 22px 28px;
+      font-family: 'ArcadeClassic', monospace;
+      font-size: clamp(20px, 4.4vw, 32px);
+      letter-spacing: 4px;
+      color: #fff;
+      text-decoration: none;
+      text-shadow: 2px 2px 0 #000, 3px 3px 0 #1a002d;
+      border: 3px solid #ffffff;
+      border-radius: 8px;
+      cursor: pointer;
+      user-select: none;
+      background: linear-gradient(
+        90deg,
+        #ff4444, #ff9900, #ffe066, #69db7c,
+        #4dabf7, #9775fa, #f783ac, #ff4444
+      );
+      background-size: 300% 100%;
+      animation: vr-rainbow-bg 6s linear infinite;
+      box-shadow:
+        inset 2px 2px 0 rgba(255,255,255,0.45),
+        inset -2px -2px 0 rgba(0,0,0,0.55),
+        0 0 32px rgba(151, 117, 250, 0.55),
+        0 8px 22px rgba(0,0,0,0.6);
+      transition: transform 0.15s ease, filter 0.15s ease, box-shadow 0.15s ease;
+    }
+    .vr-launch-btn:hover {
+      transform: scale(1.03);
+      filter: brightness(1.1) saturate(1.2);
+      box-shadow:
+        inset 2px 2px 0 rgba(255,255,255,0.45),
+        inset -2px -2px 0 rgba(0,0,0,0.55),
+        0 0 48px rgba(255, 100, 200, 0.75),
+        0 10px 26px rgba(0,0,0,0.7);
+    }
+    .vr-launch-btn .vr-glyph {
+      font-size: 1.2em;
+      filter: drop-shadow(0 0 6px rgba(255,255,255,0.7));
+    }
+    .vr-launch-note {
+      font-family: 'ArcadeClassic', monospace;
+      font-size: clamp(11px, 1.8vw, 14px);
+      letter-spacing: 1px;
+      color: #fff;
+      text-align: center;
+      text-shadow: 1px 1px 0 #000, 2px 2px 0 #000;
+      opacity: 0.85;
+    }
+
     /* ── Tagline row ── */
     .tagline {
       display: flex;
@@ -1309,7 +1379,18 @@
     <!-- Example Video Showcase -->
     <div class="example-showcase">
       <h2>Example of a Movie Room Scene created by user ScriptWizard in Early Access</h2>
-      <video src="Examples/VideoPlayerExperienceVisuals.mp4" controls preload="metadata" playsinline poster="Logo.png"></video>
+      <video id="exampleVideo" src="Examples/VideoPlayerExperienceVisuals.mp4" preload="metadata" playsinline poster="Logo.png"></video>
+      <button type="button" id="exampleVideoPlayBtn" class="example-play-btn" aria-label="Play video">▶</button>
+    </div>
+
+    <!-- ENTER VR! Launch Button (bottom of page) -->
+    <div class="vr-launch-wrap">
+      <a class="vr-launch-btn" href="vr.html">
+        <span class="vr-glyph">▣</span>
+        <span>ENTER VR!</span>
+        <span class="vr-glyph">▣</span>
+      </a>
+      <div class="vr-launch-note">Quest / SteamVR / WebXR-compatible headsets</div>
     </div>
 
   </div>
