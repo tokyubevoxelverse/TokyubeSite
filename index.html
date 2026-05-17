@@ -87,19 +87,42 @@
       animation: logo-glow 3s ease-in-out infinite;
     }
 
+    /* Header row: Tokyube logo + DOOM Industries logo, side-by-side, centered.
+       Locked to a single row (nowrap) so they always sit next to each other.
+       The viewport-relative widths above keep them from overflowing on mobile. */
+    .header-logos {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: center;
+      gap: 28px;
+      flex-wrap: nowrap;
+      width: 100%;
+    }
+    .doom-logo-header {
+      max-width: 220px;
+      width: 22vw;
+      height: auto;
+      image-rendering: crisp-edges;
+    }
+
     @keyframes logo-glow {
       0%, 100% { filter: drop-shadow(0 0 20px rgba(255, 100, 100, 0.5)); }
       50% { filter: drop-shadow(0 0 30px rgba(100, 200, 255, 0.6)); }
     }
 
-    /* ── Platform row: Discord widget on the LEFT + platform buttons column ── */
+    /* ── Platform row: Discord widget on the LEFT + platform buttons column ──
+       Stays side-by-side at all desktop widths (no wrap until mobile). */
     .platform-row {
       width: 100%;
       display: flex;
       justify-content: center;
       align-items: flex-start;
       gap: 28px;
-      flex-wrap: wrap;
+      flex-wrap: nowrap;
+    }
+    @media (max-width: 820px) {
+      .platform-row { flex-wrap: wrap; }
     }
 
     /* ── Platform buttons ── */
@@ -262,33 +285,68 @@
       background-clip: text;
       text-align: center;
       text-shadow: 0 0 12px rgba(255,255,255,0.15);
+      margin: 0;
     }
-    .doom-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 18px 24px;
+    /* Section header row: DOOM logo + "More by DOOM Industries, LLC." title,
+       centered together. */
+    .doom-header-row {
+      display: flex;
+      flex-direction: row;
       align-items: center;
+      justify-content: center;
+      gap: 18px;
+      flex-wrap: wrap;
       width: 100%;
     }
-    .doom-cell-logo {
-      display: flex; justify-content: center;
+    .doom-logo-inline {
+      width: 72px;
+      height: 72px;
+      object-fit: contain;
+      image-rendering: crisp-edges;
+    }
+    /* Row 1: logo + "Forza Designer 6" centered on a single line.
+       Row 2: source-code + release buttons. */
+    .doom-grid {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 28px;
+      width: 100%;
+    }
+    .doom-row-title {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: center;
+      gap: 24px;
+      width: 100%;
+      flex-wrap: nowrap;
+    }
+    .doom-row-buttons {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: center;
+      gap: 24px;
+      width: 100%;
+      flex-wrap: wrap;
     }
     .doom-cell-title {
       display: flex; align-items: center; justify-content: flex-start;
       font-family: 'ArcadeClassic', monospace;
-      font-size: clamp(22px, 4vw, 34px);
+      font-size: clamp(22px, 4vw, 38px);
       color: #fff;
       letter-spacing: 2px;
       text-shadow: 0 0 14px #ff66cc, 0 0 4px #fff;
-    }
-    .doom-cell-btn-l, .doom-cell-btn-r {
-      display: flex; justify-content: center;
+      white-space: nowrap;  /* keep "Forza Designer 6" on ONE line */
     }
     .rainbow-logo-cycle {
-      width: 128px; height: 128px;
+      width: 448px; height: 448px;       /* 128 * 3.5 — large centerpiece */
+      max-width: 56vw;                    /* gracefully shrink on small screens */
+      max-height: 56vw;
       position: relative;
       display: block;
-      filter: drop-shadow(0 0 18px rgba(255, 100, 200, 0.55));
+      /* glow removed per user request */
     }
     .rainbow-logo-cycle img {
       position: absolute; inset: 0;
@@ -335,8 +393,8 @@
       font-size: 1.2em;
     }
     @media (max-width: 540px) {
-      .doom-grid { grid-template-columns: 1fr; text-align: center; }
-      .doom-cell-title { justify-content: center; }
+      .doom-row-title { flex-direction: column; }
+      .doom-cell-title { justify-content: center; white-space: normal; text-align: center; }
     }
 
     .platform-btn {
@@ -1568,8 +1626,11 @@
 
   <div class="content">
 
-    <!-- Logo -->
-    <img src="Logo.png" alt="TokyubeVoxelVerse" class="site-logo">
+    <!-- Header logos: Tokyube site logo + DOOM Industries logo, centered side-by-side -->
+    <div class="header-logos">
+      <img src="Logo.png" alt="TokyubeVoxelVerse" class="site-logo">
+      <img src="DOOMLogo.png" alt="DOOM Industries, LLC" class="doom-logo-header">
+    </div>
 
     <!-- Rainbow Documentation Text -->
     <div class="rainbow-doc-text">
@@ -1642,12 +1703,27 @@
       <video id="exampleVideo" src="Examples/VideoPlayerExperienceVisuals.mp4" autoplay loop muted playsinline preload="auto" poster="Logo.png"></video>
     </div>
 
+    <!-- ENTER VR! Launch — sits between the showcase video and the
+         "More by DOOM Industries" section so the VR call-to-action stays
+         within natural eye-flow after the demo footage. -->
+    <div class="vr-launch-wrap">
+      <a class="vr-launch-btn" href="https://tokyubevoxelverse.github.io/TokyubeXR/" target="_blank" rel="noopener noreferrer">
+        <span class="vr-glyph">▣</span>
+        <span>ENTER VR!</span>
+        <span class="vr-glyph">▣</span>
+      </a>
+      <div class="vr-launch-note">Launches the TokyubeXR engine — VR-ready in a Quest / SteamVR browser, plays on PC otherwise</div>
+    </div>
+
     <!-- More by DOOM Industries, LLC -->
     <section class="doom-section" aria-label="More by DOOM Industries">
-      <h2 class="doom-header">More by DOOM Industries, LLC.</h2>
+      <div class="doom-header-row">
+        <img src="DOOMLogo.png" alt="DOOM Industries, LLC" class="doom-logo-inline">
+        <h2 class="doom-header">More by DOOM Industries, LLC.</h2>
+      </div>
       <div class="doom-grid">
-        <!-- Top-left: rainbow-cycling logo through 7 FD6 badges -->
-        <div class="doom-cell-logo">
+        <!-- Row 1: large rainbow-cycling logo + "Forza Designer 6" title on one line -->
+        <div class="doom-row-title">
           <div class="rainbow-logo-cycle" aria-label="Forza Designer 6 rainbow logo">
             <img src="Icons/fd6/AppIconTransparent.png" alt="">
             <img src="Icons/fd6/Orange.png" alt="">
@@ -1657,35 +1733,19 @@
             <img src="Icons/fd6/Purple.png" alt="">
             <img src="Icons/fd6/Pink.png" alt="">
           </div>
+          <div class="doom-cell-title">Forza Designer 6</div>
         </div>
-        <!-- Top-right: title -->
-        <div class="doom-cell-title">Forza Designer 6</div>
-        <!-- Bottom-left: GitHub source button -->
-        <div class="doom-cell-btn-l">
+        <!-- Row 2: GitHub source + release download buttons -->
+        <div class="doom-row-buttons">
           <a class="doom-btn" href="https://github.com/tokyubevoxelverse/ForzaDesigner6" target="_blank" rel="noopener noreferrer">
             <span class="gh-glyph">⌥</span> SOURCE CODE
           </a>
-        </div>
-        <!-- Bottom-right: Release v354.221 button -->
-        <div class="doom-cell-btn-r">
           <a class="doom-btn" href="https://github.com/tokyubevoxelverse/ForzaDesigner6/releases/tag/v354.221" target="_blank" rel="noopener noreferrer">
             <span class="gh-glyph">▼</span> DOWNLOAD v354.221
           </a>
         </div>
       </div>
     </section>
-
-    <!-- ENTER VR! Launch Button (bottom of page) — links out to the live
-         TokyubeXR engine deployment (the actual game with VR mode), instead
-         of the standalone vr.html avatar demo that used to live here. -->
-    <div class="vr-launch-wrap">
-      <a class="vr-launch-btn" href="https://tokyubevoxelverse.github.io/TokyubeXR/" target="_blank" rel="noopener noreferrer">
-        <span class="vr-glyph">▣</span>
-        <span>ENTER VR!</span>
-        <span class="vr-glyph">▣</span>
-      </a>
-      <div class="vr-launch-note">Launches the TokyubeXR engine — VR-ready in a Quest / SteamVR browser, plays on PC otherwise</div>
-    </div>
 
   </div>
 
