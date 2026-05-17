@@ -6,6 +6,10 @@
   <title>TokyubeVoxelVerse</title>
   <link rel="icon" type="image/png" href="Logo.png">
   <link rel="apple-touch-icon" href="Logo.png">
+  <!-- Press Start 2P (used by the DOOM DEN Discord widget) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
   <style>
     @font-face {
       font-family: 'ArcadeClassic';
@@ -88,13 +92,251 @@
       50% { filter: drop-shadow(0 0 30px rgba(100, 200, 255, 0.6)); }
     }
 
+    /* ── Platform row: Discord widget on the LEFT + platform buttons column ── */
+    .platform-row {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      gap: 28px;
+      flex-wrap: wrap;
+    }
+
     /* ── Platform buttons ── */
     .buttons {
       display: flex;
       flex-direction: column;
       align-items: center;
       gap: 14px;
+    }
+
+    /* ── Discord live-members widget (DOOM DEN) ── */
+    .discord-widget {
+      width: 300px;
+      max-width: 92vw;
+      background: #1a0033;
+      border-radius: 24px;
+      position: relative;
+      overflow: hidden;
+      box-shadow:
+        0 0 0 8px #000,
+        0 0 30px #ff00ff,
+        0 0 60px #00ffff;
+      font-family: 'Press Start 2P', 'ArcadeClassic', monospace;
+      align-self: center;
+    }
+    .discord-widget::before {
+      content: '';
+      position: absolute;
+      inset: -10px;
+      background: linear-gradient(45deg,
+        #ff00ff 0%, #00ffff 14%, #ffff00 28%,
+        #00ff00 42%, #ff0000 57%, #ff00ff 71%,
+        #00ffff 85%, #ffff00 100%);
+      border-radius: 34px;
+      z-index: -2;
+    }
+    .discord-widget::after {
+      content: '';
+      position: absolute;
+      inset: -4px;
+      background: #1a0033;
+      border-radius: 28px;
+      z-index: -1;
+    }
+    .discord-widget .dw-inner {
+      position: relative;
+      z-index: 1;
+      margin: 6px;
+      border-radius: 18px;
+      overflow: hidden;
+    }
+    .discord-widget .dw-header {
+      background: linear-gradient(90deg, #ff0000, #ff8800, #ffff00, #00ff00, #00ffff, #8800ff, #ff00ff);
+      color: #000;
+      padding: 12px 10px;
+      text-align: center;
+      font-size: 11px;
+      text-shadow: 2px 2px 0 #fff;
+      border-bottom: 4px solid #000;
+      letter-spacing: 1.5px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .discord-widget .dw-online-count {
+      font-size: 10px;
+      background: rgba(0,0,0,0.6);
+      color: #fff;
+      padding: 4px 12px;
+      border-radius: 10px;
+      border: 2px solid #fff;
+      text-shadow: 2px 2px 0 #000;
+    }
+    .discord-widget .dw-members {
+      max-height: 360px;
+      overflow-y: auto;
+      padding: 10px;
+      background: #110022;
+    }
+    .discord-widget .dw-member {
+      display: flex;
+      align-items: center;
+      padding: 9px;
+      margin-bottom: 8px;
+      border: 3px solid #fff;
+      box-shadow: 4px 4px 0 #000, inset 0 0 16px rgba(255,255,255,0.4);
+      color: #fff;
+      font-size: 10px;
+      position: relative;
+      overflow: hidden;
+      border-radius: 14px;
+      background: rgba(255,255,255,0.08);
+    }
+    .discord-widget .dw-member::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(90deg,
+        #ff00ff, #00ffff, #ffff00, #00ff00,
+        #ff0000, #ff00ff);
+      background-size: 300% 100%;
+      animation: dwRainbowShift 8s linear infinite;
+      opacity: 0.22;
+      mix-blend-mode: screen;
+      z-index: -1;
+    }
+    @keyframes dwRainbowShift {
+      0%   { background-position: 0% 50%; }
+      100% { background-position: 300% 50%; }
+    }
+    .discord-widget .dw-member img {
+      width: 36px; height: 36px;
+      border: 3px solid #fff;
+      margin-right: 10px;
+      border-radius: 10px;
+      box-shadow: 2px 2px 0 #000;
+      z-index: 2;
+      image-rendering: pixelated;
+    }
+    .discord-widget .dw-username {
+      flex: 1;
+      text-shadow: 2px 2px 0 #000;
+      letter-spacing: 1px;
+      z-index: 2;
+      word-break: break-word;
+    }
+    .discord-widget .dw-status {
+      width: 14px; height: 14px;
+      border: 2px solid #000;
+      border-radius: 50%;
+      box-shadow: 0 0 6px #fff;
+      z-index: 2;
+      flex-shrink: 0;
+    }
+    .discord-widget .dw-status.online  { background: #00ff00; }
+    .discord-widget .dw-status.idle    { background: #ffff00; }
+    .discord-widget .dw-status.dnd     { background: #ff0000; }
+    .discord-widget .dw-status.offline { background: #555; }
+
+    /* ── More by DOOM Industries section ── */
+    .doom-section {
       width: 100%;
+      max-width: 800px;
+      margin: 40px auto 32px;
+      padding: 0 12px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 20px;
+    }
+    .doom-header {
+      font-family: 'ArcadeClassic', monospace;
+      font-size: clamp(20px, 4vw, 30px);
+      letter-spacing: 2px;
+      background: linear-gradient(90deg, #ff5555, #ff9933, #ffee44, #66ff66, #4488ff, #c44dff, #ff66cc, #ff5555);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      text-align: center;
+      text-shadow: 0 0 12px rgba(255,255,255,0.15);
+    }
+    .doom-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px 24px;
+      align-items: center;
+      width: 100%;
+    }
+    .doom-cell-logo {
+      display: flex; justify-content: center;
+    }
+    .doom-cell-title {
+      display: flex; align-items: center; justify-content: flex-start;
+      font-family: 'ArcadeClassic', monospace;
+      font-size: clamp(22px, 4vw, 34px);
+      color: #fff;
+      letter-spacing: 2px;
+      text-shadow: 0 0 14px #ff66cc, 0 0 4px #fff;
+    }
+    .doom-cell-btn-l, .doom-cell-btn-r {
+      display: flex; justify-content: center;
+    }
+    .rainbow-logo-cycle {
+      width: 128px; height: 128px;
+      position: relative;
+      display: block;
+      filter: drop-shadow(0 0 18px rgba(255, 100, 200, 0.55));
+    }
+    .rainbow-logo-cycle img {
+      position: absolute; inset: 0;
+      width: 100%; height: 100%;
+      object-fit: contain;
+      opacity: 0;
+      animation: rainbowCycle 14s linear infinite;
+    }
+    /* 7 frames × 2s each = 14s total. Stagger -2s per image. */
+    .rainbow-logo-cycle img:nth-child(1) { animation-delay:   0s; }
+    .rainbow-logo-cycle img:nth-child(2) { animation-delay:  -2s; }
+    .rainbow-logo-cycle img:nth-child(3) { animation-delay:  -4s; }
+    .rainbow-logo-cycle img:nth-child(4) { animation-delay:  -6s; }
+    .rainbow-logo-cycle img:nth-child(5) { animation-delay:  -8s; }
+    .rainbow-logo-cycle img:nth-child(6) { animation-delay: -10s; }
+    .rainbow-logo-cycle img:nth-child(7) { animation-delay: -12s; }
+    @keyframes rainbowCycle {
+      0%    { opacity: 0; }
+      7%    { opacity: 1; }
+      14%   { opacity: 1; }
+      22%   { opacity: 0; }
+      100%  { opacity: 0; }
+    }
+    .doom-btn {
+      display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+      padding: 12px 22px;
+      font-family: 'ArcadeClassic', monospace;
+      font-size: clamp(14px, 2.4vw, 18px);
+      letter-spacing: 1.5px;
+      color: #fff;
+      text-decoration: none;
+      border: 3px solid #fff;
+      border-radius: 12px;
+      background: linear-gradient(135deg, #2a0e3a, #102040);
+      box-shadow: 0 0 0 3px #000, 0 0 18px rgba(180, 80, 255, 0.5);
+      transition: transform .15s ease, box-shadow .15s ease, background .15s ease;
+    }
+    .doom-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 0 0 3px #000, 0 0 28px rgba(180, 80, 255, 0.9);
+      background: linear-gradient(135deg, #3a1850, #1a3060);
+    }
+    .doom-btn .gh-glyph {
+      font-size: 1.2em;
+    }
+    @media (max-width: 540px) {
+      .doom-grid { grid-template-columns: 1fr; text-align: center; }
+      .doom-cell-title { justify-content: center; }
     }
 
     .platform-btn {
@@ -1334,32 +1576,50 @@
       <span>H</span><span>o</span><span>v</span><span>e</span><span>r</span><span> </span><span>o</span><span>v</span><span>e</span><span>r</span><span> </span><span>t</span><span>h</span><span>e</span><span> </span><span>r</span><span>i</span><span>g</span><span>h</span><span>t</span><span> </span><span>t</span><span>o</span><span> </span><span>o</span><span>p</span><span>e</span><span>n</span><span> </span><span>d</span><span>o</span><span>c</span><span>u</span><span>m</span><span>e</span><span>n</span><span>t</span><span>a</span><span>t</span><span>i</span><span>o</span><span>n</span> <span>f</span><span>o</span><span>r</span> <span>T</span><span>o</span><span>k</span><span>y</span><span>u</span><span>b</span><span>e</span> <span>V</span><span>o</span><span>x</span><span>e</span><span>l</span><span>V</span><span>e</span><span>r</span><span>s</span><span>e</span> <span>E</span><span>n</span><span>g</span><span>i</span><span>n</span><span>e</span> <span>A</span><span>l</span><span>p</span><span>h</span><span>a</span> <span>0</span><span>.</span><span>0</span><span>.</span><span>0</span><span>4</span><span>6</span><span>9</span>
     </div>
 
-    <!-- Platform Coming Soon buttons -->
-    <div class="buttons">
-      <button class="platform-btn btn-steam">
-        <img src="Icons/Steam_icon_logo.svg.png" alt="Steam">
-        <span>COMING TO STEAM<br>FALL 2026</span>
-      </button>
+    <!-- Platform row: live Discord widget on the LEFT, platform buttons on the RIGHT -->
+    <div class="platform-row">
+      <!-- DOOM DEN live Discord widget (DOOM Industries server) -->
+      <aside class="discord-widget" aria-label="DOOM DEN Discord — live members">
+        <div class="dw-inner">
+          <div class="dw-header">
+            🌈 DOOM DEN 🌈
+            <span class="dw-online-count" id="dw-online-count">— ONLINE</span>
+          </div>
+          <div class="dw-members" id="dw-members">
+            <div style="text-align:center;color:#ff00ff;padding:24px;font-size:10px;">
+              LOADING MEMBERS…
+            </div>
+          </div>
+        </div>
+      </aside>
 
-      <button class="platform-btn btn-meta">
-        <img src="Icons/meta.png" alt="Meta Horizon">
-        <span>COMING TO META<br>HORIZON VR FALL 2026</span>
-      </button>
+      <!-- Platform Coming Soon buttons -->
+      <div class="buttons">
+        <button class="platform-btn btn-steam">
+          <img src="Icons/Steam_icon_logo.svg.png" alt="Steam">
+          <span>COMING TO STEAM<br>FALL 2026</span>
+        </button>
 
-      <button class="platform-btn btn-xbox">
-        <img src="Icons/Xbox.png" alt="Xbox">
-        <span>COMING TO XBOX<br>EARLY 2027</span>
-      </button>
+        <button class="platform-btn btn-meta">
+          <img src="Icons/meta.png" alt="Meta Horizon">
+          <span>COMING TO META<br>HORIZON VR FALL 2026</span>
+        </button>
 
-      <button class="platform-btn btn-switch">
-        <img src="Icons/Switch2.png" alt="Nintendo Switch 2">
-        <span>COMING TO NINTENDO<br>SWITCH 2 IN THE FUTURE</span>
-      </button>
+        <button class="platform-btn btn-xbox">
+          <img src="Icons/Xbox.png" alt="Xbox">
+          <span>COMING TO XBOX<br>EARLY 2027</span>
+        </button>
 
-      <a class="platform-btn btn-discord" href="https://discord.gg/PJFWdykGmS" target="_blank" rel="noopener noreferrer">
-        <img src="Icons/discord.png" alt="Discord">
-        <span>JOIN THE<br>IMAGINEERS</span>
-      </a>
+        <button class="platform-btn btn-switch">
+          <img src="Icons/Switch2.png" alt="Nintendo Switch 2">
+          <span>COMING TO NINTENDO<br>SWITCH 2 IN THE FUTURE</span>
+        </button>
+
+        <a class="platform-btn btn-discord" href="https://discord.gg/PJFWdykGmS" target="_blank" rel="noopener noreferrer">
+          <img src="Icons/discord.png" alt="Discord">
+          <span>JOIN THE<br>IMAGINEERS</span>
+        </a>
+      </div>
     </div>
 
     <!-- Tagline -->
@@ -1382,6 +1642,39 @@
       <video id="exampleVideo" src="Examples/VideoPlayerExperienceVisuals.mp4" autoplay loop muted playsinline preload="auto" poster="Logo.png"></video>
     </div>
 
+    <!-- More by DOOM Industries, LLC -->
+    <section class="doom-section" aria-label="More by DOOM Industries">
+      <h2 class="doom-header">More by DOOM Industries, LLC.</h2>
+      <div class="doom-grid">
+        <!-- Top-left: rainbow-cycling logo through 7 FD6 badges -->
+        <div class="doom-cell-logo">
+          <div class="rainbow-logo-cycle" aria-label="Forza Designer 6 rainbow logo">
+            <img src="Icons/fd6/AppIconTransparent.png" alt="">
+            <img src="Icons/fd6/Orange.png" alt="">
+            <img src="Icons/fd6/Yellow.png" alt="">
+            <img src="Icons/fd6/Green.png" alt="">
+            <img src="Icons/fd6/Blue.png" alt="">
+            <img src="Icons/fd6/Purple.png" alt="">
+            <img src="Icons/fd6/Pink.png" alt="">
+          </div>
+        </div>
+        <!-- Top-right: title -->
+        <div class="doom-cell-title">Forza Designer 6</div>
+        <!-- Bottom-left: GitHub source button -->
+        <div class="doom-cell-btn-l">
+          <a class="doom-btn" href="https://github.com/tokyubevoxelverse/ForzaDesigner6" target="_blank" rel="noopener noreferrer">
+            <span class="gh-glyph">⌥</span> SOURCE CODE
+          </a>
+        </div>
+        <!-- Bottom-right: Release v354.221 button -->
+        <div class="doom-cell-btn-r">
+          <a class="doom-btn" href="https://github.com/tokyubevoxelverse/ForzaDesigner6/releases/tag/v354.221" target="_blank" rel="noopener noreferrer">
+            <span class="gh-glyph">▼</span> DOWNLOAD v354.221
+          </a>
+        </div>
+      </div>
+    </section>
+
     <!-- ENTER VR! Launch Button (bottom of page) — links out to the live
          TokyubeXR engine deployment (the actual game with VR mode), instead
          of the standalone vr.html avatar demo that used to live here. -->
@@ -1397,6 +1690,60 @@
   </div>
 
   <script>
+    // ── DOOM DEN live Discord widget (server ID lifted from the working snippet
+    //    the user provided). Falls back to a friendly notice on network error.
+    (function loadDoomDen() {
+      const GUILD_ID = '1457468089317982301';
+      const url = `https://discord.com/api/guilds/${GUILD_ID}/widget.json`;
+      const rainbowGradients = [
+        'linear-gradient(90deg, #ff3333, #ff8888)',
+        'linear-gradient(90deg, #ff8833, #ffbb88)',
+        'linear-gradient(90deg, #ffdd33, #ffee99)',
+        'linear-gradient(90deg, #33ff33, #88ff88)',
+        'linear-gradient(90deg, #33ffff, #88ffff)',
+        'linear-gradient(90deg, #3388ff, #77aaff)',
+        'linear-gradient(90deg, #aa33ff, #cc88ff)',
+        'linear-gradient(90deg, #ff33ff, #ff88ff)'
+      ];
+      function render(data) {
+        const cnt = document.getElementById('dw-online-count');
+        const box = document.getElementById('dw-members');
+        if (!cnt || !box) return;
+        cnt.textContent = `${data.presence_count ?? 0} ONLINE`;
+        const members = Array.isArray(data.members) ? [...data.members] : [];
+        const order = { online: 1, idle: 2, dnd: 3 };
+        members.sort((a, b) => (order[a.status] || 4) - (order[b.status] || 4));
+        box.innerHTML = '';
+        if (members.length === 0) {
+          box.innerHTML = '<div style="text-align:center;color:#ff00ff;padding:24px;font-size:10px;">NO MEMBERS VISIBLE</div>';
+          return;
+        }
+        members.forEach((m, i) => {
+          const grad = rainbowGradients[i % rainbowGradients.length];
+          const div = document.createElement('div');
+          div.className = 'dw-member';
+          div.style.background = `linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), ${grad}`;
+          const avatar = m.avatar_url || 'Icons/discord.png';
+          const name = (m.username || '???').toString();
+          const status = m.status || 'online';
+          div.innerHTML = `
+            <img src="${avatar}" alt="" loading="lazy">
+            <div class="dw-username"></div>
+            <div class="dw-status ${status}"></div>`;
+          // textContent to avoid HTML injection from usernames
+          div.querySelector('.dw-username').textContent = name;
+          box.appendChild(div);
+        });
+      }
+      fetch(url)
+        .then(r => r.json())
+        .then(render)
+        .catch(() => {
+          const box = document.getElementById('dw-members');
+          if (box) box.innerHTML = '<div style="text-align:center;color:#ff00ff;padding:24px;font-size:10px;">PIXEL CONNECTION FAILED<br><small style="font-size:8px;">REFRESH TO RETRY</small></div>';
+        });
+    })();
+
     const sideMenu = document.getElementById('sideMenu');
     const menuTrigger = document.getElementById('menuTrigger');
     const menuItems = document.querySelectorAll('.menu-item');
