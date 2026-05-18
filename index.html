@@ -626,10 +626,11 @@
       font-size: clamp(11px, 1.8vw, 14px);
       letter-spacing: 1px;
       text-align: center;
-      /* Pinned tight to the header logos above (overshoots .content's 36px gap
-         so the docs line sits a few pixels INTO the logos' footprint) and
-         extra breathing room below before the Discord+buttons row. */
-      margin-top: -52px;
+      /* Pull the docs line deep into the header logos' footprint
+         (overlaps significantly — sits ~114px above where natural flow
+         would place it). Extra breathing room below before the Discord
+         + buttons row. */
+      margin-top: -150px;
       margin-bottom: 36px;
       line-height: 1.6;
     }
