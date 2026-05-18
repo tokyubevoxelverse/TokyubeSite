@@ -131,12 +131,14 @@
       flex-direction: column;
       align-items: center;
       gap: 14px;
+      flex: 0 0 400px;         /* don't let flex shrink the column either */
     }
 
     /* ── Discord live-members widget (DOOM DEN) ── */
     .discord-widget {
       width: 600px;            /* doubled from 300px per design note */
       max-width: 92vw;
+      flex: 0 0 600px;         /* don't let flex shrink us below 600px */
       background: #1a0033;
       border-radius: 24px;
       position: relative;
@@ -304,14 +306,17 @@
       image-rendering: crisp-edges;
     }
     /* Row 1: logo + "Forza Designer 6" centered on a single line.
-       Row 2: source-code + release buttons — tight gap so they sit
-       directly under the animated FD6 logo, not floating below. */
+       Row 2: source-code + release buttons — pulled up so they sit
+       hard against the animated FD6 logo / title line. */
     .doom-grid {
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 10px;
+      gap: 0;
       width: 100%;
+    }
+    .doom-row-buttons {
+      margin-top: -32px;       /* drag buttons up under the title row */
     }
     .doom-row-title {
       display: flex;
