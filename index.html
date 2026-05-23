@@ -278,7 +278,7 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 35px;               /* DOOM header → FD6 grid → JavaBoy grid */
+      gap: 14px;               /* DOOM header sits close to FD6 grid; JavaBoy grid uses an explicit margin-top to land at 35px total */
     }
     .doom-header {
       font-family: 'ArcadeClassic', monospace;
@@ -293,8 +293,9 @@
       margin: 0;
     }
     /* Section header: DOOM logo side-by-side with the title on the same line.
-       Logo + heading are tuned to fit within .content's 620px column at all
-       desktop widths (was wrapping to two lines at 144px / 30px before). */
+       Logo + heading sized to fit within .content's 620px column. The whole
+       row carries an underline so it visually separates the DOOM section
+       header from the FD6 product card below it. */
     .doom-header-row {
       display: flex;
       flex-direction: row;
@@ -303,17 +304,19 @@
       gap: 14px;
       width: 100%;
       flex-wrap: nowrap;
+      padding-bottom: 12px;
+      border-bottom: 2px solid rgba(255, 255, 255, 0.35);
     }
     .doom-logo-inline {
-      width: 80px;
-      max-width: 20vw;
+      width: 112px;
+      max-width: 24vw;
       height: auto;
       object-fit: contain;
       image-rendering: crisp-edges;
       flex-shrink: 0;
     }
     .doom-header {
-      font-size: clamp(16px, 3.2vw, 22px) !important;  /* shrunk so it fits next to the inline logo */
+      font-size: clamp(18px, 3.6vw, 24px) !important;  /* bumped — still fits next to the 112px logo */
       white-space: nowrap;
     }
     @media (max-width: 480px) {
@@ -336,16 +339,24 @@
     .doom-row-buttons-tight {
       margin-top: 24px !important;  /* JavaBoy card has no trailer, so buttons hug the title */
     }
-    /* JavaBoy buttons row: three pills on ONE line, slightly smaller pads than FD6's two. */
+    /* JavaBoy buttons row: three pills on ONE line, regardless of viewport.
+       Each button shrinks to fit but never wraps to a second line. */
     .doom-row-buttons-javaboy {
-      flex-wrap: nowrap;
-      gap: 14px;
+      flex-wrap: nowrap !important;
+      gap: 10px;
+      width: 100%;
     }
     .doom-btn-small {
-      padding: 9px 14px;
-      font-size: clamp(11px, 1.7vw, 14px);
-      letter-spacing: 1px;
-      gap: 6px;
+      padding: 8px 10px;
+      font-size: clamp(9px, 1.5vw, 13px);
+      letter-spacing: 0.5px;
+      gap: 5px;
+      white-space: nowrap;
+      flex: 0 1 auto;
+      min-width: 0;
+    }
+    .doom-btn-small .gh-glyph {
+      font-size: 1em;
     }
     /* JavaBoy title row: logo + two-line title, BOTH centered as a group
        (logo on the left of the title, whole group horizontally centered —
@@ -367,13 +378,14 @@
       line-height: 1.25;
       text-align: center;           /* center both lines under each other */
     }
-    /* 35px breathing room between the FD6 buttons row and the JavaBoy grid. */
+    /* FD6 grid → JavaBoy grid total spacing = 35px (.doom-section gap is 14px,
+       this margin adds the remaining 21px). */
     .doom-grid + .doom-grid {
-      margin-top: 35px;
+      margin-top: 21px;
     }
     @media (max-width: 540px) {
       .doom-row-title-javaboy { flex-direction: column; }
-      .doom-row-buttons-javaboy { flex-wrap: wrap; }
+      /* JBA buttons stay on one line at all viewports — no flex-wrap override here. */
     }
     .doom-row-title {
       display: flex;
@@ -419,12 +431,11 @@
       white-space: nowrap;  /* keep "Forza Designer 6" on ONE line */
     }
     .rainbow-logo-cycle {
-      width: 448px; height: 448px;       /* 128 * 3.5 — large centerpiece */
-      max-width: 56vw;                    /* gracefully shrink on small screens */
-      max-height: 56vw;
+      width: 200px; height: 200px;       /* sized so the FD6 title row hugs the trailer iframe */
+      max-width: 38vw;
+      max-height: 38vw;
       position: relative;
       display: block;
-      /* glow removed per user request */
     }
     .rainbow-logo-cycle img {
       position: absolute; inset: 0;
