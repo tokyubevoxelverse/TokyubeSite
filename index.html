@@ -56,14 +56,14 @@
     }
 
     /* ── Main content column ──
-       gap is the canonical 25px section spacer used throughout the home page.
+       gap is the canonical 35px section spacer used throughout the home page.
        Internal section margins (rainbow-doc-text, example-showcase, etc.) are
        reset to 0 below so this single value controls the rhythm. */
     .content {
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 25px;
+      gap: 35px;
       padding: 60px 20px;
       width: 100%;
       max-width: 620px;
@@ -278,7 +278,7 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 25px;               /* DOOM header → FD6 grid → JavaBoy grid */
+      gap: 35px;               /* DOOM header → FD6 grid → JavaBoy grid */
     }
     .doom-header {
       font-family: 'ArcadeClassic', monospace;
@@ -292,22 +292,33 @@
       text-shadow: 0 0 12px rgba(255,255,255,0.15);
       margin: 0;
     }
-    /* Section header: DOOM logo side-by-side with the title on the same line. */
+    /* Section header: DOOM logo side-by-side with the title on the same line.
+       Logo + heading are tuned to fit within .content's 620px column at all
+       desktop widths (was wrapping to two lines at 144px / 30px before). */
     .doom-header-row {
       display: flex;
       flex-direction: row;
       align-items: center;
       justify-content: center;
-      gap: 18px;
+      gap: 14px;
       width: 100%;
-      flex-wrap: wrap;          /* fall to two lines only on very narrow viewports */
+      flex-wrap: nowrap;
     }
     .doom-logo-inline {
-      width: 144px;            /* sized to match the title row at desktop widths */
-      max-width: 32vw;
+      width: 80px;
+      max-width: 20vw;
       height: auto;
       object-fit: contain;
       image-rendering: crisp-edges;
+      flex-shrink: 0;
+    }
+    .doom-header {
+      font-size: clamp(16px, 3.2vw, 22px) !important;  /* shrunk so it fits next to the inline logo */
+      white-space: nowrap;
+    }
+    @media (max-width: 480px) {
+      .doom-header-row { flex-wrap: wrap; }   /* fall to two lines only on phones */
+      .doom-header { white-space: normal; }
     }
     /* Row 1: logo + "Forza Designer 6" centered on a single line.
        Row 2: source-code + release buttons — pulled up so they sit
@@ -336,7 +347,13 @@
       letter-spacing: 1px;
       gap: 6px;
     }
-    /* JavaBoy title row: smaller logo + two-line title (allow wrap). */
+    /* JavaBoy title row: logo + two-line title, BOTH centered as a group
+       (logo on the left of the title, whole group horizontally centered —
+       same pattern as the Forza Designer 6 title row). */
+    .doom-row-title-javaboy {
+      justify-content: center;
+      gap: 18px;
+    }
     .javaboy-logo {
       width: 110px;
       max-width: 28vw;
@@ -345,14 +362,18 @@
       image-rendering: crisp-edges;
     }
     .doom-cell-title-javaboy {
-      white-space: normal;     /* override the nowrap default so the title can break */
-      font-size: clamp(18px, 3.2vw, 28px);
+      white-space: normal;          /* allow the two-line title to wrap */
+      font-size: clamp(13px, 2.2vw, 20px);
       line-height: 1.25;
-      text-align: left;
+      text-align: center;           /* center both lines under each other */
+    }
+    /* 35px breathing room between the FD6 buttons row and the JavaBoy grid. */
+    .doom-grid + .doom-grid {
+      margin-top: 35px;
     }
     @media (max-width: 540px) {
+      .doom-row-title-javaboy { flex-direction: column; }
       .doom-row-buttons-javaboy { flex-wrap: wrap; }
-      .doom-cell-title-javaboy { text-align: center; }
     }
     .doom-row-title {
       display: flex;
@@ -641,7 +662,7 @@
       font-family: 'ArcadeClassic', monospace;
       font-size: clamp(14px, 3.2vw, 34px);
       letter-spacing: 2px;
-      margin-top: 25px;   /* explicit gap below the Discord + buttons row */
+      margin-top: 35px;   /* explicit gap below the Discord + buttons row */
     }
 
     .tagline span {
@@ -1084,7 +1105,7 @@
 
     /* Example Showcase (home page video).
        Explicit margin-top adds a visible gap below the description paragraph
-       (in addition to the parent .content's 25px flex gap). */
+       (in addition to the parent .content's 35px flex gap). */
     .example-showcase {
       width: 100%;
       max-width: 800px;
@@ -1092,7 +1113,7 @@
       flex-direction: column;
       align-items: center;
       gap: 16px;
-      margin-top: 25px;
+      margin-top: 35px;
       padding: 0 12px;
     }
     .example-showcase h2 {
