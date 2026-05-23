@@ -55,12 +55,15 @@
       animation: rainbow-bg 12s ease infinite;
     }
 
-    /* ── Main content column ── */
+    /* ── Main content column ──
+       gap is the canonical 25px section spacer used throughout the home page.
+       Internal section margins (rainbow-doc-text, example-showcase, etc.) are
+       reset to 0 below so this single value controls the rhythm. */
     .content {
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 36px;
+      gap: 25px;
       padding: 60px 20px;
       width: 100%;
       max-width: 620px;
@@ -270,12 +273,12 @@
     .doom-section {
       width: 100%;
       max-width: 800px;
-      margin: 40px auto 32px;
+      margin: 0 auto;
       padding: 0 12px;
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 0;                  /* header row sits flush against the FD6 grid */
+      gap: 25px;               /* DOOM header → FD6 grid → JavaBoy grid */
     }
     .doom-header {
       font-family: 'ArcadeClassic', monospace;
@@ -316,7 +319,10 @@
       width: 100%;
     }
     .doom-row-buttons {
-      margin-top: 60px;        /* breathing room below the trailer iframe */
+      margin-top: 60px;        /* breathing room below the trailer iframe (FD6 has one) */
+    }
+    .doom-row-buttons-tight {
+      margin-top: 24px !important;  /* JavaBoy card has no trailer, so buttons hug the title */
     }
     .doom-row-title {
       display: flex;
@@ -536,7 +542,7 @@
       flex-direction: column;
       align-items: center;
       gap: 10px;
-      margin-top: 8px;
+      margin-top: 0;
       padding: 0 12px;
     }
     .vr-launch-btn {
@@ -644,10 +650,10 @@
       text-align: center;
       /* Pull the docs line deep into the header logos' footprint
          (overlaps significantly — sits ~114px above where natural flow
-         would place it). Extra breathing room below before the Discord
-         + buttons row. */
+         would place it). Bottom margin is zero so the .content flex gap
+         (25px) controls the spacing to the Discord + buttons row below. */
       margin-top: -150px;
-      margin-bottom: 36px;
+      margin-bottom: 0;
       line-height: 1.6;
     }
 
@@ -1045,7 +1051,8 @@
       transform: translateX(-8px);
     }
 
-    /* Example Showcase (home page video) */
+    /* Example Showcase (home page video).
+       margin-top: 0 so the parent .content's 25px gap controls spacing. */
     .example-showcase {
       width: 100%;
       max-width: 800px;
@@ -1053,7 +1060,7 @@
       flex-direction: column;
       align-items: center;
       gap: 16px;
-      margin-top: 24px;
+      margin-top: 0;
       padding: 0 12px;
     }
     .example-showcase h2 {
@@ -1721,6 +1728,7 @@
     <p class="description">
       With your friends or on your own, in voxels or in whatever you can create
       and bring in yourself, your imagination TRULY has no limits in TOKYUBE.
+      Project on hold for a bit, but we will be back when we are stronger then ever!
     </p>
 
     <!-- Example Video Showcase -->
@@ -1778,6 +1786,34 @@
           </a>
           <a class="doom-btn" href="https://github.com/tokyubevoxelverse/ForzaDesigner6/releases/tag/v354.221" target="_blank" rel="noopener noreferrer">
             <span class="gh-glyph">▼</span> DOWNLOAD v354.221
+          </a>
+        </div>
+      </div>
+
+      <!-- JavaBoyAdvance — second product card, same layout as FD6 (logo + title row, then buttons). -->
+      <div class="doom-grid">
+        <div class="doom-row-title">
+          <div class="rainbow-logo-cycle" aria-label="JavaBoyAdvance rainbow logo">
+            <img src="Icons/javaboy/Logo1.png" alt="">
+            <img src="Icons/javaboy/GBA_red.png" alt="">
+            <img src="Icons/javaboy/GBA_orange.png" alt="">
+            <img src="Icons/javaboy/GBA_yellow.png" alt="">
+            <img src="Icons/javaboy/GBA_green.png" alt="">
+            <img src="Icons/javaboy/GBA_blue.png" alt="">
+            <img src="Icons/javaboy/GBA_purple.png" alt="">
+            <img src="Icons/javaboy/GBA_pink.png" alt="">
+          </div>
+          <div class="doom-cell-title">JavaBoyAdvance &mdash; Free in-browser GameBoy Suite &amp; app</div>
+        </div>
+        <div class="doom-row-buttons doom-row-buttons-tight">
+          <a class="doom-btn" href="https://github.com/tokyubevoxelverse/gbajs4" target="_blank" rel="noopener noreferrer">
+            <span class="gh-glyph">⌥</span> SOURCE CODE
+          </a>
+          <a class="doom-btn" href="https://github.com/tokyubevoxelverse/gbajs4/releases/tag/0.0.6" target="_blank" rel="noopener noreferrer">
+            <span class="gh-glyph">▼</span> DOWNLOAD 0.0.6
+          </a>
+          <a class="doom-btn" href="https://tokyubevoxelverse.github.io/gbajs4/" target="_blank" rel="noopener noreferrer">
+            <span class="gh-glyph">▶</span> USE ONLINE
           </a>
         </div>
       </div>
