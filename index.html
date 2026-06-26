@@ -372,6 +372,17 @@
       object-fit: contain;
       image-rendering: crisp-edges;
     }
+    /* Doodl Yehtis — round logo icon (image is square, mask it to a circle). */
+    .doodl-logo-round {
+      width: 110px;
+      height: 110px;
+      max-width: 28vw;
+      max-height: 28vw;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 3px solid #fff;
+      box-shadow: 0 0 0 3px #000, 0 0 22px rgba(255, 120, 220, 0.7);
+    }
     .doom-cell-title-javaboy {
       white-space: normal;          /* allow the two-line title to wrap */
       font-size: clamp(13px, 2.2vw, 20px);
@@ -1885,6 +1896,25 @@
           </a>
           <a class="doom-btn doom-btn-small" href="https://github.com/tokyubevoxelverse/NoMansMovies/releases/tag/v0.2.2" target="_blank" rel="noopener noreferrer">
             <span class="gh-glyph">▼</span> DOWNLOAD v0.2.2
+          </a>
+        </div>
+      </div>
+
+      <!-- Doodl Yehtis — hand-crafted foil trading cards. Round logo + checklist & shop links. -->
+      <div class="doom-grid">
+        <div class="doom-row-title doom-row-title-javaboy">
+          <img src="doodlyehtis/logo.jpg" alt="Doodl Yehtis" class="doodl-logo-round">
+          <div class="doom-cell-title doom-cell-title-javaboy">
+            Doodl Yehtis<br>
+            Hand-crafted foil trading cards &mdash; Series 1, 269 cards
+          </div>
+        </div>
+        <div class="doom-row-buttons doom-row-buttons-tight doom-row-buttons-javaboy">
+          <a class="doom-btn doom-btn-small" href="https://www.tokyube.com/doodlyehtis" target="_blank" rel="noopener noreferrer">
+            <span class="gh-glyph">▤</span> COLLECTION CHECKLIST
+          </a>
+          <a class="doom-btn doom-btn-small" href="https://www.tokyube.com/doodlyehtisshop" target="_blank" rel="noopener noreferrer">
+            <span class="gh-glyph">▼</span> BUY NOW
           </a>
         </div>
       </div>

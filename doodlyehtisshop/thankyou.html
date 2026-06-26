@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Order Received &mdash; Doodl Yehtis</title>
+  <link rel="icon" type="image/jpeg" href="../doodlyehtis/logo.jpg">
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+  <style>
+    * { margin:0; padding:0; box-sizing:border-box; }
+    @keyframes rainbow-bg { 0%{background-position:0% 0%,0% 0%,0% 50%;} 50%{background-position:0% 0%,0% 0%,100% 50%;} 100%{background-position:0% 0%,0% 0%,0% 50%;} }
+    @keyframes rainbow-text { 0%{color:#ff5b5b;} 33%{color:#fff25b;} 50%{color:#5bff7a;} 66%{color:#5bd1ff;} 100%{color:#ff5bd1;} }
+    body {
+      min-height:100vh; display:flex; flex-direction:column; align-items:center; justify-content:center;
+      text-align:center; padding:30px; color:#fff; font-family:'Press Start 2P',monospace;
+      background:
+        repeating-linear-gradient(0deg, transparent, transparent 3px, rgba(0,0,0,0.25) 3px, rgba(0,0,0,0.25) 4px),
+        repeating-linear-gradient(90deg, transparent, transparent 3px, rgba(0,0,0,0.20) 3px, rgba(0,0,0,0.20) 4px),
+        linear-gradient(135deg,#2d0010,#0a0a2e,#002d1a,#1a0a2d,#2d1a00,#002020,#1a002d,#2d0a0a,#002d10,#0a1a2d,#2d0018,#0a0a2e);
+      background-size:4px 4px,4px 4px,600% 600%; background-attachment:fixed; animation:rainbow-bg 12s ease infinite;
+    }
+    img.logo { width:130px; height:130px; border-radius:50%; object-fit:cover; border:5px solid #fff; box-shadow:0 0 0 4px #000, 0 0 40px rgba(255,120,220,0.8); }
+    h1 { font-size:clamp(20px,5vw,34px); margin:22px 0 14px; animation:rainbow-text 6s linear infinite; text-shadow:3px 3px 0 #000; }
+    p { font-size:11px; line-height:2.1; color:#e7d9ff; max-width:620px; }
+    .big { font-size:13px; color:#7dffa0; margin:18px 0; }
+    a.btn { margin-top:26px; font-family:'Press Start 2P',monospace; font-size:11px; color:#fff; text-decoration:none; padding:13px 20px; border:3px solid #fff; border-radius:12px; background:linear-gradient(135deg,#2a0e3a,#102040); box-shadow:0 0 0 3px #000, 0 0 18px rgba(180,80,255,0.6); }
+    a.btn:hover { box-shadow:0 0 0 3px #000, 0 0 28px rgba(255,120,220,0.9); }
+  </style>
+</head>
+<body>
+  <img class="logo" src="../doodlyehtis/logo.jpg" alt="Doodl Yehtis">
+  <h1>ORDER RECEIVED!</h1>
+  <p class="big">Thank you &mdash; your order details have been sent.</p>
+  <p>Your payment will be verified against your Cash App ($tokyohthegoat) before your hand-crafted, foiled &amp; laminated Doodl Yehtis are penny-sleeved, top-loaded, and shipped out. Keep an eye on your email for confirmation!</p>
+  <a class="btn" href="https://www.tokyube.com/doodlyehtisshop">&#8592; BACK TO SHOP</a>
+</body>
+</html>

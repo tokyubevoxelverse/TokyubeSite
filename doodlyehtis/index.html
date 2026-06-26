@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Doodl Yehtis &mdash; Series 1 Collection Checklist</title>
+  <link rel="icon" type="image/jpeg" href="logo.jpg">
+  <link rel="apple-touch-icon" href="logo.jpg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+  <style>
+    * { margin:0; padding:0; box-sizing:border-box; }
+    @keyframes rainbow-bg {
+      0% { background-position:0% 0%,0% 0%,0% 50%; }
+      50% { background-position:0% 0%,0% 0%,100% 50%; }
+      100% { background-position:0% 0%,0% 0%,0% 50%; }
+    }
+    @keyframes rainbow-text {
+      0%{color:#ff5b5b;} 16%{color:#ffb14e;} 33%{color:#fff25b;}
+      50%{color:#5bff7a;} 66%{color:#5bd1ff;} 83%{color:#b45bff;} 100%{color:#ff5bd1;}
+    }
+    html { scroll-behavior:smooth; }
+    body {
+      min-height:100vh;
+      font-family:'Press Start 2P', monospace;
+      color:#fff;
+      overflow-x:hidden;
+      background:
+        repeating-linear-gradient(0deg, transparent, transparent 3px, rgba(0,0,0,0.25) 3px, rgba(0,0,0,0.25) 4px),
+        repeating-linear-gradient(90deg, transparent, transparent 3px, rgba(0,0,0,0.20) 3px, rgba(0,0,0,0.20) 4px),
+        linear-gradient(135deg,#2d0010,#0a0a2e,#002d1a,#1a0a2d,#2d1a00,#002020,#1a002d,#2d0a0a,#002d10,#0a1a2d,#2d0018,#0a0a2e);
+      background-size:4px 4px,4px 4px,600% 600%;
+      background-attachment:fixed;
+      animation:rainbow-bg 12s ease infinite;
+    }
+    .wrap { max-width:1400px; margin:0 auto; padding:28px 18px 80px; }
+    .top-nav { display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px; margin-bottom:26px; }
+    .nav-btn {
+      font-family:'Press Start 2P',monospace; font-size:11px; color:#fff; text-decoration:none;
+      padding:11px 16px; border:3px solid #fff; border-radius:12px;
+      background:linear-gradient(135deg,#2a0e3a,#102040);
+      box-shadow:0 0 0 3px #000, 0 0 14px rgba(180,80,255,0.5);
+      transition:transform .15s ease, box-shadow .15s ease;
+    }
+    .nav-btn:hover { transform:translateY(-2px); box-shadow:0 0 0 3px #000, 0 0 24px rgba(255,100,200,0.85); }
+    header.hero { text-align:center; margin-bottom:30px; }
+    .logo-round {
+      width:150px; height:150px; border-radius:50%; object-fit:cover;
+      border:5px solid #fff;
+      box-shadow:0 0 0 4px #000, 0 0 34px rgba(255,120,220,0.8), 0 0 60px rgba(120,180,255,0.6);
+      animation:logo-pulse 5s ease-in-out infinite;
+    }
+    @keyframes logo-pulse {
+      0%,100%{ box-shadow:0 0 0 4px #000, 0 0 34px rgba(255,120,220,0.8), 0 0 60px rgba(120,180,255,0.6); }
+      50%{ box-shadow:0 0 0 4px #000, 0 0 44px rgba(120,255,180,0.85), 0 0 72px rgba(255,210,120,0.7); }
+    }
+    h1.title {
+      font-size:clamp(22px,5vw,40px); margin:18px 0 8px; letter-spacing:2px;
+      animation:rainbow-text 6s linear infinite;
+      text-shadow:3px 3px 0 #000, 0 0 18px rgba(255,255,255,0.25);
+    }
+    .subtitle { font-size:clamp(9px,2vw,13px); color:#d8c7ff; line-height:1.9; margin-top:6px; }
+    .count-pill {
+      display:inline-block; margin-top:16px; padding:9px 18px; border:3px solid #fff; border-radius:30px;
+      font-size:11px; background:linear-gradient(135deg,#3a0d4f,#0d2a4f);
+      box-shadow:0 0 0 3px #000, 0 0 18px rgba(180,80,255,0.55);
+    }
+    .legend { display:flex; flex-wrap:wrap; gap:10px; justify-content:center; margin:24px 0 6px; }
+    .legend .pill { font-size:9px; padding:8px 12px; border-radius:20px; border:2px solid rgba(255,255,255,0.85); display:flex; align-items:center; gap:8px; }
+    .rar-dot { width:12px; height:12px; border-radius:50%; display:inline-block; box-shadow:0 0 8px currentColor; }
+    .controls { display:flex; flex-wrap:wrap; gap:8px; justify-content:center; margin:22px 0 6px; }
+    .filter-btn {
+      font-family:'Press Start 2P',monospace; font-size:9px; color:#fff; cursor:pointer;
+      padding:9px 13px; border:2px solid #fff; border-radius:20px; background:rgba(0,0,0,0.4);
+      transition:transform .12s ease, background .12s ease, box-shadow .12s ease;
+    }
+    .filter-btn:hover { transform:translateY(-2px); }
+    .filter-btn.active { box-shadow:0 0 0 2px #000, 0 0 16px rgba(255,120,220,0.85); background:linear-gradient(135deg,#3a1850,#1a3060); }
+    .grid { display:grid; grid-template-columns:repeat(6,1fr); gap:18px; margin-top:30px; }
+    .card {
+      position:relative; border-radius:14px; padding:10px 10px 12px;
+      background:rgba(0,0,0,0.32);
+      border:2px solid rgba(255,255,255,0.18);
+      transition:transform .22s cubic-bezier(.2,.8,.3,1.2), box-shadow .22s ease, border-color .2s ease;
+      will-change:transform;
+    }
+    .card:hover {
+      transform:scale(1.85);
+      z-index:50;
+      border-color:#fff;
+      box-shadow:0 0 0 3px #000, 0 18px 50px rgba(0,0,0,0.85), 0 0 40px rgba(255,120,220,0.6);
+    }
+    .card .imgbox {
+      position:relative; width:100%; aspect-ratio:3/4; border-radius:10px; overflow:hidden;
+      background:linear-gradient(135deg,#15102a,#0a1830);
+    }
+    .card img { width:100%; height:100%; object-fit:contain; display:block; }
+    .num-badge {
+      position:absolute; top:6px; left:6px; z-index:2;
+      font-size:8px; padding:4px 6px; border-radius:8px; background:rgba(0,0,0,0.78);
+      border:1px solid rgba(255,255,255,0.5);
+    }
+    .rar-badge {
+      position:absolute; top:6px; right:6px; z-index:2;
+      font-size:8px; padding:4px 6px; border-radius:8px; color:#000;
+      border:1px solid rgba(0,0,0,0.5); font-weight:bold;
+    }
+    .card .name { margin-top:9px; font-size:7px; line-height:1.55; text-align:center; min-height:22px; color:#f3ecff; }
+    .C { background:#cfd8e3; } .UC { background:#5bff7a; }
+    .R { background:#5bd1ff; } .MR { background:linear-gradient(135deg,#ffd24e,#ff5bd1,#b45bff); }
+    .dot-C{color:#cfd8e3;} .dot-UC{color:#5bff7a;} .dot-R{color:#5bd1ff;} .dot-MR{color:#ffd24e;}
+    footer { text-align:center; margin-top:60px; font-size:9px; color:#b9a8d8; line-height:1.9; }
+    @media (max-width:1100px){ .grid{ grid-template-columns:repeat(4,1fr);} .card:hover{transform:scale(1.6);} }
+    @media (max-width:720px){ .grid{ grid-template-columns:repeat(3,1fr); gap:12px;} .card:hover{transform:scale(1.4);} }
+    @media (max-width:460px){ .grid{ grid-template-columns:repeat(2,1fr);} .card .name{font-size:8px;} }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <nav class="top-nav">
+      <a class="nav-btn" href="https://www.tokyube.com/">&#8592; TOKYUBE HOME</a>
+      <a class="nav-btn" href="https://www.tokyube.com/doodlyehtisshop">BUY PACKS &#8594;</a>
+    </nav>
+
+    <header class="hero">
+      <img class="logo-round" src="logo.jpg" alt="Doodl Yehtis logo">
+      <h1 class="title">DOODL YEHTIS</h1>
+      <div class="subtitle">SERIES 1 &bull; THE COMPLETE COLLECTION CHECKLIST<br>Hand-crafted, foiled &amp; laminated trading cards</div>
+      <div class="count-pill" id="countPill">269 CARDS TOTAL</div>
+    </header>
+
+    <div class="legend">
+      <span class="pill"><span class="rar-dot dot-C"></span> C &mdash; Common</span>
+      <span class="pill"><span class="rar-dot dot-UC"></span> UC &mdash; Uncommon</span>
+      <span class="pill"><span class="rar-dot dot-R"></span> R &mdash; Rare</span>
+      <span class="pill"><span class="rar-dot dot-MR"></span> MR &mdash; Mega Rare</span>
+    </div>
+
+    <div class="controls" id="filters">
+      <button class="filter-btn active" data-f="all">ALL 269</button>
+      <button class="filter-btn" data-f="C">COMMON</button>
+      <button class="filter-btn" data-f="UC">UNCOMMON</button>
+      <button class="filter-btn" data-f="R">RARE</button>
+      <button class="filter-btn" data-f="MR">MEGA RARE</button>
+    </div>
+
+    <main class="grid" id="grid"></main>
+
+    <footer>
+      Every Doodl Yehti is hand-crafted on a home printer with real foil &amp; lamination,<br>
+      then penny-sleeved &amp; top-loaded the moment it is cut for lasting quality &amp; preservation.<br>
+      &copy; Tokyube VoxelVerse &bull; Doodl Yehtis Series 1
+    </footer>
+  </div>
+
+  <script>
+    const CARDS = [
+{n:1,f:"001 Red Bow Tie Yehti C.png",t:"Red Bow Tie Yehti",r:"C"},
+{n:2,f:"002 Orange Bow Tie Yehti C.png",t:"Orange Bow Tie Yehti",r:"C"},
+{n:3,f:"003 Golden Bow Tie Yehti C.png",t:"Golden Bow Tie Yehti",r:"C"},
+{n:4,f:"004 Lime Green Bow Tie Yehti C.png",t:"Lime Green Bow Tie Yehti",r:"C"},
+{n:5,f:"005 Green Bow Tie Yehti C.png",t:"Green Bow Tie Yehti",r:"C"},
+{n:6,f:"006 Mint Green Bow Tie Yehti C.png",t:"Mint Green Bow Tie Yehti",r:"C"},
+{n:7,f:"007 Sea Green Bow Tie Yehti C.png",t:"Sea Green Bow Tie Yehti",r:"C"},
+{n:8,f:"008 Cyan Bow Tie Yehti C.png",t:"Cyan Bow Tie Yehti",r:"C"},
+{n:9,f:"009 Blue Bow Tie Yehti C.png",t:"Blue Bow Tie Yehti",r:"C"},
+{n:10,f:"010 Indigo Bow Tie Yehti C.png",t:"Indigo Bow Tie Yehti",r:"C"},
+{n:11,f:"011 Violet Bow Tie Yehti C.png",t:"Violet Bow Tie Yehti",r:"C"},
+{n:12,f:"012 Magenta Bow Tie Yehti C.png",t:"Magenta Bow Tie Yehti",r:"C"},
+{n:13,f:"013 Pink Bow Tie Yehti C.png",t:"Pink Bow Tie Yehti",r:"C"},
+{n:14,f:"014 Hot Pink Bow Tie Yehti C.png",t:"Hot Pink Bow Tie Yehti",r:"C"},
+{n:15,f:"015 Gradient Yehti 1 C.png",t:"Gradient Yehti 1",r:"C"},
+{n:16,f:"016 Gradient Yehti 2 C.png",t:"Gradient Yehti 2",r:"C"},
+{n:17,f:"017 Gradient Yehti 3 C.png",t:"Gradient Yehti 3",r:"C"},
+{n:18,f:"018 Gradient Yehti 4 C.png",t:"Gradient Yehti 4",r:"C"},
+{n:19,f:"019 Gradient Yehti 5 C.png",t:"Gradient Yehti 5",r:"C"},
+{n:20,f:"020 Gradient Yehti 6 C.png",t:"Gradient Yehti 6",r:"C"},
+{n:21,f:"021 Gradient Yehti 7 C.png",t:"Gradient Yehti 7",r:"C"},
+{n:22,f:"022 Gradient Yehti 8 C.png",t:"Gradient Yehti 8",r:"C"},
+{n:23,f:"023 Red Strong Guy Yehti C.png",t:"Red Strong Guy Yehti",r:"C"},
+{n:24,f:"024 Orange Strong Guy Yehti C.png",t:"Orange Strong Guy Yehti",r:"C"},
+{n:25,f:"025 Goldenrod Strong Guy Yehti C.png",t:"Goldenrod Strong Guy Yehti",r:"C"},
+{n:26,f:"026 Lime Green Strong Guy Yehti C.png",t:"Lime Green Strong Guy Yehti",r:"C"},
+{n:27,f:"027 Green Strong Guy Yehti C.png",t:"Green Strong Guy Yehti",r:"C"},
+{n:28,f:"028 Mint Green Strong Guy Yehti C.png",t:"Mint Green Strong Guy Yehti",r:"C"},
+{n:29,f:"029 Light Blue Strong Guy Yehti C.png",t:"Light Blue Strong Guy Yehti",r:"C"},
+{n:30,f:"030 Dark Blue Strong Guy Yehti C.png",t:"Dark Blue Strong Guy Yehti",r:"C"},
+{n:31,f:"031 Indigo Strong Guy Yehti C.png",t:"Indigo Strong Guy Yehti",r:"C"},
+{n:32,f:"032 Purple Strong Guy Yehti C.png",t:"Purple Strong Guy Yehti",r:"C"},
+{n:33,f:"033 Magenta Strong Guy Yehti C.png",t:"Magenta Strong Guy Yehti",r:"C"},
+{n:34,f:"034 Pink Strong Guy Yehti C.png",t:"Pink Strong Guy Yehti",r:"C"},
+{n:35,f:"035 Hot Pink Strong Guy Yehti C.png",t:"Hot Pink Strong Guy Yehti",r:"C"},
+{n:36,f:"036 Red Ninja Yehti C.png",t:"Red Ninja Yehti",r:"C"},
+{n:37,f:"037 Orange Ninja Yehti C.png",t:"Orange Ninja Yehti",r:"C"},
+{n:38,f:"038 Yellow Ninja Yehti C.png",t:"Yellow Ninja Yehti",r:"C"},
+{n:39,f:"039 Lime Green Ninja Yehti C.png",t:"Lime Green Ninja Yehti",r:"C"},
+{n:40,f:"040 Mint Green Ninja Yehti C.png",t:"Mint Green Ninja Yehti",r:"C"},
+{n:41,f:"041 Light Blue Nnja Yehti C.png",t:"Light Blue Nnja Yehti",r:"C"},
+{n:42,f:"042 Blue Ninja Yehti C.png",t:"Blue Ninja Yehti",r:"C"},
+{n:43,f:"043 Indigo Ninja Yehti C.png",t:"Indigo Ninja Yehti",r:"C"},
+{n:44,f:"044 Purple Ninja Yehti C.png",t:"Purple Ninja Yehti",r:"C"},
+{n:45,f:"045 Violet Ninja Yehti C.png",t:"Violet Ninja Yehti",r:"C"},
+{n:46,f:"046 Pink Ninja Yehti C.png",t:"Pink Ninja Yehti",r:"C"},
+{n:47,f:"047 Hot Pink Ninja Yehti C.png",t:"Hot Pink Ninja Yehti",r:"C"},
+{n:48,f:"048 Gray Ninja Yehti C.png",t:"Gray Ninja Yehti",r:"C"},
+{n:49,f:"049 Red Goth Yehti C.png",t:"Red Goth Yehti",r:"C"},
+{n:50,f:"050 Orange Goth Yehti C.png",t:"Orange Goth Yehti",r:"C"},
+{n:51,f:"051 Goldenrod Goth Yehti C.png",t:"Goldenrod Goth Yehti",r:"C"},
+{n:52,f:"052 Lime Green Goth Yehti C.png",t:"Lime Green Goth Yehti",r:"C"},
+{n:53,f:"053 Green Goth Yehti C.png",t:"Green Goth Yehti",r:"C"},
+{n:54,f:"054 Mint Green Goth Yehti C.png",t:"Mint Green Goth Yehti",r:"C"},
+{n:55,f:"055 Cyan Goth Yehti C.png",t:"Cyan Goth Yehti",r:"C"},
+{n:56,f:"056 Blue Goth Yehti C.png",t:"Blue Goth Yehti",r:"C"},
+{n:57,f:"057 Indigo Goth Yehti C.png",t:"Indigo Goth Yehti",r:"C"},
+{n:58,f:"058 Purple Goth Yehti C.png",t:"Purple Goth Yehti",r:"C"},
+{n:59,f:"059 Magenta Goth Yehti C.png",t:"Magenta Goth Yehti",r:"C"},
+{n:60,f:"060 Hot Pink Goth Yehti C.png",t:"Hot Pink Goth Yehti",r:"C"},
+{n:61,f:"061 Rainbow Goth Yehti UC.png",t:"Rainbow Goth Yehti",r:"UC"},
+{n:62,f:"062 Red Blender Yehti C.png",t:"Red Blender Yehti",r:"C"},
+{n:63,f:"063 Orange Blender Yehti C.png",t:"Orange Blender Yehti",r:"C"},
+{n:64,f:"064 Goldenrod Blender Yehti C.png",t:"Goldenrod Blender Yehti",r:"C"},
+{n:65,f:"065 Lime Green Blender Yehti C.png",t:"Lime Green Blender Yehti",r:"C"},
+{n:66,f:"066 Mint Green Blender Yehti C.png",t:"Mint Green Blender Yehti",r:"C"},
+{n:67,f:"067 Blue Blender Yehti C.png",t:"Blue Blender Yehti",r:"C"},
+{n:68,f:"068 Indigo Blender Yehti C.png",t:"Indigo Blender Yehti",r:"C"},
+{n:69,f:"069 Magenta Blender Yehti C.png",t:"Magenta Blender Yehti",r:"C"},
+{n:70,f:"070 Hot Pink Blender Yehti C.png",t:"Hot Pink Blender Yehti",r:"C"},
+{n:71,f:"071 Red Crystal Yehti C.png",t:"Red Crystal Yehti",r:"C"},
+{n:72,f:"072 Orange Crystal Yehti C.png",t:"Orange Crystal Yehti",r:"C"},
+{n:73,f:"073 Goldenrod Crystal Yehti C.png",t:"Goldenrod Crystal Yehti",r:"C"},
+{n:74,f:"074 Green Crystal Yehti C.png",t:"Green Crystal Yehti",r:"C"},
+{n:75,f:"075 Blue Crystal Yehti C.png",t:"Blue Crystal Yehti",r:"C"},
+{n:76,f:"076 Purple Crystal Yehti C.png",t:"Purple Crystal Yehti",r:"C"},
+{n:77,f:"077 Hot Pink Crystal Yehti C.png",t:"Hot Pink Crystal Yehti",r:"C"},
+{n:78,f:"078 Red Polka Dot Yehti C.png",t:"Red Polka Dot Yehti",r:"C"},
+{n:79,f:"079 Orange Polka Dot Yehti C.png",t:"Orange Polka Dot Yehti",r:"C"},
+{n:80,f:"080 Yellow Polka Dot Yehti C.png",t:"Yellow Polka Dot Yehti",r:"C"},
+{n:81,f:"081 Lime Green Polka Dot Yehti C.png",t:"Lime Green Polka Dot Yehti",r:"C"},
+{n:82,f:"082 Green Polka Dot Yehti C.png",t:"Green Polka Dot Yehti",r:"C"},
+{n:83,f:"083 Mint Green Polka Dot Yehti C.png",t:"Mint Green Polka Dot Yehti",r:"C"},
+{n:84,f:"084 Light Blue Polka Dot Yehti C.png",t:"Light Blue Polka Dot Yehti",r:"C"},
+{n:85,f:"085 Blue Polka Dot Yehti C.png",t:"Blue Polka Dot Yehti",r:"C"},
+{n:86,f:"086 Purple Polka Dot Yehti C.png",t:"Purple Polka Dot Yehti",r:"C"},
+{n:87,f:"087 Violet Polka Dot Yehti C.png",t:"Violet Polka Dot Yehti",r:"C"},
+{n:88,f:"088 Magenta Polka Dot Yehti C.png",t:"Magenta Polka Dot Yehti",r:"C"},
+{n:89,f:"089 Pink Polka Dot Yehti C.png",t:"Pink Polka Dot Yehti",r:"C"},
+{n:90,f:"090 Hot Pink Polka Dot Yehti C.png",t:"Hot Pink Polka Dot Yehti",r:"C"},
+{n:91,f:"091 Red Gummy Splash Yehti C.png",t:"Red Gummy Splash Yehti",r:"C"},
+{n:92,f:"092 Orange Gummy Splash Yehti C.png",t:"Orange Gummy Splash Yehti",r:"C"},
+{n:93,f:"093 Yellow Gummy Splash Yehti C.png",t:"Yellow Gummy Splash Yehti",r:"C"},
+{n:94,f:"094 Lime Green Gummy Splash Yehti C.png",t:"Lime Green Gummy Splash Yehti",r:"C"},
+{n:95,f:"095 Green Gummy Splash Yehti C.png",t:"Green Gummy Splash Yehti",r:"C"},
+{n:96,f:"096 Sea Green Gummy Splash Yehti C.png",t:"Sea Green Gummy Splash Yehti",r:"C"},
+{n:97,f:"097 Blue Gummy Splash Yehti C.png",t:"Blue Gummy Splash Yehti",r:"C"},
+{n:98,f:"098 Purple Gummy Splash Yehti C.png",t:"Purple Gummy Splash Yehti",r:"C"},
+{n:99,f:"099 Violet Gummy Splash Yehti C.png",t:"Violet Gummy Splash Yehti",r:"C"},
+{n:100,f:"100 Magenta Gummy Splash Yehti C.png",t:"Magenta Gummy Splash Yehti",r:"C"},
+{n:101,f:"101 Pink Gummy Splash Yehti C.png",t:"Pink Gummy Splash Yehti",r:"C"},
+{n:102,f:"102 Hot Pink Gummy Splash Yehti C.png",t:"Hot Pink Gummy Splash Yehti",r:"C"},
+{n:103,f:"103 Red Mutant Yehti C.png",t:"Red Mutant Yehti",r:"C"},
+{n:104,f:"104 Blue Mutant Yehti C.png",t:"Blue Mutant Yehti",r:"C"},
+{n:105,f:"105 Green Mutant Yehti C.png",t:"Green Mutant Yehti",r:"C"},
+{n:106,f:"106 Yellow Mutant Yehti C.png",t:"Yellow Mutant Yehti",r:"C"},
+{n:107,f:"107 Pastel Pink Classy Yehti C.png",t:"Pastel Pink Classy Yehti",r:"C"},
+{n:108,f:"108 Pastel Violet Classy Yehti C.png",t:"Pastel Violet Classy Yehti",r:"C"},
+{n:109,f:"109 Pastel Purple Classy Yehti C.png",t:"Pastel Purple Classy Yehti",r:"C"},
+{n:110,f:"110 Pastel Blue Classy Yehti C.png",t:"Pastel Blue Classy Yehti",r:"C"},
+{n:111,f:"111 Pastel Sea Green Classy Yehti C.png",t:"Pastel Sea Green Classy Yehti",r:"C"},
+{n:112,f:"112 Pastel Mint Green Classy Yehti C.png",t:"Pastel Mint Green Classy Yehti",r:"C"},
+{n:113,f:"113 Pastel Lime Green Yehti C.png",t:"Pastel Lime Green Yehti",r:"C"},
+{n:114,f:"114 Pastel Yellow Yehti C.png",t:"Pastel Yellow Yehti",r:"C"},
+{n:115,f:"115 Pastel Orange Classy Yehti C.png",t:"Pastel Orange Classy Yehti",r:"C"},
+{n:116,f:"116 Pastel Red Yehti C.png",t:"Pastel Red Yehti",r:"C"},
+{n:117,f:"117 Red Reactive Bubblegum Blowing Yehti UC.png",t:"Red Reactive Bubblegum Blowing Yehti",r:"UC"},
+{n:118,f:"118 Orange Reactive Bubblegum Blowing Yehti UC.png",t:"Orange Reactive Bubblegum Blowing Yehti",r:"UC"},
+{n:119,f:"119 Green Reactive Bubblegum Blowing Yehti UC.png",t:"Green Reactive Bubblegum Blowing Yehti",r:"UC"},
+{n:120,f:"120 Light Blue Reactive Bubblegum Blowig Yehti UC.png",t:"Light Blue Reactive Bubblegum Blowig Yehti",r:"UC"},
+{n:121,f:"121 Blue Reactive Bubblegum Blowing Yehti UC.png",t:"Blue Reactive Bubblegum Blowing Yehti",r:"UC"},
+{n:122,f:"122 Violet Reactive Bubblegum Blowing Yehti UC.png",t:"Violet Reactive Bubblegum Blowing Yehti",r:"UC"},
+{n:123,f:"123 Pink Reactive Bubblegum Blowing Yehti UC.png",t:"Pink Reactive Bubblegum Blowing Yehti",r:"UC"},
+{n:124,f:"124 Hot Pink Reactive Bubblegum Blowing Yehti UC.png",t:"Hot Pink Reactive Bubblegum Blowing Yehti",r:"UC"},
+{n:125,f:"125 Red Cyborg Yehti UC.png",t:"Red Cyborg Yehti",r:"UC"},
+{n:126,f:"126 Orange Cyborg Yehti UC.png",t:"Orange Cyborg Yehti",r:"UC"},
+{n:127,f:"127 Yellow Cyborg Yehti UC.png",t:"Yellow Cyborg Yehti",r:"UC"},
+{n:128,f:"128 Green Cyborg Yehti UC.png",t:"Green Cyborg Yehti",r:"UC"},
+{n:129,f:"129 Blue Cyborg Yehti UC.png",t:"Blue Cyborg Yehti",r:"UC"},
+{n:130,f:"130 Purple Cyborg Yehti UC.png",t:"Purple Cyborg Yehti",r:"UC"},
+{n:131,f:"131 Pink Cyborg Yehti UC.png",t:"Pink Cyborg Yehti",r:"UC"},
+{n:132,f:"132 Yellow Rockstar Yehti UC.png",t:"Yellow Rockstar Yehti",r:"UC"},
+{n:133,f:"133 Goldenrod Rockstar Yehti UC.png",t:"Goldenrod Rockstar Yehti",r:"UC"},
+{n:134,f:"134 Orange Rockstar Yehti UC.png",t:"Orange Rockstar Yehti",r:"UC"},
+{n:135,f:"135 Red Rockstar Yehti UC.png",t:"Red Rockstar Yehti",r:"UC"},
+{n:136,f:"136 Hot Pink Rockstar Yehti UC.png",t:"Hot Pink Rockstar Yehti",r:"UC"},
+{n:137,f:"137 Magenta Rockstar Yehti UC.png",t:"Magenta Rockstar Yehti",r:"UC"},
+{n:138,f:"138 Violet Rockstar Yehti UC.png",t:"Violet Rockstar Yehti",r:"UC"},
+{n:139,f:"139 Purple Rockstar Yehti UC.png",t:"Purple Rockstar Yehti",r:"UC"},
+{n:140,f:"140 Indigo Rockstar Yehti UC.png",t:"Indigo Rockstar Yehti",r:"UC"},
+{n:141,f:"141 Deep Blue Rockstar Yehti UC.png",t:"Deep Blue Rockstar Yehti",r:"UC"},
+{n:142,f:"142 Cyan Rockstar Yehti UC.png",t:"Cyan Rockstar Yehti",r:"UC"},
+{n:143,f:"143 Sea Green Rockstar Yehti UC.png",t:"Sea Green Rockstar Yehti",r:"UC"},
+{n:144,f:"144 Mint Green Rockstar Yehti UC.png",t:"Mint Green Rockstar Yehti",r:"UC"},
+{n:145,f:"145 Green Rockstar Yehti UC.png",t:"Green Rockstar Yehti",r:"UC"},
+{n:146,f:"146 Lime Green Rockstar Yehti UC.png",t:"Lime Green Rockstar Yehti",r:"UC"},
+{n:147,f:"147 Rainbow Oil Slick Yehti UC.png",t:"Rainbow Oil Slick Yehti",r:"UC"},
+{n:148,f:"148 Strawberry Yehti UC.png",t:"Strawberry Yehti",r:"UC"},
+{n:149,f:"149 Grape Yehti UC.png",t:"Grape Yehti",r:"UC"},
+{n:150,f:"150 Peeled Banana Yehti UC.png",t:"Peeled Banana Yehti",r:"UC"},
+{n:151,f:"151 Red Illuminated Yehti UC.png",t:"Red Illuminated Yehti",r:"UC"},
+{n:152,f:"152 Orange Illuminated Yehti UC.png",t:"Orange Illuminated Yehti",r:"UC"},
+{n:153,f:"153 Goldenrod Illuminated Yehti UC.png",t:"Goldenrod Illuminated Yehti",r:"UC"},
+{n:154,f:"154 Yellow Illuminated Yehti UC.png",t:"Yellow Illuminated Yehti",r:"UC"},
+{n:155,f:"155 Lime Green Illuminated Yehti UC.png",t:"Lime Green Illuminated Yehti",r:"UC"},
+{n:156,f:"156 Green Illuminated Yehti UC.png",t:"Green Illuminated Yehti",r:"UC"},
+{n:157,f:"157 Mint Green Illuminated Yehti UC.png",t:"Mint Green Illuminated Yehti",r:"UC"},
+{n:158,f:"158 Sea Green Illuminated Yehti UC.png",t:"Sea Green Illuminated Yehti",r:"UC"},
+{n:159,f:"159 Light Blue Illuminated Yehti UC.png",t:"Light Blue Illuminated Yehti",r:"UC"},
+{n:160,f:"160 Blue Illuminated Yehti UC.png",t:"Blue Illuminated Yehti",r:"UC"},
+{n:161,f:"161 Purple Illuminated Yehti UC.png",t:"Purple Illuminated Yehti",r:"UC"},
+{n:162,f:"162 Violet Illuminated Yehti UC.png",t:"Violet Illuminated Yehti",r:"UC"},
+{n:163,f:"163 Magenta Illuminated Yehti UC.png",t:"Magenta Illuminated Yehti",r:"UC"},
+{n:164,f:"164 Hot Pink Illuminated Yehti UC.png",t:"Hot Pink Illuminated Yehti",r:"UC"},
+{n:165,f:"165 Red Roses Yehti UC.png",t:"Red Roses Yehti",r:"UC"},
+{n:166,f:"166 Orange Roses Yehti UC.png",t:"Orange Roses Yehti",r:"UC"},
+{n:167,f:"167 Yellow Roses Yehti UC.png",t:"Yellow Roses Yehti",r:"UC"},
+{n:168,f:"168 Green Roses Yehti UC.png",t:"Green Roses Yehti",r:"UC"},
+{n:169,f:"169 Blue Roses Yehti UC.png",t:"Blue Roses Yehti",r:"UC"},
+{n:170,f:"170 Purple Roses Yehti UC.png",t:"Purple Roses Yehti",r:"UC"},
+{n:171,f:"171 Aurora Borealis Yehti UC.png",t:"Aurora Borealis Yehti",r:"UC"},
+{n:172,f:"172 Quest 3 Yehti UC.jpg",t:"Quest 3 Yehti",r:"UC"},
+{n:173,f:"173 French Painter Yehti UC.png",t:"French Painter Yehti",r:"UC"},
+{n:174,f:"174 Indiana Jones Yehti UC.png",t:"Indiana Jones Yehti",r:"UC"},
+{n:175,f:"175 Lara Croft Yehti UC.png",t:"Lara Croft Yehti",r:"UC"},
+{n:176,f:"176 Ferb Yehti UC.png",t:"Ferb Yehti",r:"UC"},
+{n:177,f:"177 Super Saiyan Goku UC.png",t:"Super Saiyan Goku",r:"UC"},
+{n:178,f:"178 Dwight Schrute Yehti UC.png",t:"Dwight Schrute Yehti",r:"UC"},
+{n:179,f:"179 Eeyore Yehti UC.png",t:"Eeyore Yehti",r:"UC"},
+{n:180,f:"180 Winnie The Pooh Yehti UC.png",t:"Winnie The Pooh Yehti",r:"UC"},
+{n:181,f:"181 BOTW Link Yehti UC.png",t:"BOTW Link Yehti",r:"UC"},
+{n:182,f:"182 Ben 10 Yehti UC.png",t:"Ben 10 Yehti",r:"UC"},
+{n:183,f:"183 Diamondhead Yehti R.png",t:"Diamondhead Yehti",r:"R"},
+{n:184,f:"184 Alien X Yehti MR.png",t:"Alien X Yehti",r:"MR"},
+{n:185,f:"185 Harry Potter Yehti UC.png",t:"Harry Potter Yehti",r:"UC"},
+{n:186,f:"186 Draco Malfoy Yehti UC.png",t:"Draco Malfoy Yehti",r:"UC"},
+{n:187,f:"187 Marty McFly Yehti UC.png",t:"Marty McFly Yehti",r:"UC"},
+{n:188,f:"188 Shredder Yehti UC.png",t:"Shredder Yehti",r:"UC"},
+{n:189,f:"189 Leonardo Yehti R.png",t:"Leonardo Yehti",r:"R"},
+{n:190,f:"190 Donatello Yehti R.png",t:"Donatello Yehti",r:"R"},
+{n:191,f:"191 Michelangelo Yehti R.png",t:"Michelangelo Yehti",r:"R"},
+{n:192,f:"192 Raphael Yehti R.png",t:"Raphael Yehti",r:"R"},
+{n:193,f:"193 Mace Windu Yehti UC.png",t:"Mace Windu Yehti",r:"UC"},
+{n:194,f:"194 Darth Vader Yehti UC.png",t:"Darth Vader Yehti",r:"UC"},
+{n:195,f:"195 Obi Wan Kenobi Yehti R.png",t:"Obi Wan Kenobi Yehti",r:"R"},
+{n:196,f:"196 Yoda Yehti R.png",t:"Yoda Yehti",r:"R"},
+{n:197,f:"197 Appa Yehti UC.png",t:"Appa Yehti",r:"UC"},
+{n:198,f:"198 Toph Yehti UC.png",t:"Toph Yehti",r:"UC"},
+{n:199,f:"199 Katara Yehti UC.png",t:"Katara Yehti",r:"UC"},
+{n:200,f:"200 Zuko Yehti UC.png",t:"Zuko Yehti",r:"UC"},
+{n:201,f:"201 Avatar Aang Yehti R.png",t:"Avatar Aang Yehti",r:"R"},
+{n:202,f:"202 The Joker Yehti UC.png",t:"The Joker Yehti",r:"UC"},
+{n:203,f:"203 Green Lantern Yehti UC.png",t:"Green Lantern Yehti",r:"UC"},
+{n:204,f:"204 Superman Yehti UC.png",t:"Superman Yehti",r:"UC"},
+{n:205,f:"205 Deadpool Yehti UC.png",t:"Deadpool Yehti",r:"UC"},
+{n:206,f:"206 Reverse Flash Yehti R.png",t:"Reverse Flash Yehti",r:"R"},
+{n:207,f:"207 Beastboy Yehti R.png",t:"Beastboy Yehti",r:"R"},
+{n:208,f:"208 Doug Dimmadome Yehti R.png",t:"Doug Dimmadome Yehti",r:"R"},
+{n:209,f:"209 Minion Yehti UC.png",t:"Minion Yehti",r:"UC"},
+{n:210,f:"210 Mickey Mouse Yehti R.png",t:"Mickey Mouse Yehti",r:"R"},
+{n:211,f:"211 Optimus Prime Yehti UC.png",t:"Optimus Prime Yehti",r:"UC"},
+{n:212,f:"212 Jason Vorheez Yehti UC.png",t:"Jason Vorheez Yehti",r:"UC"},
+{n:213,f:"213 Freddy Krueger Yehti UC.png",t:"Freddy Krueger Yehti",r:"UC"},
+{n:214,f:"214 Michael Myers Yehti UC.png",t:"Michael Myers Yehti",r:"UC"},
+{n:215,f:"215 Squirtle Yehti UC.png",t:"Squirtle Yehti",r:"UC"},
+{n:216,f:"216 Ivysaur yehti UC.png",t:"Ivysaur yehti",r:"UC"},
+{n:217,f:"217 Charizard Yehti UC.png",t:"Charizard Yehti",r:"UC"},
+{n:218,f:"218 Shaymin Yehti UC.png",t:"Shaymin Yehti",r:"UC"},
+{n:219,f:"219 Snorlax Yehti UC.png",t:"Snorlax Yehti",r:"UC"},
+{n:220,f:"220 Ash Ketchum Yehti R.png",t:"Ash Ketchum Yehti",r:"R"},
+{n:221,f:"221 Pikachu Yehti R.png",t:"Pikachu Yehti",r:"R"},
+{n:222,f:"222 M Charizard X Yehti R.png",t:"M Charizard X Yehti",r:"R"},
+{n:223,f:"223 M Dragonite Yehti R.png",t:"M Dragonite Yehti",r:"R"},
+{n:224,f:"224 Golden TIcket Charizard Yehti MR.png",t:"Golden TIcket Charizard Yehti",r:"MR"},
+{n:225,f:"225 Yugi Yehti UC.png",t:"Yugi Yehti",r:"UC"},
+{n:226,f:"226 Spongebob Yehti UC.png",t:"Spongebob Yehti",r:"UC"},
+{n:227,f:"227 Patrick Yehti UC.png",t:"Patrick Yehti",r:"UC"},
+{n:228,f:"228 Sandy Yehti R.png",t:"Sandy Yehti",r:"R"},
+{n:229,f:"229 Shrek Yehti R.png",t:"Shrek Yehti",r:"R"},
+{n:230,f:"230 Scoob Yehti UC.png",t:"Scoob Yehti",r:"UC"},
+{n:231,f:"231 Sandwhich Shaggy Yehti R.png",t:"Sandwhich Shaggy Yehti",r:"R"},
+{n:232,f:"232 Rick Yehti R.png",t:"Rick Yehti",r:"R"},
+{n:233,f:"233 Jake Sully Yehti R.png",t:"Jake Sully Yehti",r:"R"},
+{n:234,f:"234 Peter Griffin Yehti R.png",t:"Peter Griffin Yehti",r:"R"},
+{n:235,f:"235 Daenerys The Dragon Queen Yehti R.png",t:"Daenerys The Dragon Queen Yehti",r:"R"},
+{n:236,f:"236 Jon Snow COTNW Yehti R.png",t:"Jon Snow COTNW Yehti",r:"R"},
+{n:237,f:"237 The Night King Yehti MR.png",t:"The Night King Yehti",r:"MR"},
+{n:238,f:"238 Nike Jordan Yehti R.png",t:"Nike Jordan Yehti",r:"R"},
+{n:239,f:"239 Green Gradient LV Yehti MR.png",t:"Green Gradient LV Yehti",r:"MR"},
+{n:240,f:"240 Blue Gradient LV Yehti MR.png",t:"Blue Gradient LV Yehti",r:"MR"},
+{n:241,f:"241 Purple Gradient LV Yehti MR.png",t:"Purple Gradient LV Yehti",r:"MR"},
+{n:242,f:"242 Red Gradient LV Yehti MR.png",t:"Red Gradient LV Yehti",r:"MR"},
+{n:243,f:"243 Gucci Gradient Yehti MR.png",t:"Gucci Gradient Yehti",r:"MR"},
+{n:244,f:"244 Givenchy Gradient Yehti MR.png",t:"Givenchy Gradient Yehti",r:"MR"},
+{n:245,f:"245 Dior Gradient Yehti MR.png",t:"Dior Gradient Yehti",r:"MR"},
+{n:246,f:"246 Nike Gradient Yehti MR.png",t:"Nike Gradient Yehti",r:"MR"},
+{n:247,f:"247 MetaVerse Icons Aircooled Adam Yehti R.png",t:"MetaVerse Icons Aircooled Adam Yehti",r:"R"},
+{n:248,f:"248 MetaVerse icons Biggie Pauls Yehti R.png",t:"MetaVerse icons Biggie Pauls Yehti",r:"R"},
+{n:249,f:"249 MetaVerse Icons King Jamez Yehti R.png",t:"MetaVerse Icons King Jamez Yehti",r:"R"},
+{n:250,f:"250 MetaVerse Icons ProspectValleyVR Yehti R.png",t:"MetaVerse Icons ProspectValleyVR Yehti",r:"R"},
+{n:251,f:"251 MetaVerse Icons Reactive ScriptWizard Yehti MR.png",t:"MetaVerse Icons Reactive ScriptWizard Yehti",r:"MR"},
+{n:252,f:"252 Woody Yehti R.png",t:"Woody Yehti",r:"R"},
+{n:253,f:"253 Buzz Lightyear Yehti R.png",t:"Buzz Lightyear Yehti",r:"R"},
+{n:254,f:"254 Aladdin Yehti R.png",t:"Aladdin Yehti",r:"R"},
+{n:255,f:"255 Genie Yehti R.png",t:"Genie Yehti",r:"R"},
+{n:256,f:"256 Jack Sparrow Yehti R.png",t:"Jack Sparrow Yehti",r:"R"},
+{n:257,f:"257 Fred Flinstone Yehti R.png",t:"Fred Flinstone Yehti",r:"R"},
+{n:258,f:"258 ICON Wiz Khalifa Yehti R.png",t:"ICON Wiz Khalifa Yehti",r:"R"},
+{n:259,f:"259 ICON 6IX9INE Yehti R.png",t:"ICON 6IX9INE Yehti",r:"R"},
+{n:260,f:"260 ICON TheHxliday Yehti R.png",t:"ICON TheHxliday Yehti",r:"R"},
+{n:261,f:"261 ICON Minus of Planet Drool Yehti MR.png",t:"ICON Minus of Planet Drool Yehti",r:"MR"},
+{n:262,f:"262 Jake The Yehti R.png",t:"Jake The Yehti",r:"R"},
+{n:263,f:"263 Finn The Yehti R.png",t:"Finn The Yehti",r:"R"},
+{n:264,f:"264 Marceline Yehti R.png",t:"Marceline Yehti",r:"R"},
+{n:265,f:"265 Lemongrab Yehti R.png",t:"Lemongrab Yehti",r:"R"},
+{n:266,f:"266 Lumpy Space Yehti R.png",t:"Lumpy Space Yehti",r:"R"},
+{n:267,f:"267 Bubblegum Princess Yehti R.png",t:"Bubblegum Princess Yehti",r:"R"},
+{n:268,f:"268 Ice King Yehti MR.png",t:"Ice King Yehti",r:"MR"},
+{n:269,f:"269 Flame Princess Yehti MR.png",t:"Flame Princess Yehti",r:"MR"}
+];
+    const RARNAME = { C:'Common', UC:'Uncommon', R:'Rare', MR:'Mega Rare' };
+    const grid = document.getElementById('grid');
+    const countPill = document.getElementById('countPill');
+    function pad(n){ return String(n).padStart(3,'0'); }
+    function render(filter){
+      grid.innerHTML='';
+      const list = filter==='all' ? CARDS : CARDS.filter(c=>c.r===filter);
+      countPill.textContent = list.length + (filter==='all'?' CARDS TOTAL':' '+RARNAME[filter].toUpperCase()+' CARDS');
+      const frag=document.createDocumentFragment();
+      for(const c of list){
+        const card=document.createElement('div');
+        card.className='card';
+        card.innerHTML =
+          '<div class="imgbox">'+
+            '<span class="num-badge">#'+pad(c.n)+'</span>'+
+            '<span class="rar-badge '+c.r+'">'+c.r+'</span>'+
+            '<img loading="lazy" src="'+encodeURI(c.f)+'" alt="'+c.t.replace(/"/g,'&quot;')+'">'+
+          '</div>'+
+          '<div class="name">'+c.t+'</div>';
+        frag.appendChild(card);
+      }
+      grid.appendChild(frag);
+    }
+    document.getElementById('filters').addEventListener('click', e=>{
+      const b=e.target.closest('.filter-btn'); if(!b) return;
+      document.querySelectorAll('.filter-btn').forEach(x=>x.classList.remove('active'));
+      b.classList.add('active');
+      render(b.dataset.f);
+    });
+    render('all');
+  </script>
+</body>
+</html>
