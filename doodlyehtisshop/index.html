@@ -155,8 +155,6 @@
     .gate input { width:18px; height:18px; flex:0 0 auto; margin-top:1px; }
     .locked-msg { font-size:8px; color:#ff9bb8; text-align:center; margin-top:8px; line-height:1.7; }
     .pill-note { font-size:8px; color:#bda9e6; line-height:1.9; margin-top:10px; }
-    .debug-box { margin-top:22px; border:2px dashed rgba(255,255,255,0.3); border-radius:12px; padding:14px; text-align:center; }
-    .debug-box p { font-size:8px; color:#c9b8ea; line-height:1.8; margin-bottom:10px; }
     footer { text-align:center; margin-top:46px; font-size:8px; color:#b9a8d8; line-height:1.9; }
   </style>
 </head>
@@ -203,7 +201,6 @@
         <input type="hidden" name="Shipping" id="f_shipping">
         <input type="hidden" name="Order_Total" id="f_total">
         <input type="hidden" name="Bonus_Free_Blister" id="f_bonus">
-        <input type="hidden" name="TEST_DEBUG_ORDER" id="f_debug" value="NO">
 
         <div class="steps">
           <!-- STEP 1: PAY -->
@@ -271,12 +268,6 @@
           </div>
         </div>
       </form>
-
-      <!-- DEBUG -->
-      <div class="debug-box">
-        <p>DEV TEST ONLY &mdash; sends a fake $0.00 order to the seller's email to verify delivery. It still opens the Cash App link (for $0) so the full flow is exercised.</p>
-        <button type="button" class="btn gold" id="debugBtn">&#9881; SEND DEBUG TEST ORDER ($0)</button>
-      </div>
     </section>
 
     <footer>
@@ -503,36 +494,11 @@
     ['c_name','c_email','c_cashtag','c_note'].forEach(id=>document.getElementById(id).addEventListener('input',updateGate));
     paidCheck.addEventListener('change',updateGate);
 
-    // require items unless debug
+    // require at least one pack before an order can be submitted
     document.getElementById('orderForm').addEventListener('submit',function(e){
-      const c=compute();
-      if(document.getElementById('f_debug').value!=='YES' && c.itemCount===0){
+      if(compute().itemCount===0){
         e.preventDefault(); alert('Add at least one pack to your order first.');
       }
-    });
-
-    // ---- debug ----
-    document.getElementById('debugBtn').addEventListener('click',()=>{
-      document.getElementById('f_debug').value='YES';
-      document.getElementById('f_summary').value='*** DEBUG TEST ORDER ***\n1 x Gold Tier (TEST) @ $0.00\nTOTAL: $0.00';
-      document.getElementById('f_gold').value='TEST';
-      document.getElementById('f_blister').value='TEST';
-      document.getElementById('f_subtotal').value='$0.00';
-      document.getElementById('f_shipping').value='$0.00';
-      document.getElementById('f_total').value='$0.00';
-      document.getElementById('f_bonus').value='No';
-      document.getElementById('c_name').value='DEBUG TEST CUSTOMER';
-      document.getElementById('c_email').value='tokyubevoxelverse@gmail.com';
-      document.querySelector('[name=Billing_Address]').value='123 Debug Lane, Test City, TS 00000';
-      document.querySelector('[name=Shipping_Address]').value='123 Debug Lane, Test City, TS 00000';
-      document.querySelector('[name=Order_Note]').value='This is an automated DEBUG test order ($0).';
-      document.getElementById('c_cashtag').value='$debugtest';
-      document.getElementById('c_note').value='DEBUG payment note';
-      document.querySelector('[name=_subject]').value='[DEBUG TEST] Doodl Yehtis Order';
-      // open cashapp for $0 so the paywall flow is exercised
-      window.open(CASHTAG_URL+'0', '_blank');
-      // submit the form -> emails seller
-      document.getElementById('orderForm').submit();
     });
 
     renderOrder();
