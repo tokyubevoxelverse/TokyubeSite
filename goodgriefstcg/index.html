@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Good Griefs &mdash; 10-Card Packs</title>
+  <link rel="icon" type="image/png" href="../goodgriefs/1157.png">
+  <link rel="apple-touch-icon" href="../goodgriefs/1157.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+  <style>
+    * { margin:0; padding:0; box-sizing:border-box; }
+    @keyframes rainbow-bg {
+      0% { background-position:0% 0%,0% 0%,0% 50%; }
+      50% { background-position:0% 0%,0% 0%,100% 50%; }
+      100% { background-position:0% 0%,0% 0%,0% 50%; }
+    }
+    @keyframes green-text {
+      0%{color:#5bff9a;} 50%{color:#a8ffc4;} 100%{color:#5bff9a;}
+    }
+    html { scroll-behavior:smooth; }
+    body {
+      min-height:100vh;
+      font-family:'Press Start 2P', monospace;
+      color:#fff;
+      overflow-x:hidden;
+      background:
+        repeating-linear-gradient(0deg, transparent, transparent 3px, rgba(0,0,0,0.25) 3px, rgba(0,0,0,0.25) 4px),
+        repeating-linear-gradient(90deg, transparent, transparent 3px, rgba(0,0,0,0.20) 3px, rgba(0,0,0,0.20) 4px),
+        linear-gradient(135deg,#00160a,#04220f,#003318,#062a12,#0a3a1e,#00281a,#063a24,#003010,#0a2d18,#04321c,#00280f,#052a14);
+      background-size:4px 4px,4px 4px,600% 600%;
+      background-attachment:fixed;
+      animation:rainbow-bg 14s ease infinite;
+    }
+    .wrap { max-width:1000px; margin:0 auto; padding:28px 18px 90px; }
+    .top-nav { display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px; margin-bottom:26px; }
+    .nav-btn {
+      font-family:'Press Start 2P',monospace; font-size:11px; color:#fff; text-decoration:none;
+      padding:11px 16px; border:3px solid #fff; border-radius:12px;
+      background:linear-gradient(135deg,#0c3a1e,#0a4030);
+      box-shadow:0 0 0 3px #000, 0 0 14px rgba(80,255,150,0.5);
+      transition:transform .15s ease, box-shadow .15s ease;
+    }
+    .nav-btn:hover { transform:translateY(-2px); box-shadow:0 0 0 3px #000, 0 0 24px rgba(120,255,180,0.9); }
+    header.hero { text-align:center; margin-bottom:10px; }
+    h1.title {
+      font-size:clamp(20px,5vw,40px); margin:6px 0 8px; letter-spacing:2px;
+      animation:green-text 5s linear infinite; text-shadow:3px 3px 0 #000, 0 0 18px rgba(90,255,150,0.35);
+    }
+    .subtitle { font-size:clamp(9px,2vw,12px); color:#bff0d0; line-height:1.9; }
+
+    /* product hero */
+    .product {
+      display:flex; gap:26px; flex-wrap:wrap; align-items:center; justify-content:center;
+      margin:30px 0 8px; border-radius:18px; border:3px solid rgba(120,255,180,0.35);
+      background:rgba(0,0,0,0.35); padding:24px;
+      box-shadow:0 0 0 3px #000, 0 0 34px rgba(40,180,90,0.4);
+    }
+    .product .art { flex:0 0 300px; max-width:100%; }
+    .product .art img {
+      width:100%; border-radius:14px; border:3px solid rgba(255,255,255,0.4);
+      box-shadow:0 14px 40px rgba(0,0,0,0.7), 0 0 30px rgba(80,255,150,0.35);
+    }
+    .product .info { flex:1 1 340px; min-width:280px; }
+    .product .info h2 { font-size:16px; color:#d9ffe6; line-height:1.6; margin-bottom:10px; }
+    .product .price { font-size:26px; color:#7dffa0; margin:6px 0 14px; }
+    .feat { list-style:none; font-size:9px; line-height:2.0; color:#e2ffee; }
+    .feat li { margin-bottom:8px; padding-left:18px; position:relative; }
+    .feat li::before { content:'\2726'; position:absolute; left:0; color:#5bff9a; }
+    .deal { font-size:10px; color:#ffe37a; margin:14px 0 4px; line-height:1.8; }
+
+    .qty-row { display:flex; align-items:center; gap:12px; margin:18px 0 8px; }
+    .qty-row label { font-size:9px; }
+    .stepper { display:flex; align-items:center; gap:0; border:2px solid #fff; border-radius:10px; overflow:hidden; }
+    .stepper button { font-family:'Press Start 2P',monospace; font-size:13px; color:#fff; background:rgba(0,0,0,0.5); border:none; padding:7px 13px; cursor:pointer; }
+    .stepper button:hover { background:rgba(80,255,150,0.4); }
+    .stepper input { width:46px; text-align:center; font-family:'Press Start 2P',monospace; font-size:11px; background:#04160c; color:#fff; border:none; border-left:2px solid #fff; border-right:2px solid #fff; padding:7px 0; }
+
+    .btn {
+      font-family:'Press Start 2P',monospace; cursor:pointer; color:#fff; text-decoration:none;
+      border:3px solid #fff; border-radius:12px; padding:12px 16px; font-size:10px; letter-spacing:1px;
+      display:inline-flex; align-items:center; justify-content:center; gap:8px;
+      background:linear-gradient(135deg,#0c3a1e,#0a4030); box-shadow:0 0 0 3px #000, 0 0 16px rgba(80,255,150,0.5);
+      transition:transform .14s ease, box-shadow .14s ease, background .14s ease;
+    }
+    .btn:hover { transform:translateY(-2px); box-shadow:0 0 0 3px #000, 0 0 26px rgba(120,255,180,0.9); }
+    .btn.cash { background:linear-gradient(135deg,#00642b,#00351a); }
+    .btn.green { background:linear-gradient(135deg,#0c3a1e,#0a4030); }
+    .btn.full { width:100%; }
+    .btn:disabled, .btn.disabled { opacity:0.4; cursor:not-allowed; transform:none; box-shadow:0 0 0 3px #000; }
+    .row-actions { display:flex; flex-wrap:wrap; gap:10px; margin-top:6px; }
+
+    /* checkout / order */
+    .checkout {
+      margin-top:38px; border-radius:18px; border:3px solid rgba(255,255,255,0.4);
+      background:rgba(0,0,0,0.42); padding:22px;
+      box-shadow:0 0 0 3px #000, 0 0 30px rgba(60,160,90,0.4);
+    }
+    .checkout h2 { font-size:14px; color:#d9ffe6; text-align:center; letter-spacing:1px; margin-bottom:4px; }
+    .order-lines { font-size:9px; line-height:2.1; margin:16px 0; }
+    .order-lines .ln { display:flex; justify-content:space-between; gap:10px; border-bottom:1px dashed rgba(255,255,255,0.16); padding:6px 0; }
+    .order-lines .ln.tot { font-size:12px; color:#7dffa0; border-bottom:none; margin-top:6px; }
+    .order-lines .bonus { color:#ffe37a; font-size:8px; }
+    .empty-note { font-size:9px; color:#bff0d0; text-align:center; padding:14px; }
+    .step-box { border:2px solid rgba(255,255,255,0.3); border-radius:14px; padding:16px; margin-top:16px; background:rgba(0,0,0,0.3); }
+    .step-box h3 { font-size:11px; color:#9dffc4; margin-bottom:10px; letter-spacing:1px; }
+    .pay-amt { font-size:20px; color:#7dffa0; text-align:center; margin:8px 0 14px; }
+    .field { margin-bottom:13px; }
+    .field label { display:block; font-size:8px; color:#bff0d0; margin-bottom:6px; letter-spacing:0.5px; }
+    .field input, .field textarea {
+      width:100%; font-family:'Press Start 2P',monospace; font-size:9px; color:#fff; line-height:1.7;
+      background:#04160c; border:2px solid rgba(255,255,255,0.35); border-radius:9px; padding:10px;
+    }
+    .field input:focus, .field textarea:focus { outline:none; border-color:#5bff9a; box-shadow:0 0 12px rgba(80,255,150,0.5); }
+    .field input[type=file] { padding:7px; font-size:8px; }
+    .two { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+    @media (max-width:560px){ .two{ grid-template-columns:1fr;} }
+    .gate { display:flex; gap:10px; align-items:flex-start; font-size:8px; line-height:1.8; color:#d9ffe6; margin:6px 0 14px; }
+    .gate input { width:18px; height:18px; flex:0 0 auto; margin-top:1px; }
+    .locked-msg { font-size:8px; color:#ffb0b0; text-align:center; margin-top:8px; line-height:1.7; }
+    .pill-note { font-size:8px; color:#bff0d0; line-height:1.9; margin-top:10px; }
+    footer { text-align:center; margin-top:46px; font-size:8px; color:#a8d8bc; line-height:1.9; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <nav class="top-nav">
+      <a class="nav-btn" href="https://www.tokyube.com/">&#8592; TOKYUBE HOME</a>
+    </nav>
+
+    <header class="hero">
+      <h1 class="title">GOOD GRIEFS</h1>
+      <div class="subtitle">10-CARD PACKS &bull; HAND-CRAFTED TRADING CARDS<br>Pick a quantity &amp; check out with Cash App below</div>
+    </header>
+
+    <section class="product">
+      <div class="art"><img src="../goodgriefs/1157.png" alt="Good Griefs 10-card pack"></div>
+      <div class="info">
+        <h2>Good Griefs 10-Card Pack</h2>
+        <div class="price">$8.00</div>
+        <ul class="feat">
+          <li>10 hand-crafted Good Griefs cards per pack</li>
+          <li>Foils, chase cards &amp; surprise hits to hunt every pack</li>
+          <li>$8.00 each &mdash; shipping $7.50</li>
+          <li>Penny-sleeved &amp; protected the moment they're cut</li>
+        </ul>
+        <div class="deal">&#9733; BUY 5+ PACKS &mdash; SHIPPING IS FREE &#9733;</div>
+
+        <div class="qty-row">
+          <label>QTY</label>
+          <div class="stepper">
+            <button type="button" id="minus">&minus;</button>
+            <input type="text" id="qty" value="1" inputmode="numeric" readonly>
+            <button type="button" id="plus">+</button>
+          </div>
+        </div>
+        <div class="row-actions">
+          <button type="button" class="btn green" id="addBtn">ADD TO ORDER</button>
+          <button type="button" class="btn cash" id="buyBtn">&#36; BUY NOW &mdash; PAY WITH CASH APP</button>
+        </div>
+        <div class="pill-note">Order 5 or more packs (any mix) and shipping is FREE. Applicable sales tax may apply based on your location.</div>
+      </div>
+    </section>
+
+    <!-- CHECKOUT -->
+    <section class="checkout" id="checkout">
+      <h2>YOUR ORDER</h2>
+      <div id="orderArea">
+        <div class="empty-note" id="emptyNote">Your order is empty &mdash; add a pack above.</div>
+        <div class="order-lines" id="orderLines" style="display:none;"></div>
+      </div>
+
+      <form id="orderForm" action="https://formsubmit.co/tokyubevoxelverse@gmail.com" method="POST" enctype="multipart/form-data">
+        <input type="hidden" name="_subject" value="New Good Griefs Order!">
+        <input type="hidden" name="_template" value="table">
+        <input type="hidden" name="_captcha" value="false">
+        <input type="hidden" name="_next" value="https://www.tokyube.com/goodgriefstcg/thankyou.html">
+        <input type="hidden" name="Order_Summary" id="f_summary">
+        <input type="hidden" name="Packs" id="f_packs">
+        <input type="hidden" name="Subtotal" id="f_subtotal">
+        <input type="hidden" name="Shipping" id="f_shipping">
+        <input type="hidden" name="Order_Total" id="f_total">
+        <input type="hidden" name="Free_Shipping" id="f_freeship">
+
+        <div class="steps">
+          <div class="step-box">
+            <h3>STEP 1 &mdash; PAY WITH CASH APP</h3>
+            <div class="pay-amt" id="payAmt">$0.00</div>
+            <button type="button" class="btn cash full" id="payBtn" disabled>&#36; PAY WITH CASH APP ($tokyohthegoat)</button>
+            <div class="pill-note">Tapping this opens Cash App pre-filled with your exact total to <b>$tokyohthegoat</b>. Complete the payment, then finish Step 2 below. Applicable sales tax may be added based on your location and confirmed before shipping.</div>
+          </div>
+
+          <div class="step-box">
+            <h3>STEP 2 &mdash; CONFIRM PAYMENT &amp; SHIP-TO DETAILS</h3>
+            <div class="field">
+              <label>FULL NAME *</label>
+              <input type="text" name="Full_Name" id="c_name" required autocomplete="name">
+            </div>
+            <div class="two">
+              <div class="field">
+                <label>EMAIL *</label>
+                <input type="email" name="Email" id="c_email" required autocomplete="email">
+              </div>
+              <div class="field">
+                <label>PHONE</label>
+                <input type="tel" name="Phone" autocomplete="tel">
+              </div>
+            </div>
+            <div class="field">
+              <label>BILLING ADDRESS *</label>
+              <input type="text" name="Billing_Address" placeholder="Street, City, State, ZIP, Country" required autocomplete="billing street-address">
+            </div>
+            <div class="field">
+              <label>SHIPPING ADDRESS * (if same, re-enter it)</label>
+              <input type="text" name="Shipping_Address" placeholder="Street, City, State, ZIP, Country" required autocomplete="shipping street-address">
+            </div>
+            <div class="field">
+              <label>ORDER NOTE (optional)</label>
+              <textarea name="Order_Note" rows="2" placeholder="Anything you'd like me to know..."></textarea>
+            </div>
+
+            <h3 style="margin-top:18px;">PROOF OF CASH APP PAYMENT *</h3>
+            <div class="two">
+              <div class="field">
+                <label>YOUR CASH APP $CASHTAG *</label>
+                <input type="text" name="CashApp_Cashtag" id="c_cashtag" placeholder="$yourcashtag" required>
+              </div>
+              <div class="field">
+                <label>PAYMENT NOTE / RECEIPT TEXT *</label>
+                <input type="text" name="CashApp_Payment_Note" id="c_note" placeholder="e.g. note you wrote on the payment" required>
+              </div>
+            </div>
+            <div class="field">
+              <label>SCREENSHOT OF PAYMENT (optional &mdash; emailed to seller)</label>
+              <input type="file" name="attachment" accept="image/*">
+            </div>
+
+            <div class="gate">
+              <input type="checkbox" id="paidCheck">
+              <label for="paidCheck" style="margin:0;">I confirm I have sent my order total to <b>$tokyohthegoat</b> on Cash App. I understand my order is verified against this payment before it ships.</label>
+            </div>
+
+            <button type="submit" class="btn green full" id="placeBtn" disabled>PLACE ORDER &amp; EMAIL CONFIRMATION</button>
+            <div class="locked-msg" id="lockedMsg">Add a pack, complete payment, fill required fields, and check the box to unlock.</div>
+          </div>
+        </div>
+      </form>
+    </section>
+
+    <footer>
+      Every Good Griefs card is hand-crafted, then penny-sleeved &amp; protected the moment it's cut<br>
+      for quality &amp; preservation for years to come.<br>
+      &copy; Tokyube VoxelVerse &bull; Good Griefs &bull; Cash App: $tokyohthegoat
+    </footer>
+  </div>
+
+  <script>
+    const CASHTAG_URL = 'https://cash.app/$tokyohthegoat/';
+    const PACK_PRICE = 8.00, SHIP = 7.50, FREE_SHIP_QTY = 5;
+    let cartQty = 0;
+
+    const $ = id => document.getElementById(id);
+
+    // qty stepper (product hero)
+    $('minus').addEventListener('click',()=>{ $('qty').value=Math.max(1,(parseInt($('qty').value)||1)-1); });
+    $('plus').addEventListener('click',()=>{ $('qty').value=Math.min(99,(parseInt($('qty').value)||1)+1); });
+
+    function compute(){
+      const subtotal = cartQty * PACK_PRICE;
+      const freeShip = cartQty >= FREE_SHIP_QTY;
+      const shipping = cartQty === 0 ? 0 : (freeShip ? 0 : SHIP);
+      return { subtotal, shipping, freeShip, total: subtotal + shipping };
+    }
+
+    function addToCart(q){ cartQty += q; renderOrder(); flash(); }
+
+    function flash(){ const c=$('checkout'); c.style.boxShadow='0 0 0 3px #000, 0 0 40px rgba(80,255,150,0.9)'; setTimeout(()=>c.style.boxShadow='',600); }
+
+    $('addBtn').addEventListener('click',()=>{ addToCart(parseInt($('qty').value)||1); });
+    $('buyBtn').addEventListener('click',()=>{
+      addToCart(parseInt($('qty').value)||1);
+      const t = compute().total;
+      window.open(CASHTAG_URL + t.toFixed(2), '_blank');
+      $('checkout').scrollIntoView({behavior:'smooth'});
+    });
+
+    function renderOrder(){
+      const c = compute();
+      const empty=$('emptyNote'), lines=$('orderLines');
+      if(cartQty===0){
+        empty.style.display='block'; lines.style.display='none';
+      } else {
+        empty.style.display='none'; lines.style.display='block';
+        let h='';
+        h+='<div class="ln"><span>'+cartQty+'× Good Griefs 10-Card Pack '+
+           '<a href="#" id="rm" style="color:#ff9bb0;text-decoration:none;margin-left:6px;">[clear]</a></span>'+
+           '<span>$'+(cartQty*PACK_PRICE).toFixed(2)+'</span></div>';
+        h+='<div class="ln"><span>Subtotal</span><span>$'+c.subtotal.toFixed(2)+'</span></div>';
+        h+='<div class="ln"><span>Shipping</span><span>'+(c.shipping===0?'FREE':'$'+c.shipping.toFixed(2))+'</span></div>';
+        if(c.freeShip) h+='<div class="ln bonus"><span>&#9733; Free shipping (5+ packs)</span><span></span></div>';
+        h+='<div class="ln tot"><span>TOTAL</span><span>$'+c.total.toFixed(2)+'</span></div>';
+        h+='<div class="ln" style="border:none;"><span class="bonus" style="font-size:7px;">+ applicable taxes where required</span><span></span></div>';
+        lines.innerHTML=h;
+        $('rm').addEventListener('click',e=>{ e.preventDefault(); cartQty=0; renderOrder(); });
+      }
+      $('payAmt').textContent='$'+c.total.toFixed(2);
+      $('payBtn').disabled = cartQty===0;
+      // hidden fields
+      $('f_summary').value = cartQty+' x Good Griefs 10-Card Pack @ $'+PACK_PRICE.toFixed(2)+
+        '\nSubtotal: $'+c.subtotal.toFixed(2)+
+        '\nShipping: '+(c.shipping===0?'FREE':'$'+c.shipping.toFixed(2))+
+        '\nTOTAL: $'+c.total.toFixed(2)+' (+ applicable taxes)';
+      $('f_packs').value = cartQty;
+      $('f_subtotal').value = '$'+c.subtotal.toFixed(2);
+      $('f_shipping').value = c.shipping===0?'FREE':'$'+c.shipping.toFixed(2);
+      $('f_total').value = '$'+c.total.toFixed(2);
+      $('f_freeship').value = c.freeShip?'YES (5+ packs)':'No';
+      updateGate();
+    }
+
+    $('payBtn').addEventListener('click',()=>{
+      if(cartQty===0) return;
+      window.open(CASHTAG_URL + compute().total.toFixed(2), '_blank');
+    });
+
+    const placeBtn=$('placeBtn'), paidCheck=$('paidCheck');
+    function updateGate(){
+      const filled = $('c_name').value.trim() && $('c_email').value.trim() &&
+                     $('c_cashtag').value.trim() && $('c_note').value.trim();
+      const ok = cartQty>0 && paidCheck.checked && filled;
+      placeBtn.disabled = !ok;
+      $('lockedMsg').style.display = ok ? 'none' : 'block';
+    }
+    ['c_name','c_email','c_cashtag','c_note'].forEach(id=>$(id).addEventListener('input',updateGate));
+    paidCheck.addEventListener('change',updateGate);
+
+    $('orderForm').addEventListener('submit',function(e){
+      if(cartQty===0){ e.preventDefault(); alert('Add at least one pack to your order first.'); }
+    });
+
+    renderOrder();
+  </script>
+</body>
+</html>
