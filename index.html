@@ -121,6 +121,23 @@
       .header-logos { gap: 12px; }
       .site-logo { width: 52vw; max-width: 52vw; }
       .doom-logo-header { width: 34vw; max-width: 34vw; }
+      /* The docs line's desktop -150px pull tucks it into the BIG logos'
+         footprint. With the smaller mobile logos that pull lands the text
+         ON TOP of them (and drags the Discord row up into them too) —
+         restore natural flow on phones. */
+      .rainbow-doc-text { margin-top: 0; padding: 0 10px; }
+      /* Bottom download buttons: long labels were escaping the button
+         borders — let them wrap inside instead. */
+      .doom-btn, .doom-btn-small {
+        white-space: normal;
+        word-break: break-word;
+        text-align: center;
+        max-width: 92vw;
+        font-size: 12px;
+        letter-spacing: 1px;
+        padding: 10px 14px;
+      }
+      .buttons { flex: 1 1 100%; max-width: 92vw; }
     }
 
     /* ── Platform row: Discord widget on the LEFT + platform buttons column ──
