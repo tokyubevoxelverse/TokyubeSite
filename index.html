@@ -752,7 +752,10 @@
          (overlaps significantly — sits ~114px above where natural flow
          would place it). Bottom margin is zero so the .content flex gap
          (25px) controls the spacing to the Discord + buttons row below. */
-      margin-top: -150px;
+      /* Fluid pull: full -150px only on wide desktops where the logos are
+         tall; shrinks with the viewport so mid-size windows never overlap
+         (phones ≤700px zero it entirely in the media query below). */
+      margin-top: clamp(-150px, calc(80px - 18vw), 0px);
       margin-bottom: 0;
       line-height: 1.6;
     }
