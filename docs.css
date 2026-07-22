@@ -323,6 +323,15 @@ body[data-doc="tokytokinz"]  .doc-content section h2 { color: #b3d4ff; }
 .block-chip.cat-fbx         { background: #f9ca24; color: #000; }
 .block-chip.cat-typed       { background: #d97aff; color: #000; }
 .block-chip.cat-tv          { background: #5fc8ff; color: #000; }
+.block-chip.cat-ui          { background: #ff8fab; color: #000; }
+.block-chip.cat-hud         { background: #9d7aff; color: #fff; }
+.block-chip.cat-env         { background: #35c4a0; color: #000; }
+.block-chip.cat-spawn       { background: #d9a45b; color: #000; }
+.block-chip.cat-laser       { background: #ff4d6d; color: #fff; }
+.block-chip.cat-projectile  { background: #ff9440; color: #000; }
+.block-chip.cat-npc         { background: #55b7e8; color: #000; }
+.block-chip.cat-ppv         { background: #e8c93e; color: #000; }
+.block-chip.cat-audio       { background: #58c6bd; color: #000; }
 
 .block-desc { font-size: 13px; color: #e5e5ee; line-height: 1.5; }
 .block-desc code { background: #000; color: #ffeb99; padding: 1px 5px; border-radius: 3px; font-size: 11px; }
