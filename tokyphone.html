@@ -22,446 +22,311 @@
         <li><a href="#opening">Opening &amp; Navigation</a></li>
         <li><a href="#controls">Universal Controls</a></li>
         <li><a href="#app-messages">Messages</a></li>
-        <li><a href="#app-shop">Shop</a></li>
-        <li><a href="#app-notes">Notes</a></li>
-        <li><a href="#app-tv">TV Control</a></li>
         <li><a href="#app-friends">Friends</a></li>
-        <li><a href="#app-weather">Weather</a></li>
-        <li><a href="#app-browser">Browser</a></li>
-        <li><a href="#app-music">Music</a></li>
         <li><a href="#app-tokyubesocial">TokyubeSocial</a></li>
-        <li><a href="#app-camera">Camera</a></li>
+        <li><a href="#app-skins">Skins</a></li>
+        <li><a href="#app-wigz">Wigz</a></li>
+        <li><a href="#app-capes">Capes</a></li>
+        <li><a href="#app-wearz">Wearz</a></li>
         <li><a href="#app-wallet">Wallet</a></li>
-        <li><a href="#app-settings">Settings</a></li>
+        <li><a href="#app-tvcontrol">TV Control</a></li>
+        <li><a href="#app-music">Music</a></li>
+        <li><a href="#app-camera">Camera</a></li>
+        <li><a href="#app-browser">Browser</a></li>
+        <li><a href="#app-notes">Notes</a></li>
+        <li><a href="#app-calculator">Calculator</a></li>
         <li><a href="#app-calendar">Calendar</a></li>
         <li><a href="#app-alarm">Alarm</a></li>
-        <li><a href="#app-calls">Calls</a></li>
-        <li><a href="#app-calculator">Calculator</a></li>
-        <li><a href="#app-gallery">Gallery</a></li>
-        <li><a href="#app-debug">Debug</a></li>
+        <li><a href="#app-playerstats">Player Stats</a></li>
+        <li><a href="#app-tppv">TPPV</a></li>
+        <li><a href="#app-worldsettings">World Settings</a></li>
+        <li><a href="#app-settings">Settings</a></li>
         <li><a href="#app-tokynodes">TokyNodes (in-phone)</a></li>
+        <li><a href="#app-debug">Debug</a></li>
         <li><a href="#app-gopeepgo">GoPeepGo</a></li>
         <li><a href="#app-cubeninja">Cube Ninja</a></li>
         <li><a href="#app-tokyroad">TokyRoad</a></li>
-        <li><a href="#app-fish">Fish!</a></li>
       </ul>
     </aside>
 
     <main class="doc-content">
       <h1>TokyPhone</h1>
       <p class="doc-lede">
-        TokyPhone is the in-world handheld interface every player carries.
-        It bundles every functional Tokyube app — utilities, social,
-        entertainment, mini-games — into a single launcher you can pull
-        up at any time without leaving the game. This page documents
-        every app, its keyboard shortcuts, and (where supported) its
-        Xbox / PlayStation gamepad controls.
+        TokyPhone is the in-world handheld every player carries — <strong>25
+        apps</strong> covering identity, marketplaces, media, utilities and
+        mini-games, all inside a phone that slides up from the bottom-right
+        of the screen without ever leaving the world.
       </p>
 
       <section id="overview">
         <h2>Overview</h2>
-        <p>The TokyPhone interface is a 3D phone that floats in front of
-        the player when summoned. Apps are arranged on a grid; tap or
-        click to launch. Every app runs full-screen inside the phone's
-        frame and can be backed out of without affecting your in-world
-        position.</p>
-        <p>Apps fall into three buckets:</p>
+        <p>Apps are arranged on a home grid; click (or navigate with a
+        gamepad) to launch. Every app runs inside the phone frame and backs
+        out to the home grid, so your in-world position is never affected.</p>
+        <p>The 25 apps fall into four buckets:</p>
         <ul>
-          <li><strong>Utilities</strong> — Notes, Calculator, Calendar,
-              Alarm, Settings, Gallery, Camera, Weather.</li>
-          <li><strong>Connected</strong> — Messages, Friends, Calls,
-              Music, Browser, Shop, Wallet, TokyubeSocial,
-              TV Control, Debug, TokyNodes.</li>
+          <li><strong>Identity &amp; Social</strong> — Messages, Friends,
+              TokyubeSocial.</li>
+          <li><strong>Avatar &amp; Marketplace</strong> — Skins, Wigz, Capes,
+              Wearz, Wallet.</li>
+          <li><strong>Media &amp; Utilities</strong> — TV Control, Music,
+              Camera, Browser, Notes, Calculator, Calendar, Alarm,
+              Player Stats, TPPV, World Settings, Settings, TokyNodes,
+              Debug.</li>
           <li><strong>Mini-games</strong> — GoPeepGo, Cube Ninja,
-              TokyRoad, Fish!</li>
+              TokyRoad.</li>
         </ul>
       </section>
 
       <section id="opening">
         <h2>Opening &amp; Navigation</h2>
-        <p>Open and close the phone with a single key (or button). Once
-        open, the phone captures input until you back out.</p>
+        <p>Press <kbd>P</kbd> to open or close the TokyPhone — it slides up
+        from the bottom-right. The phone works with keyboard &amp; mouse and
+        with any standard-layout gamepad (Xbox, DualSense, Steam Deck): the
+        engine polls the gamepad every frame, so phone and menu navigation
+        works even before you've clicked into the game canvas.</p>
         <table class="controls-table">
-          <thead><tr><th>Action</th><th>Keyboard</th><th>Xbox</th><th>PlayStation</th></tr></thead>
+          <thead><tr><th>Action</th><th>Keyboard / Mouse</th><th>Gamepad</th></tr></thead>
           <tbody>
-            <tr><td class="action">Open / close phone</td><td class="kbd"><kbd>P</kbd></td><td class="gp">View / Menu (long press)</td><td class="gp">Touchpad (long press)</td></tr>
-            <tr><td class="action">Highlight next / previous app</td><td class="kbd">arrow keys</td><td class="gp">D-Pad</td><td class="gp">D-Pad</td></tr>
-            <tr><td class="action">Launch focused app</td><td class="kbd"><kbd>Enter</kbd></td><td class="gp">A</td><td class="gp">Cross</td></tr>
-            <tr><td class="action">Back out one screen</td><td class="kbd"><kbd>Esc</kbd> / <kbd>Backspace</kbd></td><td class="gp">B</td><td class="gp">Circle</td></tr>
-            <tr><td class="action">Quick-close (return to game)</td><td class="kbd"><kbd>P</kbd> again</td><td class="gp">View</td><td class="gp">Touchpad</td></tr>
+            <tr><td class="action">Open / close phone</td><td class="kbd"><kbd>P</kbd></td><td class="gp">mapped in the Controller Mapper</td></tr>
+            <tr><td class="action">Move between apps</td><td class="kbd">mouse / arrow keys</td><td class="gp">D-Pad / Left Stick</td></tr>
+            <tr><td class="action">Launch focused app</td><td class="kbd">click / <kbd>Enter</kbd></td><td class="gp">A / Cross</td></tr>
+            <tr><td class="action">Back out one screen</td><td class="kbd"><kbd>Esc</kbd></td><td class="gp">B / Circle</td></tr>
           </tbody>
         </table>
+        <div class="callout">Every binding can be remapped from the
+        <strong>Controller Mapper</strong> overlay on the title screen. On
+        Steam, the game uses the <em>Generic Gamepad</em> template — your
+        pad shows up as a standard controller, no Steam Input configuration
+        needed.</div>
       </section>
 
       <section id="controls">
         <h2>Universal Controls</h2>
-        <p>Inside any app, these controls behave the same way unless the
-        app overrides them:</p>
-        <table class="controls-table">
-          <thead><tr><th>Action</th><th>Keyboard</th><th>Xbox</th><th>PlayStation</th></tr></thead>
-          <tbody>
-            <tr><td class="action">Scroll list</td><td class="kbd">Mouse wheel / arrow keys</td><td class="gp">Right Stick</td><td class="gp">Right Stick</td></tr>
-            <tr><td class="action">Confirm / select</td><td class="kbd"><kbd>Enter</kbd></td><td class="gp">A</td><td class="gp">Cross</td></tr>
-            <tr><td class="action">Cancel / back</td><td class="kbd"><kbd>Esc</kbd></td><td class="gp">B</td><td class="gp">Circle</td></tr>
-            <tr><td class="action">Open app menu (where applicable)</td><td class="kbd"><kbd>Tab</kbd></td><td class="gp">Y</td><td class="gp">Triangle</td></tr>
-            <tr><td class="action">Toggle fullscreen app view</td><td class="kbd"><kbd>F</kbd></td><td class="gp">X</td><td class="gp">Square</td></tr>
-            <tr><td class="action">Show on-screen keyboard</td><td class="kbd">automatic on text-field focus</td><td class="gp">RB</td><td class="gp">R1</td></tr>
-          </tbody>
-        </table>
-        <div class="callout">When a text field is focused, all in-world
-        keys (WASD, jump, etc.) are captured by the phone so you don't
-        accidentally walk while typing.</div>
+        <p>Inside any app these behave the same unless the app overrides
+        them:</p>
+        <ul>
+          <li><strong>Scroll</strong> — mouse wheel or right stick scrolls
+              lists and feeds.</li>
+          <li><strong>Confirm / Cancel</strong> — click/<kbd>Enter</kbd>
+              confirms; <kbd>Esc</kbd> (B/Circle) backs out.</li>
+          <li><strong>Typing</strong> — when a text field is focused, all
+              world keys (WASD, jump, mode switching) are captured by the
+              phone so you don't walk while typing.</li>
+        </ul>
       </section>
 
-      <!-- ─────────── Apps ─────────── -->
+      <!-- ─────────── Identity & Social ─────────── -->
 
       <section id="app-messages">
         <h2>Messages</h2>
-        <p>Direct-message any Tokyube friend or open a thread with the
-        official tutorial bot. Threads sync across all your machines via
-        the Tokyube backend.</p>
-        <ul>
-          <li>Unread count surfaces as a red badge on the phone home grid.</li>
-          <li>Threads with a Steam friend show their Steam avatar; Tokyube
-              friends show their Tokyube profile picture.</li>
-          <li>Pinned at the top: a permanent welcome thread with tutorial
-              tips.</li>
-        </ul>
-        <table class="controls-table">
-          <thead><tr><th>Action</th><th>Keyboard</th><th>Xbox</th><th>PlayStation</th></tr></thead>
-          <tbody>
-            <tr><td class="action">Compose new message</td><td class="kbd"><kbd>Ctrl</kbd>+<kbd>N</kbd></td><td class="gp">Y</td><td class="gp">Triangle</td></tr>
-            <tr><td class="action">Send</td><td class="kbd"><kbd>Enter</kbd> in input</td><td class="gp">A</td><td class="gp">Cross</td></tr>
-            <tr><td class="action">Switch thread</td><td class="kbd">arrow keys</td><td class="gp">D-Pad</td><td class="gp">D-Pad</td></tr>
-            <tr><td class="action">In-app keyboard</td><td class="kbd">native</td><td class="gp">on-screen</td><td class="gp">on-screen</td></tr>
-          </tbody>
-        </table>
-      </section>
-
-      <section id="app-shop">
-        <h2>Shop</h2>
-        <p>The in-world marketplace for blocks, components, FBX assets,
-        and (eventually) TokyNodes. Browse, search, and purchase using
-        TokyTokinz from your Wallet.</p>
-        <table class="controls-table">
-          <thead><tr><th>Action</th><th>Keyboard</th><th>Xbox</th><th>PlayStation</th></tr></thead>
-          <tbody>
-            <tr><td class="action">Search</td><td class="kbd"><kbd>/</kbd></td><td class="gp">Y (open keyboard)</td><td class="gp">Triangle</td></tr>
-            <tr><td class="action">Switch category tab</td><td class="kbd"><kbd>Q</kbd> / <kbd>E</kbd></td><td class="gp">LB / RB</td><td class="gp">L1 / R1</td></tr>
-            <tr><td class="action">Buy focused item</td><td class="kbd"><kbd>Enter</kbd></td><td class="gp">A</td><td class="gp">Cross</td></tr>
-          </tbody>
-        </table>
-      </section>
-
-      <section id="app-notes">
-        <h2>Notes</h2>
-        <p>Free-form text notes that save to your account. Useful for
-        scratch design ideas, scripted-game lore, or recipes.</p>
-        <table class="controls-table">
-          <thead><tr><th>Action</th><th>Keyboard</th><th>Xbox</th><th>PlayStation</th></tr></thead>
-          <tbody>
-            <tr><td class="action">New note</td><td class="kbd"><kbd>Ctrl</kbd>+<kbd>N</kbd></td><td class="gp">Y</td><td class="gp">Triangle</td></tr>
-            <tr><td class="action">Save</td><td class="kbd">auto-saves on blur</td><td class="gp">automatic</td><td class="gp">automatic</td></tr>
-            <tr><td class="action">Delete</td><td class="kbd"><kbd>Shift</kbd>+<kbd>Del</kbd></td><td class="gp">X</td><td class="gp">Square</td></tr>
-            <tr><td class="action">In-app keyboard</td><td class="kbd">native</td><td class="gp">on-screen</td><td class="gp">on-screen</td></tr>
-          </tbody>
-        </table>
-      </section>
-
-      <section id="app-tv">
-        <h2>TV Control</h2>
-        <p>Control any TV component or video TokyNode in the world. Pair
-        with the
-        <a href="code-blocks.html#cat-tv">TV scripting blocks</a> to
-        build playlists or interactive media.</p>
-        <ul>
-          <li>Set the URL (YouTube link or .mp4).</li>
-          <li>Play / pause / seek / volume / loop.</li>
-          <li>State syncs across all peers via the
-              <code>tv_state</code> packet — the host is authoritative.</li>
-        </ul>
-        <table class="controls-table">
-          <thead><tr><th>Action</th><th>Keyboard</th><th>Xbox</th><th>PlayStation</th></tr></thead>
-          <tbody>
-            <tr><td class="action">Play / pause</td><td class="kbd"><kbd>Space</kbd></td><td class="gp">A</td><td class="gp">Cross</td></tr>
-            <tr><td class="action">Seek ±10s</td><td class="kbd"><kbd>←</kbd> / <kbd>→</kbd></td><td class="gp">D-Pad ← / →</td><td class="gp">D-Pad ← / →</td></tr>
-            <tr><td class="action">Volume up / down</td><td class="kbd"><kbd>↑</kbd> / <kbd>↓</kbd></td><td class="gp">D-Pad ↑ / ↓</td><td class="gp">D-Pad ↑ / ↓</td></tr>
-            <tr><td class="action">Set URL</td><td class="kbd"><kbd>U</kbd></td><td class="gp">Y</td><td class="gp">Triangle</td></tr>
-          </tbody>
-        </table>
+        <p>Direct-message any Tokyube friend. Threads sync through the
+        Tokyube cloud, so a conversation started in one world continues in
+        the next. Display names prefer your Tokyube <code>@username</code>,
+        falling back to your Steam persona.</p>
       </section>
 
       <section id="app-friends">
         <h2>Friends</h2>
-        <p>Your Tokyube friends list (separate from Steam friends, though
-        the two can be linked). Send and accept friend requests, view
-        profiles, and start a DM.</p>
-        <table class="controls-table">
-          <thead><tr><th>Action</th><th>Keyboard</th><th>Xbox</th><th>PlayStation</th></tr></thead>
-          <tbody>
-            <tr><td class="action">Send friend request</td><td class="kbd"><kbd>+</kbd> button</td><td class="gp">Y</td><td class="gp">Triangle</td></tr>
-            <tr><td class="action">Accept / decline incoming</td><td class="kbd"><kbd>Y</kbd> / <kbd>N</kbd></td><td class="gp">A / B</td><td class="gp">Cross / Circle</td></tr>
-            <tr><td class="action">Open profile</td><td class="kbd"><kbd>Enter</kbd></td><td class="gp">A</td><td class="gp">Cross</td></tr>
-            <tr><td class="action">Start DM</td><td class="kbd"><kbd>M</kbd></td><td class="gp">X</td><td class="gp">Square</td></tr>
-          </tbody>
-        </table>
-      </section>
-
-      <section id="app-weather">
-        <h2>Weather</h2>
-        <p>The current in-world weather forecast — temperature, conditions,
-        and which biome cell you're standing in. Mostly cosmetic but
-        also useful for scripts that gate behavior on weather state.</p>
-        <table class="controls-table">
-          <thead><tr><th>Action</th><th>Keyboard</th><th>Xbox</th><th>PlayStation</th></tr></thead>
-          <tbody>
-            <tr><td class="action">Refresh</td><td class="kbd"><kbd>R</kbd></td><td class="gp">A</td><td class="gp">Cross</td></tr>
-            <tr><td class="action">Switch units (°C / °F)</td><td class="kbd"><kbd>U</kbd></td><td class="gp">X</td><td class="gp">Square</td></tr>
-          </tbody>
-        </table>
-      </section>
-
-      <section id="app-browser">
-        <h2>Browser</h2>
-        <p>A lightweight in-phone web browser. Useful for looking up a
-        recipe or watching a tutorial without alt-tabbing out of the
-        game.</p>
-        <table class="controls-table">
-          <thead><tr><th>Action</th><th>Keyboard</th><th>Xbox</th><th>PlayStation</th></tr></thead>
-          <tbody>
-            <tr><td class="action">URL bar</td><td class="kbd"><kbd>Ctrl</kbd>+<kbd>L</kbd></td><td class="gp">Y</td><td class="gp">Triangle</td></tr>
-            <tr><td class="action">Back / forward</td><td class="kbd"><kbd>Alt</kbd>+<kbd>←</kbd> / <kbd>→</kbd></td><td class="gp">LB / RB</td><td class="gp">L1 / R1</td></tr>
-            <tr><td class="action">Reload</td><td class="kbd"><kbd>F5</kbd></td><td class="gp">X</td><td class="gp">Square</td></tr>
-            <tr><td class="action">In-app keyboard</td><td class="kbd">native</td><td class="gp">on-screen</td><td class="gp">on-screen</td></tr>
-          </tbody>
-        </table>
-      </section>
-
-      <section id="app-music">
-        <h2>Music</h2>
-        <p>Stream and play soundtracks while you build. Personal playlists
-        save with your account; per-world ambient tracks save with the
-        world.</p>
-        <table class="controls-table">
-          <thead><tr><th>Action</th><th>Keyboard</th><th>Xbox</th><th>PlayStation</th></tr></thead>
-          <tbody>
-            <tr><td class="action">Play / pause</td><td class="kbd"><kbd>Space</kbd></td><td class="gp">A</td><td class="gp">Cross</td></tr>
-            <tr><td class="action">Next / previous</td><td class="kbd"><kbd>→</kbd> / <kbd>←</kbd></td><td class="gp">RB / LB</td><td class="gp">R1 / L1</td></tr>
-            <tr><td class="action">Volume</td><td class="kbd"><kbd>↑</kbd> / <kbd>↓</kbd></td><td class="gp">RT / LT</td><td class="gp">R2 / L2</td></tr>
-            <tr><td class="action">Shuffle</td><td class="kbd"><kbd>S</kbd></td><td class="gp">X</td><td class="gp">Square</td></tr>
-          </tbody>
-        </table>
+        <p>Your friends list, powered by both the Tokyube friend graph and
+        your Steam friends (the engine can pull your Steam friends list and
+        show who's online or in-game). Open a friend to view their profile
+        or jump into Messages.</p>
       </section>
 
       <section id="app-tokyubesocial">
         <h2>TokyubeSocial</h2>
-        <p>The in-phone shortcut into <a href="tokysocial.html">TokySocial</a>.
-        Browse the in-game feed, see what your friends are building, post
-        your own captures.</p>
-        <table class="controls-table">
-          <thead><tr><th>Action</th><th>Keyboard</th><th>Xbox</th><th>PlayStation</th></tr></thead>
-          <tbody>
-            <tr><td class="action">Scroll feed</td><td class="kbd">arrow keys</td><td class="gp">Right Stick</td><td class="gp">Right Stick</td></tr>
-            <tr><td class="action">Like</td><td class="kbd"><kbd>L</kbd></td><td class="gp">A</td><td class="gp">Cross</td></tr>
-            <tr><td class="action">Comment</td><td class="kbd"><kbd>C</kbd></td><td class="gp">Y</td><td class="gp">Triangle</td></tr>
-            <tr><td class="action">Share to DM</td><td class="kbd"><kbd>S</kbd></td><td class="gp">X</td><td class="gp">Square</td></tr>
-            <tr><td class="action">In-app keyboard</td><td class="kbd">native</td><td class="gp">on-screen</td><td class="gp">on-screen</td></tr>
-          </tbody>
-        </table>
+        <p>The full in-engine social network — feed, posts, likes,
+        reactions, comments, polls and profiles — in your pocket. Profiles
+        support up to three clickable links, verified markers, and the
+        <strong>Internal</strong> badge for Tokyube team members. See the
+        <a href="tokysocial.html">TokySocial documentation</a> for the
+        complete guide.</p>
       </section>
 
-      <section id="app-camera">
-        <h2>Camera</h2>
-        <p>Snap a screenshot of the world from the phone's perspective.
-        Saves to the Gallery app and can be posted directly to
-        TokyubeSocial.</p>
-        <table class="controls-table">
-          <thead><tr><th>Action</th><th>Keyboard</th><th>Xbox</th><th>PlayStation</th></tr></thead>
-          <tbody>
-            <tr><td class="action">Shutter</td><td class="kbd"><kbd>Space</kbd></td><td class="gp">RT</td><td class="gp">R2</td></tr>
-            <tr><td class="action">Switch front / rear</td><td class="kbd"><kbd>F</kbd></td><td class="gp">X</td><td class="gp">Square</td></tr>
-            <tr><td class="action">Zoom</td><td class="kbd">mouse wheel</td><td class="gp">Right Stick Y</td><td class="gp">Right Stick Y</td></tr>
-            <tr><td class="action">Open Gallery</td><td class="kbd"><kbd>G</kbd></td><td class="gp">Y</td><td class="gp">Triangle</td></tr>
-          </tbody>
-        </table>
+      <!-- ─────────── Avatar & Marketplace ─────────── -->
+
+      <section id="app-skins">
+        <h2>Skins</h2>
+        <p>Equip any skin you own. The Skins app supports the full skin
+        system:</p>
+        <ul>
+          <li><strong>Marketplace skins</strong> — One Mesh PBR skins and
+              classic 4-mesh per-part skins from the TokyTar Skins
+              marketplace (free, paid, daily, monthly, animated and
+              UGC Made categories).</li>
+          <li><strong>Custom PBR slots</strong> — five slots where you can
+              upload your own albedo / metallic / normal / roughness /
+              emissive maps plus an OBJ or FBX mesh, with auto-fit, PBR
+              toggles and frame animation. Custom skins are stored locally
+              in the browser's IndexedDB.</li>
+          <li><strong>Mesh-swap equip</strong> — equipping swaps your
+              avatar's mesh and textures instantly, and syncs to other
+              players over Steam P2P in multiplayer.</li>
+        </ul>
+      </section>
+
+      <section id="app-wigz">
+        <h2>Wigz</h2>
+        <p>TokyTar Wigz are baked hair meshes that sit on your avatar's
+        head. The app previews every wig <em>on your own avatar</em>, lets
+        you pick PBR or a custom hair color, and equips instantly. Wigs are
+        persistent, networked in multiplayer, and shown on your title-screen
+        avatar too. New wigs arrive through the
+        <a href="tokytokinz.html#marketplace">Accessories marketplace</a> —
+        including free styles and a rotating daily free wig.</p>
+      </section>
+
+      <section id="app-capes">
+        <h2>Capes</h2>
+        <p>Equip procedural capes that sway as you move. Capes are
+        persistent and networked — other players see your cape in
+        multiplayer sessions. The Capez marketplace sells textured capes on
+        the shared cape mesh, and creator labels credit every cape's
+        author.</p>
+      </section>
+
+      <section id="app-wearz">
+        <h2>Wearz</h2>
+        <p>Hats and head wearables — bucket hats, fedoras and more — with
+        on-avatar previews and their own shop. Like wigs, wearz are
+        persistent, networked, and previewed on your actual avatar before
+        you buy.</p>
       </section>
 
       <section id="app-wallet">
         <h2>Wallet</h2>
-        <p>Your TokyTokinz balance and transaction history. Send tokinz
-        to friends, receive payouts from the marketplace, manage payment
-        methods.</p>
-        <table class="controls-table">
-          <thead><tr><th>Action</th><th>Keyboard</th><th>Xbox</th><th>PlayStation</th></tr></thead>
-          <tbody>
-            <tr><td class="action">Send tokinz</td><td class="kbd"><kbd>S</kbd></td><td class="gp">Y</td><td class="gp">Triangle</td></tr>
-            <tr><td class="action">View receive QR</td><td class="kbd"><kbd>R</kbd></td><td class="gp">X</td><td class="gp">Square</td></tr>
-          </tbody>
-        </table>
+        <p>Your TTZ balance and transaction history. TTZ (TokyTokinz) is
+        the account-wide currency used across every marketplace — skins,
+        wigz, capes, wearz. The ledger lives in the Tokyube cloud, so your
+        balance follows your account across machines. See
+        <a href="tokytokinz.html">TokyTokinz</a> for the full economy
+        guide.</p>
       </section>
 
-      <section id="app-settings">
-        <h2>Settings</h2>
-        <p>Per-account preferences: notification toggles, privacy controls,
-        accessibility options, controller binding overrides.</p>
-        <p><strong>No gamepad-specific app shortcuts</strong> — Settings
-        is keyboard- and pointer-friendly throughout.</p>
+      <!-- ─────────── Media & Utilities ─────────── -->
+
+      <section id="app-tvcontrol">
+        <h2>TV Control</h2>
+        <p>Remote-control the video players in the current world: play,
+        pause, seek, volume, and set a new video URL. TVs stream YouTube
+        through the engine's yt-dlp pipeline, and playback syncs to all
+        players in a session. Pairs with the TV, TV Screen and Video
+        Playlist <a href="components.html">world components</a>.</p>
       </section>
 
-      <section id="app-calendar">
-        <h2>Calendar</h2>
-        <p>A monthly grid for planning sessions and events with friends.
-        Linked to Friends — invitees show on each other's calendars.</p>
-        <table class="controls-table">
-          <thead><tr><th>Action</th><th>Keyboard</th><th>Xbox</th><th>PlayStation</th></tr></thead>
-          <tbody>
-            <tr><td class="action">Move cursor</td><td class="kbd">arrow keys</td><td class="gp">D-Pad</td><td class="gp">D-Pad</td></tr>
-            <tr><td class="action">New event</td><td class="kbd"><kbd>N</kbd></td><td class="gp">Y</td><td class="gp">Triangle</td></tr>
-            <tr><td class="action">Open day view</td><td class="kbd"><kbd>Enter</kbd></td><td class="gp">A</td><td class="gp">Cross</td></tr>
-          </tbody>
-        </table>
+      <section id="app-music">
+        <h2>Music</h2>
+        <p>Your personal soundtrack. Upload up to <strong>25 tracks</strong>
+        (stored locally in IndexedDB), then play, pause, skip, shuffle and
+        repeat while you build. Music keeps playing while the phone is
+        closed — and stops automatically when you return to the title
+        screen.</p>
       </section>
 
-      <section id="app-alarm">
-        <h2>Alarm</h2>
-        <p>In-world alarms that fire while the world is loaded — useful
-        for scripted-game timers and reminders.</p>
-        <table class="controls-table">
-          <thead><tr><th>Action</th><th>Keyboard</th><th>Xbox</th><th>PlayStation</th></tr></thead>
-          <tbody>
-            <tr><td class="action">New alarm</td><td class="kbd"><kbd>N</kbd></td><td class="gp">Y</td><td class="gp">Triangle</td></tr>
-            <tr><td class="action">Toggle on/off</td><td class="kbd"><kbd>Space</kbd></td><td class="gp">A</td><td class="gp">Cross</td></tr>
-            <tr><td class="action">Delete</td><td class="kbd"><kbd>Del</kbd></td><td class="gp">X</td><td class="gp">Square</td></tr>
-          </tbody>
-        </table>
+      <section id="app-camera">
+        <h2>Camera</h2>
+        <p>Capture photos and video clips of your world. Media is saved to
+        your local TokyPhone media library, where you can browse, export to
+        disk, or delete captures.</p>
       </section>
 
-      <section id="app-calls">
-        <h2>Calls</h2>
-        <p>Voice-call your friends in-world over the same WebRTC channel
-        used for proximity voice in multiplayer.</p>
-        <table class="controls-table">
-          <thead><tr><th>Action</th><th>Keyboard</th><th>Xbox</th><th>PlayStation</th></tr></thead>
-          <tbody>
-            <tr><td class="action">Place call</td><td class="kbd"><kbd>Enter</kbd></td><td class="gp">A</td><td class="gp">Cross</td></tr>
-            <tr><td class="action">Mute / unmute</td><td class="kbd"><kbd>M</kbd></td><td class="gp">X</td><td class="gp">Square</td></tr>
-            <tr><td class="action">End call</td><td class="kbd"><kbd>Esc</kbd></td><td class="gp">B</td><td class="gp">Circle</td></tr>
-          </tbody>
-        </table>
+      <section id="app-browser">
+        <h2>Browser</h2>
+        <p>A mini web browser inside the phone — type a URL, browse, go
+        back/forward. For a browser panel that lives in the 3D world
+        itself, see the Web Browser
+        <a href="components.html">components</a>.</p>
+      </section>
+
+      <section id="app-notes">
+        <h2>Notes</h2>
+        <p>Plain-text scratchpad for build plans, coordinates and ideas.
+        Notes persist with your save data.</p>
       </section>
 
       <section id="app-calculator">
         <h2>Calculator</h2>
-        <p>A standard 4-function calculator, plus square root, percent,
-        and memory keys.</p>
-        <p><strong>No gamepad shortcuts beyond cursor navigation</strong>
-        — the calculator pad is fully clickable.</p>
-        <p>An <em>in-app numeric keyboard</em> appears on touch and
-        gamepad — number keys A–D map to 1, 2, 3, 4 on the pad when
-        focused.</p>
+        <p>A standard calculator for quick block math.</p>
       </section>
 
-      <section id="app-gallery">
-        <h2>Gallery</h2>
-        <p>Every screenshot you take with the Camera app shows up here,
-        plus any media you've imported. Organize into albums or share
-        directly to TokySocial.</p>
-        <table class="controls-table">
-          <thead><tr><th>Action</th><th>Keyboard</th><th>Xbox</th><th>PlayStation</th></tr></thead>
-          <tbody>
-            <tr><td class="action">Open image</td><td class="kbd"><kbd>Enter</kbd></td><td class="gp">A</td><td class="gp">Cross</td></tr>
-            <tr><td class="action">Next / previous</td><td class="kbd"><kbd>→</kbd> / <kbd>←</kbd></td><td class="gp">RB / LB</td><td class="gp">R1 / L1</td></tr>
-            <tr><td class="action">Share</td><td class="kbd"><kbd>S</kbd></td><td class="gp">Y</td><td class="gp">Triangle</td></tr>
-            <tr><td class="action">Delete</td><td class="kbd"><kbd>Del</kbd></td><td class="gp">X</td><td class="gp">Square</td></tr>
-          </tbody>
-        </table>
+      <section id="app-calendar">
+        <h2>Calendar</h2>
+        <p>Monthly calendar grid for keeping track of real-world dates —
+        handy for planning movie nights at the Theater.</p>
       </section>
 
-      <section id="app-debug">
-        <h2>Debug</h2>
-        <p>The same debug panel surfaced in-world (<kbd>F3</kbd>) is
-        available here for players who prefer not to leave the phone
-        UI. Includes load-character, respawn, time-of-day, network
-        stats, wireframe toggle.</p>
-        <p><strong>No gamepad shortcuts</strong> — debug operations are
-        keyboard-driven by design.</p>
+      <section id="app-alarm">
+        <h2>Alarm</h2>
+        <p>Set alarms and timers that fire while a world is loaded — never
+        lose track of time mid-build again.</p>
+      </section>
+
+      <section id="app-playerstats">
+        <h2>Player Stats</h2>
+        <p>Your player statistics, moved off the world HUD and into their
+        own app — playtime, day/night counts and per-world numbers live
+        here so the in-world HUD stays clean.</p>
+      </section>
+
+      <section id="app-tppv">
+        <h2>TPPV — Tokyube Per-Player Variables</h2>
+        <p>The window into your <strong>per-player persistent
+        variables</strong> — the cross-world values that scripts read and
+        write with the PPV code blocks. Casino chips, lounge card-game
+        stats and any custom counters a world creator defines are stored
+        per player and follow you between worlds. TPPV lets you inspect
+        the variable groups your account carries.</p>
+      </section>
+
+      <section id="app-worldsettings">
+        <h2>World Settings</h2>
+        <p>Per-world options for the world you're standing in — including
+        performance settings like the entity cap toggle. Only meaningful
+        in worlds you own or host.</p>
+      </section>
+
+      <section id="app-settings">
+        <h2>Settings</h2>
+        <p>Player preferences: graphics preset, audio volumes (including
+        People Volume and Microphone Volume for multiplayer voice), mic
+        indicator pills, and controller options.</p>
       </section>
 
       <section id="app-tokynodes">
         <h2>TokyNodes (in-phone)</h2>
-        <p>The phone client of the
-        <a href="tokynodes.html#library">TokyNode Library</a>. Browse
-        and spawn nodes and families directly into the world without
-        leaving first-person view.</p>
-        <table class="controls-table">
-          <thead><tr><th>Action</th><th>Keyboard</th><th>Xbox</th><th>PlayStation</th></tr></thead>
-          <tbody>
-            <tr><td class="action">Switch tab (Nodes / Families / Public)</td><td class="kbd"><kbd>Q</kbd> / <kbd>E</kbd></td><td class="gp">LB / RB</td><td class="gp">L1 / R1</td></tr>
-            <tr><td class="action">Spawn focused entry</td><td class="kbd"><kbd>Enter</kbd></td><td class="gp">A</td><td class="gp">Cross</td></tr>
-            <tr><td class="action">Edit metadata</td><td class="kbd"><kbd>I</kbd></td><td class="gp">Y</td><td class="gp">Triangle</td></tr>
-            <tr><td class="action">Search</td><td class="kbd"><kbd>/</kbd></td><td class="gp">Y (open keyboard)</td><td class="gp">Triangle</td></tr>
-          </tbody>
-        </table>
+        <p>Browse your cross-world TokyNode library and spawn saved objects
+        into the current world. Opening a node from this app is also how
+        you enter <strong>TokyNode Mode</strong> — it's not part of the
+        <kbd>M</kbd> mode cycle. Press <kbd>M</kbd> afterwards to return to
+        Relaxed. See <a href="tokynodes.html">TokyNodes</a> for the full
+        system.</p>
       </section>
+
+      <section id="app-debug">
+        <h2>Debug</h2>
+        <p>Developer helpers: load a character folder onto your avatar,
+        respawn, adjust time of day, and inspect performance/network
+        stats. Debug actions are local-only unless noted.</p>
+      </section>
+
+      <!-- ─────────── Mini-games ─────────── -->
 
       <section id="app-gopeepgo">
         <h2>GoPeepGo</h2>
-        <p>A simple endless-runner mini-game. Tap to flap a small Tokyube
-        peep through scrolling pipes. Top scores save to your account
-        and show on the high-score leaderboard.</p>
-        <table class="controls-table">
-          <thead><tr><th>Action</th><th>Keyboard</th><th>Xbox</th><th>PlayStation</th></tr></thead>
-          <tbody>
-            <tr><td class="action">Flap</td><td class="kbd"><kbd>Space</kbd></td><td class="gp">A</td><td class="gp">Cross</td></tr>
-            <tr><td class="action">Pause</td><td class="kbd"><kbd>P</kbd></td><td class="gp">Menu</td><td class="gp">Options</td></tr>
-            <tr><td class="action">Restart on game-over</td><td class="kbd"><kbd>R</kbd></td><td class="gp">A</td><td class="gp">Cross</td></tr>
-          </tbody>
-        </table>
+        <p>Flap through an endless obstacle course. One tap to flap,
+        instant restart, chase your high score.</p>
       </section>
 
       <section id="app-cubeninja">
         <h2>Cube Ninja</h2>
-        <p>Slice flying voxel cubes mid-air. Combo multipliers, boss
-        cubes, and timed power-ups. Personal bests sync to your profile.</p>
-        <table class="controls-table">
-          <thead><tr><th>Action</th><th>Keyboard</th><th>Xbox</th><th>PlayStation</th></tr></thead>
-          <tbody>
-            <tr><td class="action">Slice</td><td class="kbd">mouse drag</td><td class="gp">Right Stick swipe</td><td class="gp">Right Stick swipe</td></tr>
-            <tr><td class="action">Activate combo power-up</td><td class="kbd"><kbd>Space</kbd></td><td class="gp">A</td><td class="gp">Cross</td></tr>
-            <tr><td class="action">Pause</td><td class="kbd"><kbd>P</kbd></td><td class="gp">Menu</td><td class="gp">Options</td></tr>
-          </tbody>
-        </table>
+        <p>Slice flying voxel cubes, chain combos, dodge the bombs.</p>
       </section>
 
       <section id="app-tokyroad">
         <h2>TokyRoad</h2>
-        <p>Hop a Tokyube character across a procedurally-generated road.
-        Avoid traffic, surf logs, collect tokinz. Daily challenge mode
-        rotates seeds.</p>
-        <table class="controls-table">
-          <thead><tr><th>Action</th><th>Keyboard</th><th>Xbox</th><th>PlayStation</th></tr></thead>
-          <tbody>
-            <tr><td class="action">Hop forward / back / left / right</td><td class="kbd">arrow keys / <kbd>WASD</kbd></td><td class="gp">D-Pad / Left Stick</td><td class="gp">D-Pad / Left Stick</td></tr>
-            <tr><td class="action">Pause</td><td class="kbd"><kbd>P</kbd></td><td class="gp">Menu</td><td class="gp">Options</td></tr>
-            <tr><td class="action">Restart</td><td class="kbd"><kbd>R</kbd></td><td class="gp">A</td><td class="gp">Cross</td></tr>
-          </tbody>
-        </table>
-      </section>
-
-      <section id="app-fish">
-        <h2>Fish!</h2>
-        <p>Cast a line into any in-world body of water from the phone.
-        Catch matches the biome's loot table — jungle ponds yield
-        different fish than the snow biome's lakes. Rare catches show
-        up in your Gallery.</p>
-        <table class="controls-table">
-          <thead><tr><th>Action</th><th>Keyboard</th><th>Xbox</th><th>PlayStation</th></tr></thead>
-          <tbody>
-            <tr><td class="action">Cast</td><td class="kbd">hold + release <kbd>Space</kbd></td><td class="gp">hold + release RT</td><td class="gp">hold + release R2</td></tr>
-            <tr><td class="action">Reel in</td><td class="kbd">tap <kbd>Space</kbd> rhythmically</td><td class="gp">tap A</td><td class="gp">tap Cross</td></tr>
-            <tr><td class="action">Switch lure</td><td class="kbd"><kbd>1</kbd>–<kbd>4</kbd></td><td class="gp">D-Pad</td><td class="gp">D-Pad</td></tr>
-          </tbody>
-        </table>
+        <p>Hop across roads, rivers and rail lines as far as you can.
+        One more run. Always one more run.</p>
       </section>
 
     </main>

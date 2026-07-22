@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>World Components — TokyubeVoxelVerse Documentation</title>
+  <link rel="icon" type="image/png" href="Logo.png">
+  <link rel="apple-touch-icon" href="Logo.png">
+  <link rel="stylesheet" href="docs.css">
+</head>
+<body data-doc="components">
+  <header class="doc-header">
+    <div class="doc-title">World Components — Documentation</div>
+    <a class="doc-back" href="index.html">← BACK TO TOKYUBE.COM</a>
+  </header>
+
+  <div class="doc-layout">
+    <aside class="doc-toc">
+      <h2>Contents</h2>
+      <ul>
+        <li><a href="#overview">Overview</a></li>
+        <li><a href="#placing">Placing &amp; Editing</a></li>
+        <li><a href="#networked">Local vs Networked</a></li>
+        <li><a href="#media">Media &amp; Screens</a></li>
+        <li><a href="#web">Web &amp; Links</a></li>
+        <li><a href="#audio">Audio</a></li>
+        <li><a href="#fx">Light &amp; FX</a></li>
+        <li><a href="#gameplay">Gameplay</a></li>
+        <li><a href="#building">Building &amp; Import</a></li>
+        <li><a href="#scripting">Scripting Components</a></li>
+      </ul>
+    </aside>
+
+    <main class="doc-content">
+      <h1>World Components</h1>
+      <p class="doc-lede">
+        Components are the engine's built-in interactive objects —
+        <strong>27 of them</strong> — that you place, configure and script:
+        TVs, browsers, mirrors, NPCs, particle FX, triggers, projectile
+        launchers and more. This page documents every component that ships
+        with the game.
+      </p>
+
+      <section id="overview">
+        <h2>Overview</h2>
+        <p>Each component is a self-describing package: a name, a type,
+        default properties, and a description you can read in the in-game
+        component palette. Components save with the world and restore
+        exactly as placed.</p>
+      </section>
+
+      <section id="placing">
+        <h2>Placing &amp; Editing</h2>
+        <p>Press <kbd>M</kbd> until you reach <strong>Component
+        Mode</strong>, then place from the palette. Selected components
+        show drag arrows for precise positioning (lights get their own
+        drag anchors), and every property — size, offsets, rotation,
+        colors, URLs, volumes — is editable from the component panel.
+        The <a href="in-world-tools.html#build-camera">Build Camera</a>
+        adds move/scale/rotate gizmos and 50-step undo.</p>
+      </section>
+
+      <section id="networked">
+        <h2>Local vs Networked</h2>
+        <p>Components marked <em>networked</em> sync their state to every
+        player in a multiplayer session over Steam P2P — a networked GIF
+        shows the same frame to everyone, a networked browser shows the
+        same page. Local variants render only for you.</p>
+      </section>
+
+      <section id="media">
+        <h2>Media &amp; Screens</h2>
+        <ul>
+          <li><strong>TV</strong> — the video player. Streams YouTube via
+              the engine's yt-dlp pipeline; screen size, auto-play on
+              world load, and volume are configurable. Control it with the
+              <a href="tokyphone.html#app-tvcontrol">TV Control app</a> or
+              <a href="code-blocks.html#cat-tv">TV code blocks</a>.</li>
+          <li><strong>TV Screen</strong> — a secondary screen that mirrors
+              a TV elsewhere in the world.</li>
+          <li><strong>Video Playlist</strong> — plays a list of video
+              links in order on the world's video player.</li>
+          <li><strong>YouTube UI</strong> — an in-world YouTube search
+              panel: walk up, press <kbd>E</kbd>, search, play.</li>
+          <li><strong>Camera</strong> (networked) — an in-world camera
+              that can broadcast its live view onto a video player.</li>
+          <li><strong>GIF (Local)</strong> / <strong>GIF
+              (Networked)</strong> — animated GIFs in the world; the
+              networked version syncs frame and play/pause state to all
+              players.</li>
+          <li><strong>Poster</strong> — a flat image panel; import any PNG
+              or JPG and size it.</li>
+        </ul>
+      </section>
+
+      <section id="web">
+        <h2>Web &amp; Links</h2>
+        <ul>
+          <li><strong>Web Browser (Local)</strong> — an in-world mini
+              browser panel. Walk up and press <kbd>E</kbd> to open it and
+              type any link.</li>
+          <li><strong>Web Browser (Networked)</strong> — the same panel
+              with the page/URL kept in sync across all players.</li>
+          <li><strong>Spatial Web Browser</strong> (networked) — a web
+              panel on a flat 3D plane you place, size and rotate
+              anywhere; renders by texture capture with aim-to-click.</li>
+          <li><strong>Fantalink</strong> — a spatial deeplink board: up to
+              5 titles + hyperlinks rendered in-world.</li>
+        </ul>
+      </section>
+
+      <section id="audio">
+        <h2>Audio</h2>
+        <ul>
+          <li><strong>Audio Uploader</strong> — plays an uploaded audio
+              clip with spatial falloff by distance.</li>
+          <li><strong>Networked Audio</strong> — the same, synchronized to
+              all players in a session.</li>
+        </ul>
+      </section>
+
+      <section id="fx">
+        <h2>Light &amp; FX</h2>
+        <ul>
+          <li><strong>Dynamic Light</strong> — a point light with
+              configurable color, brightness and falloff.</li>
+          <li><strong>Spotlight</strong> — an emissive beam rendered as an
+              inverted cone.</li>
+          <li><strong>Particle FX</strong> — an emitter with presets
+              (sparks, fire, smoke, magic, snow, bubbles) and solid or
+              gradient colors.</li>
+          <li><strong>Trail FX</strong> — a flowing energy ribbon; solid,
+              2-color or 3-color gradient with adjustable length.</li>
+          <li><strong>Mirror</strong> — a real-time reflective surface
+              with world/avatar toggles and a resolution cap.</li>
+        </ul>
+      </section>
+
+      <section id="gameplay">
+        <h2>Gameplay</h2>
+        <ul>
+          <li><strong>Trigger</strong> — an invisible zone that fires
+              script events when a player enters (shown as a green
+              transparent volume while editing).</li>
+          <li><strong>Projectile Launcher</strong> — fires projectiles
+              with direction, speed, gravity, lifetime and radius.</li>
+          <li><strong>Player Spawn</strong> — marks the world spawn point
+              for all players.</li>
+          <li><strong>Tokyube NPC</strong> — an avatar NPC: pick any free
+              marketplace skin, scale it, and choose its behavior.</li>
+          <li><strong>Text</strong> — 3D text in the world, set in the
+              game's arcade font.</li>
+        </ul>
+      </section>
+
+      <section id="building">
+        <h2>Building &amp; Import</h2>
+        <ul>
+          <li><strong>Primitive Shape</strong> — built-in 3D primitives:
+              cube, sphere, cylinder, cone, pyramid, plane, circle, ring,
+              torus.</li>
+          <li><strong>Voxel Building Generator</strong> — procedurally
+              generates a voxel building owned by the component: footprint,
+              floor count, and generated materials, with Generate/Place
+              controls.</li>
+          <li><strong>Blend Import</strong> — import a .blend scene. The
+              engine bakes it with headless Blender (procedural materials,
+              multi-UV and neon emission flattened) into a self-contained
+              model with its materials, textures and lighting — with a
+              live baking progress indicator.</li>
+        </ul>
+      </section>
+
+      <section id="scripting">
+        <h2>Scripting Components</h2>
+        <p>Components are first-class citizens in
+        <a href="code-blocks.html">Code Blocks</a>: send events to a
+        component (with optional delay), move it, teleport it or teleport
+        players to it, control TVs and lasers, react to
+        trigger-component-enter, and store components in typed variables.
+        The component picker blocks list every instance in the world by
+        name.</p>
+      </section>
+
+    </main>
+  </div>
+
+  <footer class="doc-footer">
+    <p>Need to file a bug? <a href="index.html#fileBug">Open the bug report on tokyube.com</a>.</p>
+    <p>© DOOM Industries, LLC — TokyubeVoxelVerse Alpha</p>
+  </footer>
+</body>
+</html>

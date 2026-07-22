@@ -114,6 +114,15 @@
       50% { filter: drop-shadow(0 0 30px rgba(100, 200, 255, 0.6)); }
     }
 
+    /* Mobile ONLY: the two header logos were 90vw + 55vw in a nowrap row
+       (145vw of logo on a phone). Scale them to share the row comfortably.
+       Desktop keeps the original sizes untouched. */
+    @media (max-width: 700px) {
+      .header-logos { gap: 12px; }
+      .site-logo { width: 52vw; max-width: 52vw; }
+      .doom-logo-header { width: 34vw; max-width: 34vw; }
+    }
+
     /* ── Platform row: Discord widget on the LEFT + platform buttons column ──
        Stays side-by-side at all desktop widths (no wrap until mobile). */
     .platform-row {
@@ -945,6 +954,49 @@
     }
     .submenu.tokytar-stylizer-sub a.submenu-item:visited { color: #333; }
 
+    /* Discovery Portal — teal */
+    .menu-item.discovery-portal {
+      background: linear-gradient(90deg, #2dd4bf 0%, #0d9488 100%);
+      color: #fff;
+      font-weight: bold;
+      border-bottom: 2px solid #0b6e62;
+    }
+    .submenu.discovery-portal-sub a.submenu-item {
+      background: #c8f5ee;
+      color: #333;
+      text-decoration: none;
+    }
+    .submenu.discovery-portal-sub a.submenu-item:visited { color: #333; }
+
+    /* Battle Buddies Magic Quest — rainbow */
+    .menu-item.battle-buddies {
+      background: linear-gradient(90deg, #ff3b6b 0%, #ff9f2a 20%, #ffe83d 40%, #3ee06b 60%, #38c6ff 80%, #7a5cff 100%);
+      color: #fff;
+      text-shadow: 0 1px 3px rgba(0,0,0,0.55);
+      font-weight: bold;
+      border-bottom: 2px solid #7a5cff;
+    }
+    .submenu.battle-buddies-sub a.submenu-item {
+      background: #fdeaff;
+      color: #333;
+      text-decoration: none;
+    }
+    .submenu.battle-buddies-sub a.submenu-item:visited { color: #333; }
+
+    /* World Components — slate violet */
+    .menu-item.components {
+      background: linear-gradient(90deg, #a78bfa 0%, #7c3aed 100%);
+      color: #fff;
+      font-weight: bold;
+      border-bottom: 2px solid #5b21b6;
+    }
+    .submenu.components-sub a.submenu-item {
+      background: #e6dcfb;
+      color: #333;
+      text-decoration: none;
+    }
+    .submenu.components-sub a.submenu-item:visited { color: #333; }
+
     .menu-arrow {
       font-size: 20px;
       transition: transform 0.3s ease;
@@ -1442,8 +1494,9 @@
     <div class="submenu creating-worlds-sub" id="creating-worlds-sub">
       <a class="submenu-item" href="creating-worlds.html#overview">Overview</a>
       <a class="submenu-item" href="creating-worlds.html#creating-worlds">Creating Worlds</a>
-      <a class="submenu-item" href="creating-worlds.html#world-types">World Types &amp; Game Modes</a>
-      <a class="submenu-item" href="creating-worlds.html#world-settings">World Seeds &amp; Generation Settings</a>
+      <a class="submenu-item" href="creating-worlds.html#world-types">World Types</a>
+      <a class="submenu-item" href="creating-worlds.html#world-settings">Seeds &amp; Day/Night</a>
+      <a class="submenu-item" href="creating-worlds.html#templates">Example Worlds &amp; Templates</a>
       <a class="submenu-item" href="creating-worlds.html#loading">Loading Previous Worlds</a>
       <a class="submenu-item" href="creating-worlds.html#duplicating">Duplicating Worlds</a>
       <a class="submenu-item" href="creating-worlds.html#deleting">Deleting Worlds</a>
@@ -1463,17 +1516,21 @@
     </button>
     <div class="submenu in-world-tools-sub" id="in-world-tools-sub">
       <a class="submenu-item" href="in-world-tools.html#overview">Overview</a>
-      <a class="submenu-item" href="in-world-tools.html#building">Building, Mining and Crafting</a>
+      <a class="submenu-item" href="in-world-tools.html#movement">Movement &amp; Controls</a>
+      <a class="submenu-item" href="in-world-tools.html#camera-modes">Camera Views</a>
+      <a class="submenu-item" href="in-world-tools.html#build-camera">Build Camera Mode</a>
+      <a class="submenu-item" href="in-world-tools.html#modes">The Mode Cycle (M)</a>
+      <a class="submenu-item" href="in-world-tools.html#building">Mine &amp; Build Modes</a>
       <a class="submenu-item" href="in-world-tools.html#hotbar">Hotbar &amp; Inventory</a>
-      <a class="submenu-item" href="in-world-tools.html#crafting">Crafting Recipes</a>
-      <a class="submenu-item" href="in-world-tools.html#camera-modes">Camera &amp; Movement Modes</a>
       <a class="submenu-item" href="in-world-tools.html#script-mode">Script Mode</a>
       <a class="submenu-item" href="in-world-tools.html#component-mode">Component Mode</a>
-      <a class="submenu-item" href="in-world-tools.html#ab-mode">AB Mode (Advanced Building)</a>
+      <a class="submenu-item" href="in-world-tools.html#ab-mode">Advanced Building Mode</a>
       <a class="submenu-item" href="in-world-tools.html#tokynode-mode">TokyNode Mode</a>
-      <a class="submenu-item" href="in-world-tools.html#fbx-mode">FBX Attach Mode</a>
+      <a class="submenu-item" href="in-world-tools.html#materials">Per-Voxel Materials</a>
+      <a class="submenu-item" href="in-world-tools.html#interact">Interacting (E &amp; F)</a>
+      <a class="submenu-item" href="in-world-tools.html#controller">Controller &amp; Steam Deck</a>
       <a class="submenu-item" href="in-world-tools.html#external-logins">External Logins</a>
-      <a class="submenu-item" href="in-world-tools.html#debug-tools">Debug Tools &amp; Load Character</a>
+      <a class="submenu-item" href="in-world-tools.html#debug-tools">Debug &amp; Load Character</a>
     </div>
 
     <!-- Tokyube Code Blocks -->
@@ -1507,6 +1564,15 @@
       <a class="submenu-item" href="code-blocks.html#cat-fbx">FBX Entities</a>
       <a class="submenu-item" href="code-blocks.html#cat-typed">Typed Variables</a>
       <a class="submenu-item" href="code-blocks.html#cat-tv">TV &amp; Video Control</a>
+      <a class="submenu-item" href="code-blocks.html#cat-ui">UI</a>
+      <a class="submenu-item" href="code-blocks.html#cat-hud">HUD</a>
+      <a class="submenu-item" href="code-blocks.html#cat-environment">Environment</a>
+      <a class="submenu-item" href="code-blocks.html#cat-spawn">Spawn &amp; Despawn</a>
+      <a class="submenu-item" href="code-blocks.html#cat-laser">Laser</a>
+      <a class="submenu-item" href="code-blocks.html#cat-projectile">Projectile</a>
+      <a class="submenu-item" href="code-blocks.html#cat-npc">NPC</a>
+      <a class="submenu-item" href="code-blocks.html#cat-ppv">PPV (Per-Player Vars)</a>
+      <a class="submenu-item" href="code-blocks.html#cat-audio">Audio &amp; Pickers</a>
       <a class="submenu-item" href="code-blocks.html#examples">Example Scripts</a>
       <a class="submenu-item" href="code-blocks.html#collab">Collaborative Code Blocking</a>
     </div>
@@ -1521,28 +1587,30 @@
       <a class="submenu-item" href="tokyphone.html#opening">Opening &amp; Navigation</a>
       <a class="submenu-item" href="tokyphone.html#controls">Universal Controls</a>
       <a class="submenu-item" href="tokyphone.html#app-messages">Messages</a>
-      <a class="submenu-item" href="tokyphone.html#app-shop">Shop</a>
-      <a class="submenu-item" href="tokyphone.html#app-notes">Notes</a>
-      <a class="submenu-item" href="tokyphone.html#app-tv">TV Control</a>
       <a class="submenu-item" href="tokyphone.html#app-friends">Friends</a>
-      <a class="submenu-item" href="tokyphone.html#app-weather">Weather</a>
-      <a class="submenu-item" href="tokyphone.html#app-browser">Browser</a>
-      <a class="submenu-item" href="tokyphone.html#app-music">Music</a>
       <a class="submenu-item" href="tokyphone.html#app-tokyubesocial">TokyubeSocial</a>
-      <a class="submenu-item" href="tokyphone.html#app-camera">Camera</a>
+      <a class="submenu-item" href="tokyphone.html#app-skins">Skins</a>
+      <a class="submenu-item" href="tokyphone.html#app-wigz">Wigz</a>
+      <a class="submenu-item" href="tokyphone.html#app-capes">Capes</a>
+      <a class="submenu-item" href="tokyphone.html#app-wearz">Wearz</a>
       <a class="submenu-item" href="tokyphone.html#app-wallet">Wallet</a>
-      <a class="submenu-item" href="tokyphone.html#app-settings">Settings</a>
+      <a class="submenu-item" href="tokyphone.html#app-tvcontrol">TV Control</a>
+      <a class="submenu-item" href="tokyphone.html#app-music">Music</a>
+      <a class="submenu-item" href="tokyphone.html#app-camera">Camera</a>
+      <a class="submenu-item" href="tokyphone.html#app-browser">Browser</a>
+      <a class="submenu-item" href="tokyphone.html#app-notes">Notes</a>
+      <a class="submenu-item" href="tokyphone.html#app-calculator">Calculator</a>
       <a class="submenu-item" href="tokyphone.html#app-calendar">Calendar</a>
       <a class="submenu-item" href="tokyphone.html#app-alarm">Alarm</a>
-      <a class="submenu-item" href="tokyphone.html#app-calls">Calls</a>
-      <a class="submenu-item" href="tokyphone.html#app-calculator">Calculator</a>
-      <a class="submenu-item" href="tokyphone.html#app-gallery">Gallery</a>
-      <a class="submenu-item" href="tokyphone.html#app-debug">Debug</a>
+      <a class="submenu-item" href="tokyphone.html#app-playerstats">Player Stats</a>
+      <a class="submenu-item" href="tokyphone.html#app-tppv">TPPV (Per-Player Vars)</a>
+      <a class="submenu-item" href="tokyphone.html#app-worldsettings">World Settings</a>
+      <a class="submenu-item" href="tokyphone.html#app-settings">Settings</a>
       <a class="submenu-item" href="tokyphone.html#app-tokynodes">TokyNodes (in-phone)</a>
+      <a class="submenu-item" href="tokyphone.html#app-debug">Debug</a>
       <a class="submenu-item" href="tokyphone.html#app-gopeepgo">GoPeepGo</a>
       <a class="submenu-item" href="tokyphone.html#app-cubeninja">Cube Ninja</a>
       <a class="submenu-item" href="tokyphone.html#app-tokyroad">TokyRoad</a>
-      <a class="submenu-item" href="tokyphone.html#app-fish">Fish!</a>
     </div>
 
     <!-- TokyNodes — full doc page covering nodes + families. -->
@@ -1572,19 +1640,19 @@
     </button>
     <div class="submenu tokytokinz-sub" id="tokytokinz-sub">
       <a class="submenu-item" href="tokytokinz.html">Overview</a>
-      <a class="submenu-item" href="tokytokinz.html#what-is">What Is TokyTokinz</a>
-      <a class="submenu-item" href="tokytokinz.html#earning">Earning TokyTokinz</a>
-      <a class="submenu-item" href="tokytokinz.html#spending">Spending TokyTokinz</a>
+      <a class="submenu-item" href="tokytokinz.html#what-is">What Is TTZ</a>
       <a class="submenu-item" href="tokytokinz.html#wallet">Your Wallet</a>
-      <a class="submenu-item" href="tokytokinz.html#marketplace">Marketplace Overview</a>
-      <a class="submenu-item" href="tokytokinz.html#mkt-scripts">Codeblock Scripts</a>
-      <a class="submenu-item" href="tokytokinz.html#mkt-skins">Custom Tokytar Skins</a>
-      <a class="submenu-item" href="tokytokinz.html#mkt-models">3D Models &amp; Materials</a>
-      <a class="submenu-item" href="tokytokinz.html#mkt-purchase">Purchase TokyTokinz</a>
-      <a class="submenu-item" href="tokytokinz.html#publishing">Publishing &amp; Payouts</a>
-      <a class="submenu-item" href="tokytokinz.html#tipping">Tipping &amp; Transfers</a>
-      <a class="submenu-item" href="tokytokinz.html#trust-safety">Trust &amp; Safety</a>
-      <a class="submenu-item" href="tokytokinz.html#roadmap">Marketplace Roadmap</a>
+      <a class="submenu-item" href="tokytokinz.html#earning">Earning TTZ</a>
+      <a class="submenu-item" href="tokytokinz.html#marketplace">The Marketplaces</a>
+      <a class="submenu-item" href="tokytokinz.html#mkt-skins">TokyTar Skins</a>
+      <a class="submenu-item" href="tokytokinz.html#mkt-wigz">Wigz</a>
+      <a class="submenu-item" href="tokytokinz.html#mkt-capez">Capez</a>
+      <a class="submenu-item" href="tokytokinz.html#mkt-wearz">Wearz</a>
+      <a class="submenu-item" href="tokytokinz.html#mkt-coming">Coming Soon (Glovez, Maskz, Kix)</a>
+      <a class="submenu-item" href="tokytokinz.html#rotations">Daily &amp; Monthly Rotations</a>
+      <a class="submenu-item" href="tokytokinz.html#creators">Creators &amp; UGC</a>
+      <a class="submenu-item" href="tokytokinz.html#ppv">Cross-World Values (PPV)</a>
+      <a class="submenu-item" href="tokytokinz.html#roadmap">Roadmap</a>
     </div>
 
     <!-- TokySocial -->
@@ -1634,7 +1702,57 @@
       <a class="submenu-item" href="tokytar-stylizer.html#materials">Materials, Lighting &amp; Transparency</a>
       <a class="submenu-item" href="tokytar-stylizer.html#downloading-obj">Downloading the OBJ Mesh</a>
       <a class="submenu-item" href="tokytar-stylizer.html#multiplayer">Multiplayer &amp; Networked Animations</a>
+      <a class="submenu-item" href="tokytar-stylizer.html#in-game">Your Character In-Game</a>
       <a class="submenu-item" href="tokytar-stylizer.html#tips">Tips &amp; Common Pitfalls</a>
+    </div>
+
+    <!-- Discovery Portal -->
+    <button class="menu-item discovery-portal" data-menu="discovery-portal">
+      <span>Discovery Portal</span>
+      <span class="menu-arrow">▶</span>
+    </button>
+    <div class="submenu discovery-portal-sub" id="discovery-portal-sub">
+      <a class="submenu-item" href="discovery-portal.html">Overview</a>
+      <a class="submenu-item" href="discovery-portal.html#featured">Featured Worlds</a>
+      <a class="submenu-item" href="discovery-portal.html#official">Official TOKYUBE Worlds</a>
+      <a class="submenu-item" href="discovery-portal.html#world-pages">World Pages</a>
+      <a class="submenu-item" href="discovery-portal.html#sessions">Public Sessions &amp; Playing</a>
+      <a class="submenu-item" href="discovery-portal.html#votes">Likes, Comments &amp; Visits</a>
+      <a class="submenu-item" href="discovery-portal.html#standalone">Standalone Game Worlds</a>
+      <a class="submenu-item" href="discovery-portal.html#rules">Session Rules</a>
+    </div>
+
+    <!-- Battle Buddies Magic Quest -->
+    <button class="menu-item battle-buddies" data-menu="battle-buddies">
+      <span>Battle Buddies Magic Quest</span>
+      <span class="menu-arrow">▶</span>
+    </button>
+    <div class="submenu battle-buddies-sub" id="battle-buddies-sub">
+      <a class="submenu-item" href="battle-buddies.html">Overview</a>
+      <a class="submenu-item" href="battle-buddies.html#launching">Launching &amp; Returning</a>
+      <a class="submenu-item" href="battle-buddies.html#saves">Save Slots</a>
+      <a class="submenu-item" href="battle-buddies.html#characters">Characters &amp; Buddies</a>
+      <a class="submenu-item" href="battle-buddies.html#exploring">Exploring &amp; Dungeons</a>
+      <a class="submenu-item" href="battle-buddies.html#combat">Combat</a>
+      <a class="submenu-item" href="battle-buddies.html#alpha">Alpha Status</a>
+    </div>
+
+    <!-- World Components -->
+    <button class="menu-item components" data-menu="components">
+      <span>World Components</span>
+      <span class="menu-arrow">▶</span>
+    </button>
+    <div class="submenu components-sub" id="components-sub">
+      <a class="submenu-item" href="components.html">Overview</a>
+      <a class="submenu-item" href="components.html#placing">Placing &amp; Editing</a>
+      <a class="submenu-item" href="components.html#networked">Local vs Networked</a>
+      <a class="submenu-item" href="components.html#media">Media &amp; Screens</a>
+      <a class="submenu-item" href="components.html#web">Web &amp; Links</a>
+      <a class="submenu-item" href="components.html#audio">Audio</a>
+      <a class="submenu-item" href="components.html#fx">Light &amp; FX</a>
+      <a class="submenu-item" href="components.html#gameplay">Gameplay</a>
+      <a class="submenu-item" href="components.html#building">Building &amp; Import</a>
+      <a class="submenu-item" href="components.html#scripting">Scripting Components</a>
     </div>
 
     <!-- File a Bug Button -->
@@ -1742,7 +1860,7 @@
 
     <!-- Rainbow Documentation Text -->
     <div class="rainbow-doc-text">
-      <span>H</span><span>o</span><span>v</span><span>e</span><span>r</span><span> </span><span>o</span><span>v</span><span>e</span><span>r</span><span> </span><span>t</span><span>h</span><span>e</span><span> </span><span>r</span><span>i</span><span>g</span><span>h</span><span>t</span><span> </span><span>t</span><span>o</span><span> </span><span>o</span><span>p</span><span>e</span><span>n</span><span> </span><span>d</span><span>o</span><span>c</span><span>u</span><span>m</span><span>e</span><span>n</span><span>t</span><span>a</span><span>t</span><span>i</span><span>o</span><span>n</span> <span>f</span><span>o</span><span>r</span> <span>T</span><span>o</span><span>k</span><span>y</span><span>u</span><span>b</span><span>e</span> <span>V</span><span>o</span><span>x</span><span>e</span><span>l</span><span>V</span><span>e</span><span>r</span><span>s</span><span>e</span> <span>E</span><span>n</span><span>g</span><span>i</span><span>n</span><span>e</span> <span>A</span><span>l</span><span>p</span><span>h</span><span>a</span> <span>0</span><span>.</span><span>0</span><span>.</span><span>1</span><span>0</span><span>3</span>
+      <span>H</span><span>o</span><span>v</span><span>e</span><span>r</span><span> </span><span>o</span><span>v</span><span>e</span><span>r</span><span> </span><span>t</span><span>h</span><span>e</span><span> </span><span>r</span><span>i</span><span>g</span><span>h</span><span>t</span><span> </span><span>t</span><span>o</span><span> </span><span>o</span><span>p</span><span>e</span><span>n</span><span> </span><span>d</span><span>o</span><span>c</span><span>u</span><span>m</span><span>e</span><span>n</span><span>t</span><span>a</span><span>t</span><span>i</span><span>o</span><span>n</span> <span>f</span><span>o</span><span>r</span> <span>T</span><span>o</span><span>k</span><span>y</span><span>u</span><span>b</span><span>e</span> <span>V</span><span>o</span><span>x</span><span>e</span><span>l</span><span>V</span><span>e</span><span>r</span><span>s</span><span>e</span> <span>E</span><span>n</span><span>g</span><span>i</span><span>n</span><span>e</span> <span>A</span><span>l</span><span>p</span><span>h</span><span>a</span> <span>0</span><span>.</span><span>0</span><span>.</span><span>1</span><span>4</span><span>0</span>
     </div>
 
     <!-- Platform row: live Discord widget on the LEFT, platform buttons on the RIGHT -->
@@ -2045,144 +2163,207 @@
     // Static index — each entry points to a stable anchor in the docs page,
     // so the user gets to the right section without us needing a build step.
     const docsIndex = [
-      // ── Creating Worlds (red menu) ─────────────────────────────────────
-      { title: 'Creating Worlds — Overview',           url: 'creating-worlds.html#overview',          keywords: 'creating worlds overview intro start new world' },
-      { title: 'Creating a New World',                 url: 'creating-worlds.html#creating-worlds',   keywords: 'create new world fresh blank chunk seed name button' },
-      { title: 'World Types & Game Modes',             url: 'creating-worlds.html#world-types',       keywords: 'world types relaxed survival creative game mode peaceful difficulty' },
-      { title: 'World Seeds & Generation Settings',    url: 'creating-worlds.html#world-settings',    keywords: 'seed generation biome procedural settings preset terrain trees' },
+      // ── Creating Worlds ────────────────────────────────────────────────
+      { title: 'Creating Worlds — Overview',           url: 'creating-worlds.html#overview',          keywords: 'creating worlds overview intro start new world manager thumbnails' },
+      { title: 'Creating a New World',                 url: 'creating-worlds.html#creating-worlds',   keywords: 'create new world fresh seed name button' },
+      { title: 'World Types',                          url: 'creating-worlds.html#world-types',       keywords: 'world types infinite terrain flat grass small blank world empty three js scene build grid' },
+      { title: 'Seeds & Day/Night',                    url: 'creating-worlds.html#world-settings',    keywords: 'seed generation biome procedural day night cycle counters environment scripting' },
+      { title: 'Example Worlds & Templates',           url: 'creating-worlds.html#templates',         keywords: 'example worlds templates city loft japanese loft warehouse nightclub movie theater casino blender import' },
       { title: 'Loading Previous Worlds',              url: 'creating-worlds.html#loading',           keywords: 'load open existing previous worlds menu list resume' },
-      { title: 'Duplicating Worlds',                   url: 'creating-worlds.html#duplicating',       keywords: 'duplicate copy clone world template' },
-      { title: 'Deleting Worlds',                      url: 'creating-worlds.html#deleting',          keywords: 'delete remove erase world purge' },
-      { title: 'Renaming Worlds',                      url: 'creating-worlds.html#renaming',          keywords: 'rename change world name title' },
-      { title: 'Backing Up Your Worlds',               url: 'creating-worlds.html#backing-up',        keywords: 'backup back up copy save folder export world data' },
-      { title: 'Hosting Multiplayer Worlds',           url: 'creating-worlds.html#hosting',           keywords: 'host multiplayer steam lobby public private invite' },
-      { title: 'Joining Multiplayer Worlds',           url: 'creating-worlds.html#joining',           keywords: 'join multiplayer steam friend invite lobby code' },
-      { title: 'Collaborative Build Mode',             url: 'collaborative-build.html',               keywords: 'collaborative build mode multiplayer real time live editing 2 4 players coop together planned upcoming' },
-      { title: 'World Save Files & Locations',         url: 'creating-worlds.html#world-files',       keywords: 'save files folder location voxelversedata directory disk path' },
-      { title: 'Troubleshooting Worlds',               url: 'creating-worlds.html#troubleshooting',   keywords: 'troubleshooting fix problems worlds wont load corrupted save crash' },
+      { title: 'Duplicating Worlds',                   url: 'creating-worlds.html#duplicating',       keywords: 'duplicate copy clone world' },
+      { title: 'Deleting Worlds',                      url: 'creating-worlds.html#deleting',          keywords: 'delete remove erase world' },
+      { title: 'Renaming Worlds',                      url: 'creating-worlds.html#renaming',          keywords: 'rename change world name' },
+      { title: 'Backing Up Your Worlds',               url: 'creating-worlds.html#backing-up',        keywords: 'backup back up copy save folder export voxelversedata world data' },
+      { title: 'Hosting Multiplayer Worlds',           url: 'creating-worlds.html#hosting',           keywords: 'host multiplayer steam p2p lobby public private collab build serverless' },
+      { title: 'Joining Multiplayer Worlds',           url: 'creating-worlds.html#joining',           keywords: 'join multiplayer steam invite session world download stream avatars' },
+      { title: 'Collaborative Build',                  url: 'collaborative-build.html',               keywords: 'collaborative build multiplayer real time live editing coop together shipped world download voice' },
+      { title: 'World Save Files & Locations',         url: 'creating-worlds.html#world-files',       keywords: 'save files folder location voxelversedata savedataworlds json components scripts ppv thumbnails' },
+      { title: 'Troubleshooting Worlds',               url: 'creating-worlds.html#troubleshooting',   keywords: 'troubleshooting fix problems worlds wont load version guest cant build' },
 
-      // ── In-World Tools (orange menu) ───────────────────────────────────
-      { title: 'In World Tools — Overview',            url: 'in-world-tools.html#overview',           keywords: 'in world tools overview building hotbar tools' },
-      { title: 'Building, Mining and Crafting',        url: 'in-world-tools.html#building',           keywords: 'build place break mine pickaxe blocks voxel craft' },
-      { title: 'Hotbar & Inventory',                   url: 'in-world-tools.html#hotbar',             keywords: 'hotbar inventory slots block items 50 slots scroll' },
-      { title: 'Crafting Recipes',                     url: 'in-world-tools.html#crafting',           keywords: 'craft recipe combine items workbench' },
-      { title: 'Camera & Movement Modes',              url: 'in-world-tools.html#camera-modes',       keywords: 'camera first person third person fly walk movement controls keys' },
-      { title: 'Script Mode',                          url: 'in-world-tools.html#script-mode',        keywords: 'script mode tokyube code blocks blockly programming logic events' },
-      { title: 'Component Mode',                       url: 'in-world-tools.html#component-mode',     keywords: 'component mode reusable scripted prefab spawn template' },
-      { title: 'AB Mode (Advanced Building)',          url: 'in-world-tools.html#ab-mode',            keywords: 'ab mode advanced building large scale region copy paste rectangle prism shape' },
-      { title: 'TokyNode Mode',                        url: 'in-world-tools.html#tokynode-mode',      keywords: 'tokynode mode networked nodes multiplayer attachable family node entity' },
-      { title: 'FBX Attach Mode',                      url: 'in-world-tools.html#fbx-mode',           keywords: 'fbx attach external mesh model import 3d rig' },
-      { title: 'External Logins',                      url: 'in-world-tools.html#external-logins',    keywords: 'external logins steam discord google youtube xbox sign in' },
-      { title: 'Debug Tools & Load Character',         url: 'in-world-tools.html#debug-tools',        keywords: 'debug tools load character avatar skin folder testing dev panel' },
+      // ── In-World Tools ─────────────────────────────────────────────────
+      { title: 'In World Tools — Overview',            url: 'in-world-tools.html#overview',           keywords: 'in world tools overview modes building controls' },
+      { title: 'Movement & Controls',                  url: 'in-world-tools.html#movement',           keywords: 'wasd move jump space sprint z stamina tab inventory e interact f play keys controls' },
+      { title: 'Camera Views',                         url: 'in-world-tools.html#camera-modes',       keywords: 'camera first person third back front 2d side c cycle views' },
+      { title: 'Build Camera Mode',                    url: 'in-world-tools.html#build-camera',       keywords: 'build camera hold c orbit blender unity grab pan zoom multiplier align views gizmos undo redo' },
+      { title: 'The Mode Cycle (M)',                   url: 'in-world-tools.html#modes',              keywords: 'mode cycle m relaxed mine build script component advanced building tokynode' },
+      { title: 'Mine & Build Modes',                   url: 'in-world-tools.html#building',           keywords: 'mine build place break blocks continuous mining colored blocks' },
+      { title: 'Hotbar & Inventory',                   url: 'in-world-tools.html#hotbar',             keywords: 'hotbar inventory slots 50 tab save panel number keys scroll' },
+      { title: 'Script Mode',                          url: 'in-world-tools.html#script-mode',        keywords: 'script mode code blocks blockly attach entities toolbox starter scripts' },
+      { title: 'Component Mode',                       url: 'in-world-tools.html#component-mode',     keywords: 'component mode place edit properties drag arrows palette' },
+      { title: 'Advanced Building Mode',               url: 'in-world-tools.html#ab-mode',            keywords: 'advanced building fbx obj import per mesh collision gizmos hierarchy materials blend' },
+      { title: 'TokyNode Mode',                        url: 'in-world-tools.html#tokynode-mode',      keywords: 'tokynode mode cross world saved objects phone app place' },
+      { title: 'Per-Voxel Materials',                  url: 'in-world-tools.html#materials',          keywords: 'per voxel material overrides colors live editing library 750' },
+      { title: 'Interacting (E & F)',                  url: 'in-world-tools.html#interact',           keywords: 'interact e pickup f card tables machines countdown solitaire blackjack slots uno rummy' },
+      { title: 'Controller & Steam Deck',              url: 'in-world-tools.html#controller',         keywords: 'controller gamepad xbox dualsense ps5 steam deck mapper remap generic gamepad' },
+      { title: 'External Logins',                      url: 'in-world-tools.html#external-logins',    keywords: 'external logins steam discord google youtube epic xbox sign in oauth rich presence' },
+      { title: 'Debug & Load Character',               url: 'in-world-tools.html#debug-tools',        keywords: 'debug tools load character avatar respawn time of day stats' },
 
-      // ── TokyNodes (mint green menu) ────────────────────────────────────
+      // ── TokyNodes ──────────────────────────────────────────────────────
       { title: 'TokyNodes — Overview',                   url: 'tokynodes.html',                          keywords: 'tokynodes overview cross world persistent networked attachable items families introduction' },
-      { title: 'TokyNodes — Cross-World Mission',        url: 'tokynodes.html#mission',                  keywords: 'cross world mission inventory bounds platform restriction abolish ownership account scope creator' },
+      { title: 'TokyNodes — Cross-World Mission',        url: 'tokynodes.html#mission',                  keywords: 'cross world mission inventory bounds platform restriction ownership account scope creator' },
       { title: 'What Is a TokyNode',                     url: 'tokynodes.html#what-is-a-tokynode',       keywords: 'what is tokynode mesh script attach point networked entity unique id' },
       { title: 'TokyNode Families',                      url: 'tokynodes.html#families',                 keywords: 'tokynode families root member attachable role atomic spawn delete coordinated scripting cross world transfer' },
-      { title: 'TokyNodes — Cross-World Persistence',    url: 'tokynodes.html#cross-world',              keywords: 'cross world persistence supabase steam id account scope content addressed asset library import opt in open allowlist closed' },
-      { title: 'TokyNodes — Networking & Sync',          url: 'tokynodes.html#networking',               keywords: 'networking sync tokynode_spawn tokynode_remove tokynode_move 10hz host authoritative' },
-      { title: 'TokyNodes — Authoring',                  url: 'tokynodes.html#authoring',                keywords: 'authoring tokynode voxel structure ab mode promote external mesh fbx obj' },
-      { title: 'TokyNodes — Attaching & Hierarchy',      url: 'tokynodes.html#attaching',                keywords: 'attaching hierarchy parent child vehicle wheels tv remote wearables hat bone' },
-      { title: 'TokyNodes — Scripting',                  url: 'tokynodes.html#scripting',                keywords: 'scripting tokynode typed variables family events cross world identity' },
-      { title: 'TokyNode Library',                       url: 'tokynodes.html#library',                  keywords: 'tokynode library browse sort tag spawn metadata trade gift marketplace' },
-      { title: 'TokyNodes Phone App',                    url: 'tokynodes.html#tokyphone-app',            keywords: 'tokynodes phone app spawn library client first person' },
+      { title: 'TokyNodes — Cross-World Persistence',    url: 'tokynodes.html#cross-world',              keywords: 'cross world persistence steam id account scope content addressed asset library import' },
+      { title: 'TokyNodes — Networking & Sync',          url: 'tokynodes.html#networking',               keywords: 'networking sync tokynode spawn remove move host authoritative' },
+      { title: 'TokyNodes — Authoring',                  url: 'tokynodes.html#authoring',                keywords: 'authoring tokynode voxel structure promote external mesh fbx obj' },
+      { title: 'TokyNodes — Attaching & Hierarchy',      url: 'tokynodes.html#attaching',                keywords: 'attaching hierarchy parent child vehicle wheels tv remote wearables' },
+      { title: 'TokyNodes — Scripting',                  url: 'tokynodes.html#scripting',                keywords: 'scripting tokynode typed variables family events spawn tokynode blocks' },
+      { title: 'TokyNode Library',                       url: 'tokynodes.html#library',                  keywords: 'tokynode library browse sort tag spawn metadata' },
+      { title: 'TokyNodes Phone App',                    url: 'tokynodes.html#tokyphone-app',            keywords: 'tokynodes phone app spawn library' },
 
-      // ── TokyPhone (green menu) ─────────────────────────────────────────
-      { title: 'TokyPhone — Overview',                   url: 'tokyphone.html',                          keywords: 'tokyphone overview phone apps launcher utilities connected mini games' },
-      { title: 'TokyPhone — Opening & Navigation',       url: 'tokyphone.html#opening',                  keywords: 'opening close phone p key navigation home grid app launcher xbox view menu playstation touchpad' },
-      { title: 'TokyPhone — Universal Controls',         url: 'tokyphone.html#controls',                 keywords: 'universal controls phone keyboard xbox playstation gamepad scroll confirm cancel keyboard on screen text fields' },
-      { title: 'TokyPhone — Messages',                   url: 'tokyphone.html#app-messages',             keywords: 'messages app dm thread send tutorial bot' },
-      { title: 'TokyPhone — Shop',                       url: 'tokyphone.html#app-shop',                 keywords: 'shop marketplace tokytokinz buy items' },
-      { title: 'TokyPhone — Notes',                      url: 'tokyphone.html#app-notes',                keywords: 'notes app text scratch save account' },
-      { title: 'TokyPhone — TV Control',                 url: 'tokyphone.html#app-tv',                   keywords: 'tv control video play pause seek volume url playlist youtube mp4' },
-      { title: 'TokyPhone — Friends',                    url: 'tokyphone.html#app-friends',              keywords: 'friends list tokyube steam request profile dm' },
-      { title: 'TokyPhone — Weather',                    url: 'tokyphone.html#app-weather',              keywords: 'weather forecast biome temperature condition celsius fahrenheit' },
-      { title: 'TokyPhone — Browser',                    url: 'tokyphone.html#app-browser',              keywords: 'browser web url back forward reload in phone' },
-      { title: 'TokyPhone — Music',                      url: 'tokyphone.html#app-music',                keywords: 'music playlist play pause shuffle next previous volume soundtrack' },
-      { title: 'TokyPhone — TokyubeSocial',              url: 'tokyphone.html#app-tokyubesocial',        keywords: 'tokyubesocial in phone shortcut feed like comment share dm' },
-      { title: 'TokyPhone — Camera',                     url: 'tokyphone.html#app-camera',               keywords: 'camera app screenshot shutter zoom switch front rear gallery' },
-      { title: 'TokyPhone — Wallet',                     url: 'tokyphone.html#app-wallet',               keywords: 'wallet tokytokinz balance send receive qr transactions' },
-      { title: 'TokyPhone — Settings',                   url: 'tokyphone.html#app-settings',             keywords: 'settings preferences notifications privacy accessibility controller' },
-      { title: 'TokyPhone — Calendar',                   url: 'tokyphone.html#app-calendar',             keywords: 'calendar monthly grid event day view friends' },
-      { title: 'TokyPhone — Alarm',                      url: 'tokyphone.html#app-alarm',                keywords: 'alarm timer reminder world loaded toggle' },
-      { title: 'TokyPhone — Calls',                      url: 'tokyphone.html#app-calls',                keywords: 'calls voice webrtc proximity mute' },
-      { title: 'TokyPhone — Calculator',                 url: 'tokyphone.html#app-calculator',           keywords: 'calculator 4 function square root percent memory' },
-      { title: 'TokyPhone — Gallery',                    url: 'tokyphone.html#app-gallery',              keywords: 'gallery photos screenshots albums share delete' },
-      { title: 'TokyPhone — Debug',                      url: 'tokyphone.html#app-debug',                keywords: 'debug load character respawn time of day network stats wireframe' },
-      { title: 'TokyPhone — TokyNodes (in-phone)',       url: 'tokyphone.html#app-tokynodes',            keywords: 'tokynodes in phone library spawn metadata search families public' },
-      { title: 'TokyPhone — GoPeepGo',                   url: 'tokyphone.html#app-gopeepgo',             keywords: 'gopeepgo flap endless runner mini game leaderboard' },
-      { title: 'TokyPhone — Cube Ninja',                 url: 'tokyphone.html#app-cubeninja',            keywords: 'cube ninja slice voxel cubes combo power up high score' },
-      { title: 'TokyPhone — TokyRoad',                   url: 'tokyphone.html#app-tokyroad',             keywords: 'tokyroad hop road traffic logs daily challenge mini game' },
-      { title: 'TokyPhone — Fish!',                      url: 'tokyphone.html#app-fish',                 keywords: 'fishing biome lure cast reel rare catch loot table' },
+      // ── TokyPhone (25 apps) ────────────────────────────────────────────
+      { title: 'TokyPhone — Overview',                   url: 'tokyphone.html',                          keywords: 'tokyphone overview phone 25 apps launcher utilities marketplace mini games' },
+      { title: 'TokyPhone — Opening & Navigation',       url: 'tokyphone.html#opening',                  keywords: 'opening close phone p key navigation home grid gamepad controller mapper' },
+      { title: 'TokyPhone — Universal Controls',         url: 'tokyphone.html#controls',                 keywords: 'universal controls phone keyboard gamepad scroll confirm cancel text fields capture' },
+      { title: 'TokyPhone — Messages',                   url: 'tokyphone.html#app-messages',             keywords: 'messages app dm thread friends cloud username' },
+      { title: 'TokyPhone — Friends',                    url: 'tokyphone.html#app-friends',              keywords: 'friends list tokyube steam online profile dm' },
+      { title: 'TokyPhone — TokyubeSocial',              url: 'tokyphone.html#app-tokyubesocial',        keywords: 'tokyubesocial in phone feed like comment poll profile internal badge links' },
+      { title: 'TokyPhone — Skins',                      url: 'tokyphone.html#app-skins',                keywords: 'skins app equip mesh swap custom pbr slots albedo metallic normal roughness emissive obj fbx indexeddb marketplace' },
+      { title: 'TokyPhone — Wigz',                       url: 'tokyphone.html#app-wigz',                 keywords: 'wigz wigs hair app equip pbr custom color persistent networked title avatar marketplace daily free' },
+      { title: 'TokyPhone — Capes',                      url: 'tokyphone.html#app-capes',                keywords: 'capes app equip procedural sway persistent networked capez marketplace creators' },
+      { title: 'TokyPhone — Wearz',                      url: 'tokyphone.html#app-wearz',                keywords: 'wearz hats wearables bucket hat fedora shop preview avatar' },
+      { title: 'TokyPhone — Wallet',                     url: 'tokyphone.html#app-wallet',               keywords: 'wallet ttz tokytokinz balance transactions ledger currency' },
+      { title: 'TokyPhone — TV Control',                 url: 'tokyphone.html#app-tvcontrol',            keywords: 'tv control video play pause seek volume url youtube yt-dlp sync components' },
+      { title: 'TokyPhone — Music',                      url: 'tokyphone.html#app-music',                keywords: 'music playlist upload 25 tracks indexeddb play pause shuffle repeat stops on title' },
+      { title: 'TokyPhone — Camera',                     url: 'tokyphone.html#app-camera',               keywords: 'camera app photos video clips media library export delete' },
+      { title: 'TokyPhone — Browser',                    url: 'tokyphone.html#app-browser',              keywords: 'browser web url back forward in phone' },
+      { title: 'TokyPhone — Notes',                      url: 'tokyphone.html#app-notes',                keywords: 'notes app text scratch save' },
+      { title: 'TokyPhone — Calculator',                 url: 'tokyphone.html#app-calculator',           keywords: 'calculator math' },
+      { title: 'TokyPhone — Calendar',                   url: 'tokyphone.html#app-calendar',             keywords: 'calendar monthly grid dates' },
+      { title: 'TokyPhone — Alarm',                      url: 'tokyphone.html#app-alarm',                keywords: 'alarm timer reminder world loaded' },
+      { title: 'TokyPhone — Player Stats',               url: 'tokyphone.html#app-playerstats',          keywords: 'player stats playtime day night counts hud' },
+      { title: 'TokyPhone — TPPV',                       url: 'tokyphone.html#app-tppv',                 keywords: 'tppv per player persistent variables ppv cross world chips card stats inspect' },
+      { title: 'TokyPhone — World Settings',             url: 'tokyphone.html#app-worldsettings',        keywords: 'world settings per world options entity cap host' },
+      { title: 'TokyPhone — Settings',                   url: 'tokyphone.html#app-settings',             keywords: 'settings preferences graphics preset audio people volume microphone mic indicators controller' },
+      { title: 'TokyPhone — TokyNodes (in-phone)',       url: 'tokyphone.html#app-tokynodes',            keywords: 'tokynodes in phone library spawn cross world mode' },
+      { title: 'TokyPhone — Debug',                      url: 'tokyphone.html#app-debug',                keywords: 'debug load character respawn time of day stats stylizer folder' },
+      { title: 'TokyPhone — GoPeepGo',                   url: 'tokyphone.html#app-gopeepgo',             keywords: 'gopeepgo flap endless mini game high score' },
+      { title: 'TokyPhone — Cube Ninja',                 url: 'tokyphone.html#app-cubeninja',            keywords: 'cube ninja slice voxel cubes combo mini game' },
+      { title: 'TokyPhone — TokyRoad',                   url: 'tokyphone.html#app-tokyroad',             keywords: 'tokyroad hop road traffic mini game' },
 
-      // ── TokySocial (purple menu) ───────────────────────────────────────
-      { title: 'TokySocial — Overview',                  url: 'tokysocial.html',                         keywords: 'tokysocial in engine in phone social media post share build creators' },
-      { title: 'TokySocial — Why',                       url: 'tokysocial.html#vision',                  keywords: 'vision why tokysocial in engine creator audience world script tokynode demo' },
-      { title: 'TokySocial — In-Game Feed',              url: 'tokysocial.html#feed',                    keywords: 'in game feed image video world build script post like comment share save' },
-      { title: 'TokySocial — Posting From In-World',     url: 'tokysocial.html#posting',                 keywords: 'posting compose camera gallery direct draft auto save' },
-      { title: 'TokySocial — Profiles & Verified',       url: 'tokysocial.html#profiles',                keywords: 'profiles verified pinned post grid follower following build with me' },
-      { title: 'TokySocial — Friends & DMs',             url: 'tokysocial.html#friends',                 keywords: 'friends dms tokyube graph follow auto messages thread' },
-      { title: 'TokySocial — Discovery & Tags',          url: 'tokysocial.html#discovery',               keywords: 'discovery tags trending hashtags algorithm explore' },
-      { title: 'TokySocial — Stories & Reels (Planned)', url: 'tokysocial.html#stories',                 keywords: 'stories reels planned ephemeral 24 hour short video instagram polls highlights vertical' },
-      { title: 'TokySocial — Creator Tools (Planned)',   url: 'tokysocial.html#creator-tools',           keywords: 'creator tools dashboard insights scheduled posts cross posting collabs drafts vault planned' },
-      { title: 'TokySocial — Monetization (Planned)',    url: 'tokysocial.html#monetization',            keywords: 'monetization tipping paid follows marketplace links sponsored posts tokytokinz wallet planned' },
-      { title: 'TokySocial — Moderation & Safety',       url: 'tokysocial.html#moderation',              keywords: 'moderation safety report block mute word filters underage protection verified id' },
-      { title: 'TokySocial — Roadmap',                   url: 'tokysocial.html#roadmap',                 keywords: 'roadmap alpha beta launch features planned future' },
+      // ── TokySocial ─────────────────────────────────────────────────────
+      { title: 'TokySocial — Overview',                  url: 'tokysocial.html',                         keywords: 'tokysocial in engine in phone social media post share build creators presence' },
+      { title: 'TokySocial — Why',                       url: 'tokysocial.html#vision',                  keywords: 'vision why tokysocial in engine creator audience world script demo' },
+      { title: 'TokySocial — In-Game Feed',              url: 'tokysocial.html#feed',                    keywords: 'in game feed image video world build post like comment reaction poll share' },
+      { title: 'TokySocial — Posting From In-World',     url: 'tokysocial.html#posting',                 keywords: 'posting compose camera gallery draft' },
+      { title: 'TokySocial — Profiles & Verified',       url: 'tokysocial.html#profiles',                keywords: 'profiles verified pinned post grid follower internal badge team three clickable links creator labels username' },
+      { title: 'TokySocial — Friends & DMs',             url: 'tokysocial.html#friends',                 keywords: 'friends dms tokyube graph follow messages thread' },
+      { title: 'TokySocial — Discovery & Tags',          url: 'tokysocial.html#discovery',               keywords: 'discovery tags trending hashtags explore' },
+      { title: 'TokySocial — Stories & Reels (Planned)', url: 'tokysocial.html#stories',                 keywords: 'stories reels planned ephemeral short video polls highlights' },
+      { title: 'TokySocial — Creator Tools (Planned)',   url: 'tokysocial.html#creator-tools',           keywords: 'creator tools dashboard insights scheduled posts planned' },
+      { title: 'TokySocial — Monetization (Planned)',    url: 'tokysocial.html#monetization',            keywords: 'monetization tipping paid follows sponsored ttz wallet planned' },
+      { title: 'TokySocial — Moderation & Safety',       url: 'tokysocial.html#moderation',              keywords: 'moderation safety report block mute filters protection' },
+      { title: 'TokySocial — Roadmap',                   url: 'tokysocial.html#roadmap',                 keywords: 'roadmap alpha beta launch planned future' },
 
-      // ── Tokyube Code Blocks (yellow menu) ──────────────────────────────
-      { title: 'Tokyube Code Blocks — Overview',        url: 'code-blocks.html',                       keywords: 'tokyube code blocks visual scripting blockly programming javascript persistent variables logic introduction overview' },
-      { title: 'Code Blocks — Getting Started',         url: 'code-blocks.html#getting-started',       keywords: 'getting started script mode tab attach voxel save first script' },
-      { title: 'Code Blocks — Workspace',               url: 'code-blocks.html#workspace',             keywords: 'workspace blockly editor toolbox saved scripts library attach console search' },
-      { title: 'Code Blocks — Logic',                   url: 'code-blocks.html#cat-logic',             keywords: 'logic if else if and or not boolean true false null ternary comparison' },
-      { title: 'Code Blocks — Loops',                   url: 'code-blocks.html#cat-loops',             keywords: 'loops repeat while until for each break continue iteration' },
-      { title: 'Code Blocks — Math',                    url: 'code-blocks.html#cat-math',              keywords: 'math arithmetic add subtract multiply divide modulo trig sin cos tan random round floor ceiling pi e constants' },
-      { title: 'Code Blocks — Text',                    url: 'code-blocks.html#cat-text',              keywords: 'text string concat length substring upper lower trim find replace' },
-      { title: 'Code Blocks — Variables',               url: 'code-blocks.html#cat-variables',         keywords: 'variables create set change get blockly local' },
-      { title: 'Code Blocks — Functions',               url: 'code-blocks.html#cat-functions',         keywords: 'functions procedures parameters return call recursion' },
-      { title: 'Code Blocks — Voxel Actions',           url: 'code-blocks.html#cat-voxel-actions',     keywords: 'voxel actions place remove move exists get type at entity blocks' },
-      { title: 'Code Blocks — Shapes',                  url: 'code-blocks.html#cat-shapes',            keywords: 'shapes cube sphere line wall bulk fill voxel primitives' },
-      { title: 'Code Blocks — Animation',               url: 'code-blocks.html#cat-animation',         keywords: 'animation delay repeat cancel move tween path bounce make position waypoints' },
-      { title: 'Code Blocks — Entity',                  url: 'code-blocks.html#cat-entity',            keywords: 'entity this get by name position type all foreach distance offset at position' },
-      { title: 'Code Blocks — Persistence',             url: 'code-blocks.html#cat-persistence',       keywords: 'persistence data save load named persistent variable score counter long running' },
-      { title: 'Code Blocks — Player',                  url: 'code-blocks.html#cat-player',            keywords: 'player position attach entity attach fbx body bone' },
-      { title: 'Code Blocks — Display',                 url: 'code-blocks.html#cat-display',           keywords: 'display set text screen sign show' },
-      { title: 'Code Blocks — Teleport',                url: 'code-blocks.html#cat-teleport',          keywords: 'teleport player entity component biome warp jump' },
-      { title: 'Code Blocks — World',                   url: 'code-blocks.html#cat-world',             keywords: 'world start lifecycle hook entry point' },
-      { title: 'Code Blocks — Triggers',                url: 'code-blocks.html#cat-triggers',          keywords: 'triggers on enter is inside launch player voxel entity component zone volume' },
-      { title: 'Code Blocks — Attachment',              url: 'code-blocks.html#cat-attachment',        keywords: 'attachment attach detach player entity fbx body bone parent' },
-      { title: 'Code Blocks — Events',                  url: 'code-blocks.html#cat-events',            keywords: 'events send broadcast on receive entity component delay event data payload' },
-      { title: 'Code Blocks — Console',                 url: 'code-blocks.html#cat-console',           keywords: 'console log debug print output panel' },
-      { title: 'Code Blocks — FBX Entities',            url: 'code-blocks.html#cat-fbx',               keywords: 'fbx entity get position rotate scale visible collidable open door close door event property' },
-      { title: 'Code Blocks — Typed Variables',         url: 'code-blocks.html#cat-typed',             keywords: 'typed variables persistent named entity number string position fbx component voxel type checked' },
-      { title: 'Code Blocks — TV & Video Control',      url: 'code-blocks.html#cat-tv',                keywords: 'tv video play pause stop resume seek volume url playlist on completed' },
-      { title: 'Code Blocks — Example Scripts',         url: 'code-blocks.html#examples',              keywords: 'example scripts hello world jump pad score counter patrol path enemy door fbx spawning waves tv playlist multiplayer fireworks samples gallery' },
-      { title: 'Collaborative Code Blocking',           url: 'code-blocks.html#collab',                keywords: 'collaborative code blocking multiplayer real time pair programming friends together cursors operational transform shared workspace planned' },
-      { title: 'Code Blocks — Tips & Best Practices',   url: 'code-blocks.html#tips',                  keywords: 'tips best practices events polling typed variables console save scripts library multiplayer test' },
+      // ── Tokyube Code Blocks (217 blocks) ───────────────────────────────
+      { title: 'Tokyube Code Blocks — Overview',        url: 'code-blocks.html',                       keywords: 'tokyube code blocks visual scripting blockly programming javascript 217 blocks persistent variables logic overview' },
+      { title: 'Code Blocks — Getting Started',         url: 'code-blocks.html#getting-started',       keywords: 'getting started script mode attach save first script' },
+      { title: 'Code Blocks — Workspace',               url: 'code-blocks.html#workspace',             keywords: 'workspace blockly editor toolbox saved scripts library console fbx component logic math variables categories' },
+      { title: 'Code Blocks — Logic',                   url: 'code-blocks.html#cat-logic',             keywords: 'logic if else and or not boolean comparison' },
+      { title: 'Code Blocks — Loops',                   url: 'code-blocks.html#cat-loops',             keywords: 'loops repeat while until for each break' },
+      { title: 'Code Blocks — Math',                    url: 'code-blocks.html#cat-math',              keywords: 'math arithmetic trig random round constants' },
+      { title: 'Code Blocks — Text',                    url: 'code-blocks.html#cat-text',              keywords: 'text string concat length substring' },
+      { title: 'Code Blocks — Variables',               url: 'code-blocks.html#cat-variables',         keywords: 'variables create set change get' },
+      { title: 'Code Blocks — Functions',               url: 'code-blocks.html#cat-functions',         keywords: 'functions procedures parameters return' },
+      { title: 'Code Blocks — Voxel Actions',           url: 'code-blocks.html#cat-voxel-actions',     keywords: 'voxel place remove move exists get type colored random color blocks' },
+      { title: 'Code Blocks — Shapes',                  url: 'code-blocks.html#cat-shapes',            keywords: 'shapes cube sphere line wall fill' },
+      { title: 'Code Blocks — Animation',               url: 'code-blocks.html#cat-animation',         keywords: 'animation delay repeat cancel move tween path bounce make position' },
+      { title: 'Code Blocks — Entity',                  url: 'code-blocks.html#cat-entity',            keywords: 'entity this get by name position type all foreach distance offset' },
+      { title: 'Code Blocks — Persistence',             url: 'code-blocks.html#cat-persistence',       keywords: 'persistence data save load named persistent variable score' },
+      { title: 'Code Blocks — Player',                  url: 'code-blocks.html#cat-player',            keywords: 'player position attach detach fbx body physics facing name count jump walk turn' },
+      { title: 'Code Blocks — Display',                 url: 'code-blocks.html#cat-display',           keywords: 'display set text screen sign' },
+      { title: 'Code Blocks — Teleport',                url: 'code-blocks.html#cat-teleport',          keywords: 'teleport player entity component biome' },
+      { title: 'Code Blocks — World',                   url: 'code-blocks.html#cat-world',             keywords: 'world start lifecycle audio' },
+      { title: 'Code Blocks — Triggers',                url: 'code-blocks.html#cat-triggers',          keywords: 'triggers on enter is inside launch player voxel entity component zone' },
+      { title: 'Code Blocks — Attachment',              url: 'code-blocks.html#cat-attachment',        keywords: 'attachment attach detach player entity fbx bone' },
+      { title: 'Code Blocks — Events',                  url: 'code-blocks.html#cat-events',            keywords: 'events send broadcast network receive entity component player delay data param' },
+      { title: 'Code Blocks — Console',                 url: 'code-blocks.html#cat-console',           keywords: 'console log debug print' },
+      { title: 'Code Blocks — FBX Entities',            url: 'code-blocks.html#cat-fbx',               keywords: 'fbx entity position rotate scale visible collidable grabbable door branch property events' },
+      { title: 'Code Blocks — Typed Variables',         url: 'code-blocks.html#cat-typed',             keywords: 'typed variables persistent entity number string position rotation fbx component voxel image boolean' },
+      { title: 'Code Blocks — TV & Video Control',      url: 'code-blocks.html#cat-tv',                keywords: 'tv video play pause stop resume seek volume url completed time' },
+      { title: 'Code Blocks — UI',                      url: 'code-blocks.html#cat-ui',                keywords: 'ui open close rect text image outline gap move remove draggable on click hover key drag drop event 22 blocks interface' },
+      { title: 'Code Blocks — HUD',                     url: 'code-blocks.html#cat-hud',               keywords: 'hud set text show message clear display linebreak' },
+      { title: 'Code Blocks — Environment',             url: 'code-blocks.html#cat-environment',       keywords: 'environment sky color water gradient grass weather rain lightning night blend reflection camera view lock image' },
+      { title: 'Code Blocks — Spawn & Despawn',         url: 'code-blocks.html#cat-spawn',             keywords: 'spawn hallway image origin tokynode family despawn tag structures backrooms maze' },
+      { title: 'Code Blocks — Laser',                   url: 'code-blocks.html#cat-laser',             keywords: 'laser projector visible length speed colors anim presets' },
+      { title: 'Code Blocks — Projectile',              url: 'code-blocks.html#cat-projectile',        keywords: 'projectile fire named launch auto launcher' },
+      { title: 'Code Blocks — NPC',                     url: 'code-blocks.html#cat-npc',               keywords: 'npc set type param head turn tokyube npc' },
+      { title: 'Code Blocks — PPV',                     url: 'code-blocks.html#cat-ppv',               keywords: 'ppv per player persistent variables get set change cross world chips tppv' },
+      { title: 'Code Blocks — Audio & Pickers',         url: 'code-blocks.html#cat-audio',             keywords: 'audio control volume world pick component fbx script entity distance key press players in zone component move' },
+      { title: 'Code Blocks — Example Scripts',         url: 'code-blocks.html#examples',              keywords: 'example scripts 17 starter library bounce hello world tower trigger launch pad events teleport samples' },
+      { title: 'Collaborative Code Blocking',           url: 'code-blocks.html#collab',                keywords: 'collaborative code blocking multiplayer pair programming shared workspace planned' },
+      { title: 'Code Blocks — Tips & Best Practices',   url: 'code-blocks.html#tips',                  keywords: 'tips best practices events typed variables console library' },
 
-      // ── TokyTar Stylizer (pink menu) ───────────────────────────────────
-      { title: 'TokyTar Stylizer — Overview',          url: 'tokytar-stylizer.html',                  keywords: 'tokytar stylizer character builder design avatars overview intro getting started' },
-      { title: 'Camera Controls, Rotation & Zoom',      url: 'tokytar-stylizer.html#camera-controls',  keywords: 'rotate rotation zoom drag move character view camera angle slider snap reset top front back left right' },
-      { title: 'Part Selection & Visibility Toggles',   url: 'tokytar-stylizer.html#part-selection',   keywords: 'head body left arm right arm select part visibility hide show toggle invisibility invisible' },
-      { title: 'Six-Face Quick Editing',                url: 'tokytar-stylizer.html#face-buttons',     keywords: 'six faces front back left right top bottom 6 buttons quick design face cube edit per face' },
-      { title: 'Uploading & Downloading Textures',      url: 'tokytar-stylizer.html#texture-upload',   keywords: 'upload texture png import download export texture' },
-      { title: 'UV Guides (Blender / Maya Workflow)',    url: 'tokytar-stylizer.html#uv-guides',        keywords: 'uv guide head body left arm right arm blender maya photoshop aseprite professional workflow texture template label face cube layout download obj roundtrip pro' },
-      { title: 'Pixel Painting',                        url: 'tokytar-stylizer.html#pixel-painting',   keywords: 'pixel paint brush pixel art draw direct paintbrush onion grid live edit' },
-      { title: 'Paint Tools (Brush, Eraser, Fill)',     url: 'tokytar-stylizer.html#paint-tools',      keywords: 'brush eraser fill bucket flood paint tool tools toggle' },
-      { title: 'Brush Sizes (S, M, L, XL, XXL)',        url: 'tokytar-stylizer.html#brush-sizes',      keywords: 'brush size s m l xl xxl small medium large extra large pixel size' },
-      { title: 'Paint Color & Grid Toggle',             url: 'tokytar-stylizer.html#paint-color',      keywords: 'paint color picker palette grid overlay tile alignment' },
-      { title: 'Drag Pixel Art & Drag Texture',         url: 'tokytar-stylizer.html#drag-modes',       keywords: 'drag pixel art drag texture move reposition shift offset' },
-      { title: 'Undo & Redo',                           url: 'tokytar-stylizer.html#undo-redo',        keywords: 'undo redo history step back forward edit' },
-      { title: 'Animations & Frames',                   url: 'tokytar-stylizer.html#animations',       keywords: 'animation frames frame add remove duplicate clear 32 frame max animated avatar' },
-      { title: 'Onion Skinning',                        url: 'tokytar-stylizer.html#onion-skin',       keywords: 'onion skin opacity overlay previous next frame slider transparent ghost' },
-      { title: 'Animation Preview & FPS',               url: 'tokytar-stylizer.html#animation-preview',keywords: 'play animation preview fps speed playback frames per second timing' },
-      { title: 'Exporting Characters',                  url: 'tokytar-stylizer.html#export',           keywords: 'export zip download save name character animated toggle save to disk file' },
-      { title: 'Save to Account',                       url: 'tokytar-stylizer.html#save-account',     keywords: 'save account supabase steam id auto save persist cloud login signed in' },
-      { title: 'Loading a Character Folder',            url: 'tokytar-stylizer.html#load-folder',      keywords: 'load folder character textures import open existing project' },
-      { title: 'Materials, Lighting & Transparency',    url: 'tokytar-stylizer.html#materials',        keywords: 'metallic smoothness transparency lighting on off shaders shiny matte alpha' },
-      { title: 'Downloading the OBJ Mesh',              url: 'tokytar-stylizer.html#downloading-obj',  keywords: 'download obj mesh fbx 3d export model geometry blender external' },
-      { title: 'Multiplayer & Networked Animations',    url: 'tokytar-stylizer.html#multiplayer',      keywords: 'multiplayer multiplayer networked animations remote players see other players sync animated avatars' },
-      { title: 'Tips & Common Pitfalls',                url: 'tokytar-stylizer.html#tips',             keywords: 'tips troubleshooting fps lag missing texture default skin' },
+      // ── TokyTokinz & Marketplaces ──────────────────────────────────────
+      { title: 'TokyTokinz — Overview',                 url: 'tokytokinz.html',                        keywords: 'tokytokinz ttz currency marketplace skins accessories overview economy' },
+      { title: 'What Is TTZ',                           url: 'tokytokinz.html#what-is',                keywords: 'ttz tokytokinz currency cloud ledger account steam id cosmetic' },
+      { title: 'Your Wallet',                           url: 'tokytokinz.html#wallet',                 keywords: 'wallet balance transactions phone app' },
+      { title: 'Earning TTZ',                           url: 'tokytokinz.html#earning',                keywords: 'earning ttz grants events promos alpha' },
+      { title: 'The Marketplaces',                      url: 'tokytokinz.html#marketplace',            keywords: 'marketplace categories shop free paid daily monthly animated free daily ugc made previews avatar' },
+      { title: 'TokyTar Skins Marketplace',             url: 'tokytokinz.html#mkt-skins',              keywords: 'tokytar skins one mesh pbr four mesh per part kimono dlc custom slots mesh swap' },
+      { title: 'Wigz Marketplace',                      url: 'tokytokinz.html#mkt-wigz',               keywords: 'wigz wigs hair 500 ttz free anime emo box braids mohawk spiked daily free custom color pbr' },
+      { title: 'Capez Marketplace',                     url: 'tokytokinz.html#mkt-capez',              keywords: 'capez capes procedural animated textured creators networked' },
+      { title: 'Wearz Marketplace',                     url: 'tokytokinz.html#mkt-wearz',              keywords: 'wearz hats bucket 800 ttz fedora rainbow shop wearables' },
+      { title: 'Coming Soon — Glovez, Maskz, Kix',      url: 'tokytokinz.html#mkt-coming',             keywords: 'glovez gloves maskz masks kix shoes coming soon accessories' },
+      { title: 'Daily & Monthly Rotations',             url: 'tokytokinz.html#rotations',              keywords: 'daily picks monthly featured seeded rotation deterministic' },
+      { title: 'Creators & UGC',                        url: 'tokytokinz.html#creators',               keywords: 'creators ugc made community skins creator labels internal badge profile links' },
+      { title: 'Cross-World Values (PPV)',              url: 'tokytokinz.html#ppv',                    keywords: 'ppv per player persistent variables casino chips card stats cross world tppv' },
+      { title: 'Marketplace Roadmap',                   url: 'tokytokinz.html#roadmap',                keywords: 'roadmap purchase publishing payouts tipping transfers planned' },
+
+      // ── Discovery Portal ───────────────────────────────────────────────
+      { title: 'Discovery Portal — Overview',           url: 'discovery-portal.html',                  keywords: 'discovery portal discover new worlds published featured official top 25 popular community voted' },
+      { title: 'Featured Worlds',                       url: 'discovery-portal.html#featured',         keywords: 'featured worlds flamingo lounge theater casino testtube card crazy battle buddies rainbow' },
+      { title: 'Official TOKYUBE Worlds',               url: 'discovery-portal.html#official',         keywords: 'official tokyube worlds old metro dasy444 subway golden' },
+      { title: 'Discovery World Pages',                 url: 'discovery-portal.html#world-pages',      keywords: 'world pages themes likes dislikes comments visits unique visitors sessions creator' },
+      { title: 'Public Sessions & Playing',             url: 'discovery-portal.html#sessions',         keywords: 'public sessions private play join max players theater 12 roaming 8 steam p2p' },
+      { title: 'Likes, Comments & Visits',              url: 'discovery-portal.html#votes',            keywords: 'likes dislikes votes comments visits shared cloud one per player' },
+      { title: 'Standalone Game Worlds',                url: 'discovery-portal.html#standalone',       keywords: 'standalone game worlds battle buddies play launches directly back to tokyube' },
+      { title: 'Discovery Session Rules',               url: 'discovery-portal.html#rules',            keywords: 'relaxed locked no clone build camera disabled ppv persists rules' },
+
+      // ── Battle Buddies Magic Quest ─────────────────────────────────────
+      { title: 'Battle Buddies Magic Quest',            url: 'battle-buddies.html',                    keywords: 'battle buddies magic quest standalone game inside tokyube rainbow creature collecting adventure alpha' },
+      { title: 'Battle Buddies — Launching',            url: 'battle-buddies.html#launching',          keywords: 'launch play discovery rainbow card back to tokyube button return' },
+      { title: 'Battle Buddies — Save Slots',           url: 'battle-buddies.html#saves',              keywords: 'five save slots separate adventures' },
+      { title: 'Battle Buddies — Characters & Buddies', url: 'battle-buddies.html#characters',         keywords: 'starting characters battle buddies elemental buddy balls shield team' },
+      { title: 'Battle Buddies — Exploring & Dungeons', url: 'battle-buddies.html#exploring',          keywords: 'exploring dungeons dangerous clearing event banners exits kills exit purse' },
+      { title: 'Battle Buddies — Combat',               url: 'battle-buddies.html#combat',             keywords: 'combat battle log monsters damage loot experience' },
+
+      // ── World Components (27) ──────────────────────────────────────────
+      { title: 'World Components — Overview',           url: 'components.html',                        keywords: 'world components 27 interactive objects tv browser mirror npc particle trigger overview' },
+      { title: 'Placing & Editing Components',          url: 'components.html#placing',                keywords: 'placing editing component mode palette drag arrows properties build camera' },
+      { title: 'Local vs Networked Components',         url: 'components.html#networked',              keywords: 'local networked sync steam p2p multiplayer state' },
+      { title: 'Media & Screen Components',             url: 'components.html#media',                  keywords: 'tv screen video playlist youtube ui camera gif poster yt-dlp' },
+      { title: 'Web & Link Components',                 url: 'components.html#web',                    keywords: 'web browser local networked spatial fantalink deeplink chromium panel' },
+      { title: 'Audio Components',                      url: 'components.html#audio',                  keywords: 'audio uploader networked spatial falloff clip' },
+      { title: 'Light & FX Components',                 url: 'components.html#fx',                     keywords: 'dynamic light spotlight particle fx trail fx mirror presets sparks fire smoke magic snow bubbles' },
+      { title: 'Gameplay Components',                   url: 'components.html#gameplay',               keywords: 'trigger projectile launcher player spawn tokyube npc text arcade font' },
+      { title: 'Building & Import Components',          url: 'components.html#building',               keywords: 'primitive shape voxel building generator blend import blender gltf baked' },
+      { title: 'Scripting Components',                  url: 'components.html#scripting',              keywords: 'scripting components events move teleport lasers typed variables pickers' },
+
+      // ── TokyTar Stylizer ───────────────────────────────────────────────
+      { title: 'TokyTar Stylizer — Overview',          url: 'tokytar-stylizer.html',                  keywords: 'tokytar stylizer character builder design avatars overview' },
+      { title: 'Camera Controls, Rotation & Zoom',      url: 'tokytar-stylizer.html#camera-controls',  keywords: 'rotate zoom drag camera angle snap reset views' },
+      { title: 'Part Selection & Visibility Toggles',   url: 'tokytar-stylizer.html#part-selection',   keywords: 'head body arms select part visibility hide show' },
+      { title: 'Six-Face Quick Editing',                url: 'tokytar-stylizer.html#face-buttons',     keywords: 'six faces front back left right top bottom quick edit' },
+      { title: 'Uploading & Downloading Textures',      url: 'tokytar-stylizer.html#texture-upload',   keywords: 'upload texture png import download export' },
+      { title: 'UV Guides (Blender / Maya Workflow)',   url: 'tokytar-stylizer.html#uv-guides',        keywords: 'uv guide blender maya photoshop workflow template obj roundtrip' },
+      { title: 'Pixel Painting',                        url: 'tokytar-stylizer.html#pixel-painting',   keywords: 'pixel paint brush pixel art draw live edit' },
+      { title: 'Paint Tools (Brush, Eraser, Fill)',     url: 'tokytar-stylizer.html#paint-tools',      keywords: 'brush eraser fill bucket tools' },
+      { title: 'Brush Sizes (S, M, L, XL, XXL)',        url: 'tokytar-stylizer.html#brush-sizes',      keywords: 'brush size small medium large' },
+      { title: 'Paint Color & Grid Toggle',             url: 'tokytar-stylizer.html#paint-color',      keywords: 'paint color picker palette grid overlay' },
+      { title: 'Drag Pixel Art & Drag Texture',         url: 'tokytar-stylizer.html#drag-modes',       keywords: 'drag pixel art texture move reposition' },
+      { title: 'Undo & Redo',                           url: 'tokytar-stylizer.html#undo-redo',        keywords: 'undo redo history' },
+      { title: 'Animations & Frames',                   url: 'tokytar-stylizer.html#animations',       keywords: 'animation frames 32 max animated avatar' },
+      { title: 'Onion Skinning',                        url: 'tokytar-stylizer.html#onion-skin',       keywords: 'onion skin opacity overlay ghost' },
+      { title: 'Animation Preview & FPS',               url: 'tokytar-stylizer.html#animation-preview',keywords: 'play animation preview fps speed' },
+      { title: 'Exporting Characters',                  url: 'tokytar-stylizer.html#export',           keywords: 'export zip download character animated' },
+      { title: 'Save to Account',                       url: 'tokytar-stylizer.html#save-account',     keywords: 'save account steam id cloud persist' },
+      { title: 'Loading a Character Folder',            url: 'tokytar-stylizer.html#load-folder',      keywords: 'load folder character textures import' },
+      { title: 'Materials, Lighting & Transparency',    url: 'tokytar-stylizer.html#materials',        keywords: 'metallic smoothness transparency lighting shiny matte' },
+      { title: 'Downloading the OBJ Mesh',              url: 'tokytar-stylizer.html#downloading-obj',  keywords: 'download obj mesh 3d export blender' },
+      { title: 'Multiplayer & Networked Animations',    url: 'tokytar-stylizer.html#multiplayer',      keywords: 'multiplayer networked animations sync avatars' },
+      { title: 'Your Character In-Game',                url: 'tokytar-stylizer.html#in-game',          keywords: 'in game load character skins app custom pbr slots marketplace ugc wigz capes wearz layering' },
+      { title: 'Stylizer Tips & Common Pitfalls',       url: 'tokytar-stylizer.html#tips',             keywords: 'tips troubleshooting lag missing texture' },
     ];
 
     const searchInput = document.getElementById('docsSearchInput');

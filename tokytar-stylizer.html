@@ -221,6 +221,7 @@
         <li><a href="#materials">Materials &amp; Lighting</a></li>
         <li><a href="#downloading-obj">Download OBJ</a></li>
         <li><a href="#multiplayer">Multiplayer &amp; Networking</a></li>
+        <li><a href="#in-game">Your Character In-Game</a></li>
         <li><a href="#tips">Tips &amp; Pitfalls</a></li>
       </ul>
     </aside>
@@ -599,6 +600,37 @@
         <div class="callout">If you change skins mid-session, the change
         re-broadcasts immediately rather than waiting for the periodic
         keepalive.</div>
+      </section>
+
+      <section id="in-game">
+        <h2>Your Character In-Game</h2>
+        <p>The Stylizer is one half of the avatar pipeline — here's how
+        your work reaches the VoxelVerse:</p>
+        <ul>
+          <li><strong>Load Character</strong> — the Debug app on the
+              <a href="tokyphone.html#app-debug">TokyPhone</a> loads a
+              Stylizer export folder (static or animated) straight onto
+              your in-world avatar.</li>
+          <li><strong>The Skins app</strong> — the
+              <a href="tokyphone.html#app-skins">Skins app</a> equips
+              marketplace skins by mesh-swap, and its five
+              <strong>custom PBR slots</strong> accept your own albedo /
+              metallic / normal / roughness / emissive maps plus an OBJ
+              or FBX mesh — so the OBJ you download from the Stylizer can
+              round-trip through Blender and come back with full PBR.</li>
+          <li><strong>Marketplace compatibility</strong> — Stylizer
+              exports are the classic 4-mesh per-part format sold in the
+              <a href="tokytokinz.html#mkt-skins">TokyTar Skins</a>
+              marketplace's second family; UGC MADE skins from the
+              community ship in exactly this pipeline.</li>
+          <li><strong>Accessories layer on top</strong> — Wigz, Capez and
+              Wearz equip alongside any skin, so a styled character keeps
+              their hair, cape and hat.</li>
+          <li><strong>Multiplayer</strong> — your equipped look (skin +
+              accessories, animated frames included) syncs to every
+              player in a session, with versioned caching so it only
+              downloads once per change.</li>
+        </ul>
       </section>
 
       <section id="tips">

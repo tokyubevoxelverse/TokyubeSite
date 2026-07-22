@@ -43,6 +43,15 @@
         <li><a href="#cat-fbx">FBX Entities</a></li>
         <li><a href="#cat-typed">Typed Variables</a></li>
         <li><a href="#cat-tv">TV &amp; Video Control</a></li>
+        <li><a href="#cat-ui">UI</a></li>
+        <li><a href="#cat-hud">HUD</a></li>
+        <li><a href="#cat-environment">Environment</a></li>
+        <li><a href="#cat-spawn">Spawn &amp; Despawn</a></li>
+        <li><a href="#cat-laser">Laser</a></li>
+        <li><a href="#cat-projectile">Projectile</a></li>
+        <li><a href="#cat-npc">NPC</a></li>
+        <li><a href="#cat-ppv">PPV (Per-Player Vars)</a></li>
+        <li><a href="#cat-audio">Audio &amp; Pickers</a></li>
         <li><a href="#examples">Example Scripts</a></li>
         <li><a href="#collab">Collaborative Code Blocking</a></li>
         <li><a href="#tips">Tips &amp; Best Practices</a></li>
@@ -54,11 +63,14 @@
       <p class="doc-lede">
         Tokyube Code Blocks is the visual scripting layer of
         TokyubeVoxelVerse — a powerful, non-restrictive visual programming
-        system built on top of JavaScript. Drop blocks together to build
-        anything from a one-line trigger to a full multiplayer minigame,
-        complete with named persistent variables, typed entity references,
-        timed events, networked components, and direct access to the voxel
-        world.
+        system built on top of JavaScript, now
+        <strong>217 custom blocks strong</strong>. Drop blocks together to
+        build anything from a one-line trigger to a full multiplayer
+        minigame, complete with named persistent variables, typed entity
+        references, timed events, networked components, per-player
+        cross-world variables, full 2D UIs, and direct access to the voxel
+        world. The toolbox organizes it all into FBX / Component / Logic /
+        Math / Variables categories with world-picker dropdown blocks.
       </p>
 
       <section id="overview">
@@ -388,6 +400,92 @@
         <div class="block-row"><span class="block-chip cat-tv">tv_set_url / tv_set_volume</span><span class="block-desc">Source URL and volume.</span></div>
         <div class="block-row"><span class="block-chip cat-tv">tv_get_time</span><span class="block-desc">Current playback time.</span></div>
         <div class="block-row"><span class="block-chip cat-tv">tv_on_completed</span><span class="block-desc">Fires when a TV-routed video reaches the end.</span></div>
+        <div class="block-row"><span class="block-chip cat-tv">play / pause / resume / stop / seek_video_component</span><span class="block-desc">Transport controls aimed at a specific video-player component instance.</span></div>
+      </section>
+
+      <!-- ─────────── Newer categories (the language is 217 blocks strong) ─────────── -->
+
+      <section id="cat-ui">
+        <h2>UI</h2>
+        <p>Build full 2D interfaces — panels, buttons, images, drag &amp;
+        drop — that render over the world for a player. The biggest
+        category in the language at 22 blocks.</p>
+        <div class="block-row"><span class="block-chip cat-ui">ui_open / ui_open_at / ui_close / ui_is_open / ui_clear</span><span class="block-desc">Open a UI for a player (optionally at a position), close it, test it, or clear its contents.</span></div>
+        <div class="block-row"><span class="block-chip cat-ui">ui_rect / ui_text / ui_image / ui_outline / ui_gap</span><span class="block-desc">Draw elements: rectangles, text, images, outlines and spacing.</span></div>
+        <div class="block-row"><span class="block-chip cat-ui">ui_move / ui_remove / ui_draggable</span><span class="block-desc">Reposition or remove elements; make an element draggable.</span></div>
+        <div class="block-row"><span class="block-chip cat-ui">ui_on_click / ui_on_hover / ui_on_key / ui_on_drag_start / ui_on_drop</span><span class="block-desc">Event hooks for interaction.</span></div>
+        <div class="block-row"><span class="block-chip cat-ui">ui_event_x / ui_event_y / ui_event_key / ui_event_drag</span><span class="block-desc">Read the coordinates, key or drag payload inside a UI event.</span></div>
+      </section>
+
+      <section id="cat-hud">
+        <h2>HUD</h2>
+        <p>Lightweight on-screen text without building a full UI.</p>
+        <div class="block-row"><span class="block-chip cat-hud">hud_set_text / hud_show_message</span><span class="block-desc">Pin text to a HUD slot, or flash a temporary message.</span></div>
+        <div class="block-row"><span class="block-chip cat-hud">hud_clear / hud_clear_all</span><span class="block-desc">Clear one HUD slot or everything.</span></div>
+        <div class="block-row"><span class="block-chip cat-hud">display_set_text / text_linebreak</span><span class="block-desc">Drive in-world display text, with explicit line breaks.</span></div>
+      </section>
+
+      <section id="cat-environment">
+        <h2>Environment</h2>
+        <p>Per-world atmosphere, fully scriptable.</p>
+        <div class="block-row"><span class="block-chip cat-env">set_sky_color / set_water_color / set_water_gradient2 / set_water_gradient3</span><span class="block-desc">Sky and water colors — flat or 2/3-stop gradients.</span></div>
+        <div class="block-row"><span class="block-chip cat-env">set_grass_gradient3 / set_grass_gradient3_low</span><span class="block-desc">Grass color gradients (with a low-preset variant).</span></div>
+        <div class="block-row"><span class="block-chip cat-env">set_weather / set_rain_color / set_lightning_interval</span><span class="block-desc">Weather state, rain tint, and lightning frequency.</span></div>
+        <div class="block-row"><span class="block-chip cat-env">env_is_night / env_night_blend</span><span class="block-desc">Read the day/night cycle — boolean night test or a 0–1 blend.</span></div>
+        <div class="block-row"><span class="block-chip cat-env">set_reflection_quality / set_dynamic_light / set_image</span><span class="block-desc">Reflection quality, dynamic light control, and image swapping.</span></div>
+        <div class="block-row"><span class="block-chip cat-env">set_camera_view / lock_camera_view</span><span class="block-desc">Force or lock the player's camera view.</span></div>
+      </section>
+
+      <section id="cat-spawn">
+        <h2>Spawn &amp; Despawn</h2>
+        <p>Bring structures, images and TokyNodes into the world — and
+        clean them up again, by tag.</p>
+        <div class="block-row"><span class="block-chip cat-spawn">spawn_hallway / spawn_image / spawn_origin</span><span class="block-desc">Spawn procedural hallway prefabs and tagged images at positions.</span></div>
+        <div class="block-row"><span class="block-chip cat-spawn">spawn_tokynode / spawn_tokynode_family</span><span class="block-desc">Spawn a saved TokyNode, or a whole node family, from your cross-world library.</span></div>
+        <div class="block-row"><span class="block-chip cat-spawn">despawn_tag / despawn_images_tag / despawn_all_structures</span><span class="block-desc">Remove spawned things by tag, or all structures at once.</span></div>
+        <div class="block-row"><span class="block-chip cat-spawn">despawn_tokynodes_tag / despawn_all_tokynodes</span><span class="block-desc">The TokyNode equivalents.</span></div>
+        <div class="block-row"><span class="block-chip cat-spawn">start_backrooms_maze / stop_backrooms_maze</span><span class="block-desc">Generate (and tear down) an endless backrooms maze around the player.</span></div>
+      </section>
+
+      <section id="cat-laser">
+        <h2>Laser</h2>
+        <p>Drive the Laser Projector component — 4 gun presets plus full
+        script control.</p>
+        <div class="block-row"><span class="block-chip cat-laser">laser_set_visible / laser_set_length / laser_set_speed</span><span class="block-desc">Toggle, size and animate the beam.</span></div>
+        <div class="block-row"><span class="block-chip cat-laser">laser_set_colors / laser_set_anim</span><span class="block-desc">Beam colors and animation preset.</span></div>
+      </section>
+
+      <section id="cat-projectile">
+        <h2>Projectile</h2>
+        <p>Fire things. Pairs with the Projectile Launcher component.</p>
+        <div class="block-row"><span class="block-chip cat-projectile">projectile_fire / projectile_fire_named / projectile_launch</span><span class="block-desc">Fire from a launcher (by reference or by name), or launch a projectile directly.</span></div>
+        <div class="block-row"><span class="block-chip cat-projectile">projectile_auto</span><span class="block-desc">Auto-fire on an interval.</span></div>
+      </section>
+
+      <section id="cat-npc">
+        <h2>NPC</h2>
+        <p>Script the Tokyube NPC component.</p>
+        <div class="block-row"><span class="block-chip cat-npc">npc_set_type / npc_set_param / npc_head_turn</span><span class="block-desc">Set which skin/behavior an NPC uses, tune its parameters, and turn its head.</span></div>
+      </section>
+
+      <section id="cat-ppv">
+        <h2>PPV — Per-Player Variables</h2>
+        <p>Cross-world persistent values scoped to each player's account —
+        the system behind casino chips and card-game stats. Players can
+        inspect their values in the
+        <a href="tokyphone.html#app-tppv">TPPV app</a>.</p>
+        <div class="block-row"><span class="block-chip cat-ppv">ppv_get / ppv_set / ppv_change</span><span class="block-desc">Read, write, or increment a named per-player variable. Values persist across worlds and sessions.</span></div>
+        <div class="callout">Prefer <code>ppv_set(ppv_get + 1)</code>
+        style updates for counters — set-to-computed-value is the
+        engine's canonical increment pattern.</div>
+      </section>
+
+      <section id="cat-audio">
+        <h2>Audio &amp; Pickers</h2>
+        <div class="block-row"><span class="block-chip cat-audio">audio_control / audio_set_volume / world_audio</span><span class="block-desc">Control Audio components and world-level audio.</span></div>
+        <div class="block-row"><span class="block-chip cat-audio">pick_component / pick_fbx_entity / pick_script_entity</span><span class="block-desc">Dropdown picker blocks listing every instance in the world by name.</span></div>
+        <div class="block-row"><span class="block-chip cat-audio">component_move / distance_player_to / distance_xyz</span><span class="block-desc">Move a component; measure distances from the player or between points.</span></div>
+        <div class="block-row"><span class="block-chip cat-audio">key_on_press / players_in_zone / player_count</span><span class="block-desc">Keyboard hooks and multiplayer zone/count queries.</span></div>
       </section>
 
       <!-- ─────────── Examples ─────────── -->
@@ -556,10 +654,11 @@
       <section id="collab">
         <h2>Collaborative Code Blocking</h2>
         <div class="callout planned">Collaborative code-blocking is a
-        first-class planned feature, designed alongside
-        <a href="collaborative-build.html">Collaborative Build Mode</a>
-        — pair-program your Tokyube experiences live, with friends, in
-        the same workspace.</div>
+        first-class planned feature.
+        <a href="collaborative-build.html">Collaborative Build</a> itself
+        is live today — friends in a collab session can already script in
+        the same world — while the shared same-workspace editor described
+        below is the planned next step.</div>
         <p>The Code Blocks workspace is being extended to support
         multiple cursors at once, so two to four collaborators can edit
         the same script in real time:</p>
