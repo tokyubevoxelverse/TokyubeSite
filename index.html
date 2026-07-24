@@ -1004,6 +1004,18 @@
     .submenu.battle-buddies-sub a.submenu-item:visited { color: #333; }
 
     /* Finn the Fisher — ocean blues */
+    .menu-item.chromarush {
+      background:
+        radial-gradient(1.4px 1.4px at 15% 30%, rgba(255,255,255,.9), transparent),
+        radial-gradient(1px 1px at 45% 70%, rgba(255,255,255,.7), transparent),
+        radial-gradient(1.6px 1.6px at 75% 25%, rgba(255,255,255,.9), transparent),
+        radial-gradient(1px 1px at 90% 60%, rgba(255,255,255,.6), transparent),
+        linear-gradient(90deg, #06060c 0%, #101018 100%);
+      color: #fff;
+      border-image: linear-gradient(115deg,#ff3b6b,#ff9f2a,#ffe83d,#3ee06b,#38c6ff,#7a5cff,#ff4fd8) 1;
+      text-shadow: 0 0 8px rgba(255,255,255,.45);
+      font-weight: bold;
+    }
     .menu-item.finn {
       background: linear-gradient(90deg, #0b6aa8 0%, #1487c2 35%, #2fb9e8 70%, #7ce8ff 100%);
       color: #fff;
@@ -1786,6 +1798,20 @@
       <a class="submenu-item" href="finn-the-fisher.html#bird-hunt">Bird Hunt</a>
       <a class="submenu-item" href="finn-the-fisher.html#line-sledding">Line Sledding</a>
       <a class="submenu-item" href="finn-the-fisher.html#versions">Always the Newest Build</a>
+      <a class="submenu-item" href="finnthefisher/" style="font-weight:bold;">▶ Play Free in Browser</a>
+    </div>
+
+    <!-- Chroma Rush -->
+    <button class="menu-item chromarush" data-menu="chromarush">
+      <span>Chroma Rush</span>
+      <span class="menu-arrow">▶</span>
+    </button>
+    <div class="submenu chromarush-sub" id="chromarush-sub">
+      <a class="submenu-item" href="chroma-rush.html">Overview</a>
+      <a class="submenu-item" href="chroma-rush.html#launching">Launching &amp; Returning</a>
+      <a class="submenu-item" href="chroma-rush.html#playing">How It Plays</a>
+      <a class="submenu-item" href="chroma-rush.html#world-page">The Night-Sky World Page</a>
+      <a class="submenu-item" href="chroma-rush.html#alpha">Status</a>
     </div>
 
     <!-- World Components -->
@@ -1911,7 +1937,7 @@
 
     <!-- Rainbow Documentation Text -->
     <div class="rainbow-doc-text">
-      <span>H</span><span>o</span><span>v</span><span>e</span><span>r</span><span> </span><span>o</span><span>v</span><span>e</span><span>r</span><span> </span><span>t</span><span>h</span><span>e</span><span> </span><span>r</span><span>i</span><span>g</span><span>h</span><span>t</span><span> </span><span>t</span><span>o</span><span> </span><span>o</span><span>p</span><span>e</span><span>n</span><span> </span><span>d</span><span>o</span><span>c</span><span>u</span><span>m</span><span>e</span><span>n</span><span>t</span><span>a</span><span>t</span><span>i</span><span>o</span><span>n</span> <span>f</span><span>o</span><span>r</span> <span>T</span><span>o</span><span>k</span><span>y</span><span>u</span><span>b</span><span>e</span> <span>V</span><span>o</span><span>x</span><span>e</span><span>l</span><span>V</span><span>e</span><span>r</span><span>s</span><span>e</span> <span>E</span><span>n</span><span>g</span><span>i</span><span>n</span><span>e</span> <span>A</span><span>l</span><span>p</span><span>h</span><span>a</span> <span>0</span><span>.</span><span>0</span><span>.</span><span>1</span><span>4</span><span>1</span>
+      <span>H</span><span>o</span><span>v</span><span>e</span><span>r</span><span> </span><span>o</span><span>v</span><span>e</span><span>r</span><span> </span><span>t</span><span>h</span><span>e</span><span> </span><span>r</span><span>i</span><span>g</span><span>h</span><span>t</span><span> </span><span>t</span><span>o</span><span> </span><span>o</span><span>p</span><span>e</span><span>n</span><span> </span><span>d</span><span>o</span><span>c</span><span>u</span><span>m</span><span>e</span><span>n</span><span>t</span><span>a</span><span>t</span><span>i</span><span>o</span><span>n</span> <span>f</span><span>o</span><span>r</span> <span>T</span><span>o</span><span>k</span><span>y</span><span>u</span><span>b</span><span>e</span> <span>V</span><span>o</span><span>x</span><span>e</span><span>l</span><span>V</span><span>e</span><span>r</span><span>s</span><span>e</span> <span>E</span><span>n</span><span>g</span><span>i</span><span>n</span><span>e</span> <span>A</span><span>l</span><span>p</span><span>h</span><span>a</span> <span>0</span><span>.</span><span>0</span><span>.</span><span>1</span><span>4</span><span>2</span>
     </div>
 
     <!-- Platform row: live Discord widget on the LEFT, platform buttons on the RIGHT -->
@@ -2386,6 +2412,13 @@
       { title: 'Finn — Boat, Shop & Empire',            url: 'finn-the-fisher.html#boat',              keywords: 'boat sell catch daily goal serve customers vending machine upgrades skins money save slots seafood empire' },
       { title: 'Finn — Bird Hunt Mini Game',            url: 'finn-the-fisher.html#bird-hunt',         keywords: 'bird hunt hunting archery bows arrows meadow volcano phoenix streaks coins upgrades hummingbird mini game' },
       { title: 'Finn — Line Sledding Mini Game',        url: 'finn-the-fisher.html#line-sledding',     keywords: 'line sledding line rider draw track lines accelerator slow sled colors palette zoom mini game' },
+      { title: 'Play Finn the Fisher Free in Browser',  url: 'finnthefisher/',                         keywords: 'play finn the fisher free browser demo 5 minutes web version try now online' },
+
+      // ── Chroma Rush (standalone game) ──────────────────────────────────
+      { title: 'Chroma Rush — Overview',                url: 'chroma-rush.html',                       keywords: 'chroma rush neon color dash arcade standalone game night sky stars rainbow high score overview' },
+      { title: 'Chroma Rush — Launching & Returning',   url: 'chroma-rush.html#launching',             keywords: 'chroma rush launch play official tokyube worlds back to tokyube button display resolution' },
+      { title: 'Chroma Rush — How It Plays',            url: 'chroma-rush.html#playing',               keywords: 'chroma rush menu play dead loop dash chain colors speed high score retry' },
+      { title: 'Chroma Rush — Night-Sky World Page',    url: 'chroma-rush.html#world-page',            keywords: 'chroma rush world page black night sky twinkling stars rainbow border thumbnail play button' },
 
       // ── World Components (27) ──────────────────────────────────────────
       { title: 'World Components — Overview',           url: 'components.html',                        keywords: 'world components 27 interactive objects tv browser mirror npc particle trigger overview' },
