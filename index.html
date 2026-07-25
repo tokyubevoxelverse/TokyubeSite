@@ -1263,6 +1263,49 @@
     @media (max-width: 600px) {
       .example-showcase h2 { font-size: 16px; }
     }
+    /* ── Showcase carousel: invisible horizontal scroller, auto-cycles ──
+       Each slide = its own label + media. Scrollbar hidden but the strip
+       stays swipeable/draggable; JS advances it every 7 seconds. */
+    .showcase-carousel {
+      width: 100%;
+      max-width: 800px;
+      display: flex;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      scrollbar-width: none;         /* Firefox */
+      -ms-overflow-style: none;      /* old Edge */
+      border-radius: 10px;
+    }
+    .showcase-carousel::-webkit-scrollbar { display: none; }   /* Chromium */
+    .showcase-slide {
+      flex: 0 0 100%;
+      min-width: 100%;
+      scroll-snap-align: start;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
+    }
+    .showcase-slide video,
+    .showcase-slide .yt-frame {
+      width: 100%;
+      max-width: 800px;
+      aspect-ratio: 16 / 9;
+      height: auto;
+      border-radius: 10px;
+      border: 3px solid rgba(255, 255, 255, 0.85);
+      box-shadow: 0 8px 32px rgba(0,0,0,0.6), 0 0 24px rgba(168, 85, 247, 0.35);
+      background: #000;
+    }
+    .showcase-slide .yt-frame { border: 3px solid rgba(255, 255, 255, 0.85); display: block; }
+    .showcase-dots { display: flex; gap: 8px; justify-content: center; margin-top: 12px; }
+    .showcase-dots button {
+      width: 10px; height: 10px; border-radius: 50%; border: 2px solid #fff;
+      background: transparent; cursor: pointer; padding: 0;
+      box-shadow: 0 0 6px rgba(0,0,0,.6);
+      transition: background .25s ease, transform .25s ease;
+    }
+    .showcase-dots button.active { background: #fff; transform: scale(1.2); }
 
     /* Public Bug Forum Button - Cyan/Teal */
     .menu-item.bug-forum {
@@ -2000,11 +2043,61 @@
       and bring in yourself, your imagination TRULY has no limits in TOKYUBE.
     </p>
 
-    <!-- Example Video Showcase -->
+    <!-- Example Video Showcase — auto-cycling carousel (7s per slide) -->
     <div class="example-showcase">
-      <h2>Example of a Movie Room Scene created by user ScriptWizard in Early Access</h2>
-      <video id="exampleVideo" src="Examples/VideoPlayerExperienceVisuals.mp4" autoplay loop muted playsinline preload="auto" poster="Logo.png"></video>
+      <div class="showcase-carousel" id="showcaseCarousel" aria-label="Showcase videos">
+        <div class="showcase-slide">
+          <h2>OuterVerse: A Space Exploration Sandbox prototyped fully with in engine Tokyube Tools</h2>
+          <iframe class="yt-frame" src="https://www.youtube.com/embed/wUxFF20QGUc?autoplay=1&mute=1&loop=1&playlist=wUxFF20QGUc&controls=0&rel=0&playsinline=1&modestbranding=1"
+            title="OuterVerse: A Space Exploration Sandbox prototyped fully with in engine Tokyube Tools"
+            frameborder="0" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen></iframe>
+        </div>
+        <div class="showcase-slide">
+          <h2>Example of a Movie Room Scene created by user ScriptWizard in Early Access</h2>
+          <video id="exampleVideo" src="Examples/VideoPlayerExperienceVisuals.mp4" autoplay loop muted playsinline preload="auto" poster="Logo.png"></video>
+        </div>
+      </div>
+      <div class="showcase-dots" id="showcaseDots" role="tablist" aria-label="Showcase slides"></div>
     </div>
+    <script>
+      (function () {
+        const strip = document.getElementById('showcaseCarousel');
+        const dotsBox = document.getElementById('showcaseDots');
+        const slides = strip.querySelectorAll('.showcase-slide');
+        let idx = 0, timer = null;
+
+        slides.forEach((_, i) => {
+          const d = document.createElement('button');
+          d.setAttribute('aria-label', 'Slide ' + (i + 1));
+          d.addEventListener('click', () => { go(i); restart(); });
+          dotsBox.appendChild(d);
+        });
+        const dots = dotsBox.querySelectorAll('button');
+
+        function paint() { dots.forEach((d, i) => d.classList.toggle('active', i === idx)); }
+        function go(i) {
+          idx = (i + slides.length) % slides.length;
+          strip.scrollTo({ left: idx * strip.clientWidth, behavior: 'smooth' });
+          paint();
+        }
+        function restart() { clearInterval(timer); timer = setInterval(() => go(idx + 1), 7000); }
+
+        // Manual swipes keep working — resync idx to wherever the user landed.
+        let scrollDebounce;
+        strip.addEventListener('scroll', () => {
+          clearTimeout(scrollDebounce);
+          scrollDebounce = setTimeout(() => {
+            idx = Math.round(strip.scrollLeft / Math.max(1, strip.clientWidth));
+            paint();
+          }, 120);
+        }, { passive: true });
+        ['pointerdown', 'wheel', 'touchstart'].forEach(t =>
+          strip.addEventListener(t, restart, { passive: true }));
+        window.addEventListener('resize', () => { strip.scrollTo({ left: idx * strip.clientWidth }); });
+
+        paint(); restart();
+      })();
+    </script>
 
     <!-- ENTER VR! Launch — sits between the showcase video and the
          "More by DOOM Industries" section so the VR call-to-action stays
