@@ -1263,41 +1263,59 @@
     @media (max-width: 600px) {
       .example-showcase h2 { font-size: 16px; }
     }
-    /* ── Showcase carousel: invisible horizontal scroller, auto-cycles ──
-       Each slide = its own label + media. Scrollbar hidden but the strip
-       stays swipeable/draggable; JS advances it every 7 seconds. */
-    .showcase-carousel {
-      width: 100%;
-      max-width: 800px;
-      display: flex;
-      overflow-x: auto;
-      scroll-snap-type: x mandatory;
-      scrollbar-width: none;         /* Firefox */
-      -ms-overflow-style: none;      /* old Edge */
-      border-radius: 10px;
+    /* ── Showcase stage: BOTH videos visible at once, active one centered
+       and large, the other peeking at the side. They trade places every
+       7 seconds with a smooth slide/scale animation. Rotation pauses while
+       hovering, while fullscreen, or while interacting with the YouTube
+       player (window blur), so watching is never interrupted. */
+    .showcase-label {
+      min-height: 2.9em;
+      display: flex; align-items: center; justify-content: center;
+      transition: opacity .35s ease;
     }
-    .showcase-carousel::-webkit-scrollbar { display: none; }   /* Chromium */
+    .showcase-stage {
+      position: relative;
+      width: 100%;
+      max-width: 980px;
+      aspect-ratio: 16 / 6.6;
+      overflow: visible;
+    }
     .showcase-slide {
-      flex: 0 0 100%;
-      min-width: 100%;
-      scroll-snap-align: start;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 16px;
+      position: absolute;
+      left: 50%;
+      top: 0;
+      width: 72%;
+      aspect-ratio: 16 / 9;
+      transition: transform .8s cubic-bezier(.25,.8,.3,1), opacity .8s ease, filter .8s ease;
+      will-change: transform;
     }
     .showcase-slide video,
     .showcase-slide .yt-frame {
       width: 100%;
-      max-width: 800px;
+      height: 100%;
       aspect-ratio: 16 / 9;
-      height: auto;
+      display: block;
       border-radius: 10px;
       border: 3px solid rgba(255, 255, 255, 0.85);
       box-shadow: 0 8px 32px rgba(0,0,0,0.6), 0 0 24px rgba(168, 85, 247, 0.35);
       background: #000;
     }
-    .showcase-slide .yt-frame { border: 3px solid rgba(255, 255, 255, 0.85); display: block; }
+    .showcase-slide.is-center {
+      transform: translateX(-50%) scale(1);
+      opacity: 1; z-index: 2; filter: none;
+    }
+    .showcase-slide.is-side {
+      transform: translateX(6%) scale(.58);
+      transform-origin: center;
+      opacity: .55; z-index: 1; filter: saturate(.75) brightness(.8);
+      cursor: pointer;
+    }
+    .showcase-slide.is-side::after {
+      /* click-shield: the peeked slide acts as one big "bring me forward"
+         button instead of scrubbing its video */
+      content: ""; position: absolute; inset: 0; border-radius: 10px;
+    }
+    .showcase-slide.is-side:hover { opacity: .8; }
     .showcase-dots { display: flex; gap: 8px; justify-content: center; margin-top: 12px; }
     .showcase-dots button {
       width: 10px; height: 10px; border-radius: 50%; border: 2px solid #fff;
@@ -1306,6 +1324,11 @@
       transition: background .25s ease, transform .25s ease;
     }
     .showcase-dots button.active { background: #fff; transform: scale(1.2); }
+    @media (max-width: 700px) {
+      .showcase-stage { aspect-ratio: 16 / 7.4; }
+      .showcase-slide { width: 84%; }
+      .showcase-slide.is-side { transform: translateX(0%) scale(.5); opacity: .4; }
+    }
 
     /* Public Bug Forum Button - Cyan/Teal */
     .menu-item.bug-forum {
@@ -2043,17 +2066,16 @@
       and bring in yourself, your imagination TRULY has no limits in TOKYUBE.
     </p>
 
-    <!-- Example Video Showcase — auto-cycling carousel (7s per slide) -->
+    <!-- Example Video Showcase — both videos on stage, trading places every 7s -->
     <div class="example-showcase">
-      <div class="showcase-carousel" id="showcaseCarousel" aria-label="Showcase videos">
-        <div class="showcase-slide">
-          <h2>OuterVerse: A Space Exploration Sandbox prototyped fully with in engine Tokyube Tools</h2>
-          <iframe class="yt-frame" src="https://www.youtube.com/embed/wUxFF20QGUc?autoplay=1&mute=1&loop=1&playlist=wUxFF20QGUc&controls=0&rel=0&playsinline=1&modestbranding=1"
+      <h2 class="showcase-label" id="showcaseLabel">OuterVerse: A Space Exploration Sandbox prototyped fully with in engine Tokyube Tools</h2>
+      <div class="showcase-stage" id="showcaseStage" aria-label="Showcase videos">
+        <div class="showcase-slide" data-label="OuterVerse: A Space Exploration Sandbox prototyped fully with in engine Tokyube Tools">
+          <iframe class="yt-frame" src="https://www.youtube.com/embed/wUxFF20QGUc?autoplay=1&mute=1&loop=1&playlist=wUxFF20QGUc&controls=1&rel=0&playsinline=1&modestbranding=1"
             title="OuterVerse: A Space Exploration Sandbox prototyped fully with in engine Tokyube Tools"
-            frameborder="0" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen></iframe>
+            frameborder="0" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen></iframe>
         </div>
-        <div class="showcase-slide">
-          <h2>Example of a Movie Room Scene created by user ScriptWizard in Early Access</h2>
+        <div class="showcase-slide" data-label="Example of a Movie Room Scene created by user ScriptWizard in Early Access">
           <video id="exampleVideo" src="Examples/VideoPlayerExperienceVisuals.mp4" autoplay loop muted playsinline preload="auto" poster="Logo.png"></video>
         </div>
       </div>
@@ -2061,41 +2083,56 @@
     </div>
     <script>
       (function () {
-        const strip = document.getElementById('showcaseCarousel');
+        const stage = document.getElementById('showcaseStage');
+        const label = document.getElementById('showcaseLabel');
         const dotsBox = document.getElementById('showcaseDots');
-        const slides = strip.querySelectorAll('.showcase-slide');
-        let idx = 0, timer = null;
+        const slides = Array.from(stage.querySelectorAll('.showcase-slide'));
+        let idx = 0, timer = null, hovering = false;
 
-        slides.forEach((_, i) => {
+        slides.forEach((s, i) => {
           const d = document.createElement('button');
           d.setAttribute('aria-label', 'Slide ' + (i + 1));
           d.addEventListener('click', () => { go(i); restart(); });
           dotsBox.appendChild(d);
+          s.addEventListener('click', () => {
+            if (!s.classList.contains('is-center')) { go(i); restart(); }
+          });
         });
         const dots = dotsBox.querySelectorAll('button');
 
-        function paint() { dots.forEach((d, i) => d.classList.toggle('active', i === idx)); }
         function go(i) {
           idx = (i + slides.length) % slides.length;
-          strip.scrollTo({ left: idx * strip.clientWidth, behavior: 'smooth' });
-          paint();
+          slides.forEach((s, j) => {
+            s.classList.toggle('is-center', j === idx);
+            s.classList.toggle('is-side', j !== idx);
+          });
+          dots.forEach((d, j) => d.classList.toggle('active', j === idx));
+          label.style.opacity = '0';
+          setTimeout(() => {
+            label.textContent = slides[idx].dataset.label;
+            label.style.opacity = '1';
+          }, 300);
         }
-        function restart() { clearInterval(timer); timer = setInterval(() => go(idx + 1), 7000); }
+        function paused() {
+          // Never rotate away from someone actually watching: hovering the
+          // stage, fullscreen video, or focus inside the YouTube iframe.
+          return hovering || !!document.fullscreenElement ||
+                 (document.activeElement && document.activeElement.tagName === 'IFRAME');
+        }
+        function restart() {
+          clearInterval(timer);
+          timer = setInterval(() => { if (!paused()) go(idx + 1); }, 7000);
+        }
+        stage.addEventListener('mouseenter', () => { hovering = true; });
+        stage.addEventListener('mouseleave', () => { hovering = false; });
 
-        // Manual swipes keep working — resync idx to wherever the user landed.
-        let scrollDebounce;
-        strip.addEventListener('scroll', () => {
-          clearTimeout(scrollDebounce);
-          scrollDebounce = setTimeout(() => {
-            idx = Math.round(strip.scrollLeft / Math.max(1, strip.clientWidth));
-            paint();
-          }, 120);
-        }, { passive: true });
-        ['pointerdown', 'wheel', 'touchstart'].forEach(t =>
-          strip.addEventListener(t, restart, { passive: true }));
-        window.addEventListener('resize', () => { strip.scrollTo({ left: idx * strip.clientWidth }); });
-
-        paint(); restart();
+        // Immediate paint without the label fade on first run
+        slides.forEach((s, j) => {
+          s.classList.toggle('is-center', j === 0);
+          s.classList.toggle('is-side', j !== 0);
+        });
+        dots.forEach((d, j) => d.classList.toggle('active', j === 0));
+        restart();
       })();
     </script>
 
