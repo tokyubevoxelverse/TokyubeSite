@@ -1004,6 +1004,16 @@
     .submenu.battle-buddies-sub a.submenu-item:visited { color: #333; }
 
     /* Finn the Fisher — ocean blues */
+    .menu-item.outerverse {
+      background:
+        radial-gradient(1.4px 1.4px at 18% 35%, rgba(255,255,255,.9), transparent),
+        radial-gradient(1px 1px at 55% 65%, rgba(255,255,255,.7), transparent),
+        radial-gradient(1.5px 1.5px at 82% 30%, rgba(255,255,255,.85), transparent),
+        linear-gradient(90deg, #0a1030 0%, #1a1148 50%, #2a0e58 100%);
+      color: #eaf6ff;
+      text-shadow: 0 0 10px rgba(127,233,255,.55);
+      font-weight: bold;
+    }
     .menu-item.chromarush {
       background:
         radial-gradient(1.4px 1.4px at 15% 30%, rgba(255,255,255,.9), transparent),
@@ -1867,6 +1877,21 @@
       <a class="submenu-item" href="finnthefisher/" style="font-weight:bold;">▶ Play Free in Browser</a>
     </div>
 
+    <!-- OuterVerse -->
+    <button class="menu-item outerverse" data-menu="outerverse">
+      <span>OuterVerse</span>
+      <span class="menu-arrow">▶</span>
+    </button>
+    <div class="submenu outerverse-sub" id="outerverse-sub">
+      <a class="submenu-item" href="outer-verse.html">Overview</a>
+      <a class="submenu-item" href="outer-verse.html#play-free">Play Free in Browser</a>
+      <a class="submenu-item" href="outer-verse.html#launching">Launching &amp; Returning</a>
+      <a class="submenu-item" href="outer-verse.html#exploring">The Infinite Galaxy</a>
+      <a class="submenu-item" href="outer-verse.html#building">Mining &amp; Building</a>
+      <a class="submenu-item" href="outer-verse.html#prototype">Built with Tokyube Tools</a>
+      <a class="submenu-item" href="outerverse/" style="font-weight:bold;">▶ Play Free in Browser</a>
+    </div>
+
     <!-- Chroma Rush -->
     <button class="menu-item chromarush" data-menu="chromarush">
       <span>Chroma Rush</span>
@@ -2003,7 +2028,7 @@
 
     <!-- Rainbow Documentation Text -->
     <div class="rainbow-doc-text">
-      <span>H</span><span>o</span><span>v</span><span>e</span><span>r</span><span> </span><span>o</span><span>v</span><span>e</span><span>r</span><span> </span><span>t</span><span>h</span><span>e</span><span> </span><span>r</span><span>i</span><span>g</span><span>h</span><span>t</span><span> </span><span>t</span><span>o</span><span> </span><span>o</span><span>p</span><span>e</span><span>n</span><span> </span><span>d</span><span>o</span><span>c</span><span>u</span><span>m</span><span>e</span><span>n</span><span>t</span><span>a</span><span>t</span><span>i</span><span>o</span><span>n</span> <span>f</span><span>o</span><span>r</span> <span>T</span><span>o</span><span>k</span><span>y</span><span>u</span><span>b</span><span>e</span> <span>V</span><span>o</span><span>x</span><span>e</span><span>l</span><span>V</span><span>e</span><span>r</span><span>s</span><span>e</span> <span>E</span><span>n</span><span>g</span><span>i</span><span>n</span><span>e</span> <span>A</span><span>l</span><span>p</span><span>h</span><span>a</span> <span>0</span><span>.</span><span>0</span><span>.</span><span>1</span><span>4</span><span>2</span>
+      <span>H</span><span>o</span><span>v</span><span>e</span><span>r</span><span> </span><span>o</span><span>v</span><span>e</span><span>r</span><span> </span><span>t</span><span>h</span><span>e</span><span> </span><span>r</span><span>i</span><span>g</span><span>h</span><span>t</span><span> </span><span>t</span><span>o</span><span> </span><span>o</span><span>p</span><span>e</span><span>n</span><span> </span><span>d</span><span>o</span><span>c</span><span>u</span><span>m</span><span>e</span><span>n</span><span>t</span><span>a</span><span>t</span><span>i</span><span>o</span><span>n</span> <span>f</span><span>o</span><span>r</span> <span>T</span><span>o</span><span>k</span><span>y</span><span>u</span><span>b</span><span>e</span> <span>V</span><span>o</span><span>x</span><span>e</span><span>l</span><span>V</span><span>e</span><span>r</span><span>s</span><span>e</span> <span>E</span><span>n</span><span>g</span><span>i</span><span>n</span><span>e</span> <span>A</span><span>l</span><span>p</span><span>h</span><span>a</span> <span>0</span><span>.</span><span>0</span><span>.</span><span>1</span><span>4</span><span>3</span>
     </div>
 
     <!-- Platform row: live Discord widget on the LEFT, platform buttons on the RIGHT -->
@@ -2542,6 +2567,13 @@
       { title: 'Finn — Boat, Shop & Empire',            url: 'finn-the-fisher.html#boat',              keywords: 'boat sell catch daily goal serve customers vending machine upgrades skins money save slots seafood empire' },
       { title: 'Finn — Bird Hunt Mini Game',            url: 'finn-the-fisher.html#bird-hunt',         keywords: 'bird hunt hunting archery bows arrows meadow volcano phoenix streaks coins upgrades hummingbird mini game' },
       { title: 'Finn — Line Sledding Mini Game',        url: 'finn-the-fisher.html#line-sledding',     keywords: 'line sledding line rider draw track lines accelerator slow sled colors palette zoom mini game' },
+
+      // ── OuterVerse (standalone game) ───────────────────────────────────
+      { title: 'OuterVerse — Overview',                 url: 'outer-verse.html',                       keywords: 'outerverse outer verse space exploration sandbox infinite galaxy engine standalone game planets procedural universe' },
+      { title: 'OuterVerse — Play Free in Browser',     url: 'outerverse/',                            keywords: 'outerverse play free browser demo 5 minutes web space sandbox try' },
+      { title: 'OuterVerse — Launching & Returning',    url: 'outer-verse.html#launching',             keywords: 'outerverse launch official tokyube worlds play back to tokyube button cosmic display resolution' },
+      { title: 'OuterVerse — The Infinite Galaxy',      url: 'outer-verse.html#exploring',             keywords: 'outerverse infinite galaxy planets fly atmosphere explore procedural terrain' },
+      { title: 'OuterVerse — Mining & Building',        url: 'outer-verse.html#building',              keywords: 'outerverse mine build sandbox planet surface b key tab menu' },
       { title: 'Play Finn the Fisher Free in Browser',  url: 'finnthefisher/',                         keywords: 'play finn the fisher free browser demo 5 minutes web version try now online' },
 
       // ── Chroma Rush (standalone game) ──────────────────────────────────
