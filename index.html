@@ -1004,6 +1004,25 @@
     .submenu.battle-buddies-sub a.submenu-item:visited { color: #333; }
 
     /* Finn the Fisher — ocean blues */
+    .menu-item.kitchenpop {
+      background: linear-gradient(90deg, #ffe3c9 0%, #ffd1dc 35%, #ff9dbb 70%, #ffe066 100%);
+      color: #a61e4d;
+      text-shadow: 0 1px 0 rgba(255,255,255,.6);
+      font-weight: bold;
+    }
+    .menu-item.jumpinaint {
+      background: linear-gradient(90deg, #0b0f2a 0%, #1a1040 100%);
+      color: #fff;
+      border-image: linear-gradient(90deg,#ff5db1,#ffc93c,#3ee6a8,#4db8ff,#b48bff) 1;
+      text-shadow: 0 0 8px rgba(255,93,177,.6);
+      font-weight: bold;
+    }
+    .menu-item.berryblendz {
+      background: linear-gradient(90deg, #16247d 0%, #6d2ab8 40%, #b02bb0 65%, #f31fa0 85%, #e0245e 100%);
+      color: #fff;
+      text-shadow: 0 1px 3px rgba(0,0,0,0.5);
+      font-weight: bold;
+    }
     .menu-item.outerverse {
       background:
         radial-gradient(1.4px 1.4px at 18% 35%, rgba(255,255,255,.9), transparent),
@@ -1892,6 +1911,44 @@
       <a class="submenu-item" href="outerverse/" style="font-weight:bold;">▶ Play Free in Browser</a>
     </div>
 
+    <!-- KITCHEN POP! -->
+    <button class="menu-item kitchenpop" data-menu="kitchenpop">
+      <span>KITCHEN POP!</span>
+      <span class="menu-arrow">▶</span>
+    </button>
+    <div class="submenu kitchenpop-sub" id="kitchenpop-sub">
+      <a class="submenu-item" href="kitchen-pop.html">Overview</a>
+      <a class="submenu-item" href="kitchen-pop.html#launching">Launching &amp; Returning</a>
+      <a class="submenu-item" href="kitchen-pop.html#playing">How It Plays</a>
+      <a class="submenu-item" href="kitchen-pop.html#world-page">The Pink Lemonade World Page</a>
+    </div>
+
+    <!-- Jumpin' Ain't Easy! -->
+    <button class="menu-item jumpinaint" data-menu="jumpinaint">
+      <span>Jumpin' Ain't Easy!</span>
+      <span class="menu-arrow">▶</span>
+    </button>
+    <div class="submenu jumpinaint-sub" id="jumpinaint-sub">
+      <a class="submenu-item" href="jumpin-aint-easy.html">Overview</a>
+      <a class="submenu-item" href="jumpin-aint-easy.html#launching">Launching &amp; Returning</a>
+      <a class="submenu-item" href="jumpin-aint-easy.html#playing">How It Plays</a>
+      <a class="submenu-item" href="jumpin-aint-easy.html#pause">Pausing</a>
+      <a class="submenu-item" href="jumpin-aint-easy.html#world-page">The Trippy RGB World Page</a>
+    </div>
+
+    <!-- BerryBlendz -->
+    <button class="menu-item berryblendz" data-menu="berryblendz">
+      <span>BerryBlendz</span>
+      <span class="menu-arrow">▶</span>
+    </button>
+    <div class="submenu berryblendz-sub" id="berryblendz-sub">
+      <a class="submenu-item" href="berry-blendz.html">Overview</a>
+      <a class="submenu-item" href="berry-blendz.html#launching">Launching &amp; Returning</a>
+      <a class="submenu-item" href="berry-blendz.html#playing">How It Plays</a>
+      <a class="submenu-item" href="berry-blendz.html#pause">Pausing</a>
+      <a class="submenu-item" href="berry-blendz.html#world-page">The Berry World Page</a>
+    </div>
+
     <!-- Chroma Rush -->
     <button class="menu-item chromarush" data-menu="chromarush">
       <span>Chroma Rush</span>
@@ -2028,7 +2085,7 @@
 
     <!-- Rainbow Documentation Text -->
     <div class="rainbow-doc-text">
-      <span>H</span><span>o</span><span>v</span><span>e</span><span>r</span><span> </span><span>o</span><span>v</span><span>e</span><span>r</span><span> </span><span>t</span><span>h</span><span>e</span><span> </span><span>r</span><span>i</span><span>g</span><span>h</span><span>t</span><span> </span><span>t</span><span>o</span><span> </span><span>o</span><span>p</span><span>e</span><span>n</span><span> </span><span>d</span><span>o</span><span>c</span><span>u</span><span>m</span><span>e</span><span>n</span><span>t</span><span>a</span><span>t</span><span>i</span><span>o</span><span>n</span> <span>f</span><span>o</span><span>r</span> <span>T</span><span>o</span><span>k</span><span>y</span><span>u</span><span>b</span><span>e</span> <span>V</span><span>o</span><span>x</span><span>e</span><span>l</span><span>V</span><span>e</span><span>r</span><span>s</span><span>e</span> <span>E</span><span>n</span><span>g</span><span>i</span><span>n</span><span>e</span> <span>A</span><span>l</span><span>p</span><span>h</span><span>a</span> <span>0</span><span>.</span><span>0</span><span>.</span><span>1</span><span>4</span><span>4</span>
+      <span>H</span><span>o</span><span>v</span><span>e</span><span>r</span><span> </span><span>o</span><span>v</span><span>e</span><span>r</span><span> </span><span>t</span><span>h</span><span>e</span><span> </span><span>r</span><span>i</span><span>g</span><span>h</span><span>t</span><span> </span><span>t</span><span>o</span><span> </span><span>o</span><span>p</span><span>e</span><span>n</span><span> </span><span>d</span><span>o</span><span>c</span><span>u</span><span>m</span><span>e</span><span>n</span><span>t</span><span>a</span><span>t</span><span>i</span><span>o</span><span>n</span> <span>f</span><span>o</span><span>r</span> <span>T</span><span>o</span><span>k</span><span>y</span><span>u</span><span>b</span><span>e</span> <span>V</span><span>o</span><span>x</span><span>e</span><span>l</span><span>V</span><span>e</span><span>r</span><span>s</span><span>e</span> <span>E</span><span>n</span><span>g</span><span>i</span><span>n</span><span>e</span> <span>A</span><span>l</span><span>p</span><span>h</span><span>a</span> <span>0</span><span>.</span><span>0</span><span>.</span><span>1</span><span>4</span><span>5</span>
     </div>
 
     <!-- Platform row: live Discord widget on the LEFT, platform buttons on the RIGHT -->
@@ -2574,6 +2631,16 @@
       { title: 'OuterVerse — Launching & Returning',    url: 'outer-verse.html#launching',             keywords: 'outerverse launch official tokyube worlds play back to tokyube button cosmic display resolution' },
       { title: 'OuterVerse — The Infinite Galaxy',      url: 'outer-verse.html#exploring',             keywords: 'outerverse infinite galaxy planets fly atmosphere explore procedural terrain' },
       { title: 'OuterVerse — Mining & Building',        url: 'outer-verse.html#building',              keywords: 'outerverse mine build sandbox planet surface b key tab menu' },
+      { title: 'OuterVerse — The Exosuit Forge',         url: 'outer-verse.html#exosuit',               keywords: 'outerverse exosuit forge character creator new file suit procedural customizer' },
+      { title: 'OuterVerse — Graphics Options',          url: 'outer-verse.html#graphics',              keywords: 'outerverse graphics options settings presets optimized ultra resolution render distance scale fps cap vsync anti-alias shadows bloom motion blur vignette grass foliage density leaf fall invert y volume' },
+
+      // ── KITCHEN POP! / Jumpin' Ain't Easy! / BerryBlendz ──────────────
+      { title: 'KITCHEN POP! — Overview',                url: 'kitchen-pop.html',                       keywords: 'kitchen pop candy arcade minigames pop match serve standalone game pink lemonade' },
+      { title: 'KITCHEN POP! — Launching & Returning',   url: 'kitchen-pop.html#launching',             keywords: 'kitchen pop launch official tokyube worlds play back to tokyube pill button' },
+      { title: "Jumpin' Ain't Easy! — Overview",         url: 'jumpin-aint-easy.html',                  keywords: 'jumpin aint easy vertical scramble climb jump comic ink shop leaderboard standalone game trippy rgb' },
+      { title: "Jumpin' Ain't Easy! — Pausing",          url: 'jumpin-aint-easy.html#pause',            keywords: 'jumpin aint easy pause esc quit to title focus auto pause' },
+      { title: 'BerryBlendz — Overview',                 url: 'berry-blendz.html',                      keywords: 'berryblendz berry blendz merge arcade drop stack blend combos shop scoreboard standalone game' },
+      { title: 'BerryBlendz — How It Plays',             url: 'berry-blendz.html#playing',              keywords: 'berryblendz aim drop space merge berries stack shop scores' },
       { title: 'Play Finn the Fisher Free in Browser',  url: 'finnthefisher/',                         keywords: 'play finn the fisher free browser demo 5 minutes web version try now online' },
 
       // ── Chroma Rush (standalone game) ──────────────────────────────────
