@@ -119,13 +119,12 @@
        Desktop keeps the original sizes untouched. */
     @media (max-width: 700px) {
       .header-logos { gap: 12px; }
-      .site-logo { width: 52vw; max-width: 52vw; }
-      .doom-logo-header { width: 34vw; max-width: 34vw; }
+      .site-logo { width: 78vw; max-width: 78vw; }
       /* The docs line's desktop -150px pull tucks it into the BIG logos'
          footprint. With the smaller mobile logos that pull lands the text
          ON TOP of them (and drags the Discord row up into them too) —
          restore natural flow on phones. */
-      .rainbow-doc-text { margin-top: 0; padding: 0 10px; }
+      .rainbow-doc-text { margin-top: 4px; padding: 0 10px; }
       /* Bottom download buttons: long labels were escaping the button
          borders — let them wrap inside instead. */
       .doom-btn, .doom-btn-small {
@@ -296,6 +295,32 @@
     .discord-widget .dw-status.offline { background: #555; }
 
     /* ── More by DOOM Industries section ── */
+
+    /* The old "More by DOOM Industries" header row is now a button to /about */
+    .doom-about-btn {
+      display: flex; align-items: center; justify-content: center; gap: 18px;
+      flex-wrap: nowrap; text-decoration: none; cursor: pointer;
+      margin: 30px auto 40px; padding: 14px 26px; max-width: 560px;
+      border-radius: 22px; border: 3px solid transparent;
+      background: linear-gradient(#0d0718, #0d0718) padding-box,
+                  linear-gradient(115deg, #ff3b6b, #ff9f2a, #ffe83d, #3ee06b, #38c6ff, #7a5cff, #ff4fd8) border-box;
+      box-shadow: 0 0 26px rgba(122, 92, 255, .35);
+      transition: transform .14s ease, box-shadow .14s ease, filter .14s ease;
+    }
+    .doom-about-btn:hover { transform: translateY(-3px); filter: brightness(1.12);
+      box-shadow: 0 0 36px rgba(255, 79, 216, .45); }
+    /* beat the later `.doom-header { font-size: ... !important }` rule so the
+       logo and the label sit on ONE row inside the 620px column */
+    .doom-about-btn .doom-header {
+      margin: 0 !important; font-size: clamp(13px, 1.9vw, 18px) !important;
+      white-space: nowrap; letter-spacing: 1px;
+    }
+    .doom-about-btn .doom-logo-inline {
+      width: 92px !important; max-width: 26% !important; height: auto; margin: 0;
+    }
+    @media (max-width: 700px) {
+      .doom-about-btn { gap: 10px; padding: 14px 18px; margin: 24px auto 32px; }
+    }
     .doom-section {
       width: 100%;
       max-width: 800px;
@@ -748,14 +773,10 @@
       font-size: clamp(11px, 1.8vw, 14px);
       letter-spacing: 1px;
       text-align: center;
-      /* Pull the docs line deep into the header logos' footprint
-         (overlaps significantly — sits ~114px above where natural flow
-         would place it). Bottom margin is zero so the .content flex gap
-         (25px) controls the spacing to the Discord + buttons row below. */
-      /* Fluid pull: full -150px only on wide desktops where the logos are
-         tall; shrinks with the viewport so mid-size windows never overlap
-         (phones ≤700px zero it entirely in the media query below). */
-      margin-top: clamp(-150px, calc(80px - 18vw), 0px);
+      /* The header is a single centred Tokyube logo now, so the old
+         two-logo pull (-150px) drove this line straight through the logo
+         art. Sit it just below the logo instead. */
+      margin-top: 6px;
       margin-bottom: 0;
       line-height: 1.6;
     }
@@ -1931,7 +1952,6 @@
     </button>
     <div class="submenu outerverse-sub" id="outerverse-sub">
       <a class="submenu-item" href="outer-verse.html">Overview</a>
-      <a class="submenu-item" href="outer-verse.html#play-free">Play Free in Browser</a>
       <a class="submenu-item" href="outer-verse.html#launching">Launching &amp; Returning</a>
       <a class="submenu-item" href="outer-verse.html#exploring">The Infinite Galaxy</a>
       <a class="submenu-item" href="outer-verse.html#flying">Flying Your Ship</a>
@@ -1943,7 +1963,6 @@
       <a class="submenu-item" href="outer-verse.html#achievements">Achievements</a>
       <a class="submenu-item" href="outer-verse.html#controls">Controls</a>
       <a class="submenu-item" href="outer-verse.html#prototype">Built with Tokyube Tools</a>
-      <a class="submenu-item" href="outerverse/" style="font-weight:bold;">▶ Play Free in Browser</a>
     </div>
 
     <!-- KITCHEN POP! -->
@@ -2112,15 +2131,14 @@
 
   <div class="content">
 
-    <!-- Header logos: Tokyube site logo + DOOM Industries logo, centered side-by-side -->
+    <!-- Header logo: the Tokyube site logo alone, centered -->
     <div class="header-logos">
       <img src="Logo.png" alt="TokyubeVoxelVerse" class="site-logo">
-      <img src="DOOMLogo.png" alt="DOOM Industries, LLC" class="doom-logo-header">
     </div>
 
     <!-- Rainbow Documentation Text -->
     <div class="rainbow-doc-text">
-      <span>H</span><span>o</span><span>v</span><span>e</span><span>r</span><span> </span><span>o</span><span>v</span><span>e</span><span>r</span><span> </span><span>t</span><span>h</span><span>e</span><span> </span><span>r</span><span>i</span><span>g</span><span>h</span><span>t</span><span> </span><span>t</span><span>o</span><span> </span><span>o</span><span>p</span><span>e</span><span>n</span><span> </span><span>d</span><span>o</span><span>c</span><span>u</span><span>m</span><span>e</span><span>n</span><span>t</span><span>a</span><span>t</span><span>i</span><span>o</span><span>n</span> <span>f</span><span>o</span><span>r</span> <span>T</span><span>o</span><span>k</span><span>y</span><span>u</span><span>b</span><span>e</span> <span>V</span><span>o</span><span>x</span><span>e</span><span>l</span><span>V</span><span>e</span><span>r</span><span>s</span><span>e</span> <span>E</span><span>n</span><span>g</span><span>i</span><span>n</span><span>e</span> <span>A</span><span>l</span><span>p</span><span>h</span><span>a</span> <span>0</span><span>.</span><span>0</span><span>.</span><span>1</span><span>4</span><span>9</span>
+      <span>H</span><span>o</span><span>v</span><span>e</span><span>r</span><span> </span><span>o</span><span>v</span><span>e</span><span>r</span><span> </span><span>t</span><span>h</span><span>e</span><span> </span><span>r</span><span>i</span><span>g</span><span>h</span><span>t</span><span> </span><span>t</span><span>o</span><span> </span><span>o</span><span>p</span><span>e</span><span>n</span><span> </span><span>d</span><span>o</span><span>c</span><span>u</span><span>m</span><span>e</span><span>n</span><span>t</span><span>a</span><span>t</span><span>i</span><span>o</span><span>n</span> <span>f</span><span>o</span><span>r</span> <span>T</span><span>o</span><span>k</span><span>y</span><span>u</span><span>b</span><span>e</span> <span>V</span><span>o</span><span>x</span><span>e</span><span>l</span><span>V</span><span>e</span><span>r</span><span>s</span><span>e</span> <span>E</span><span>n</span><span>g</span><span>i</span><span>n</span><span>e</span> <span>A</span><span>l</span><span>p</span><span>h</span><span>a</span> <span>0</span><span>.</span><span>0</span><span>.</span><span>1</span><span>5</span><span>1</span>
     </div>
 
     <!-- Platform row: live Discord widget on the LEFT, platform buttons on the RIGHT -->
@@ -2256,126 +2274,11 @@
     <!-- ENTER VR! Launch — sits between the showcase video and the
          "More by DOOM Industries" section so the VR call-to-action stays
          within natural eye-flow after the demo footage. -->
-    <!-- More by DOOM Industries, LLC -->
-    <section class="doom-section" aria-label="More by DOOM Industries">
-      <div class="doom-header-row">
-        <img src="DOOMLogo.png" alt="DOOM Industries, LLC" class="doom-logo-inline">
-        <h2 class="doom-header">More by DOOM Industries, LLC.</h2>
-      </div>
-      <div class="doom-grid">
-        <!-- Row 1: large rainbow-cycling logo + "Forza Designer 6" title on one line -->
-        <div class="doom-row-title">
-          <div class="rainbow-logo-cycle" aria-label="Forza Designer 6 rainbow logo">
-            <img src="Icons/fd6/AppIconTransparent.png" alt="">
-            <img src="Icons/fd6/Orange.png" alt="">
-            <img src="Icons/fd6/Yellow.png" alt="">
-            <img src="Icons/fd6/Green.png" alt="">
-            <img src="Icons/fd6/Blue.png" alt="">
-            <img src="Icons/fd6/Purple.png" alt="">
-            <img src="Icons/fd6/Pink.png" alt="">
-          </div>
-          <div class="doom-cell-title">Forza Designer 6</div>
-        </div>
-        <!-- Row 2: YouTube trailer / tutorial -->
-        <div class="doom-row-trailer">
-          <iframe
-            src="https://www.youtube.com/embed/8LGvE7O9aeg"
-            title="Forza Designer 6 — trailer / tutorial"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-            referrerpolicy="strict-origin-when-cross-origin"
-            allowfullscreen
-            loading="lazy"></iframe>
-        </div>
-        <!-- Row 3: GitHub source + release download buttons -->
-        <div class="doom-row-buttons">
-          <a class="doom-btn" href="https://github.com/tokyubevoxelverse/ForzaDesigner6" target="_blank" rel="noopener noreferrer">
-            <span class="gh-glyph">⌥</span> SOURCE CODE
-          </a>
-          <a class="doom-btn" href="https://github.com/tokyubevoxelverse/ForzaDesigner6/releases/tag/Multi-Support-v3456-0.5.4" target="_blank" rel="noopener noreferrer">
-            <span class="gh-glyph">▼</span> DOWNLOAD v0.5.4
-          </a>
-          <a class="doom-btn" href="https://github.com/tokyubevoxelverse/ForzaDesignerRadioMaker/releases/tag/0.0.1-Alpha" target="_blank" rel="noopener noreferrer">
-            <span class="gh-glyph">▼</span> Forza Designer Radio Maker Plugin
-          </a>
-        </div>
-      </div>
-
-      <!-- JavaBoyAdvance — second product card. Same layout as FD6 (logo + title row, then buttons),
-           but the title wraps to two lines and the buttons row is forced horizontal with smaller pills. -->
-      <div class="doom-grid">
-        <div class="doom-row-title doom-row-title-javaboy">
-          <img src="Logo1.png" alt="JavaBoyAdvance" class="javaboy-logo">
-          <div class="doom-cell-title doom-cell-title-javaboy">
-            JavaBoyAdvance<br>
-            Free in-browser GameBoy Suite &amp; app
-          </div>
-        </div>
-        <div class="doom-row-buttons doom-row-buttons-tight doom-row-buttons-javaboy">
-          <a class="doom-btn doom-btn-small" href="https://github.com/tokyubevoxelverse/gbajs4" target="_blank" rel="noopener noreferrer">
-            <span class="gh-glyph">⌥</span> SOURCE CODE
-          </a>
-          <a class="doom-btn doom-btn-small" href="https://github.com/tokyubevoxelverse/gbajs4/releases/tag/0.0.6" target="_blank" rel="noopener noreferrer">
-            <span class="gh-glyph">▼</span> DOWNLOAD 0.0.6
-          </a>
-          <a class="doom-btn doom-btn-small" href="https://tokyubevoxelverse.github.io/gbajs4/" target="_blank" rel="noopener noreferrer">
-            <span class="gh-glyph">▶</span> USE ONLINE
-          </a>
-        </div>
-      </div>
-
-      <!-- NoMansMovies — third product card. Same layout as the JavaBoyAdvance card. -->
-      <div class="doom-grid">
-        <div class="doom-row-title doom-row-title-javaboy">
-          <img src="Icons/nomansmovies/logo.png" alt="NoMansMovies" class="javaboy-logo">
-          <div class="doom-cell-title doom-cell-title-javaboy">
-            NoMansMovies<br>
-            Watch movies in ANY Windows game
-          </div>
-        </div>
-        <div class="doom-row-buttons doom-row-buttons-tight doom-row-buttons-javaboy">
-          <a class="doom-btn doom-btn-small" href="https://github.com/tokyubevoxelverse/NoMansMovies" target="_blank" rel="noopener noreferrer">
-            <span class="gh-glyph">⌥</span> SOURCE CODE
-          </a>
-          <a class="doom-btn doom-btn-small" href="https://github.com/tokyubevoxelverse/NoMansMovies/releases/tag/v0.2.5" target="_blank" rel="noopener noreferrer">
-            <span class="gh-glyph">▼</span> DOWNLOAD v0.2.5
-          </a>
-        </div>
-      </div>
-
-      <!-- Doodl Yehtis — hand-crafted foil trading cards. Round logo + checklist & shop links. -->
-      <div class="doom-grid">
-        <div class="doom-row-title doom-row-title-javaboy">
-          <img src="doodlyehtis/logo.jpg" alt="Doodl Yehtis" class="doodl-logo-round">
-          <div class="doom-cell-title doom-cell-title-javaboy">
-            Doodl Yehtis<br>
-            Hand-crafted foil trading cards &mdash; Series 1, 269 cards
-          </div>
-        </div>
-        <div class="doom-row-buttons doom-row-buttons-tight doom-row-buttons-javaboy">
-          <a class="doom-btn doom-btn-small" href="https://www.tokyube.com/doodlyehtis" target="_blank" rel="noopener noreferrer">
-            <span class="gh-glyph">▤</span> COLLECTION CHECKLIST
-          </a>
-          <a class="doom-btn doom-btn-small" href="https://www.tokyube.com/doodlyehtisshop" target="_blank" rel="noopener noreferrer">
-            <span class="gh-glyph">▼</span> BUY NOW
-          </a>
-        </div>
-      </div>
-
-      <!-- Good Griefs — 10-card packs. No logo; green title text. -->
-      <div class="doom-grid">
-        <div class="doom-row-title doom-row-title-javaboy">
-          <div class="doom-cell-title doom-cell-title-javaboy" style="color:#5bff9a;">
-            Good Griefs<br>
-            Hand-crafted trading cards &mdash; 10-card packs
-          </div>
-        </div>
-        <div class="doom-row-buttons doom-row-buttons-tight doom-row-buttons-javaboy">
-          <a class="doom-btn doom-btn-small" href="https://www.tokyube.com/goodgriefstcg" target="_blank" rel="noopener noreferrer">
-            <span class="gh-glyph">▼</span> BUY NOW
-          </a>
-        </div>
-      </div>
-    </section>
+    <!-- More by DOOM Industries, LLC -> full catalogue lives on /about -->
+    <a class="doom-about-btn" href="about/" aria-label="More by DOOM Industries, LLC">
+      <img src="DOOMLogo.png" alt="" class="doom-logo-inline">
+      <span class="doom-header">More by DOOM Industries, LLC.</span>
+    </a>
 
   </div>
 
@@ -2662,7 +2565,6 @@
 
       // ── OuterVerse (standalone game) ───────────────────────────────────
       { title: 'OuterVerse — Overview',                 url: 'outer-verse.html',                       keywords: 'outerverse outer verse space exploration sandbox infinite galaxy engine standalone game planets procedural universe' },
-      { title: 'OuterVerse — Play Free in Browser',     url: 'outerverse/',                            keywords: 'outerverse play free browser web space sandbox try no time limit unlimited full' },
       { title: 'OuterVerse — Flying Your Ship',          url: 'outer-verse.html#flying',                keywords: 'outerverse ship fly throttle roll boost brake hover cockpit chase camera land dock takeoff disembark park warp' },
       { title: 'OuterVerse — Stations, Bars, Clubs & Casinos', url: 'outer-verse.html#venues',       keywords: 'outerverse space station docking wormhole grav lift shops bar drink nightclub holovator dance casino slots poker blackjack arcade chips doom sanctuary monolith tribute' },
       { title: 'OuterVerse — Mixology & Alchemy',        url: 'outer-verse.html#alchemy',               keywords: 'outerverse alchemy table potion speed aqua jet mix reagents slushy liquid simulation bartender npc drink buff' },

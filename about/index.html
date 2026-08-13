@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About &mdash; DOOM Industries, LLC</title>
+  <meta name="description" content="More by DOOM Industries, LLC - Forza Designer 6, JavaBoyAdvance, NoMansMovies, Doodl Yehtis and Good Griefs.">
+  <link rel="icon" type="image/png" href="../Logo.png">
+  <link rel="apple-touch-icon" href="../Logo.png">
+  <style>
+    @font-face {
+      font-family: 'ArcadeClassic';
+      src: url('../fonts/ARCADECLASSIC.TTF') format('truetype');
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      background: linear-gradient(160deg, #0b0416 0%, #14082a 45%, #0b0416 100%);
+      color: #fff; font-family: 'Segoe UI', system-ui, sans-serif;
+      min-height: 100vh; padding: 0 0 60px;
+    }
+    .about-top {
+      display: flex; align-items: center; justify-content: space-between;
+      gap: 16px; flex-wrap: wrap; padding: 18px 26px;
+      border-bottom: 2px solid #2a1a45; background: rgba(10, 4, 22, .75);
+    }
+    .about-top img { width: 190px; max-width: 46vw; height: auto; }
+    .about-back {
+      text-decoration: none; font-weight: 800; letter-spacing: 1px; font-size: 14px;
+      color: #fff; padding: 10px 22px; border-radius: 999px; border: 2px solid transparent;
+      background: linear-gradient(#12071f, #12071f) padding-box,
+                  linear-gradient(115deg, #7fe9ff, #4f6bff, #a86bff, #ff6bdd) border-box;
+    }
+    .about-back:hover { filter: brightness(1.2); }
+    .about-wrap { display: flex; justify-content: center; width: 100%; }
+    /* identical to the homepage .content so the cards lay out exactly as they did */
+    .content {
+      display: flex; flex-direction: column; align-items: center;
+      gap: 35px; padding: 40px 20px 0; width: 100%; max-width: 620px;
+    }
+    .doom-logo-header {
+      max-width: 550px;        /* 2.5x the previous 220px */
+      width: 55vw;             /* 2.5x the previous 22vw */
+      height: auto;
+      image-rendering: crisp-edges;
+    }
+    @media (max-width: 700px) {
+      .header-logos { gap: 12px; }
+      .site-logo { width: 52vw; max-width: 52vw; }
+      .doom-logo-header { width: 34vw; max-width: 34vw; }
+      /* The docs line's desktop -150px pull tucks it into the BIG logos'
+         footprint. With the smaller mobile logos that pull lands the text
+         ON TOP of them (and drags the Discord row up into them too) —
+         restore natural flow on phones. */
+      .rainbow-doc-text { margin-top: 0; padding: 0 10px; }
+      /* Bottom download buttons: long labels were escaping the button
+         borders — let them wrap inside instead. */
+      .doom-btn, .doom-btn-small {
+        white-space: normal;
+        word-break: break-word;
+        text-align: center;
+        max-width: 92vw;
+        font-size: 12px;
+        letter-spacing: 1px;
+        padding: 10px 14px;
+      }
+      .buttons { flex: 1 1 100%; max-width: 92vw; }
+    }
+    /* ── More by DOOM Industries section ── */
+    .doom-section {
+      width: 100%;
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 0 12px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 14px;               /* DOOM header sits close to FD6 grid; JavaBoy grid uses an explicit margin-top to land at 35px total */
+    }
+    .doom-header {
+      font-family: 'ArcadeClassic', monospace;
+      font-size: clamp(20px, 4vw, 30px);
+      letter-spacing: 2px;
+      background: linear-gradient(90deg, #ff5555, #ff9933, #ffee44, #66ff66, #4488ff, #c44dff, #ff66cc, #ff5555);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      text-align: center;
+      text-shadow: 0 0 12px rgba(255,255,255,0.15);
+      margin: 0;
+    }
+    /* Section header: DOOM logo side-by-side with the title on the same line.
+       Logo + heading sized to fit within .content's 620px column. The whole
+       row carries an underline so it visually separates the DOOM section
+       header from the FD6 product card below it. */
+    .doom-header-row {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: center;
+      gap: 14px;
+      width: 100%;
+      flex-wrap: nowrap;
+      padding-bottom: 12px;
+      border-bottom: 2px solid rgba(255, 255, 255, 0.35);
+    }
+    .doom-logo-inline {
+      width: 112px;
+      max-width: 24vw;
+      height: auto;
+      object-fit: contain;
+      image-rendering: crisp-edges;
+      flex-shrink: 0;
+    }
+    .doom-header {
+      font-size: clamp(18px, 3.6vw, 24px) !important;  /* bumped — still fits next to the 112px logo */
+      white-space: nowrap;
+    }
+    @media (max-width: 480px) {
+      .doom-header-row { flex-wrap: wrap; }   /* fall to two lines only on phones */
+      .doom-header { white-space: normal; }
+    }
+    /* Row 1: logo + "Forza Designer 6" centered on a single line.
+       Row 2: source-code + release buttons — pulled up so they sit
+       hard against the animated FD6 logo / title line. */
+    .doom-grid {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0;
+      width: 100%;
+    }
+    .doom-row-buttons {
+      margin-top: 60px;        /* breathing room below the trailer iframe (FD6 has one) */
+    }
+    .doom-row-buttons-tight {
+      margin-top: 24px !important;  /* JavaBoy card has no trailer, so buttons hug the title */
+    }
+    /* JavaBoy buttons row: three pills on ONE line, regardless of viewport.
+       Each button shrinks to fit but never wraps to a second line. */
+    .doom-row-buttons-javaboy {
+      flex-wrap: nowrap !important;
+      gap: 10px;
+      width: 100%;
+    }
+    .doom-btn-small {
+      padding: 8px 10px;
+      font-size: clamp(9px, 1.5vw, 13px);
+      letter-spacing: 0.5px;
+      gap: 5px;
+      white-space: nowrap;
+      flex: 0 1 auto;
+      min-width: 0;
+    }
+    .doom-btn-small .gh-glyph {
+      font-size: 1em;
+    }
+    /* JavaBoy title row: logo + two-line title, BOTH centered as a group
+       (logo on the left of the title, whole group horizontally centered —
+       same pattern as the Forza Designer 6 title row). */
+    .doom-row-title-javaboy {
+      justify-content: center;
+      gap: 18px;
+    }
+    .javaboy-logo {
+      width: 110px;
+      max-width: 28vw;
+      height: auto;
+      object-fit: contain;
+      image-rendering: crisp-edges;
+    }
+    /* Doodl Yehtis — round logo icon (image is square, mask it to a circle). */
+    .doodl-logo-round {
+      width: 110px;
+      height: 110px;
+      max-width: 28vw;
+      max-height: 28vw;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 3px solid #fff;
+      box-shadow: 0 0 0 3px #000, 0 0 22px rgba(255, 120, 220, 0.7);
+    }
+    .doom-cell-title-javaboy {
+      white-space: normal;          /* allow the two-line title to wrap */
+      font-size: clamp(13px, 2.2vw, 20px);
+      line-height: 1.25;
+      text-align: center;           /* center both lines under each other */
+    }
+    /* FD6 grid → JavaBoy grid total spacing = 35px (.doom-section gap is 14px,
+       this margin adds the remaining 21px). */
+    .doom-grid + .doom-grid {
+      margin-top: 21px;
+    }
+    @media (max-width: 540px) {
+      .doom-row-title-javaboy { flex-direction: column; }
+      /* JBA buttons stay on one line at all viewports — no flex-wrap override here. */
+    }
+    .doom-row-title {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: center;
+      gap: 24px;
+      width: 100%;
+      flex-wrap: nowrap;
+    }
+    .doom-row-trailer {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      margin-top: 0;            /* trailer iframe sits immediately under the FD6 title row */
+      margin-bottom: 0;
+    }
+    .doom-row-trailer iframe {
+      width: clamp(280px, 56vw, 720px);
+      aspect-ratio: 16 / 9;
+      border: 2px solid #ff66cc;
+      border-radius: 10px;
+      box-shadow: 0 0 18px rgba(255, 102, 204, 0.45);
+      background: #000;
+    }
+    .doom-row-buttons {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: center;
+      gap: 24px;
+      width: 100%;
+      flex-wrap: wrap;
+    }
+    .doom-cell-title {
+      display: flex; align-items: center; justify-content: flex-start;
+      font-family: 'ArcadeClassic', monospace;
+      font-size: clamp(22px, 4vw, 38px);
+      color: #fff;
+      letter-spacing: 2px;
+      text-shadow: 0 0 14px #ff66cc, 0 0 4px #fff;
+      white-space: nowrap;  /* keep "Forza Designer 6" on ONE line */
+    }
+    .rainbow-logo-cycle {
+      width: 200px; height: 200px;       /* sized so the FD6 title row hugs the trailer iframe */
+      max-width: 38vw;
+      max-height: 38vw;
+      position: relative;
+      display: block;
+    }
+    .rainbow-logo-cycle img {
+      position: absolute; inset: 0;
+      width: 100%; height: 100%;
+      object-fit: contain;
+      opacity: 0;
+      animation: rainbowCycle 14s linear infinite;
+    }
+    /* 7 frames × 2s each = 14s total. Stagger -2s per image. */
+    .rainbow-logo-cycle img:nth-child(1) { animation-delay:   0s; }
+    .rainbow-logo-cycle img:nth-child(2) { animation-delay:  -2s; }
+    .rainbow-logo-cycle img:nth-child(3) { animation-delay:  -4s; }
+    .rainbow-logo-cycle img:nth-child(4) { animation-delay:  -6s; }
+    .rainbow-logo-cycle img:nth-child(5) { animation-delay:  -8s; }
+    .rainbow-logo-cycle img:nth-child(6) { animation-delay: -10s; }
+    .rainbow-logo-cycle img:nth-child(7) { animation-delay: -12s; }
+    .doom-btn {
+      display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+      padding: 12px 22px;
+      font-family: 'ArcadeClassic', monospace;
+      font-size: clamp(14px, 2.4vw, 18px);
+      letter-spacing: 1.5px;
+      color: #fff;
+      text-decoration: none;
+      border: 3px solid #fff;
+      border-radius: 12px;
+      background: linear-gradient(135deg, #2a0e3a, #102040);
+      box-shadow: 0 0 0 3px #000, 0 0 18px rgba(180, 80, 255, 0.5);
+      transition: transform .15s ease, box-shadow .15s ease, background .15s ease;
+    }
+    .doom-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 0 0 3px #000, 0 0 28px rgba(180, 80, 255, 0.9);
+      background: linear-gradient(135deg, #3a1850, #1a3060);
+    }
+    .doom-btn .gh-glyph {
+      font-size: 1.2em;
+    }
+    @media (max-width: 540px) {
+      .doom-row-title { flex-direction: column; }
+      .doom-cell-title { justify-content: center; white-space: normal; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+  <div class="about-top">
+    <img src="../Logo.png" alt="TokyubeVoxelVerse">
+    <a class="about-back" href="../index.html">&larr; BACK TO TOKYUBE.COM</a>
+  </div>
+  <div class="about-wrap">
+    <div class="content">
+    <!-- More by DOOM Industries, LLC -->
+    <section class="doom-section" aria-label="More by DOOM Industries">
+      <div class="doom-header-row">
+        <img src="../DOOMLogo.png" alt="DOOM Industries, LLC" class="doom-logo-inline">
+        <h2 class="doom-header">More by DOOM Industries, LLC.</h2>
+      </div>
+      <div class="doom-grid">
+        <!-- Row 1: large rainbow-cycling logo + "Forza Designer 6" title on one line -->
+        <div class="doom-row-title">
+          <div class="rainbow-logo-cycle" aria-label="Forza Designer 6 rainbow logo">
+            <img src="../Icons/fd6/AppIconTransparent.png" alt="">
+            <img src="../Icons/fd6/Orange.png" alt="">
+            <img src="../Icons/fd6/Yellow.png" alt="">
+            <img src="../Icons/fd6/Green.png" alt="">
+            <img src="../Icons/fd6/Blue.png" alt="">
+            <img src="../Icons/fd6/Purple.png" alt="">
+            <img src="../Icons/fd6/Pink.png" alt="">
+          </div>
+          <div class="doom-cell-title">Forza Designer 6</div>
+        </div>
+        <!-- Row 2: YouTube trailer / tutorial -->
+        <div class="doom-row-trailer">
+          <iframe
+            src="https://www.youtube.com/embed/8LGvE7O9aeg"
+            title="Forza Designer 6 — trailer / tutorial"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            referrerpolicy="strict-origin-when-cross-origin"
+            allowfullscreen
+            loading="lazy"></iframe>
+        </div>
+        <!-- Row 3: GitHub source + release download buttons -->
+        <div class="doom-row-buttons">
+          <a class="doom-btn" href="https://github.com/tokyubevoxelverse/ForzaDesigner6" target="_blank" rel="noopener noreferrer">
+            <span class="gh-glyph">⌥</span> SOURCE CODE
+          </a>
+          <a class="doom-btn" href="https://github.com/tokyubevoxelverse/ForzaDesigner6/releases/tag/Multi-Support-v3456-0.5.4" target="_blank" rel="noopener noreferrer">
+            <span class="gh-glyph">▼</span> DOWNLOAD v0.5.4
+          </a>
+          <a class="doom-btn" href="https://github.com/tokyubevoxelverse/ForzaDesignerRadioMaker/releases/tag/0.0.1-Alpha" target="_blank" rel="noopener noreferrer">
+            <span class="gh-glyph">▼</span> Forza Designer Radio Maker Plugin
+          </a>
+        </div>
+      </div>
+
+      <!-- JavaBoyAdvance — second product card. Same layout as FD6 (logo + title row, then buttons),
+           but the title wraps to two lines and the buttons row is forced horizontal with smaller pills. -->
+      <div class="doom-grid">
+        <div class="doom-row-title doom-row-title-javaboy">
+          <img src="../Logo1.png" alt="JavaBoyAdvance" class="javaboy-logo">
+          <div class="doom-cell-title doom-cell-title-javaboy">
+            JavaBoyAdvance<br>
+            Free in-browser GameBoy Suite &amp; app
+          </div>
+        </div>
+        <div class="doom-row-buttons doom-row-buttons-tight doom-row-buttons-javaboy">
+          <a class="doom-btn doom-btn-small" href="https://github.com/tokyubevoxelverse/gbajs4" target="_blank" rel="noopener noreferrer">
+            <span class="gh-glyph">⌥</span> SOURCE CODE
+          </a>
+          <a class="doom-btn doom-btn-small" href="https://github.com/tokyubevoxelverse/gbajs4/releases/tag/0.0.6" target="_blank" rel="noopener noreferrer">
+            <span class="gh-glyph">▼</span> DOWNLOAD 0.0.6
+          </a>
+          <a class="doom-btn doom-btn-small" href="https://tokyubevoxelverse.github.io/gbajs4/" target="_blank" rel="noopener noreferrer">
+            <span class="gh-glyph">▶</span> USE ONLINE
+          </a>
+        </div>
+      </div>
+
+      <!-- NoMansMovies — third product card. Same layout as the JavaBoyAdvance card. -->
+      <div class="doom-grid">
+        <div class="doom-row-title doom-row-title-javaboy">
+          <img src="../Icons/nomansmovies/logo.png" alt="NoMansMovies" class="javaboy-logo">
+          <div class="doom-cell-title doom-cell-title-javaboy">
+            NoMansMovies<br>
+            Watch movies in ANY Windows game
+          </div>
+        </div>
+        <div class="doom-row-buttons doom-row-buttons-tight doom-row-buttons-javaboy">
+          <a class="doom-btn doom-btn-small" href="https://github.com/tokyubevoxelverse/NoMansMovies" target="_blank" rel="noopener noreferrer">
+            <span class="gh-glyph">⌥</span> SOURCE CODE
+          </a>
+          <a class="doom-btn doom-btn-small" href="https://github.com/tokyubevoxelverse/NoMansMovies/releases/tag/v0.2.5" target="_blank" rel="noopener noreferrer">
+            <span class="gh-glyph">▼</span> DOWNLOAD v0.2.5
+          </a>
+        </div>
+      </div>
+
+      <!-- Doodl Yehtis — hand-crafted foil trading cards. Round logo + checklist & shop links. -->
+      <div class="doom-grid">
+        <div class="doom-row-title doom-row-title-javaboy">
+          <img src="../doodlyehtis/logo.jpg" alt="Doodl Yehtis" class="doodl-logo-round">
+          <div class="doom-cell-title doom-cell-title-javaboy">
+            Doodl Yehtis<br>
+            Hand-crafted foil trading cards &mdash; Series 1, 269 cards
+          </div>
+        </div>
+        <div class="doom-row-buttons doom-row-buttons-tight doom-row-buttons-javaboy">
+          <a class="doom-btn doom-btn-small" href="https://www.tokyube.com/doodlyehtis" target="_blank" rel="noopener noreferrer">
+            <span class="gh-glyph">▤</span> COLLECTION CHECKLIST
+          </a>
+          <a class="doom-btn doom-btn-small" href="https://www.tokyube.com/doodlyehtisshop" target="_blank" rel="noopener noreferrer">
+            <span class="gh-glyph">▼</span> BUY NOW
+          </a>
+        </div>
+      </div>
+
+      <!-- Good Griefs — 10-card packs. No logo; green title text. -->
+      <div class="doom-grid">
+        <div class="doom-row-title doom-row-title-javaboy">
+          <div class="doom-cell-title doom-cell-title-javaboy" style="color:#5bff9a;">
+            Good Griefs<br>
+            Hand-crafted trading cards &mdash; 10-card packs
+          </div>
+        </div>
+        <div class="doom-row-buttons doom-row-buttons-tight doom-row-buttons-javaboy">
+          <a class="doom-btn doom-btn-small" href="https://www.tokyube.com/goodgriefstcg" target="_blank" rel="noopener noreferrer">
+            <span class="gh-glyph">▼</span> BUY NOW
+          </a>
+        </div>
+      </div>
+    </section>
+    </div>
+  </div>
+</body>
+</html>
