@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Imposter Syndrome for Good Griefs — Play Free in Browser</title>
+  <meta name="description" content="Play IMPOSTER SYNDROME FOR GOOD GRIEFS free in your browser — a social deduction party game by DOOM Industries. No time limit, no download, online rooms by 5-letter code.">
+  <link rel="icon" type="image/png" href="../Logo.png">
+  <link rel="apple-touch-icon" href="../Logo.png">
+  <style>
+    html,body{margin:0;padding:0;height:100%;background:#04060f;overflow:hidden;
+      font-family:'Segoe UI',system-ui,sans-serif;}
+    #wrap{position:fixed;inset:0;display:flex;flex-direction:column;}
+    #game{flex:1 1 auto;width:100%;border:0;display:block;background:#04060f;}
+    #tkBar{flex:0 0 auto;display:flex;align-items:center;justify-content:center;gap:14px;
+      flex-wrap:wrap;padding:10px 16px;
+      background:linear-gradient(180deg,#0a1030 0%,#04061a 100%);
+      border-top:2px solid #1b2a52;
+      box-shadow:0 -6px 20px rgba(0,0,0,.55);}
+    #tkBar .msg{color:#eaf6ff;font-size:15px;font-weight:700;letter-spacing:.3px;}
+    #tkBar .msg b{color:#7fe9ff;}
+    #tkBar a{text-decoration:none;cursor:pointer;font-weight:800;font-size:14px;
+      letter-spacing:.5px;color:#fff;padding:9px 22px;border-radius:999px;
+      border:2px solid transparent;
+      background:linear-gradient(#0a1030,#0a1030) padding-box,
+                 linear-gradient(115deg,#7fe9ff,#4f6bff,#a86bff,#ff6bdd) border-box;
+      box-shadow:0 0 16px rgba(79,107,255,.4);
+      transition:transform .12s ease,filter .12s ease;}
+    #tkBar a:hover{transform:translateY(-2px);filter:brightness(1.18);}
+    #tkBar a.alt{background:none;border:none;box-shadow:none;color:#8fb4ff;
+      font-size:13px;padding:9px 8px;text-decoration:underline;}
+    @media (max-width:640px){
+      #tkBar{padding:8px 10px;gap:8px;}
+      #tkBar .msg{font-size:13px;width:100%;text-align:center;}
+      #tkBar a{font-size:13px;padding:8px 16px;}
+    }
+  </style>
+</head>
+<body>
+  <div id="wrap">
+    <iframe id="game" src="game.html" title="Imposter Syndrome for Good Griefs"
+            allow="autoplay; microphone; fullscreen" allowfullscreen></iframe>
+    <div id="tkBar">
+      <span class="msg">Like this? <b>Play it on Tokyube for free!</b></span>
+      <a href="https://store.steampowered.com/app/3081950/" target="_blank" rel="noopener">GET TOKYUBE ON STEAM</a>
+      <a class="alt" href="../imposter-syndrome.html">Read the docs</a>
+      <a class="alt" href="../index.html">tokyube.com</a>
+    </div>
+  </div>
+</body>
+</html>

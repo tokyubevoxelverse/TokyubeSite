@@ -23416,51 +23416,6 @@ $("plName").addEventListener("click",e=>{e.stopPropagation();if(!npG||!SAVE)retu
 
 frame();
 </script>
-<style>
-  #tkDemoGate{position:fixed;inset:0;z-index:999999;display:none;align-items:center;justify-content:center;
-    background:rgba(2,4,12,.93);backdrop-filter:blur(4px);}
-  #tkDemoGate .card{max-width:540px;width:92vw;text-align:center;padding:38px 30px;border-radius:26px;
-    background:linear-gradient(180deg,#0a1030 0%,#04061a 100%);border:4px solid transparent;
-    background-clip:padding-box;position:relative;
-    font-family:'Segoe UI',system-ui,sans-serif;color:#eaf6ff;
-    box-shadow:0 0 40px rgba(79,107,255,.5),0 20px 60px rgba(0,0,0,.7);}
-  #tkDemoGate .card::before{content:"";position:absolute;inset:-4px;z-index:-1;border-radius:28px;
-    background:linear-gradient(115deg,#7fe9ff,#4f6bff,#a86bff,#ff6bdd,#7fe9ff);}
-  #tkDemoGate h2{font-size:30px;font-weight:800;margin:0 0 10px;color:#7fe9ff;text-shadow:0 0 16px rgba(127,233,255,.6);}
-  #tkDemoGate p{font-size:17px;font-weight:600;line-height:1.5;margin:0 0 22px;}
-  #tkDemoGate a{display:block;margin:10px auto 0;max-width:360px;text-decoration:none;cursor:pointer;
-    font-weight:800;font-size:16px;letter-spacing:.5px;color:#fff;
-    border:3px solid transparent;border-radius:999px;padding:12px 20px;
-    background:linear-gradient(#0a1030,#0a1030) padding-box,
-               linear-gradient(115deg,#7fe9ff,#4f6bff,#a86bff,#ff6bdd) border-box;
-    box-shadow:0 0 18px rgba(79,107,255,.45);
-    transition:transform .12s ease,filter .12s ease;}
-  #tkDemoGate a:hover{transform:translateY(-2px);filter:brightness(1.2);}
-  #tkDemoGate a.alt{font-size:14px;max-width:320px;opacity:.9;}
-</style>
-<div id="tkDemoGate">
-  <div class="card">
-    <h2>ENJOYING?</h2>
-    <p>Enjoying? You can keep playing and load your progress in Tokyube!</p>
-    <a href="https://store.steampowered.com/app/3081950/" target="_blank" rel="noopener">GET TOKYUBE ON STEAM</a>
-    <a class="alt" href="../outer-verse.html">READ THE OUTERVERSE DOCS</a>
-  </div>
-</div>
-<script>
-(function(){
-  var FIVE_MIN = 5 * 60 * 1000;
-  var gate = document.getElementById('tkDemoGate');
-  function block(e){ e.stopImmediatePropagation(); e.preventDefault(); }
-  setTimeout(function(){
-    gate.style.display = 'flex';
-    ['keydown','keyup','keypress','mousedown','mouseup','wheel','touchstart','touchmove'].forEach(function(t){
-      window.addEventListener(t, function(e){
-        if (!gate.contains(e.target)) block(e);
-      }, true);
-    });
-    try{ if(document.pointerLockElement) document.exitPointerLock(); }catch(e){}
-  }, FIVE_MIN);
-})();
-</script>
+
 </body>
 </html>
